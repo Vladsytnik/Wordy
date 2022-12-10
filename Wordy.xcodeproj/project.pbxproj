@@ -8,17 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		019056392944A7140058B566 /* WordyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019056382944A7140058B566 /* WordyApp.swift */; };
-		0190563B2944A7140058B566 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0190563A2944A7140058B566 /* ContentView.swift */; };
 		0190563D2944A7170058B566 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0190563C2944A7170058B566 /* Assets.xcassets */; };
 		019056402944A7170058B566 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0190563F2944A7170058B566 /* Preview Assets.xcassets */; };
+		019056492944A85E0058B566 /* Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019056482944A85E0058B566 /* Modules.swift */; };
+		0190564C2944AA710058B566 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0190564B2944AA700058B566 /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		019056352944A7140058B566 /* Wordy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wordy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		019056382944A7140058B566 /* WordyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordyApp.swift; sourceTree = "<group>"; };
-		0190563A2944A7140058B566 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0190563C2944A7170058B566 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0190563F2944A7170058B566 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		019056482944A85E0058B566 /* Modules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modules.swift; sourceTree = "<group>"; };
+		0190564B2944AA700058B566 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,9 +54,10 @@
 			isa = PBXGroup;
 			children = (
 				019056382944A7140058B566 /* WordyApp.swift */,
-				0190563A2944A7140058B566 /* ContentView.swift */,
+				019056462944A8450058B566 /* Pages */,
 				0190563C2944A7170058B566 /* Assets.xcassets */,
 				0190563E2944A7170058B566 /* Preview Content */,
+				0190564A2944AA5C0058B566 /* Resources */,
 			);
 			path = Wordy;
 			sourceTree = "<group>";
@@ -65,6 +68,30 @@
 				0190563F2944A7170058B566 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		019056462944A8450058B566 /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				019056472944A8490058B566 /* Modules */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
+		019056472944A8490058B566 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				019056482944A85E0058B566 /* Modules.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		0190564A2944AA5C0058B566 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0190564B2944AA700058B566 /* .gitignore */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,6 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				019056402944A7170058B566 /* Preview Assets.xcassets in Resources */,
+				0190564C2944AA710058B566 /* .gitignore in Resources */,
 				0190563D2944A7170058B566 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,7 +165,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0190563B2944A7140058B566 /* ContentView.swift in Sources */,
+				019056492944A85E0058B566 /* Modules.swift in Sources */,
 				019056392944A7140058B566 /* WordyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
