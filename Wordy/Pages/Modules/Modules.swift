@@ -16,5 +16,6 @@ struct Modules: View {
 struct Modules_Previews: PreviewProvider {
     static var previews: some View {
         Modules()
+//			.foregroundColor(Color(Assets. ))
     }
 }

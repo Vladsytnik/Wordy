@@ -1,0 +1,13 @@
+xcassets:
+  - inputs: Wordy/Resources/Images.xcassets
+    outputs:
+      - templateName: swift5
+        output: SwiftGen/Generated/Images.swift
+        params:
+          enumName: Images
+  - inputs: Wordy/Resources/Colors.xcassets
+    outputs:
+      - templateName: swift5
+        output: SwiftGen/Generated/Colors.swift
+        params:
+          enumName: Colors

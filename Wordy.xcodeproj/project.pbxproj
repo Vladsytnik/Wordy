@@ -8,19 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		019056392944A7140058B566 /* WordyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019056382944A7140058B566 /* WordyApp.swift */; };
-		0190563D2944A7170058B566 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0190563C2944A7170058B566 /* Assets.xcassets */; };
+		0190563D2944A7170058B566 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0190563C2944A7170058B566 /* Images.xcassets */; };
 		019056402944A7170058B566 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0190563F2944A7170058B566 /* Preview Assets.xcassets */; };
 		019056492944A85E0058B566 /* Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019056482944A85E0058B566 /* Modules.swift */; };
 		0190564C2944AA710058B566 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0190564B2944AA700058B566 /* .gitignore */; };
+		019056562944D0DE0058B566 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 019056552944D0DE0058B566 /* Colors.xcassets */; };
+		019056592944D3D20058B566 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019056572944D3D20058B566 /* Images.swift */; };
+		0190565A2944D3D20058B566 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019056582944D3D20058B566 /* Colors.swift */; };
+		54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		019056352944A7140058B566 /* Wordy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wordy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		019056382944A7140058B566 /* WordyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordyApp.swift; sourceTree = "<group>"; };
-		0190563C2944A7170058B566 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0190563C2944A7170058B566 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0190563F2944A7170058B566 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		019056482944A85E0058B566 /* Modules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modules.swift; sourceTree = "<group>"; };
 		0190564B2944AA700058B566 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
+		019056542944C7200058B566 /* swiftgen.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
+		019056552944D0DE0058B566 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		019056572944D3D20058B566 /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		019056582944D3D20058B566 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		DF01A188026EA0C8921A4D0E /* Pods-Wordy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.release.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.release.xcconfig"; sourceTree = "<group>"; };
+		E8C956E5C5ED6A0A18071179 /* Pods-Wordy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.debug.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.debug.xcconfig"; sourceTree = "<group>"; };
+		F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wordy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,8 +49,12 @@
 		0190562C2944A7140058B566 = {
 			isa = PBXGroup;
 			children = (
+				019056542944C7200058B566 /* swiftgen.yml */,
+				0190564E2944AC1E0058B566 /* SwiftGen */,
 				019056372944A7140058B566 /* Wordy */,
 				019056362944A7140058B566 /* Products */,
+				A4C363FE6EDFA8970F462691 /* Pods */,
+				996EE3CBDF6CC2D7A12B7F3D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,7 +71,6 @@
 			children = (
 				019056382944A7140058B566 /* WordyApp.swift */,
 				019056462944A8450058B566 /* Pages */,
-				0190563C2944A7170058B566 /* Assets.xcassets */,
 				0190563E2944A7170058B566 /* Preview Content */,
 				0190564A2944AA5C0058B566 /* Resources */,
 			);
@@ -89,9 +104,45 @@
 		0190564A2944AA5C0058B566 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0190563C2944A7170058B566 /* Images.xcassets */,
+				019056552944D0DE0058B566 /* Colors.xcassets */,
 				0190564B2944AA700058B566 /* .gitignore */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		0190564E2944AC1E0058B566 /* SwiftGen */ = {
+			isa = PBXGroup;
+			children = (
+				0190564F2944AC240058B566 /* Generated */,
+			);
+			path = SwiftGen;
+			sourceTree = "<group>";
+		};
+		0190564F2944AC240058B566 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				019056582944D3D20058B566 /* Colors.swift */,
+				019056572944D3D20058B566 /* Images.swift */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
+		996EE3CBDF6CC2D7A12B7F3D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A4C363FE6EDFA8970F462691 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E8C956E5C5ED6A0A18071179 /* Pods-Wordy.debug.xcconfig */,
+				DF01A188026EA0C8921A4D0E /* Pods-Wordy.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -101,6 +152,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 019056432944A7170058B566 /* Build configuration list for PBXNativeTarget "Wordy" */;
 			buildPhases = (
+				88A0E1BC97F8B602CF863F7F /* [CP] Check Pods Manifest.lock */,
+				0190564D2944ABA70058B566 /* SwiftGen */,
 				019056312944A7140058B566 /* Sources */,
 				019056322944A7140058B566 /* Frameworks */,
 				019056332944A7140058B566 /* Resources */,
@@ -153,12 +206,56 @@
 			buildActionMask = 2147483647;
 			files = (
 				019056402944A7170058B566 /* Preview Assets.xcassets in Resources */,
+				019056562944D0DE0058B566 /* Colors.xcassets in Resources */,
 				0190564C2944AA710058B566 /* .gitignore in Resources */,
-				0190563D2944A7170058B566 /* Assets.xcassets in Resources */,
+				0190563D2944A7170058B566 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0190564D2944ABA70058B566 /* SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftGen;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -f \"${PODS_ROOT}/SwiftGen/bin/swiftgen\" ]]; then\n  \"${PODS_ROOT}/SwiftGen/bin/swiftgen\"\nelse\n  echo \"warning: SwiftGen is not installed. Run 'pod install --repo-update' to install it.\"\nfi \n";
+		};
+		88A0E1BC97F8B602CF863F7F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Wordy-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		019056312944A7140058B566 /* Sources */ = {
@@ -166,6 +263,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				019056492944A85E0058B566 /* Modules.swift in Sources */,
+				0190565A2944D3D20058B566 /* Colors.swift in Sources */,
+				019056592944D3D20058B566 /* Images.swift in Sources */,
 				019056392944A7140058B566 /* WordyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -209,6 +308,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -289,6 +389,7 @@
 		};
 		019056442944A7170058B566 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E8C956E5C5ED6A0A18071179 /* Pods-Wordy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -318,6 +419,7 @@
 		};
 		019056452944A7170058B566 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF01A188026EA0C8921A4D0E /* Pods-Wordy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
