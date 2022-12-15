@@ -1,13 +1,25 @@
+
+input_dir: Wordy/Resources
+output_dir: SwiftGen/Generated
+
+
+
 xcassets:
-  - inputs: Wordy/Resources/Images.xcassets
-    outputs:
-      - templateName: swift5
-        output: SwiftGen/Generated/Images.swift
-        params:
-          enumName: Images
-  - inputs: Wordy/Resources/Colors.xcassets
-    outputs:
-      - templateName: swift5
-        output: SwiftGen/Generated/Colors.swift
-        params:
-          enumName: Colors
+  # 2
+  inputs:
+    - Images.xcassets
+    - Colors.xcassets
+  # 3
+  outputs:
+    # 4
+    templateName: swift5
+    # 5
+    output: XCAssets+Generated.swift
+    
+    
+
+fonts:
+  inputs: Fonts/
+  outputs:
+    templateName: swift5
+    output: Fonts+Generated.swift
