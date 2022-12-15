@@ -25,7 +25,7 @@ struct Modules: View {
 						}
 						.listRowBackground(Color.green)
 						.listStyle(.plain)
-						.listRowSeparator(.hidden)
+//						.listRowSeparator(.hidden)
 					}
 					.padding()
 					.padding(.top)
@@ -49,7 +49,7 @@ struct Modules: View {
 						Image(asset: Asset.Images.settingsIcon)
 					})
 				)
-				.toolbarBackground(.automatic, for: .navigationBar)
+//				.toolbarBackground(.automatic, for: .navigationBar)
 				.onChange(of: scrollOffset) { newValue in
 					print(newValue)
 					withAnimation(.easeInOut(duration: 0.1)) {

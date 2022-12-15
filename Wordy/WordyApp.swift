@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct WordyApp: App {
+	
+	init() {
+		
+	}
+	
     var body: some Scene {
         WindowGroup {
 			NavigationView {

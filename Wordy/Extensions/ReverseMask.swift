@@ -8,6 +8,7 @@
 import SwiftUI
 
 extension View {
+	@available(iOS 15.0, *)
 	@inlinable
 	public func reverseMask<Mask: View>(
 		alignment: Alignment = .center,
