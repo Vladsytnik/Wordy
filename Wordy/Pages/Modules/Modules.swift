@@ -15,6 +15,9 @@ struct Modules: View {
 	@State private var scrollOffset = CGFloat.zero
 	@State private var isInlineNavBar = false
 	
+//	@State private var showAuthView = false
+	@EnvironmentObject var router: Router
+	
 	var body: some View {
 		GeometryReader { geometry in
 			ZStack {
@@ -51,7 +54,6 @@ struct Modules: View {
 				)
 //				.toolbarBackground(.automatic, for: .navigationBar)
 				.onChange(of: scrollOffset) { newValue in
-					print(newValue)
 					withAnimation(.easeInOut(duration: 0.1)) {
 						showOrHideNavBar(value: newValue)
 					}
@@ -66,6 +68,9 @@ struct Modules: View {
 				.edgesIgnoringSafeArea(.all)
 		)
 		.navigationTitle("Модули")
+		.onAppear{
+			router.showActivityView = false
+		}
 	}
 	
 	init(){

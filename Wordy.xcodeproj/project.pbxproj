@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0103FF48294C5035004C2EA6 /* AuthPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF47294C5035004C2EA6 /* AuthPage.swift */; };
+		0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF49294C58A9004C2EA6 /* AuthViewModel.swift */; };
+		0103FF4C294C7471004C2EA6 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF4B294C7471004C2EA6 /* UserDefaultsManager.swift */; };
+		0103FF4E294C76CB004C2EA6 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF4D294C76CB004C2EA6 /* StartView.swift */; };
+		0103FF50294C7FFA004C2EA6 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF4F294C7FFA004C2EA6 /* String.swift */; };
+		0103FF52294C86F5004C2EA6 /* ErrorCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF51294C86F5004C2EA6 /* ErrorCodeManager.swift */; };
+		0103FF56294C9E75004C2EA6 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF55294C9E75004C2EA6 /* Router.swift */; };
 		012D95CB29485FD300165DAF /* XCAssets+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012D95CA29485FD300165DAF /* XCAssets+Generated.swift */; };
 		012D95D0294867D600165DAF /* SF-Pro-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 012D95BF29485F2500165DAF /* SF-Pro-Display-Black.otf */; };
 		012D95D1294867DA00165DAF /* SF-Pro-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 012D95C829485F2500165DAF /* SF-Pro-Display-Thin.otf */; };
@@ -40,13 +47,27 @@
 		019056492944A85E0058B566 /* Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019056482944A85E0058B566 /* Modules.swift */; };
 		0190564C2944AA710058B566 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0190564B2944AA700058B566 /* .gitignore */; };
 		019056562944D0DE0058B566 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 019056552944D0DE0058B566 /* Colors.xcassets */; };
+		01978FAB294CBCB600B8EFC3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 01978FAA294CBCB600B8EFC3 /* Lottie */; };
+		01978FB3294CBF6600B8EFC3 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01978FB2294CBF6600B8EFC3 /* LottieView.swift */; };
+		01978FB7294CC92200B8EFC3 /* loader.json in Resources */ = {isa = PBXBuildFile; fileRef = 01978FB6294CC92100B8EFC3 /* loader.json */; };
 		01E4B759294B119800720BE0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E4B758294B119800720BE0 /* NetworkManager.swift */; };
 		01E4B75B294B157900720BE0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01E4B75A294B157800720BE0 /* GoogleService-Info.plist */; };
+		01E4B75E294B174000720BE0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 01E4B75D294B174000720BE0 /* FirebaseAnalytics */; };
+		01E4B760294B174000720BE0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 01E4B75F294B174000720BE0 /* FirebaseAuth */; };
+		01E4B762294B174000720BE0 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 01E4B761294B174000720BE0 /* FirebaseFirestore */; };
+		01E4B764294B174000720BE0 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 01E4B763294B174000720BE0 /* FirebaseFirestoreSwift */; };
 		01F57696294A4F2E00F52EB1 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F57695294A4F2E00F52EB1 /* VisualEffectView.swift */; };
 		54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0103FF47294C5035004C2EA6 /* AuthPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPage.swift; sourceTree = "<group>"; };
+		0103FF49294C58A9004C2EA6 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		0103FF4B294C7471004C2EA6 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		0103FF4D294C76CB004C2EA6 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		0103FF4F294C7FFA004C2EA6 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		0103FF51294C86F5004C2EA6 /* ErrorCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCodeManager.swift; sourceTree = "<group>"; };
+		0103FF55294C9E75004C2EA6 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		012D95B629485F2400165DAF /* SF-Pro-Display-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-MediumItalic.otf"; sourceTree = "<group>"; };
 		012D95B729485F2400165DAF /* SF-Pro-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Medium.otf"; sourceTree = "<group>"; };
 		012D95B829485F2400165DAF /* SF-Pro-Display-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-RegularItalic.otf"; sourceTree = "<group>"; };
@@ -82,6 +103,8 @@
 		0190564B2944AA700058B566 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		019056542944C7200058B566 /* swiftgen.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
 		019056552944D0DE0058B566 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		01978FB2294CBF6600B8EFC3 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		01978FB6294CC92100B8EFC3 /* loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader.json; sourceTree = "<group>"; };
 		01E4B758294B119800720BE0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		01E4B75A294B157800720BE0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		01F57695294A4F2E00F52EB1 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
@@ -95,13 +118,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01E4B764294B174000720BE0 /* FirebaseFirestoreSwift in Frameworks */,
+				01E4B75E294B174000720BE0 /* FirebaseAnalytics in Frameworks */,
+				01E4B762294B174000720BE0 /* FirebaseFirestore in Frameworks */,
+				01E4B760294B174000720BE0 /* FirebaseAuth in Frameworks */,
 				54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */,
+				01978FAB294CBCB600B8EFC3 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0103FF46294C501B004C2EA6 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				0103FF49294C58A9004C2EA6 /* AuthViewModel.swift */,
+				0103FF47294C5035004C2EA6 /* AuthPage.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		012D95B529485EEC00165DAF /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				01780D2B294A110A004F11AC /* ReverseMask.swift */,
+				0103FF4F294C7FFA004C2EA6 /* String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -188,12 +226,15 @@
 			isa = PBXGroup;
 			children = (
 				019056382944A7140058B566 /* WordyApp.swift */,
+				0103FF4D294C76CB004C2EA6 /* StartView.swift */,
+				0103FF55294C9E75004C2EA6 /* Router.swift */,
 				019056462944A8450058B566 /* Pages */,
 				016AA3A929477D29002C00CC /* Modifiers */,
 				0190563E2944A7170058B566 /* Preview Content */,
 				0185B55C2949F24600934373 /* Custom */,
 				01780D2A294A10EF004F11AC /* Extensions */,
 				01E4B757294B114700720BE0 /* Managers */,
+				01978FAC294CBD4500B8EFC3 /* ActivityView */,
 				0190564A2944AA5C0058B566 /* Resources */,
 			);
 			path = Wordy;
@@ -210,6 +251,7 @@
 		019056462944A8450058B566 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				0103FF46294C501B004C2EA6 /* Auth */,
 				019056472944A8490058B566 /* Modules */,
 			);
 			path = Pages;
@@ -227,6 +269,7 @@
 		0190564A2944AA5C0058B566 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				01978FAF294CBEE600B8EFC3 /* Lottie */,
 				012D95B529485EEC00165DAF /* Fonts */,
 				0190563C2944A7170058B566 /* Images.xcassets */,
 				019056552944D0DE0058B566 /* Colors.xcassets */,
@@ -252,10 +295,28 @@
 			path = Generated;
 			sourceTree = "<group>";
 		};
+		01978FAC294CBD4500B8EFC3 /* ActivityView */ = {
+			isa = PBXGroup;
+			children = (
+				01978FB2294CBF6600B8EFC3 /* LottieView.swift */,
+			);
+			path = ActivityView;
+			sourceTree = "<group>";
+		};
+		01978FAF294CBEE600B8EFC3 /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				01978FB6294CC92100B8EFC3 /* loader.json */,
+			);
+			path = Lottie;
+			sourceTree = "<group>";
+		};
 		01E4B757294B114700720BE0 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				01E4B758294B119800720BE0 /* NetworkManager.swift */,
+				0103FF4B294C7471004C2EA6 /* UserDefaultsManager.swift */,
+				0103FF51294C86F5004C2EA6 /* ErrorCodeManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -295,6 +356,13 @@
 			dependencies = (
 			);
 			name = Wordy;
+			packageProductDependencies = (
+				01E4B75D294B174000720BE0 /* FirebaseAnalytics */,
+				01E4B75F294B174000720BE0 /* FirebaseAuth */,
+				01E4B761294B174000720BE0 /* FirebaseFirestore */,
+				01E4B763294B174000720BE0 /* FirebaseFirestoreSwift */,
+				01978FAA294CBCB600B8EFC3 /* Lottie */,
+			);
 			productName = Wordy;
 			productReference = 019056352944A7140058B566 /* Wordy.app */;
 			productType = "com.apple.product-type.application";
@@ -323,6 +391,10 @@
 				Base,
 			);
 			mainGroup = 0190562C2944A7140058B566;
+			packageReferences = (
+				01E4B75C294B174000720BE0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				01978FA9294CBCB600B8EFC3 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+			);
 			productRefGroup = 019056362944A7140058B566 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -341,6 +413,7 @@
 				012D95D6294867DA00165DAF /* SF-Pro-Display-Regular.otf in Resources */,
 				01E4B75B294B157900720BE0 /* GoogleService-Info.plist in Resources */,
 				019056402944A7170058B566 /* Preview Assets.xcassets in Resources */,
+				01978FB7294CC92200B8EFC3 /* loader.json in Resources */,
 				012D95E2294867DA00165DAF /* SF-Pro-Display-SemiboldItalic.otf in Resources */,
 				012D95D5294867DA00165DAF /* SF-Pro-Display-LightItalic.otf in Resources */,
 				012D95E0294867DA00165DAF /* SF-Pro-Display-MediumItalic.otf in Resources */,
@@ -415,16 +488,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0103FF48294C5035004C2EA6 /* AuthPage.swift in Sources */,
+				01978FB3294CBF6600B8EFC3 /* LottieView.swift in Sources */,
 				016AA3AB29477D7B002C00CC /* View + cornerRadius.swift in Sources */,
 				019056492944A85E0058B566 /* Modules.swift in Sources */,
+				0103FF52294C86F5004C2EA6 /* ErrorCodeManager.swift in Sources */,
+				0103FF56294C9E75004C2EA6 /* Router.swift in Sources */,
 				01780D2C294A110A004F11AC /* ReverseMask.swift in Sources */,
 				0185B55F2949F26D00934373 /* ObservableScrollView.swift in Sources */,
 				01E4B759294B119800720BE0 /* NetworkManager.swift in Sources */,
+				0103FF4E294C76CB004C2EA6 /* StartView.swift in Sources */,
 				016AA3AD29477E40002C00CC /* RoundedTextArea.swift in Sources */,
 				01F57696294A4F2E00F52EB1 /* VisualEffectView.swift in Sources */,
 				012D95E5294867E600165DAF /* Fonts+Generated.swift in Sources */,
 				012D95CB29485FD300165DAF /* XCAssets+Generated.swift in Sources */,
+				0103FF4C294C7471004C2EA6 /* UserDefaultsManager.swift in Sources */,
 				019056392944A7140058B566 /* WordyApp.swift in Sources */,
+				0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */,
+				0103FF50294C7FFA004C2EA6 /* String.swift in Sources */,
 				016AA3A62947550D002C00CC /* ModuleCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -564,7 +645,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -595,7 +676,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -631,6 +712,53 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		01978FA9294CBCB600B8EFC3 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.0.1;
+			};
+		};
+		01E4B75C294B174000720BE0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = exactVersion;
+				version = 9.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		01978FAA294CBCB600B8EFC3 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 01978FA9294CBCB600B8EFC3 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		01E4B75D294B174000720BE0 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 01E4B75C294B174000720BE0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		01E4B75F294B174000720BE0 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 01E4B75C294B174000720BE0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		01E4B761294B174000720BE0 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 01E4B75C294B174000720BE0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		01E4B763294B174000720BE0 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 01E4B75C294B174000720BE0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0190562D2944A7140058B566 /* Project object */;
 }

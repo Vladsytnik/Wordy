@@ -6,19 +6,19 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct WordyApp: App {
 	
 	init() {
-		
+		FirebaseApp.configure()
 	}
 	
-    var body: some Scene {
-        WindowGroup {
-			NavigationView {
-				Modules()
-			}
-        }
-    }
+	var body: some Scene {
+		WindowGroup {
+			StartView()
+				.environmentObject(Router())
+		}
+	}
 }
