@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ModuleScreen: View {
 	
+	@Binding var modules: [Module]
 	@ObservedObject var viewModel = ModuleScreenViewModel()
 	
 	var body: some View {
@@ -26,8 +27,13 @@ struct ModuleScreen: View {
 								LearnModuleButton {  }
 									.frame(height: 45)
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
-								ForEach(0...5, id: \.self) { i in
-									WordCard(width: geo.size.width - 60)
+								ForEach(0..<viewModel.phraseCount, id: \.self) { i in
+									WordCard(
+										width: geo.size.width - 60,
+										modules: $modules,
+										index: viewModel.index,
+										phrase: viewModel.phrases[i]
+									)
 										.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
 								}
 								AddWordButton { viewModel.showActionSheet = true }
@@ -36,8 +42,11 @@ struct ModuleScreen: View {
 						}
 						.frame(width: geo.size.width, height: geo.size.height)
 					}
+					.onChange(of: viewModel.modules) { newValue in
+						self.modules = newValue
+					}
 					.fullScreenCover(isPresented: $viewModel.showActionSheet) {
-						AddNewPhrase(module: viewModel.module)
+						AddNewPhrase(modules: $modules, index: viewModel.index)
 					}
 				}
 			})
@@ -45,15 +54,20 @@ struct ModuleScreen: View {
 			.navigationBarHidden(true)
 	}
 	
-	init(module: Module) {
-		viewModel.module = module
+	init(modules: Binding<[Module]>, index: Int) {
+		self._modules = modules
+		viewModel.modules = modules.wrappedValue
+		viewModel.index = index
 		viewModel.fetchWords()
 	}
 }
 
 struct ModuleScreen_Previews: PreviewProvider {
     static var previews: some View {
-		ModuleScreen(module: Module(name: "Outcomes", emoji: "❤️‍🔥"))
+		ModuleScreen(
+			modules: .constant( [Module(name: "Test", emoji: "❤️‍🔥")]),
+			index: 0
+		)
     }
 }
 

@@ -10,16 +10,27 @@ import SwiftUI
 struct WordCard: View {
 	
 	let width: CGFloat
+	@ObservedObject var viewModel = WordCardViewModel()
+	
+	@Binding var modules: [Module]
+	
+	init(width: CGFloat, modules: Binding<[Module]>, index: Int, phrase: Phrase) {
+		self._modules = modules
+		self.width = width
+		viewModel.modules = modules.wrappedValue
+		viewModel.index = index
+		viewModel.phrase = phrase
+	}
 	
 	var body: some View {
 		ZStack {
 			VStack(alignment: .leading) {
 				HStack(alignment: .firstTextBaseline) {
 					VStack(alignment: .leading) {
-						Text("Overcome")
+						Text(viewModel.phrase.nativeText)
 							.foregroundColor(.white)
 							.font(.system(size: 24, weight: .bold))
-						Text("Преодолевать, преодолеть")
+						Text(viewModel.phrase.translatedText)
 							.foregroundColor(Color(asset: Asset.Colors.descrWordOrange))
 							.font(.system(size: 18, weight: .medium))
 //							.lineLimit(1)
@@ -44,6 +55,9 @@ struct WordCard: View {
 			}
 			.padding()
 		}
+		.onChange(of: viewModel.modules, perform: { newValue in
+			self.modules = newValue
+		})
 		.background {
 			RoundedRectangle(cornerRadius: 20)
 				.foregroundColor(Color(asset: Asset.Colors.moduleCardBG))
@@ -54,7 +68,11 @@ struct WordCard: View {
 
 struct WordCard_Previews: PreviewProvider {
     static var previews: some View {
-        WordCard(width: 300)
-//			.frame(width: 333, height: 120)
+		WordCard(
+			width: 300,
+			modules: .constant([.init(name: "Test", emoji: "🔮")]),
+			index: 0,
+			phrase: Phrase(nativeText: "Overcome", translatedText: "Преодолевать")
+		)
     }
 }

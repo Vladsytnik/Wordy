@@ -75,10 +75,7 @@ class NetworkManager {
 			return
 		}
 		
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateStyle = .full
-		dateFormatter.timeStyle = .full
-		let date = dateFormatter.string(from: Date())
+		let date = String.generateCurrentDateMarker()
 
 		ref.child("users").child(currentUserID).child("modules").childByAutoId().updateChildValues(["name" : name, "emoji" : emoji, "date": date]) { error, ref in
 			guard error == nil else {
@@ -126,15 +123,26 @@ class NetworkManager {
 						var module = Module(name: (data[moduleID]?["name"] as? String) ?? "nil",
 											emoji: (data[moduleID]?["emoji"] as? String) ?? "📄",
 											id: moduleID)
-						let dateFormatter = DateFormatter()
-						dateFormatter.timeStyle = .full
-						dateFormatter.dateStyle = .full
-						let date = dateFormatter.date(from: (data[moduleID]?["date"] as? String) ?? "")
+						
+						let date = Date.generateDate(from: data[moduleID]?["date"] as? String)
 						module.date = date
 						
-						if let phrases = data[moduleID]?["phrases"] as? [String: String] {
-							for phraseKey in phrases.keys {
-								module.phrases[phraseKey] = phrases[phraseKey]
+						if let phrasesData = data[moduleID]?["phrases"] as? [Any] {
+							for phrases in phrasesData {
+								if let phraseDict = phrases as? [String: Any] {
+									
+									if let nativeTxt = phraseDict[Constants.nativeText] as? String,
+									   let trasnlatedTxt = phraseDict[Constants.translatedText] as? String {
+										
+										var phrase = Phrase(nativeText: nativeTxt, translatedText: trasnlatedTxt)
+										if let date = phraseDict[Constants.date] as? String {
+											phrase.date = Date.generateDate(from: date)
+										}
+										module.phrases.append(phrase)
+										
+									}
+									
+								}
 							}
 						}
 						
@@ -142,7 +150,7 @@ class NetworkManager {
 					}
 					
 					DispatchQueue.main.async {
-						success(modules.sorted(by: { $0.date ?? Date() < $1.date ?? Date() }))
+						success(modules.sorted(by: { $0.date ?? Date() > $1.date ?? Date() }))
 					}
 				}
 			}
@@ -150,7 +158,7 @@ class NetworkManager {
 		
 	}
 	
-	static func add(phrase: [String: String], to moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
+	static func update(phrases: [[String: Any]], from moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
 		guard let currentUserID = currentUserID else {
 			errorBlock("error in add(phrase: [String: String] -> currentUserID")
 			return
@@ -169,8 +177,8 @@ class NetworkManager {
 //			errorBlock("Ошибка при добавлении фразы. Не найден модуль с заданным ID")
 //			return
 //		}
-				
-		ref.child("users").child(currentUserID).child("modules").child(moduleID).updateChildValues(["phrases" : phrase]) { error, ref in
+		
+		ref.child("users").child(currentUserID).child("modules").child(moduleID).updateChildValues(["phrases" : phrases]) { error, ref in
 			guard error == nil else {
 				errorBlock("error in add(phrase: [String: String] -> updateChildValues")
 				return
@@ -178,5 +186,6 @@ class NetworkManager {
 			
 			success()
 		}
+		
 	}
 }

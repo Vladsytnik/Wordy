@@ -9,6 +9,10 @@ import SwiftUI
 import Combine
 
 class AddNewPhraseViewModel: ObservableObject {
+	
+	var index = 0
+	@Published var modules: [Module] = []
+	
 	@Published var nativePhrase = ""
 	@Published var translatedPhrase = ""
 	
@@ -25,6 +29,10 @@ class AddNewPhraseViewModel: ObservableObject {
 	
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
+	var module: Module {
+		modules[index]
+	}
+	
 	@Published var closeKeyboards = false
 	
 	func didTapTextField(index: Int) {
@@ -32,7 +40,7 @@ class AddNewPhraseViewModel: ObservableObject {
 		textFieldTwoIsActive = index == 1
 	}
 	
-	func addWordTo(_ module: Module, success: @escaping () -> Void) {
+	func addWordToCurrentModule(success: @escaping () -> Void) {
 		guard !nativePhrase.isEmpty && !translatedPhrase.isEmpty else {
 			shakeTextField()
 			return
@@ -40,16 +48,32 @@ class AddNewPhraseViewModel: ObservableObject {
 		
 		changeActivityState(toProccess: true)
 		
-		var existingPhrases = module.phrases
-		existingPhrases[nativePhrase] = translatedPhrase
+//		let phrase = Phrase(nativeText: nativePhrase, translatedText: translatedPhrase, date: Date().generateCurrentDateMarker())
+		var existingPhrases = module.getPhrasesAsDictionary()
+		existingPhrases.append([
+			Constants.nativeText: nativePhrase,
+			Constants.translatedText: translatedPhrase,
+			Constants.date: String.generateCurrentDateMarker()
+		])
+//		existingPhrases[nativePhrase] = translatedPhrase
 		
 		let queue = DispatchQueue(label: "sytnik.wordy.addWordTo")
 		
 		queue.asyncAfter(deadline: .now() + 2) {
-			NetworkManager.add(phrase: existingPhrases, to: module.id) { [weak self] in
+			NetworkManager.update(phrases: existingPhrases, from: self.module.id) { [weak self] in
 				guard let self = self else { return }
-				self.changeActivityState(toProccess: false)
-				success()
+				
+				NetworkManager.getModules { modules in
+					self.changeActivityState(toProccess: false)
+					self.modules = modules
+					success()
+				} errorBlock: { errorText in
+					self.changeActivityState(toProccess: false)
+					self.alert.description = errorText
+					self.showAlertNow()
+				}
+
+				
 			} errorBlock: { [weak self] errorText in
 				guard let self else { return }
 				self.changeActivityState(toProccess: false)

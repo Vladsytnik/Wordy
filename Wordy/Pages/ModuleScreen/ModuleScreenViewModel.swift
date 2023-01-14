@@ -9,7 +9,21 @@ import Foundation
 
 class ModuleScreenViewModel: ObservableObject {
 	
-	@Published var module = Module()
+	var index = 0
+	@Published var modules: [Module] = []
+	
+	var phrases: [Phrase] {
+		modules[index].phrases
+	}
+	
+	var phraseCount: Int {
+		phrases.count
+	}
+	
+	var module: Module {
+		modules[index]
+	}
+	
 	@Published var words: [String] = []
 	@Published var showActionSheet = false
 	

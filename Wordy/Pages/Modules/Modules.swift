@@ -56,7 +56,7 @@ struct Modules: View {
 								.padding(.top)
 								LazyVGrid(columns: columns, spacing: 14) {
 									ForEach(0..<modules.count, id: \.self) { i in
-										NavigationLink(destination: ModuleScreen(module: modules[i]), label: {
+										NavigationLink(destination: ModuleScreen(modules: $modules, index: i), label: {
 											ModuleCard(
 												width: 170,
 												cardName: modules[i].name,

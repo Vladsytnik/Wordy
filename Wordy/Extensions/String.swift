@@ -44,4 +44,12 @@ extension String {
 			return []
 		}
 	}
+	
+	static func generateCurrentDateMarker() -> String {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateStyle = .full
+		dateFormatter.timeStyle = .full
+		let stringDate = dateFormatter.string(from: Date())
+		return stringDate
+	}
 }

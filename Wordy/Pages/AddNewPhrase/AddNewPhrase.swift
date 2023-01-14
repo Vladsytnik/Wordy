@@ -10,10 +10,17 @@ import Combine
 
 struct AddNewPhrase: View {
 	
-	let module: Module
+//	let module: Module
+	@Binding var modules: [Module]
 	
 	@Environment(\.dismiss) private var dismiss
-	@StateObject private var viewModel = AddNewPhraseViewModel()
+	@ObservedObject var viewModel = AddNewPhraseViewModel()
+	
+	init(modules: Binding<[Module]>, index: Int) {
+		self._modules = modules
+		viewModel.modules = modules.wrappedValue
+		viewModel.index = index
+	}
 	
 	var body: some View {
 		ZStack {
@@ -86,6 +93,9 @@ struct AddNewPhrase: View {
 				}
 				.padding()
 			}
+			.onChange(of: viewModel.modules, perform: { newValue in
+				self.modules = newValue
+			})
 			.offset(y: viewModel.swipeOffsetValue)
 			.gesture(
 				DragGesture().onEnded{ value in
@@ -114,15 +124,15 @@ struct AddNewPhrase: View {
 	}
 	
 	private func addPhraseToModule() {
-		viewModel.addWordTo(module) {
+		viewModel.addWordToCurrentModule(success: {
 			dismiss()
-		}
+		})
 	}
 }
 
 struct AddNewPhrase_Previews: PreviewProvider {
     static var previews: some View {
-        AddNewPhrase(module: Module())
+		AddNewPhrase(modules: .constant([.init()]), index: 0)
     }
 }
 

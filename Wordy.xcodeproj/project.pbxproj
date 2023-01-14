@@ -56,6 +56,10 @@
 		016817FF2969B0B400F30E39 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016817FE2969B0B400F30E39 /* Alert.swift */; };
 		016AA3A62947550D002C00CC /* ModuleCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016AA3A52947550D002C00CC /* ModuleCard.swift */; };
 		016AA3AD29477E40002C00CC /* RoundedTextArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016AA3AC29477E40002C00CC /* RoundedTextArea.swift */; };
+		017642432972E7250042DB86 /* WordCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017642422972E7250042DB86 /* WordCardViewModel.swift */; };
+		017642452972EB920042DB86 /* Phrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017642442972EB920042DB86 /* Phrase.swift */; };
+		017642472972EEF30042DB86 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017642462972EEF30042DB86 /* Date.swift */; };
+		0176424A2972FCC10042DB86 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017642492972FCC10042DB86 /* Constants.swift */; };
 		01770EC8296AB27600578F81 /* AddNewPhraseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01770EC7296AB27500578F81 /* AddNewPhraseViewModel.swift */; };
 		01770ECC296AF05200578F81 /* addWordLoader.json in Resources */ = {isa = PBXBuildFile; fileRef = 01770ECB296AF05100578F81 /* addWordLoader.json */; };
 		01780D2C294A110A004F11AC /* ReverseMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01780D2B294A110A004F11AC /* ReverseMask.swift */; };
@@ -122,6 +126,10 @@
 		016817FE2969B0B400F30E39 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		016AA3A52947550D002C00CC /* ModuleCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleCard.swift; sourceTree = "<group>"; };
 		016AA3AC29477E40002C00CC /* RoundedTextArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTextArea.swift; sourceTree = "<group>"; };
+		017642422972E7250042DB86 /* WordCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCardViewModel.swift; sourceTree = "<group>"; };
+		017642442972EB920042DB86 /* Phrase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phrase.swift; sourceTree = "<group>"; };
+		017642462972EEF30042DB86 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		017642492972FCC10042DB86 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		01770EC7296AB27500578F81 /* AddNewPhraseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewPhraseViewModel.swift; sourceTree = "<group>"; };
 		01770ECB296AF05100578F81 /* addWordLoader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = addWordLoader.json; sourceTree = "<group>"; };
 		01780D2B294A110A004F11AC /* ReverseMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseMask.swift; sourceTree = "<group>"; };
@@ -173,6 +181,7 @@
 		0101955F29646CCC007BDEAB /* Card */ = {
 			isa = PBXGroup;
 			children = (
+				017642422972E7250042DB86 /* WordCardViewModel.swift */,
 				0101956029646CD7007BDEAB /* WordCard.swift */,
 			);
 			path = Card;
@@ -218,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				0135E24E295B645300B1C8A0 /* Module.swift */,
+				017642442972EB920042DB86 /* Phrase.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -267,6 +277,14 @@
 			path = Card;
 			sourceTree = "<group>";
 		};
+		017642482972FCB30042DB86 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				017642492972FCC10042DB86 /* Constants.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		01780D2A294A10EF004F11AC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,6 +292,7 @@
 				0103FF4F294C7FFA004C2EA6 /* String.swift */,
 				01D2F1BD294CE468000330A8 /* View + Modifiers.swift */,
 				013251DF296B034900B071F1 /* UIApplication + hideKeyboard.swift */,
+				017642462972EEF30042DB86 /* Date.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -327,6 +346,7 @@
 				019056462944A8450058B566 /* Pages */,
 				0190563E2944A7170058B566 /* Preview Content */,
 				0185B55C2949F24600934373 /* Custom */,
+				017642482972FCB30042DB86 /* Helpers */,
 				01780D2A294A10EF004F11AC /* Extensions */,
 				01E4B757294B114700720BE0 /* Managers */,
 				01978FAC294CBD4500B8EFC3 /* ActivityView */,
@@ -614,10 +634,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				01770EC8296AB27600578F81 /* AddNewPhraseViewModel.swift in Sources */,
+				0176424A2972FCC10042DB86 /* Constants.swift in Sources */,
 				0103FF48294C5035004C2EA6 /* AuthPage.swift in Sources */,
 				014681132955FF9C0080732C /* CreateModuleCard.swift in Sources */,
 				014A46522964646300E43508 /* ModuleScreenViewModel.swift in Sources */,
 				017A6F742969CF4B001C1855 /* AddNewPhrase.swift in Sources */,
+				017642432972E7250042DB86 /* WordCardViewModel.swift in Sources */,
 				01978FB3294CBF6600B8EFC3 /* LottieView.swift in Sources */,
 				015713972964607E0022E1FA /* ModuleScreen.swift in Sources */,
 				013251E0296B034900B071F1 /* UIApplication + hideKeyboard.swift in Sources */,
@@ -642,6 +664,8 @@
 				0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */,
 				016817FF2969B0B400F30E39 /* Alert.swift in Sources */,
 				01D2F1BE294CE468000330A8 /* View + Modifiers.swift in Sources */,
+				017642452972EB920042DB86 /* Phrase.swift in Sources */,
+				017642472972EEF30042DB86 /* Date.swift in Sources */,
 				01D2F1C1294CEAD5000330A8 /* CategoryCard.swift in Sources */,
 				0103FF50294C7FFA004C2EA6 /* String.swift in Sources */,
 				0135E24F295B645300B1C8A0 /* Module.swift in Sources */,
