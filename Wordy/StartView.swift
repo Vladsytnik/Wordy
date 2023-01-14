@@ -9,15 +9,19 @@ import SwiftUI
 
 struct StartView: View {
 	
-	@StateObject var router = Router()
+	@EnvironmentObject var router: Router
+	let authTransition = AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)).combined(with: .opacity)
+	let transition = AnyTransition.move(edge: .bottom)
 	
 	var body: some View {
 		NavigationView {
 			ZStack {
 				if router.userIsLoggedIn {
 					Modules()
+						.transition(transition)
 				} else {
 					AuthPage()
+						.transition(authTransition)
 				}
 				if router.showActivityView {
 					VStack {
@@ -29,7 +33,7 @@ struct StartView: View {
 					.ignoresSafeArea()
 				}
 			}
-			.transition(.slide)
+//			.transition(.slide)
 		}
 		.environmentObject(router)
 	}

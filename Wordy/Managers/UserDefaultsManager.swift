@@ -10,8 +10,8 @@ import Foundation
 class UserDefaultsManager {
 	static var isLoggedIn: Bool {
 		get {
-//			UserDefaults().bool(forKey: "isLoggedIn")
-			false
+			UserDefaults().bool(forKey: "isLoggedIn")
+//			false
 		}
 		set {
 			UserDefaults().setValue(newValue, forKey: "isLoggedIn")

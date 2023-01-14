@@ -37,7 +37,11 @@ struct AuthPage: View {
 					router.userIsLoggedIn = true
 				}
 			}
-
+			.onChange(of: viewModel.hideActivityView) { _ in
+				if viewModel.hideActivityView {
+					router.showActivityView = false
+				}
+			}
 	}
 }
 
@@ -58,6 +62,7 @@ struct ButtonStack: View {
 			Spacer()
 			VStack {
 				Button {
+					endEditing()
 					router.showActivityView = true
 					viewModel.signIn()
 				} label: {
@@ -71,6 +76,7 @@ struct ButtonStack: View {
 				.foregroundColor(.white)
 				.cornerRadius(12)
 				Button {
+					endEditing()
 					router.showActivityView = true
 					viewModel.register()
 				} label: {

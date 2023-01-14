@@ -14,6 +14,7 @@ class AuthViewModel: ObservableObject {
 	
 	@Published var showAlert = false
 	@Published var showNextPage = false
+	@Published var hideActivityView = false
 	
 	var alertText = ""
 	
@@ -26,6 +27,7 @@ class AuthViewModel: ObservableObject {
 			self?.alertText = resultText
 			self?.showAlert.toggle()
 		} errorBlock: { [weak self] errorText in
+			self?.hideActivityView = true
 			self?.alertText = errorText
 			self?.showAlert.toggle()
 		}
@@ -37,6 +39,7 @@ class AuthViewModel: ObservableObject {
 			self?.alertText = resultText
 			self?.showAlert.toggle()
 		} errorBlock: { [weak self] errorText in
+			self?.hideActivityView = true
 			self?.alertText = errorText
 			self?.showAlert.toggle()
 		}

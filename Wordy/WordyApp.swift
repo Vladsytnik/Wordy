@@ -11,6 +11,8 @@ import Firebase
 @main
 struct WordyApp: App {
 	
+	@StateObject var router = Router()
+	
 	init() {
 		FirebaseApp.configure()
 	}
@@ -18,7 +20,7 @@ struct WordyApp: App {
 	var body: some Scene {
 		WindowGroup {
 			StartView()
-				.environmentObject(Router())
+				.environmentObject(router)
 		}
 	}
 }

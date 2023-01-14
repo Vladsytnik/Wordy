@@ -6,6 +6,11 @@
 //
 
 import FirebaseAuth
+import FirebaseFirestore
+import FirebaseCore
+import FirebaseFirestoreSwift
+import FirebaseDatabase
+
 
 //enum NetworkError: Error {
 //	case signIn(text: ErrorText)
@@ -16,6 +21,10 @@ import FirebaseAuth
 //}
 
 class NetworkManager {
+	
+	static var ref = Database.database(url: "https://wordy-a720d-default-rtdb.europe-west1.firebasedatabase.app/").reference()
+//	static let db = Firestore.firestore()
+	static let currentUserID = Auth.auth().currentUser?.uid
 	
 	static func register(email: String, password: String, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void) {
 		Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
@@ -57,6 +66,117 @@ class NetworkManager {
 		case .some(_):
 			success("success")
 			break
+		}
+	}
+	
+	static func createModule(name: String, emoji: String, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void ) {
+		guard let currentUserID = currentUserID else {
+			errorBlock("error in createModule -> currentUserID")
+			return
+		}
+		
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateStyle = .full
+		dateFormatter.timeStyle = .full
+		let date = dateFormatter.string(from: Date())
+
+		ref.child("users").child(currentUserID).child("modules").childByAutoId().updateChildValues(["name" : name, "emoji" : emoji, "date": date]) { error, ref in
+			guard error == nil else {
+				errorBlock("error in createModule -> updateChildValues")
+				return
+			}
+			
+			success("success")
+		}
+	}
+	
+	static func getModules(success: @escaping ([Module]) -> Void, errorBlock: @escaping (String) -> Void) {
+		guard let currentUserID = currentUserID else {
+			errorBlock("error in getModules -> currentUserID")
+			return
+		}
+		
+		var modules: [Module] = []
+		
+		let queue = DispatchQueue(label: "sytnik.wordy.getModules")
+		
+		queue.async {
+			ref.child("users").child(currentUserID).child("modules").getData { error, snap in
+				if let _ = error {
+					DispatchQueue.main.async {
+						errorBlock("error in getModules -> getData { error, snap in }")
+					}
+				}
+				
+				if let snapshot = snap {
+					guard let data = (snapshot.value as? [String: [String: Any]]) else {
+						DispatchQueue.main.async {
+							errorBlock("error in getModules -> data")
+						}
+						return
+					}
+					guard let dbModuleKeys = (snapshot.value as? [String: Any])?.keys else {
+						DispatchQueue.main.async {
+							errorBlock("error in getModules -> dbModuleKeys")
+						}
+						return
+					}
+					
+					for moduleID in dbModuleKeys {
+						var module = Module(name: (data[moduleID]?["name"] as? String) ?? "nil",
+											emoji: (data[moduleID]?["emoji"] as? String) ?? "📄",
+											id: moduleID)
+						let dateFormatter = DateFormatter()
+						dateFormatter.timeStyle = .full
+						dateFormatter.dateStyle = .full
+						let date = dateFormatter.date(from: (data[moduleID]?["date"] as? String) ?? "")
+						module.date = date
+						
+						if let phrases = data[moduleID]?["phrases"] as? [String: String] {
+							for phraseKey in phrases.keys {
+								module.phrases[phraseKey] = phrases[phraseKey]
+							}
+						}
+						
+						modules.append(module)
+					}
+					
+					DispatchQueue.main.async {
+						success(modules.sorted(by: { $0.date ?? Date() < $1.date ?? Date() }))
+					}
+				}
+			}
+		}
+		
+	}
+	
+	static func add(phrase: [String: String], to moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
+		guard let currentUserID = currentUserID else {
+			errorBlock("error in add(phrase: [String: String] -> currentUserID")
+			return
+		}
+		
+//		var module: Module?
+//
+//		getModules { modules in
+//			module = modules.first(where: { $0.id == moduleID })
+//		} errorBlock: { errorText in
+//			errorBlock("add(phrase: [String: String]" + errorText)
+//			return
+//		}
+//
+//		guard let module else {
+//			errorBlock("Ошибка при добавлении фразы. Не найден модуль с заданным ID")
+//			return
+//		}
+				
+		ref.child("users").child(currentUserID).child("modules").child(moduleID).updateChildValues(["phrases" : phrase]) { error, ref in
+			guard error == nil else {
+				errorBlock("error in add(phrase: [String: String] -> updateChildValues")
+				return
+			}
+			
+			success()
 		}
 	}
 }

@@ -13,7 +13,6 @@ struct LottieView: UIViewRepresentable {
 	
 	let animationView = LottieAnimationView()
 	
-	
 	func makeUIView(context: Context) -> some UIView {
 		let view = UIView(frame: .zero)
 		view.backgroundColor = .clear

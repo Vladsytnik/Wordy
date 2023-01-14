@@ -25,18 +25,29 @@ internal typealias AssetImageTypeAlias = ImageAsset.Image
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 internal enum Asset {
   internal enum Colors {
+    internal static let addModuleButtonBG = ColorAsset(name: "AddModuleButtonBG")
+    internal static let createModuleButton = ColorAsset(name: "CreateModuleButton")
+    internal static let descrWordOrange = ColorAsset(name: "DescrWordOrange")
     internal static let lightPurple = ColorAsset(name: "LightPurple")
     internal static let moduleCardBG = ColorAsset(name: "ModuleCardBG")
     internal static let moduleCardDarkGray = ColorAsset(name: "ModuleCardDarkGray")
     internal static let moduleCardLightGray = ColorAsset(name: "ModuleCardLightGray")
     internal static let navBarPurple = ColorAsset(name: "NavBarPurple")
+    internal static let searchTFBackground = ColorAsset(name: "SearchTFBackground")
   }
   internal enum Images {
     internal static let accentColor = ColorAsset(name: "AccentColor")
+    internal static let addModule = ImageAsset(name: "AddModule")
+    internal static let addModuleCheckMark = ImageAsset(name: "AddModuleCheckMark")
+    internal static let addWordButton = ImageAsset(name: "AddWordButton")
+    internal static let backButton = ImageAsset(name: "BackButton")
     internal static let gradientBG = ImageAsset(name: "GradientBG")
     internal static let moduleCardBottomStuff = ImageAsset(name: "ModuleCardBottomStuff")
+    internal static let plusIcon = ImageAsset(name: "PlusIcon")
+    internal static let question = ImageAsset(name: "Question")
+    internal static let searchIcon = ImageAsset(name: "SearchIcon")
     internal static let settingsIcon = ImageAsset(name: "SettingsIcon")
-    internal static let testImage = ImageAsset(name: "TestImage")
+    internal static let speach = ImageAsset(name: "Speach")
   }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

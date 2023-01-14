@@ -12,7 +12,8 @@ struct ModuleCard: View {
 	let backgroundColor = Color(asset: Asset.Colors.moduleCardBG)
 	let width: CGFloat
 	
-	let cardName = "Games"
+	var cardName = "Games"
+	var emoji = "📄"
 	let words = [
 		"Dude",
 		"Get on well",
@@ -31,7 +32,7 @@ struct ModuleCard: View {
 				.frame(width: width, height: height)
 			VStack {
 				Spacer()
-				Text("🧑🏻‍💻")
+				Text(emoji)
 					.font(.system(size: width / 3.16666))
 				Spacer()
 				RoundedTextArea(

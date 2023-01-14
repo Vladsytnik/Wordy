@@ -20,6 +20,8 @@ struct ErrorCodeManager {
 			return "неверный пароль"
 		case 17011:
 			return "пользователя с таким логином не существует"
+		case 17005:
+			return "аккаунт удален или заблокирован"
 		default:
 			return "код ошибки – \(code)"
 		}
