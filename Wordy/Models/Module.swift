@@ -24,9 +24,8 @@ extension Module {
 			dictArray.append([
 				Constants.nativeText : phrase.nativeText,
 				Constants.translatedText : phrase.translatedText,
-				Constants.date: phrase.date as Any
+				Constants.date: String.generateDate(from: phrase.date) as Any
 			])
-//			dict[phrase.nativeText] = phrase.translatedText
 		}
 		
 		return dictArray

@@ -48,18 +48,16 @@ class AddNewPhraseViewModel: ObservableObject {
 		
 		changeActivityState(toProccess: true)
 		
-//		let phrase = Phrase(nativeText: nativePhrase, translatedText: translatedPhrase, date: Date().generateCurrentDateMarker())
 		var existingPhrases = module.getPhrasesAsDictionary()
 		existingPhrases.append([
 			Constants.nativeText: nativePhrase,
 			Constants.translatedText: translatedPhrase,
 			Constants.date: String.generateCurrentDateMarker()
 		])
-//		existingPhrases[nativePhrase] = translatedPhrase
 		
 		let queue = DispatchQueue(label: "sytnik.wordy.addWordTo")
 		
-		queue.asyncAfter(deadline: .now() + 2) {
+		queue.async {
 			NetworkManager.update(phrases: existingPhrases, from: self.module.id) { [weak self] in
 				guard let self = self else { return }
 				

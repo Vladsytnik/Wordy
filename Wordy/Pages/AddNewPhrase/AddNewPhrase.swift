@@ -157,17 +157,16 @@ struct CustomTextField: View {
 					.foregroundColor(.white.opacity(0.3))
 					.font(.system(size: fontSize, weight: .medium))
 					.opacity(text.isEmpty ? 1 : 0)
-				TextField("", text: $text, onCommit: {
-					return
-				})
-				.foregroundColor(.white)
-				.tint(.white)
-				.font(.system(size: fontSize, weight: .medium))
-				.focused($isFocused)
-				.keyboardType(.twitter)
-				if text.count > 0 && isFocused {
-					HStack {
-						Spacer()
+				HStack {
+					TextField("", text: $text, onCommit: {
+						return
+					})
+					.foregroundColor(.white)
+					.tint(.white)
+					.font(.system(size: fontSize, weight: .medium))
+					.focused($isFocused)
+					.keyboardType(.twitter)
+					if text.count > 0 && isFocused {
 						Button {
 							text = ""
 						} label: {

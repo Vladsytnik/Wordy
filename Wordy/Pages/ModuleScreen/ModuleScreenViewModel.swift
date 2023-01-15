@@ -13,7 +13,7 @@ class ModuleScreenViewModel: ObservableObject {
 	@Published var modules: [Module] = []
 	
 	var phrases: [Phrase] {
-		modules[index].phrases
+		modules[index].phrases.sorted { ($0.date ?? Date()) > ($1.date ?? Date()) }
 	}
 	
 	var phraseCount: Int {
