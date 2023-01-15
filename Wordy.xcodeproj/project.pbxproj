@@ -60,6 +60,7 @@
 		017642452972EB920042DB86 /* Phrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017642442972EB920042DB86 /* Phrase.swift */; };
 		017642472972EEF30042DB86 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017642462972EEF30042DB86 /* Date.swift */; };
 		0176424A2972FCC10042DB86 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017642492972FCC10042DB86 /* Constants.swift */; };
+		0176424C29744BC90042DB86 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0176424B29744BC90042DB86 /* DateFormatter.swift */; };
 		01770EC8296AB27600578F81 /* AddNewPhraseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01770EC7296AB27500578F81 /* AddNewPhraseViewModel.swift */; };
 		01770ECC296AF05200578F81 /* addWordLoader.json in Resources */ = {isa = PBXBuildFile; fileRef = 01770ECB296AF05100578F81 /* addWordLoader.json */; };
 		01780D2C294A110A004F11AC /* ReverseMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01780D2B294A110A004F11AC /* ReverseMask.swift */; };
@@ -130,6 +131,7 @@
 		017642442972EB920042DB86 /* Phrase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phrase.swift; sourceTree = "<group>"; };
 		017642462972EEF30042DB86 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		017642492972FCC10042DB86 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		0176424B29744BC90042DB86 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		01770EC7296AB27500578F81 /* AddNewPhraseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewPhraseViewModel.swift; sourceTree = "<group>"; };
 		01770ECB296AF05100578F81 /* addWordLoader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = addWordLoader.json; sourceTree = "<group>"; };
 		01780D2B294A110A004F11AC /* ReverseMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseMask.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				01D2F1BD294CE468000330A8 /* View + Modifiers.swift */,
 				013251DF296B034900B071F1 /* UIApplication + hideKeyboard.swift */,
 				017642462972EEF30042DB86 /* Date.swift */,
+				0176424B29744BC90042DB86 /* DateFormatter.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -663,6 +666,7 @@
 				01468115295602290080732C /* InputRoundedTextArea.swift in Sources */,
 				0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */,
 				016817FF2969B0B400F30E39 /* Alert.swift in Sources */,
+				0176424C29744BC90042DB86 /* DateFormatter.swift in Sources */,
 				01D2F1BE294CE468000330A8 /* View + Modifiers.swift in Sources */,
 				017642452972EB920042DB86 /* Phrase.swift in Sources */,
 				017642472972EEF30042DB86 /* Date.swift in Sources */,

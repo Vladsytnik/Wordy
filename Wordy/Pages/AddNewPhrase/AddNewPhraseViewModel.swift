@@ -52,7 +52,7 @@ class AddNewPhraseViewModel: ObservableObject {
 		existingPhrases.append([
 			Constants.nativeText: nativePhrase,
 			Constants.translatedText: translatedPhrase,
-			Constants.date: String.generateCurrentDateMarker()
+			Constants.date: String().generateCurrentDateMarker()
 		])
 		
 		let queue = DispatchQueue(label: "sytnik.wordy.addWordTo")

@@ -75,7 +75,7 @@ class NetworkManager {
 			return
 		}
 		
-		let date = String.generateCurrentDateMarker()
+		let date = String().generateCurrentDateMarker()
 
 		ref.child("users").child(currentUserID).child("modules").childByAutoId().updateChildValues(["name" : name, "emoji" : emoji, "date": date]) { error, ref in
 			guard error == nil else {
@@ -94,60 +94,29 @@ class NetworkManager {
 		}
 		
 		var modules: [Module] = []
-		
 		let queue = DispatchQueue(label: "sytnik.wordy.getModules")
 		
 		queue.async {
 			ref.child("users").child(currentUserID).child("modules").getData { error, snap in
-				if let _ = error {
+				if let error = error {
 					DispatchQueue.main.async {
-						errorBlock("error in getModules -> getData { error, snap in }")
+						errorBlock("error in getModules -> getData { error, snap in }" + error.localizedDescription)
+//						errorBlock("")
 					}
+					return
 				}
 				
 				if let snapshot = snap {
-					guard let data = (snapshot.value as? [String: [String: Any]]) else {
+					guard let modules = Module.parse(from: snapshot) else {
 						DispatchQueue.main.async {
-							errorBlock("error in getModules -> data")
-						}
-						return
-					}
-					guard let dbModuleKeys = (snapshot.value as? [String: Any])?.keys else {
-						DispatchQueue.main.async {
-							errorBlock("error in getModules -> dbModuleKeys")
+							errorBlock("error in getModules -> parse module")
 						}
 						return
 					}
 					
-					for moduleID in dbModuleKeys {
-						var module = Module(name: (data[moduleID]?["name"] as? String) ?? "nil",
-											emoji: (data[moduleID]?["emoji"] as? String) ?? "📄",
-											id: moduleID)
-						
-						let date = Date.generateDate(from: data[moduleID]?["date"] as? String)
-						module.date = date
-						
-						if let phrasesData = data[moduleID]?["phrases"] as? [Any] {
-							for phrases in phrasesData {
-								if let phraseDict = phrases as? [String: Any] {
-									
-									if let nativeTxt = phraseDict[Constants.nativeText] as? String,
-									   let trasnlatedTxt = phraseDict[Constants.translatedText] as? String {
-										
-										var phrase = Phrase(nativeText: nativeTxt, translatedText: trasnlatedTxt)
-										if let date = phraseDict[Constants.date] as? String {
-											phrase.date = Date.generateDate(from: date)
-										}
-										module.phrases.append(phrase)
-										
-									}
-									
-								}
-							}
-						}
-						
-						modules.append(module)
-					}
+//					modules.forEach {
+//						print($0.date)
+//					}
 					
 					DispatchQueue.main.async {
 						success(modules.sorted(by: { $0.date ?? Date() > $1.date ?? Date() }))
@@ -155,7 +124,6 @@ class NetworkManager {
 				}
 			}
 		}
-		
 	}
 	
 	static func update(phrases: [[String: Any]], from moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
@@ -163,20 +131,6 @@ class NetworkManager {
 			errorBlock("error in add(phrase: [String: String] -> currentUserID")
 			return
 		}
-		
-//		var module: Module?
-//
-//		getModules { modules in
-//			module = modules.first(where: { $0.id == moduleID })
-//		} errorBlock: { errorText in
-//			errorBlock("add(phrase: [String: String]" + errorText)
-//			return
-//		}
-//
-//		guard let module else {
-//			errorBlock("Ошибка при добавлении фразы. Не найден модуль с заданным ID")
-//			return
-//		}
 		
 		ref.child("users").child(currentUserID).child("modules").child(moduleID).updateChildValues(["phrases" : phrases]) { error, ref in
 			guard error == nil else {

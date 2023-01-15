@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseDatabase
 
 struct Module: Equatable {
 	var name: String = ""
@@ -24,10 +25,58 @@ extension Module {
 			dictArray.append([
 				Constants.nativeText : phrase.nativeText,
 				Constants.translatedText : phrase.translatedText,
-				Constants.date: String.generateDate(from: phrase.date) as Any
+				Constants.date: String().generateDate(from: phrase.date) as Any
 			])
 		}
 		
 		return dictArray
+	}
+	
+	static func parse(from snapshot: DataSnapshot) -> [Module]? {
+		guard let data = (snapshot.value as? [String: [String: Any]]) else {
+			return nil
+		}
+		guard let dbModuleKeys = (snapshot.value as? [String: Any])?.keys else {
+			return nil
+		}
+		
+		var modules: [Module] = []
+		
+		for moduleID in dbModuleKeys {
+			var module = Module(name: (data[moduleID]?["name"] as? String) ?? "nil",
+								emoji: (data[moduleID]?["emoji"] as? String) ?? "📄",
+								id: moduleID)
+			
+			let date = Date().generateDate(from: data[moduleID]?["date"] as? String)
+			print(date)
+			module.date = date
+			
+			if let phrasesData = data[moduleID]?["phrases"] as? [Any] {
+				for phrases in phrasesData {
+					if let phraseDict = phrases as? [String: Any] {
+						
+						if let nativeTxt = phraseDict[Constants.nativeText] as? String,
+						   let trasnlatedTxt = phraseDict[Constants.translatedText] as? String {
+							
+							var phrase = Phrase(nativeText: nativeTxt, translatedText: trasnlatedTxt)
+							if let date = phraseDict[Constants.date] as? String {
+								phrase.date = Date().generateDate(from: date)
+							}
+							module.phrases.append(phrase)
+							
+						}
+						
+					}
+				}
+			}
+			
+			modules.append(module)
+		}
+		
+//		modules.forEach {
+//			print($0.date)
+//		}
+		
+		return modules
 	}
 }

@@ -45,20 +45,18 @@ extension String {
 		}
 	}
 	
-	static func generateCurrentDateMarker() -> String {
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateStyle = .full
-		dateFormatter.timeStyle = .full
+	func generateCurrentDateMarker() -> String {
+		let dateFormatter = DateFormatter().getDateFormatter()
 		let stringDate = dateFormatter.string(from: Date())
 		return stringDate
 	}
 	
-	static func generateDate(from: Date?) -> String {
+	func generateDate(from: Date?) -> String {
 		guard let from else { return "" }
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateStyle = .full
-		dateFormatter.timeStyle = .full
+		let dateFormatter = DateFormatter().getDateFormatter()
 		let stringDate = dateFormatter.string(from: from)
 		return stringDate
 	}
 }
+
+

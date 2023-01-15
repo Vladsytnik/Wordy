@@ -33,6 +33,8 @@ struct Modules: View {
 	@State var showAlert = false
 	@State var alert = (title: "", description: "")
 	
+	let testWords = ["Эйфория", "Хороший доктор", "Мистер робот", "Нулевой пациент"]
+	
 	var body: some View {
 		Color.clear
 			.background {
@@ -47,8 +49,8 @@ struct Modules: View {
 									.padding(.top)
 								ScrollView(.horizontal, showsIndicators: false) {
 									HStack(spacing: 12) {
-										ForEach(0...10, id: \.self) { j in
-											CategoryCard(text: "\(j)")
+										ForEach(0..<testWords.count, id: \.self) { j in
+											CategoryCard(text: testWords[j])
 												.padding(j == 0 ? .leading : j == 10 ? .trailing : .init())
 										}
 									}
@@ -147,6 +149,7 @@ struct Modules: View {
 			self.modules = modules
 		} errorBlock: { errorText in
 			showActivity = false
+			guard !errorText.isEmpty else { return }
 			withAnimation {
 				showAlert.toggle()
 			}
