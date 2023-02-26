@@ -93,17 +93,21 @@ struct Modules: View {
 						BlurNavBar(show: $isInlineNavBar, scrollOffset: $scrollOffset)
 						VStack {
 							Spacer()
-							CreateModuleButton() {
-								showCreateModuleSheet = true
-							}
+							CreateModuleButton() { showCreateModuleSheet = true }
 								.frame(width: geometry.size.width - 60)
 								.opacity(createModuleButtonOpacity)
 								.transition(AnyTransition.offset() )
 						}
+						.ignoresSafeArea(.keyboard)
 					}
 					.disabled(showActivity || showAlert)
 				}
-				.background(BackgroundView())
+				.background(
+					BackgroundView()
+						.onTapGesture {
+							UIApplication.shared.endEditing()
+						}
+				)
 				.navigationTitle("Модули")
 				.onAppear{ router.showActivityView = false }
 			}

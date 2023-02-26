@@ -87,6 +87,7 @@ struct ShowActivity: ViewModifier {
 	func body(content: Content) -> some View {
 		ZStack {
 			content
+				.disabled(showActivity)
 			if showActivity {
 				VStack {
 					Spacer()
