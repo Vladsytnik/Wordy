@@ -30,9 +30,11 @@ struct WordCard: View {
 						Text(viewModel.phrase.nativeText)
 							.foregroundColor(.white)
 							.font(.system(size: 24, weight: .bold))
+							.multilineTextAlignment(.leading)
 						Text(viewModel.phrase.translatedText)
 							.foregroundColor(Color(asset: Asset.Colors.descrWordOrange))
 							.font(.system(size: 18, weight: .medium))
+							.multilineTextAlignment(.leading)
 //							.lineLimit(1)
 					}
 //					.padding()
