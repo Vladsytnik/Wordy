@@ -16,8 +16,12 @@ class ModuleScreenViewModel: ObservableObject {
 	@Published var words: [String] = []
 	@Published var showActionSheet = false
 	@Published var showWordsCarousel = false
+	@Published var thisModuleSuccessfullyDeleted = false
+	@Published var showActivity = false
+	@Published var showErrorAlert = false
 	
 	var selectedWordIndex = 0
+	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
 	var phrases: [Phrase] {
 		modules[index].phrases.sorted { ($0.date ?? Date()) > ($1.date ?? Date()) }
@@ -40,5 +44,20 @@ class ModuleScreenViewModel: ObservableObject {
 	func didTapWord(with index: Int) {
 		selectedWordIndex = index
 		showWordsCarousel.toggle()
+	}
+	
+	func nowReallyNeedToDeleteModule() {
+		showActivity = true
+		NetworkManager.deleteModule(with: module.id) { [weak self] in
+			guard let self = self else { return }
+			self.showActivity = false
+			self.thisModuleSuccessfullyDeleted = true
+		} errorBlock: { [weak self] errorText in
+			guard let self = self else { return }
+			self.alert.description = errorText
+			self.showActivity = false
+			self.showErrorAlert = true
+		}
+
 	}
 }

@@ -117,7 +117,7 @@ struct ShowAlert: ViewModifier {
 				.zIndex(0)
 				.disabled(showAlert)
 				.opacity(showAlert ? 0.5 : 1)
-				.blur(radius: showAlert ? 0.5 : 0)
+//				.blur(radius: showAlert ? 1 : 0)
 				.onTapGesture {
 					if showAlert {
 						withAnimation {

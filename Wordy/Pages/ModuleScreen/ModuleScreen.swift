@@ -12,6 +12,8 @@ struct ModuleScreen: View {
 	@Binding var modules: [Module]
 	@ObservedObject var viewModel = ModuleScreenViewModel()
 	
+	@Environment(\.dismiss) private var dismiss
+	
 	var body: some View {
 		Color.clear
 			.background(content: {
@@ -56,11 +58,20 @@ struct ModuleScreen: View {
 			})
 			.background(BackgroundView())
 			.navigationBarBackButtonHidden()
-			.showAlert(title: "После удаления вы не сможете восстановить этот модуль", description: "Все еще хотите удалить?", isPresented: $viewModel.showAlert, titleWithoutAction: "Отмена", titleForAction: "Удалить") {
-				
+			.showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Отмена", titleForAction: "Удалить") {
+				viewModel.nowReallyNeedToDeleteModule()
 			}
 			.fullScreenCover(isPresented: $viewModel.showWordsCarousel) {
 				WordsCarouselView(modules: $modules, moduleIndex: viewModel.index, selectedWordIndex: viewModel.selectedWordIndex)
+			}
+			.activity($viewModel.showActivity)
+			.onChange(of: viewModel.thisModuleSuccessfullyDeleted) { newValue in
+				if newValue == true {
+					dismiss()
+				}
+			}
+			.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAlert) {
+				viewModel.nowReallyNeedToDeleteModule()
 			}
 	}
 	

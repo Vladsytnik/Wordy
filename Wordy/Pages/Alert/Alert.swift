@@ -86,7 +86,6 @@ struct Alert: View {
 			.gesture(
 				DragGesture()
 					.onEnded{ value in
-						print(value.translation.height)
 						if value.translation.height > 0 {
 							withAnimation {
 								isShow = false
