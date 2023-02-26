@@ -93,9 +93,7 @@ class NetworkManager {
 			return
 		}
 		
-		var modules: [Module] = []
 		let queue = DispatchQueue(label: "sytnik.wordy.getModules")
-		
 		queue.async {
 			ref.child("users").child(currentUserID).child("modules").getData { error, snap in
 				if let error = error {
@@ -113,10 +111,6 @@ class NetworkManager {
 						}
 						return
 					}
-					
-//					modules.forEach {
-//						print($0.date)
-//					}
 					
 					DispatchQueue.main.async {
 						success(modules.sorted(by: { $0.date ?? Date() > $1.date ?? Date() }))

@@ -28,16 +28,20 @@ struct ModuleScreen: View {
 									.frame(height: 45)
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
 								ForEach(0..<viewModel.phraseCount, id: \.self) { i in
-									WordCard(
-										width: geo.size.width - 60,
-										modules: $modules,
-										index: viewModel.index,
-										phrase: viewModel.phrases[i]
-									)
-										.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
+									Button {
+										viewModel.didTapWord(with: i)
+									} label: {
+										WordCard(
+											width: geo.size.width - 60,
+											modules: $modules,
+											index: viewModel.index,
+											phrase: viewModel.phrases[i]
+										)
+									}
+									.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
 								}
 								AddWordButton { viewModel.showActionSheet = true }
-								DeleteModuleButton {  }
+								DeleteModuleButton { viewModel.didTapDeleteModule() }
 							}
 						}
 						.frame(width: geo.size.width, height: geo.size.height)
@@ -51,24 +55,29 @@ struct ModuleScreen: View {
 				}
 			})
 			.background(BackgroundView())
-			.navigationBarHidden(true)
+			.navigationBarBackButtonHidden()
+			.showAlert(title: "После удаления вы не сможете восстановить этот модуль", description: "Все еще хотите удалить?", isPresented: $viewModel.showAlert, titleWithoutAction: "Отмена", titleForAction: "Удалить") {
+				
+			}
+			.fullScreenCover(isPresented: $viewModel.showWordsCarousel) {
+				WordsCarouselView(modules: $modules, moduleIndex: viewModel.index, selectedWordIndex: viewModel.selectedWordIndex)
+			}
 	}
 	
 	init(modules: Binding<[Module]>, index: Int) {
 		self._modules = modules
 		viewModel.modules = modules.wrappedValue
 		viewModel.index = index
-		viewModel.fetchWords()
 	}
 }
 
 struct ModuleScreen_Previews: PreviewProvider {
-    static var previews: some View {
+	static var previews: some View {
 		ModuleScreen(
 			modules: .constant( [Module(name: "Test", emoji: "❤️‍🔥")]),
 			index: 0
 		)
-    }
+	}
 }
 
 struct Header: View {
@@ -229,5 +238,6 @@ struct DeleteModuleButton: View {
 		.padding(EdgeInsets(top: 12, leading: 0, bottom: 0, trailing: 0))
 	}
 }
+
 
 

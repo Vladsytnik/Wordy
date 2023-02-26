@@ -26,8 +26,8 @@ extension View {
 }
 
 extension View {
-	func showAlert(title: String, description: String, isPresented: Binding<Bool>, repeatAction: @escaping () -> Void) -> some View {
-		return ModifiedContent(content: self, modifier: ShowAlert(showAlert: isPresented, title: title, description: description, repeatAction: repeatAction))
+	func showAlert(title: String, description: String, isPresented: Binding<Bool>, titleWithoutAction: String = "ОК", titleForAction: String = "Попробовать снова", repeatAction: @escaping () -> Void) -> some View {
+		return ModifiedContent(content: self, modifier: ShowAlert(showAlert: isPresented, title: title, description: description, titleWithoutAction: titleWithoutAction, titleForAction: titleForAction, repeatAction: repeatAction))
 	}
 }
 
@@ -106,14 +106,34 @@ struct ShowAlert: ViewModifier {
 	let title: String
 	let description: String
 	
+	let titleWithoutAction: String
+	let titleForAction: String
+	
 	let repeatAction: () -> Void
 	
 	func body(content: Content) -> some View {
 		ZStack {
 			content
 				.zIndex(0)
+				.disabled(showAlert)
+				.opacity(showAlert ? 0.5 : 1)
+				.blur(radius: showAlert ? 0.5 : 0)
+				.onTapGesture {
+					if showAlert {
+						withAnimation {
+							showAlert.toggle()
+						}
+					}
+				}
 			if showAlert {
-				Alert(title: title, description: description, isShow: $showAlert, repeatAction: repeatAction)
+				Alert(
+					title: title,
+					description: description,
+					isShow: $showAlert,
+					titleWithoutAction: titleWithoutAction,
+					titleForAction: titleForAction,
+					repeatAction: repeatAction
+				)
 					.zIndex(1)
 					.transition(.move(edge: .bottom))
 			}

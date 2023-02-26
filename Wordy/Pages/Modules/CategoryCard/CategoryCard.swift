@@ -18,18 +18,24 @@ struct SizeKey: PreferenceKey {
 struct CategoryCard: View {
 	
 	let text: String
+	var isSelected = false
 	
     var body: some View {
         Text(text)
 			.padding(EdgeInsets(top: 10, leading: 32, bottom: 10, trailing: 32))
 			.background {
 				GeometryReader { geo in
-					Color(asset: Asset.Colors.lightPurple)
-						.cornerRadius(geo.size.height / 2)
+					if isSelected {
+						Color(asset: Asset.Colors.lightPurple)
+							.cornerRadius(geo.size.height / 2)
+					} else {
+						Color(asset: Asset.Colors.nonActiveCategory)
+							.cornerRadius(geo.size.height / 2)
+					}
 				}
 			}
 			.foregroundColor(.white)
-			.font(.system(size: 18, weight: .medium))
+			.font(.system(size: 16, weight: .regular))
     }
 }
 

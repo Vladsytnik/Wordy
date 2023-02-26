@@ -33,6 +33,7 @@ internal enum Asset {
     internal static let moduleCardDarkGray = ColorAsset(name: "ModuleCardDarkGray")
     internal static let moduleCardLightGray = ColorAsset(name: "ModuleCardLightGray")
     internal static let navBarPurple = ColorAsset(name: "NavBarPurple")
+    internal static let nonActiveCategory = ColorAsset(name: "NonActiveCategory")
     internal static let searchTFBackground = ColorAsset(name: "SearchTFBackground")
   }
   internal enum Images {
@@ -41,6 +42,8 @@ internal enum Asset {
     internal static let addModuleCheckMark = ImageAsset(name: "AddModuleCheckMark")
     internal static let addWordButton = ImageAsset(name: "AddWordButton")
     internal static let backButton = ImageAsset(name: "BackButton")
+    internal static let carouselBG = ImageAsset(name: "CarouselBG")
+    internal static let closeEmoji = ImageAsset(name: "CloseEmoji")
     internal static let gradientBG = ImageAsset(name: "GradientBG")
     internal static let moduleCardBottomStuff = ImageAsset(name: "ModuleCardBottomStuff")
     internal static let plusIcon = ImageAsset(name: "PlusIcon")

@@ -11,7 +11,12 @@ struct Alert: View {
 	
 	let title: String
 	let description: String
+	
 	@Binding var isShow: Bool
+	@State var scrollOffsetValue: CGFloat = 0
+	
+	let titleWithoutAction: String
+	let titleForAction: String
 	
 	let repeatAction: () -> Void
 	
@@ -45,7 +50,7 @@ struct Alert: View {
 								.foregroundColor(Color(asset: Asset.Colors.createModuleButton))
 								.frame(width: 200, height: 55)
 								.overlay {
-									Text("ОК")
+									Text(titleWithoutAction)
 										.foregroundColor(.white)
 										.font(.system(size: 16, weight: .medium))
 								}
@@ -62,7 +67,7 @@ struct Alert: View {
 								.foregroundColor(.clear)
 								.frame(width: 300, height: 55)
 								.overlay {
-									Text("Попробовать снова")
+									Text(titleForAction)
 										.foregroundColor(.white)
 										.font(.system(size: 16, weight: .medium))
 								}
@@ -76,8 +81,20 @@ struct Alert: View {
 				}
 //				.ignoresSafeArea()
 			}
-			.offset(y: 100)
+			.offset(y: 100 + scrollOffsetValue)
 			.frame(width: geo.size.width, height: geo.size.height)
+			.gesture(
+				DragGesture()
+					.onEnded{ value in
+						print(value.translation.height)
+						if value.translation.height > 0 {
+							withAnimation {
+								isShow = false
+							}
+						}
+					}
+					.onChanged{ if $0.translation.height > 0 {  scrollOffsetValue = $0.translation.height }}
+			)
 		}
 	}
 }
@@ -87,7 +104,9 @@ struct Alert_Previews: PreviewProvider {
 		Alert(
 			title: "Упс! Ошибка сети",
 			description: "Проверьте соединение с интернетом",
-			isShow: .constant(true)
+			isShow: .constant(true),
+			titleWithoutAction: "OK",
+			titleForAction: "Попробовать снова"
 		) {  }
     }
 }

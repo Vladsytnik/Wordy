@@ -96,6 +96,8 @@ struct EmojiView : View {
 		(0x1F170, 0x1F251)
 	]
 	
+	private let emojies = ["", "🧸", "🎀", "🎏", "📄", "🎊", "❤️", "❤️‍🔥", "💜", "🔐", "🔅", "❗️", "Ⓜ️", "👾", "🧑🏻‍💻", "🌍", "😵‍💫", "🔮"]
+	
 	var body : some View{
 		ZStack(alignment: .topLeading) {
 			ScrollView(.vertical, showsIndicators: false) {
@@ -117,14 +119,28 @@ struct EmojiView : View {
 //				}
 				
 				LazyVGrid(columns: [GridItem(.adaptive(minimum: 50))], spacing: 20, content: {
-					ForEach(["🧸", "🎀", "🎏", "📄", "🎊", "❤️", "❤️‍🔥", "💜", "🔐", "🔅", "❗️", "Ⓜ️", "👾", "🧑🏻‍💻", "🌍", "😵‍💫", "🔮"], id: \.self) { i in
-						Button(action: {
-							self.txt = i
-							withAnimation(.spring()) {
-								show.toggle()
+					ForEach(0..<emojies.count) { i in
+						ZStack {
+							if i == 0 {
+								Button(action: {
+									withAnimation(.spring()) {
+										show.toggle()
+									}
+								}) {
+									Image(asset: Asset.Images.closeEmoji)
+										.resizable()
+										.frame(width: 30, height: 30)
+								}
+							} else {
+								Button(action: {
+									self.txt = emojies[i]
+									withAnimation(.spring()) {
+										show.toggle()
+									}
+								}) {
+									Text(emojies[i]).font(.system(size: 55))
+								}
 							}
-						}) {
-							Text(i).font(.system(size: 55))
 						}
 					}
 				})

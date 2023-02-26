@@ -26,7 +26,7 @@ struct WordCard: View {
 		ZStack {
 			VStack(alignment: .leading) {
 				HStack(alignment: .firstTextBaseline) {
-					VStack(alignment: .leading) {
+					VStack(alignment: .leading, spacing: 7) {
 						Text(viewModel.phrase.nativeText)
 							.foregroundColor(.white)
 							.font(.system(size: 24, weight: .bold))
@@ -51,7 +51,7 @@ struct WordCard: View {
 					.frame(height: 5)
 				Text("I want to overcome myself because i bealive I want to overcome myself because i bealive ")
 					.foregroundColor(.white)
-//					.padding()
+					.multilineTextAlignment(.leading)
 			}
 			.padding()
 		}

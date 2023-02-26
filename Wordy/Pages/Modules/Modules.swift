@@ -20,6 +20,7 @@ struct Modules: View {
 	@State private var createModuleButtonOpacity = 1.0
 	@State private var showCreateModuleSheet = false
 	@State private var showActivity = false
+	@State private var selectedCategoryIndex = -1
 	
 	@EnvironmentObject var router: Router
 	
@@ -50,8 +51,11 @@ struct Modules: View {
 								ScrollView(.horizontal, showsIndicators: false) {
 									HStack(spacing: 12) {
 										ForEach(0..<testWords.count, id: \.self) { j in
-											CategoryCard(text: testWords[j])
-												.padding(j == 0 ? .leading : j == 10 ? .trailing : .init())
+											CategoryCard(text: testWords[j], isSelected: selectedCategoryIndex == j)
+												.padding(j == 0 ? .leading : j == testWords.count - 1 ? .trailing : .init())
+												.onTapGesture {
+													selectedCategoryIndex = j != selectedCategoryIndex ? j : -1
+												}
 										}
 									}
 								}
@@ -267,9 +271,14 @@ struct Modules_Previews: PreviewProvider {
 
 
 struct RefreshControl: View {
+	
 	var coordinateSpace: CoordinateSpace
 	var onRefresh: ()->Void
-	@State var refresh: Bool = false
+	
+	@State private var refresh: Bool = false
+	
+	private let size: CGFloat = 25
+	
 	var body: some View {
 		GeometryReader { geo in
 			if (geo.frame(in: coordinateSpace).midY > 50) {
@@ -294,15 +303,15 @@ struct RefreshControl: View {
 					ForEach(0..<8) { tick in
 						VStack {
 							Rectangle()
-								.fill(Color(UIColor.tertiaryLabel))
+								.fill(Color(asset: Asset.Colors.lightPurple))
 								.opacity((Int((geo.frame(in: coordinateSpace).midY)/7) < tick) ? 0 : 1)
-								.frame(width: 3, height: 7)
-								.cornerRadius(3)
+								.frame(width: size / 6.66666667, height: size / 2.85714286)
+								.cornerRadius(size / 6.66666667)
 							Spacer()
 						}.rotationEffect(Angle.degrees(Double(tick)/(8) * 360))
-					}.frame(width: 20, height: 20, alignment: .center)
+					}.frame(width: size, height: size, alignment: .center)
 				}
 			}.frame(width: geo.size.width)
-		}.padding(.top, -50)
+		}.padding(.top, -70)
 	}
 }

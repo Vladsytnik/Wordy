@@ -48,7 +48,7 @@ extension Module {
 								id: moduleID)
 			
 			let date = Date().generateDate(from: data[moduleID]?["date"] as? String)
-			print(date)
+//			print(date)
 			module.date = date
 			
 			if let phrasesData = data[moduleID]?["phrases"] as? [Any] {
