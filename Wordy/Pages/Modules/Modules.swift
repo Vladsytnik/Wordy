@@ -21,6 +21,7 @@ struct Modules: View {
 	@State private var showCreateModuleSheet = false
 	@State private var showActivity = false
 	@State private var selectedCategoryIndex = -1
+	@State private var showCreateGroupSheet = false
 	
 	@EnvironmentObject var router: Router
 	
@@ -34,7 +35,9 @@ struct Modules: View {
 	@State var showAlert = false
 	@State var alert = (title: "", description: "")
 	
-	let testWords = ["Эйфория", "Хороший доктор", "Мистер робот", "Нулевой пациент"]
+	@State var testWords: [String] = ["Эйфория", "Хороший доктор", "Мистер робот", "Нулевой пациент"]
+	
+	private var generator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .light)
 	
 	var body: some View {
 		Color.clear
@@ -49,13 +52,43 @@ struct Modules: View {
 									.padding(.trailing)
 									.padding(.top)
 								ScrollView(.horizontal, showsIndicators: false) {
-									HStack(spacing: 12) {
-										ForEach(0..<testWords.count, id: \.self) { j in
-											CategoryCard(text: testWords[j], isSelected: selectedCategoryIndex == j)
-												.padding(j == 0 ? .leading : j == testWords.count - 1 ? .trailing : .init())
-												.onTapGesture {
-													selectedCategoryIndex = j != selectedCategoryIndex ? j : -1
+									withAnimation {
+										HStack(spacing: 10) {
+											Rectangle()
+												.foregroundColor(.clear)
+												.frame(width: 12)
+											Button {
+												withAnimation {
+													showCreateGroupSheet.toggle()
 												}
+											} label: {
+												Image(asset: Asset.Images.newGroup)
+													.resizable()
+													.frame(width: 35, height: 35)
+											}
+											if showCreateGroupSheet {
+												NewCategoryCard() { success, text in
+													if success {
+														showCreateGroupSheet = false
+														testWords.insert(text, at: 0)
+													} else {
+														withAnimation {
+															showCreateGroupSheet = false
+														}
+													}
+												}
+											}
+											HStack(spacing: 12) {
+												ForEach(0..<testWords.count, id: \.self) { j in
+													CategoryCard(text: testWords[j], isSelected: selectedCategoryIndex == j)
+														.onTapGesture {
+															selectedCategoryIndex = j != selectedCategoryIndex ? j : -1
+														}
+												}
+											}
+											Rectangle()
+												.foregroundColor(.clear)
+												.frame(width: 10)
 										}
 									}
 								}
@@ -66,7 +99,8 @@ struct Modules: View {
 											ModuleCard(
 												width: 170,
 												cardName: modules[i].name,
-												emoji: modules[i].emoji
+												emoji: modules[i].emoji,
+												module: $modules[i]
 											)
 										})
 									}
@@ -93,7 +127,10 @@ struct Modules: View {
 						BlurNavBar(show: $isInlineNavBar, scrollOffset: $scrollOffset)
 						VStack {
 							Spacer()
-							CreateModuleButton() { showCreateModuleSheet = true }
+							CreateModuleButton() {
+								generator?.impactOccurred()
+								showCreateModuleSheet = true
+							}
 								.frame(width: geometry.size.width - 60)
 								.opacity(createModuleButtonOpacity)
 								.transition(AnyTransition.offset() )
@@ -120,6 +157,9 @@ struct Modules: View {
 				CreateModuleView(needUpdateData: $needUpdateData, showActivity: $showActivity)
 				.environmentObject(router)
 			}
+//			.sheet(isPresented: $showCreateGroupSheet, content: {
+//
+//			})
 			.activity($showActivity)
 			.onChange(of: needUpdateData) { _ in
 				fetchModules()

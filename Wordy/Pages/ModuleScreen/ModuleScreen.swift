@@ -14,6 +14,8 @@ struct ModuleScreen: View {
 	
 	@Environment(\.dismiss) private var dismiss
 	
+	@State private var showInfoAlert = false
+	
 	var body: some View {
 		Color.clear
 			.background(content: {
@@ -21,9 +23,12 @@ struct ModuleScreen: View {
 					ZStack {
 						ScrollView {
 							VStack {
-								Header(viewModel: viewModel)
-								Color.clear
-									.frame(height: 30)
+								Header(viewModel: viewModel, showAlert: $showInfoAlert, module: viewModel.module)
+//								Color.clear
+//									.frame(height: 30)
+								Text(viewModel.module.emoji)
+									.font(.system(size: 28))
+//									.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 24))
 								AddWordPlusButton { viewModel.showActionSheet = true }
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
 								LearnModuleButton {  }
@@ -73,6 +78,9 @@ struct ModuleScreen: View {
 			.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAlert) {
 				viewModel.nowReallyNeedToDeleteModule()
 			}
+			.showAlert(title: "Правило\n пятнадцати слов", description: "\nНаш мозг устроен таким образом, \nчто информация усваивается более эффективно, если она разделена \nна порции. \n\n 15 слов – это та самая порция, которая является оптимальной для запоминания в рамках одного модуля", isPresented: $showInfoAlert, titleWithoutAction: "Буду знать!", withoutButtons: true) {
+				
+			}
 	}
 	
 	init(modules: Binding<[Module]>, index: Int) {
@@ -96,6 +104,10 @@ struct Header: View {
 	@ObservedObject var viewModel: ModuleScreenViewModel
 	@Environment(\.dismiss) var dismiss
 	
+	@Binding var showAlert: Bool
+	let module: Module
+//	private var alertText = ""
+	
 	var body: some View {
 		VStack(spacing: 7) {
 			Rectangle()
@@ -117,19 +129,27 @@ struct Header: View {
 					Text(viewModel.module.name)
 						.foregroundColor(.white)
 						.font(.system(size: 36, weight: .bold))
-						.lineLimit(1)
-					Text(viewModel.module.emoji)
-						.font(.system(size: 28))
-						.padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 24))
+						.multilineTextAlignment(.center)
+//						.lineLimit(1)
+//					VStack {
+//						Spacer()
+//						Text(viewModel.module.emoji)
+//							.font(.system(size: 28))
+//							.padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 24))
+//					}
 					Spacer()
+					BackButton { dismiss() }
+						.opacity(0)
 				}
 			}
 			HStack(spacing: 18) {
-				Text("4 ТЕРМИНА  /  15")
+				Text("\(module.phrases.count)  /  15")
 					.foregroundColor(.white)
 					.font(.system(size: 13, weight: .medium))
 				Button {
-					
+					withAnimation {
+						showAlert.toggle()
+					}
 				} label: {
 					Image(asset: Asset.Images.question)
 						.resizable()

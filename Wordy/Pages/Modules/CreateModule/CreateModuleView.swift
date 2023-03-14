@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MCEmojiPicker
 
 struct CreateModuleView: View {
 	
@@ -60,7 +61,8 @@ struct CreateModuleView: View {
 							Spacer()
 						}
 						if showEmojiView {
-							EmojiView(show: $showEmojiView, txt: $emoji)
+//							EmojiView(show: $showEmojiView, txt: $emoji)
+							EmojiPopoverView(showEmojiView: $showEmojiView, emoji: $emoji)
 						}
 					}
 					.onAppear{
@@ -89,4 +91,45 @@ struct CreateModuleView_Previews: PreviewProvider {
 		CreateModuleView(needUpdateData: .constant(false), showActivity: .constant(false))
 			.environmentObject(Router())
     }
+}
+
+// MARK: - EmojiPopoverView
+
+struct EmojiPopoverView: UIViewControllerRepresentable {
+	
+	
+	@Binding var showEmojiView: Bool
+	@Binding var emoji: String
+	
+	private let viewController = MCEmojiPickerViewController()
+	
+	func makeUIViewController(context: Context) -> UIViewController {
+		viewController.isDismissAfterChoosing = false
+		return viewController
+	}
+	
+	func updateUIViewController(_ uiViewController: UIViewController, context: Context) { }
+	
+	func makeCoordinator() -> Coordinator {
+		Coordinator(vc: viewController, emoji: $emoji, show: $showEmojiView)
+	}
+	
+	class Coordinator: NSObject, MCEmojiPickerDelegate {
+		@Binding var showEmojiView: Bool
+		@Binding var emoji: String
+		
+		init(vc: MCEmojiPickerViewController, emoji: Binding<String>, show: Binding<Bool>) {
+			self._emoji = emoji
+			self._showEmojiView = show
+			super.init()
+			vc.delegate = self
+		}
+		
+		func didGetEmoji(emoji: String) {
+			self.emoji = emoji
+			withAnimation {
+				showEmojiView.toggle()
+			}
+		}
+	}
 }

@@ -21,6 +21,8 @@ struct ModuleCard: View {
 		"Word"
 	]
 	
+	@Binding var module: Module
+	
 	private var height: CGFloat {
 		width / 0.9268
 	}
@@ -38,7 +40,7 @@ struct ModuleCard: View {
 				RoundedTextArea(
 					cardWidth: width,
 					cardName: cardName,
-					words: words
+					module: $module
 				)
 			}
 			.frame(width: width, height: height)
@@ -49,7 +51,7 @@ struct ModuleCard: View {
 
 struct ModuleCard_Previews: PreviewProvider {
 	static var previews: some View {
-		ModuleCard(width: 150)
+		ModuleCard(width: 150, module: .constant(.init()))
 			.frame(width: 150)
 	}
 }

@@ -15,6 +15,7 @@
 		0103FF50294C7FFA004C2EA6 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF4F294C7FFA004C2EA6 /* String.swift */; };
 		0103FF52294C86F5004C2EA6 /* ErrorCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF51294C86F5004C2EA6 /* ErrorCodeManager.swift */; };
 		0103FF56294C9E75004C2EA6 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF55294C9E75004C2EA6 /* Router.swift */; };
+		010C7E9129AE7EA900133179 /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 010C7E9029AE7EA900133179 /* MCEmojiPicker */; };
 		0110F711297EECD2007F26BC /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110F710297EECD2007F26BC /* NavigationView.swift */; };
 		012D95CB29485FD300165DAF /* XCAssets+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012D95CA29485FD300165DAF /* XCAssets+Generated.swift */; };
 		012D95D0294867D600165DAF /* SF-Pro-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 012D95BF29485F2500165DAF /* SF-Pro-Display-Black.otf */; };
@@ -84,6 +85,7 @@
 		01E4B759294B119800720BE0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E4B758294B119800720BE0 /* NetworkManager.swift */; };
 		01E4B75B294B157900720BE0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 01E4B75A294B157800720BE0 /* GoogleService-Info.plist */; };
 		01F57696294A4F2E00F52EB1 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F57695294A4F2E00F52EB1 /* VisualEffectView.swift */; };
+		01F708BB29B6573F00585B2E /* NewCategoryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F708BA29B6573F00585B2E /* NewCategoryCard.swift */; };
 		01FB3A8029505E5100330DDE /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FB3A7F29505E5100330DDE /* SearchTextField.swift */; };
 		54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */; };
 /* End PBXBuildFile section */
@@ -159,6 +161,7 @@
 		01E4B758294B119800720BE0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		01E4B75A294B157800720BE0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		01F57695294A4F2E00F52EB1 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
+		01F708BA29B6573F00585B2E /* NewCategoryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryCard.swift; sourceTree = "<group>"; };
 		01FB3A7F29505E5100330DDE /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		DF01A188026EA0C8921A4D0E /* Pods-Wordy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.release.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.release.xcconfig"; sourceTree = "<group>"; };
 		E8C956E5C5ED6A0A18071179 /* Pods-Wordy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.debug.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -173,6 +176,7 @@
 				0135E2442959DFDC00B1C8A0 /* FirebaseDatabaseSwift in Frameworks */,
 				0135E2422959DFDC00B1C8A0 /* FirebaseDatabase in Frameworks */,
 				0135E23E2959DFDC00B1C8A0 /* FirebaseAnalyticsSwift in Frameworks */,
+				010C7E9129AE7EA900133179 /* MCEmojiPicker in Frameworks */,
 				0135E24A2959DFDC00B1C8A0 /* FirebaseStorage in Frameworks */,
 				0135E2402959DFDC00B1C8A0 /* FirebaseAuth in Frameworks */,
 				54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */,
@@ -399,6 +403,7 @@
 		019056472944A8490058B566 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				01F708B929B6571600585B2E /* NewCategoryCard */,
 				014681162956E9130080732C /* CreateModule */,
 				01D2F1BF294CEAAA000330A8 /* CategoryCard */,
 				016AA3A4294754C3002C00CC /* Card */,
@@ -481,6 +486,14 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		01F708B929B6571600585B2E /* NewCategoryCard */ = {
+			isa = PBXGroup;
+			children = (
+				01F708BA29B6573F00585B2E /* NewCategoryCard.swift */,
+			);
+			path = NewCategoryCard;
+			sourceTree = "<group>";
+		};
 		996EE3CBDF6CC2D7A12B7F3D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -526,6 +539,7 @@
 				0135E2452959DFDC00B1C8A0 /* FirebaseFirestore */,
 				0135E2472959DFDC00B1C8A0 /* FirebaseFirestoreSwift */,
 				0135E2492959DFDC00B1C8A0 /* FirebaseStorage */,
+				010C7E9029AE7EA900133179 /* MCEmojiPicker */,
 			);
 			productName = Wordy;
 			productReference = 019056352944A7140058B566 /* Wordy.app */;
@@ -558,6 +572,7 @@
 			packageReferences = (
 				01978FA9294CBCB600B8EFC3 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				0135E23A2959DFDC00B1C8A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				010C7E8F29AE7EA900133179 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
 			);
 			productRefGroup = 019056362944A7140058B566 /* Products */;
 			projectDirPath = "";
@@ -685,6 +700,7 @@
 				01468115295602290080732C /* InputRoundedTextArea.swift in Sources */,
 				0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */,
 				016817FF2969B0B400F30E39 /* Alert.swift in Sources */,
+				01F708BB29B6573F00585B2E /* NewCategoryCard.swift in Sources */,
 				0176424C29744BC90042DB86 /* DateFormatter.swift in Sources */,
 				01D2F1BE294CE468000330A8 /* View + Modifiers.swift in Sources */,
 				017642452972EB920042DB86 /* Phrase.swift in Sources */,
@@ -902,6 +918,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		010C7E8F29AE7EA900133179 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/izyumkin/MCEmojiPicker";
+			requirement = {
+				kind = exactVersion;
+				version = 1.1.1;
+			};
+		};
 		0135E23A2959DFDC00B1C8A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -921,6 +945,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		010C7E9029AE7EA900133179 /* MCEmojiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 010C7E8F29AE7EA900133179 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */;
+			productName = MCEmojiPicker;
+		};
 		0135E23B2959DFDC00B1C8A0 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0135E23A2959DFDC00B1C8A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

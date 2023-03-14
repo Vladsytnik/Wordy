@@ -40,6 +40,7 @@ struct CreateModuleCard: View {
 				Spacer()
 				Button {
 					withAnimation(.spring()) {
+						UIApplication.shared.endEditing()
 						showEmojiView = true
 					}
 				} label: {

@@ -51,6 +51,7 @@ internal enum Asset {
     internal static let searchIcon = ImageAsset(name: "SearchIcon")
     internal static let settingsIcon = ImageAsset(name: "SettingsIcon")
     internal static let speach = ImageAsset(name: "Speach")
+    internal static let newGroup = ImageAsset(name: "newGroup")
   }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

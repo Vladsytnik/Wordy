@@ -91,6 +91,15 @@
       }
     },
     {
+      "identity" : "mcemojipicker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/izyumkin/MCEmojiPicker",
+      "state" : {
+        "revision" : "38f0bd89d80580d225a85947c9cd92c11ebe865f",
+        "version" : "1.1.1"
+      }
+    },
+    {
       "identity" : "nanopb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/nanopb.git",

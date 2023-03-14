@@ -11,7 +11,16 @@ struct RoundedTextArea: View {
 	
 	let cardWidth: CGFloat
 	let cardName: String
-	let words: [String?]
+	var firstWord: String {
+		module.phrases.count > 0 ? module.phrases.reversed()[0].nativeText : ""
+	}
+	var secondWord: String {
+		module.phrases.count > 1 ? module.phrases.reversed()[1].nativeText : ""
+	}
+	var countOfPhrases: Int {
+		module.phrases.count
+	}
+	@Binding var module: Module
 	
 	private var width: CGFloat {
 		cardWidth / 1.12592593
@@ -28,15 +37,23 @@ struct RoundedTextArea: View {
 					.font(.system(size: 18, weight: .bold))
 					.bold()
 				Spacer()
-				HStack() {
-					VStack(alignment: .leading, spacing: 4) {
-						Text(words[0] ?? "")
-						Text(words[1] ?? "")
+				if countOfPhrases > 1 {
+					HStack() {
+						VStack(alignment: .leading, spacing: 4) {
+							Text(firstWord)
+							Text(secondWord)
+						}
+						.font(.system(size: 9, weight: .medium))
+						Spacer()
+						Text("\(countOfPhrases)/15")
+							.foregroundColor(Color(asset: Asset.Colors.moduleCardLightGray))
 					}
-					.font(.system(size: 9, weight: .medium))
-					Spacer()
-					Text("11/15")
-						.foregroundColor(Color(asset: Asset.Colors.moduleCardLightGray))
+				} else {
+					HStack() {
+						Text("\(countOfPhrases)/15")
+							.foregroundColor(Color(asset: Asset.Colors.moduleCardLightGray))
+						Spacer()
+					}
 				}
 			}
 			.foregroundColor(.white)
@@ -52,12 +69,7 @@ struct RoundedTextArea: View {
 
 struct RoundedTextArea_Previews: PreviewProvider {
 	static var previews: some View {
-		RoundedTextArea(cardWidth: 150, cardName: "Games", words: [
-			"Dude",
-			"Get on well well well",
-			"Map",
-			"Word"
-		])
+		RoundedTextArea(cardWidth: 150, cardName: "Games", module: .constant(.init()))
 	}
 }
 

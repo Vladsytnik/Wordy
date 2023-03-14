@@ -18,7 +18,11 @@ struct Alert: View {
 	let titleWithoutAction: String
 	let titleForAction: String
 	
+	var withoutButtons = false
+	
 	let repeatAction: () -> Void
+	
+	private let buttonsOffset: CGFloat = 30
 	
 //	@Environment(\.dismiss) var dismiss
 	
@@ -55,6 +59,8 @@ struct Alert: View {
 										.font(.system(size: 16, weight: .medium))
 								}
 						}
+						.offset(y: buttonsOffset)
+//						.opacity(withoutButtons ? 0 : 1)
 						Button {
 							withAnimation {
 								isShow = false
@@ -72,6 +78,8 @@ struct Alert: View {
 										.font(.system(size: 16, weight: .medium))
 								}
 						}
+						.offset(y: buttonsOffset)
+						.opacity(withoutButtons ? 0 : 1)
 						.padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
 					}
 					.frame(width: geo.size.width)
