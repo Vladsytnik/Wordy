@@ -9,8 +9,12 @@ import SwiftUI
 
 struct SearchTextField: View {
 	
+	@Binding var modules: [Module]
+	@Binding var filteredModules: [Module]
 	@Binding var searchText: String
 	let placeholder: String
+	
+//	@State private var initialModules: [Module] = []
 
     var body: some View {
 		Color.clear
@@ -27,17 +31,38 @@ struct SearchTextField: View {
 									TextField(placeholder, text: $searchText)
 										.foregroundColor(.white)
 										.tint(Color(asset: Asset.Colors.lightPurple))
+										.onChange(of: searchText) { newValue in
+											filterModules(text: newValue)
+										}
 								}
 							}
 					}
 				}
 			}
     }
+	
+	func filterModules(text: String) {
+		print(text, modules.count, filteredModules.count)
+		if text.count > 0 {
+			filteredModules = modules.filter({ module in
+				module.name.contains("\(text)")
+			})
+		} else {
+			filteredModules = modules
+		}
+	}
+
+//	init(modules: Binding<[Module]>, searchText: Binding<String>, placeholder: String) {
+//		self.modules = modules.wrappedValue
+//		self._filteredModules = modules
+//		self._searchText = searchText
+//		self.placeholder = placeholder
+//	}
 }
 
 struct SearchTextField_Previews: PreviewProvider {
     static var previews: some View {
-		SearchTextField(searchText: .constant("test"), placeholder: "Search")
+		SearchTextField(modules: .constant([]), filteredModules: .constant([]), searchText: .constant("test"), placeholder: "Search")
 			.frame(width: 300)
     }
 }

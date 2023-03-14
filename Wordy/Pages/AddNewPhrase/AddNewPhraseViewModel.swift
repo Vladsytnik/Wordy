@@ -12,9 +12,11 @@ class AddNewPhraseViewModel: ObservableObject {
 	
 	var index = 0
 	@Published var modules: [Module] = []
+	@Published var filteredModules: [Module] = []
 	
 	@Published var nativePhrase = ""
 	@Published var translatedPhrase = ""
+	@Published var searchedText = ""
 	
 	@Published var textFieldOneIsActive = true
 	@Published var textFieldTwoIsActive = false
@@ -30,7 +32,7 @@ class AddNewPhraseViewModel: ObservableObject {
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
 	var module: Module {
-		modules[index]
+		filteredModules[index]
 	}
 	
 	@Published var closeKeyboards = false
@@ -63,6 +65,7 @@ class AddNewPhraseViewModel: ObservableObject {
 				
 				NetworkManager.getModules { modules in
 					self.changeActivityState(toProccess: false)
+//					self.filteredModules = modules.filter{ $0.name.contains("\(self.searchedText)") }
 					self.modules = modules
 					success()
 				} errorBlock: { errorText in

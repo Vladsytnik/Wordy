@@ -12,13 +12,19 @@ struct AddNewPhrase: View {
 	
 //	let module: Module
 	@Binding var modules: [Module]
+	@Binding var filteredModules: [Module]
+	@Binding var searchText: String
 	
 	@Environment(\.dismiss) private var dismiss
 	@ObservedObject var viewModel = AddNewPhraseViewModel()
 	
-	init(modules: Binding<[Module]>, index: Int) {
+	init(modules: Binding<[Module]>, searchedText: Binding<String>, filteredModules: Binding<[Module]>, index: Int) {
 		self._modules = modules
+		self._filteredModules = filteredModules
+		self._searchText = searchedText
 		viewModel.modules = modules.wrappedValue
+		viewModel.searchedText = searchedText.wrappedValue
+		viewModel.filteredModules = filteredModules.wrappedValue
 		viewModel.index = index
 	}
 	
@@ -96,6 +102,9 @@ struct AddNewPhrase: View {
 			.onChange(of: viewModel.modules, perform: { newValue in
 				self.modules = newValue
 			})
+			.onChange(of: viewModel.filteredModules, perform: { newValue in
+				self.filteredModules = newValue
+			})
 			.offset(y: viewModel.swipeOffsetValue)
 			.gesture(
 				DragGesture().onEnded{ value in
@@ -131,9 +140,14 @@ struct AddNewPhrase: View {
 }
 
 struct AddNewPhrase_Previews: PreviewProvider {
-    static var previews: some View {
-		AddNewPhrase(modules: .constant([.init()]), index: 0)
-    }
+	static var previews: some View {
+		AddNewPhrase(
+			modules: .constant([.init()]),
+			searchedText: .constant(""),
+			filteredModules: .constant([]),
+			index: 0
+		)
+	}
 }
 
 struct CustomTextField: View {

@@ -28,7 +28,17 @@ struct Modules: View {
 	@State var pullToRefresh = false
 	
 	@State private var showSettings = false
+	
 	@State private var modules: [Module] = []
+//		didSet {
+//			if searchText.count > 0 {
+//				filteredModules = modules.filter{ $0.name.contains("\(searchText)") }
+//			} else {
+//				filteredModules = modules
+//			}
+//		}
+//	}
+	@State private var filteredModules: [Module] = []
 	
 	@State private var needUpdateData = false
 	
@@ -47,7 +57,7 @@ struct Modules: View {
 						ObservableScrollView(scrollOffset: $scrollOffset) { proxy in
 							VStack {
 								RefreshControl(coordinateSpace: .named("RefreshControl")) { pullDownToRefresh() }
-								SearchTextField(searchText: $searchText, placeholder: "Search")
+								SearchTextField(modules: $modules, filteredModules: $filteredModules, searchText: $searchText, placeholder: "Search")
 									.padding(.leading)
 									.padding(.trailing)
 									.padding(.top)
@@ -94,15 +104,21 @@ struct Modules: View {
 								}
 								.padding(.top)
 								LazyVGrid(columns: columns, spacing: 14) {
-									ForEach(0..<modules.count, id: \.self) { i in
-										NavigationLink(destination: ModuleScreen(modules: $modules, index: i), label: {
-											ModuleCard(
-												width: 170,
-												cardName: modules[i].name,
-												emoji: modules[i].emoji,
-												module: $modules[i]
-											)
-										})
+									ForEach(0..<filteredModules.count, id: \.self) { i in
+										NavigationLink(
+											destination: ModuleScreen(
+												modules: $modules,
+												searchedText: $searchText,
+												filteredModules: $filteredModules,
+												index: i
+											), label: {
+												ModuleCard(
+													width: 170,
+													cardName: filteredModules[i].name,
+													emoji: filteredModules[i].emoji,
+													module: $filteredModules[i]
+												)
+											})
 									}
 									.listRowBackground(Color.green)
 									.listStyle(.plain)
@@ -164,12 +180,19 @@ struct Modules: View {
 			.onChange(of: needUpdateData) { _ in
 				fetchModules()
 			}
+			.onChange(of: modules, perform: { newValue in
+				if searchText.count > 0 {
+					filteredModules = modules.filter{ $0.name.contains("\(searchText)") }
+				} else {
+					filteredModules = modules
+				}
+			})
 			.showAlert(title: alert.title, description: alert.description, isPresented: $showAlert) {
 				fetchModules()
 			}
 	}
 	
-	init(){
+	init() {
 		configNavBarStyle()
 	}
 	
@@ -192,9 +215,11 @@ struct Modules: View {
 	
 	private func fetchModules() {
 		showActivity = true
+		searchText = ""
 		NetworkManager.getModules { modules in
 			showActivity = false
 			self.modules = modules
+			self.filteredModules = modules
 		} errorBlock: { errorText in
 			showActivity = false
 			guard !errorText.isEmpty else { return }

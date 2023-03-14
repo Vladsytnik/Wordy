@@ -12,6 +12,7 @@ class ModuleScreenViewModel: ObservableObject {
 	var index = 0
 	
 	@Published var modules: [Module] = []
+	@Published var filteredModules: [Module] = []
 	@Published var showAlert = false
 	@Published var words: [String] = []
 	@Published var showActionSheet = false
@@ -24,7 +25,7 @@ class ModuleScreenViewModel: ObservableObject {
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
 	var phrases: [Phrase] {
-		modules[index].phrases.sorted { ($0.date ?? Date()) > ($1.date ?? Date()) }
+		filteredModules[index].phrases.sorted { ($0.date ?? Date()) > ($1.date ?? Date()) }
 	}
 	
 	var phraseCount: Int {
@@ -32,7 +33,7 @@ class ModuleScreenViewModel: ObservableObject {
 	}
 	
 	var module: Module {
-		modules[index]
+		filteredModules[index]
 	}
 	
 	func didTapDeleteModule() {

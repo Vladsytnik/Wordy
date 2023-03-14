@@ -10,6 +10,8 @@ import SwiftUI
 struct ModuleScreen: View {
 	
 	@Binding var modules: [Module]
+	@Binding var filteredModules: [Module]
+	@Binding var searchText: String
 	@ObservedObject var viewModel = ModuleScreenViewModel()
 	
 	@Environment(\.dismiss) private var dismiss
@@ -40,7 +42,7 @@ struct ModuleScreen: View {
 									} label: {
 										WordCard(
 											width: geo.size.width - 60,
-											modules: $modules,
+											modules: $filteredModules,
 											index: viewModel.index,
 											phrase: viewModel.phrases[i]
 										)
@@ -56,8 +58,11 @@ struct ModuleScreen: View {
 					.onChange(of: viewModel.modules) { newValue in
 						self.modules = newValue
 					}
+					.onChange(of: viewModel.filteredModules) { newValue in
+						self.filteredModules = newValue
+					}
 					.fullScreenCover(isPresented: $viewModel.showActionSheet) {
-						AddNewPhrase(modules: $modules, index: viewModel.index)
+						AddNewPhrase(modules: $modules, searchedText: $searchText, filteredModules: $filteredModules, index: viewModel.index)
 					}
 				}
 			})
@@ -67,7 +72,7 @@ struct ModuleScreen: View {
 				viewModel.nowReallyNeedToDeleteModule()
 			}
 			.fullScreenCover(isPresented: $viewModel.showWordsCarousel) {
-				WordsCarouselView(modules: $modules, moduleIndex: viewModel.index, selectedWordIndex: viewModel.selectedWordIndex)
+				WordsCarouselView(modules: $filteredModules, moduleIndex: viewModel.index, selectedWordIndex: viewModel.selectedWordIndex)
 			}
 			.activity($viewModel.showActivity)
 			.onChange(of: viewModel.thisModuleSuccessfullyDeleted) { newValue in
@@ -83,9 +88,12 @@ struct ModuleScreen: View {
 			}
 	}
 	
-	init(modules: Binding<[Module]>, index: Int) {
+	init(modules: Binding<[Module]>, searchedText: Binding<String>, filteredModules: Binding<[Module]>, index: Int) {
 		self._modules = modules
+		self._filteredModules = filteredModules
+		self._searchText = searchedText
 		viewModel.modules = modules.wrappedValue
+		viewModel.filteredModules = filteredModules.wrappedValue
 		viewModel.index = index
 	}
 }
@@ -94,6 +102,8 @@ struct ModuleScreen_Previews: PreviewProvider {
 	static var previews: some View {
 		ModuleScreen(
 			modules: .constant( [Module(name: "Test", emoji: "❤️‍🔥")]),
+			searchedText: .constant(""),
+			filteredModules: .constant([]),
 			index: 0
 		)
 	}
