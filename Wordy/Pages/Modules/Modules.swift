@@ -44,6 +44,7 @@ struct Modules: View {
 	
 	@State var showAlert = false
 	@State var alert = (title: "", description: "")
+	@State var showSelectModulePage = false
 	
 	@State var testWords: [String] = ["Эйфория", "Хороший доктор", "Мистер робот", "Нулевой пациент"]
 	
@@ -81,6 +82,9 @@ struct Modules: View {
 													if success {
 														showCreateGroupSheet = false
 														testWords.insert(text, at: 0)
+														DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+															showSelectModulePage.toggle()
+														}
 													} else {
 														withAnimation {
 															showCreateGroupSheet = false
@@ -186,6 +190,9 @@ struct Modules: View {
 				} else {
 					filteredModules = modules
 				}
+			})
+			.fullScreenCover(isPresented: $showSelectModulePage, content: {
+				ModuleSelectPage(modules: $modules)
 			})
 			.showAlert(title: alert.title, description: alert.description, isPresented: $showAlert) {
 				fetchModules()
