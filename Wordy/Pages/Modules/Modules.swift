@@ -209,7 +209,12 @@ struct Modules: View {
 				}
 			})
 			.fullScreenCover(isPresented: $showSelectModulePage, content: {
-				ModuleSelectPage(modules: $modules, isOpened: $showSelectModulePage, groupName: groups[(selectedCategoryIndex >= groups.count || selectedCategoryIndex < 0) ? 0 : selectedCategoryIndex].name)
+				ModuleSelectPage(
+					modules: $modules,
+					isOpened: $showSelectModulePage,
+					groupName: groups[(selectedCategoryIndex >= groups.count || selectedCategoryIndex < 0) ? 0 : selectedCategoryIndex].name,
+					needUpdate: $needUpdateData
+				)
 			})
 			.showAlert(title: alert.title, description: alert.description, isPresented: $showAlert) {
 				fetchModules()
@@ -261,6 +266,7 @@ struct Modules: View {
 	}
 	
 	private func fetchGroups() {
+		showActivity = true
 		NetworkManager.getGroups { groups in
 			showActivity = false
 			self.groups = groups

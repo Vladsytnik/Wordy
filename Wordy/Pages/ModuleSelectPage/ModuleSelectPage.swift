@@ -13,6 +13,7 @@ struct ModuleSelectPage: View {
 	private let columns = [GridItem(.adaptive(minimum: 150), spacing: 20) ]
 	
 	@Binding var modules: [Module]
+	@Binding var needUpdate: Bool
 	
 	@State private var scrollOffset = CGFloat.zero
 	@State private var scrollDirection = CGFloat.zero
@@ -37,12 +38,13 @@ struct ModuleSelectPage: View {
 	@State private var modulesStates: [Int: Bool] = [:]
 	@State private var addedModules: [Module] = []
 	
-	init(modules: Binding<[Module]>, isOpened: Binding<Bool>, groupName: String) {
+	init(modules: Binding<[Module]>, isOpened: Binding<Bool>, groupName: String, needUpdate: Binding<Bool>) {
 		animations = Array(repeating: false, count: modules.count)
 		
 		self._modules = modules
 		self._isOpened = isOpened
 		self.groupName = groupName
+		self._needUpdate = needUpdate
 		
 		let stateKeys = modulesStates.keys.map{ Int($0) }
 		stateKeys.forEach{ modulesStates[$0] = false }
@@ -147,6 +149,7 @@ struct ModuleSelectPage: View {
 		modulesIndexes.forEach{ addedModules.append(modules[$0]) }
 		NetworkManager.createGroup(name: groupName, modules: addedModules) { _ in
 			generator?.impactOccurred()
+			needUpdate.toggle()
 			showActivity = false
 			isOpened.toggle()
 		} errorBlock: { errorText in
@@ -213,7 +216,7 @@ struct ModuleSelectPage: View {
 
 struct ModuleSelectPage_Previews: PreviewProvider {
 	static var previews: some View {
-		ModuleSelectPage(modules: .constant([]), isOpened: .constant(false), groupName: "test group")
+		ModuleSelectPage(modules: .constant([]), isOpened: .constant(false), groupName: "test group", needUpdate: .constant(false))
 	}
 }
 
