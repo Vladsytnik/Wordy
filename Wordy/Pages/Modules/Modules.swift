@@ -10,7 +10,9 @@ import Firebase
 
 struct Modules: View {
 	
-	private let columns = [GridItem(.adaptive(minimum: 150), spacing: 20) ]
+	private let columns = [GridItem(.adaptive(minimum: UIScreen.main.bounds.height < 812 ? 100 : 150),
+									spacing: UIScreen.main.bounds.height < 812 ? 10 : 20) ]
+	private let moduleCardWidth: CGFloat = UIScreen.main.bounds.height < 812 ? 145 : 170
 	
 	@State private var scrollOffset = CGFloat.zero
 	@State private var scrollDirection = CGFloat.zero
@@ -129,7 +131,7 @@ struct Modules: View {
 												index: i
 											), label: {
 												ModuleCard(
-													width: 170,
+													width: moduleCardWidth,
 													cardName: filteredModules[i].name,
 													emoji: filteredModules[i].emoji,
 													module: $filteredModules[i],

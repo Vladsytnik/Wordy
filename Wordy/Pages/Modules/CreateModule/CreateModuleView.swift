@@ -34,7 +34,7 @@ struct CreateModuleView: View {
 								.font(.system(size: 38, weight: .bold))
 								.padding(EdgeInsets(top: 52, leading: 0, bottom: 0, trailing: 0))
 								.offset(y: needAnimate ? 0 : 100)
-							if geo.size.width < 812 {
+							if UIScreen.main.bounds.height < 812 {
 								CreateModuleCard(
 									width: geo.size.width - 100,
 									needAnimate: $needAnimate,
@@ -56,6 +56,7 @@ struct CreateModuleView: View {
 									createModule()
 								}
 								.shadow(radius: 19)
+								.ignoresSafeArea()
 							}
 							Button {
 								guard !moduleName.isEmpty else { return }
@@ -81,6 +82,7 @@ struct CreateModuleView: View {
 							EmojiPopoverView(showEmojiView: $showEmojiView, emoji: $emoji)
 						}
 					}
+					.frame(width: geo.size.width, height: geo.size.height)
 					.onAppear{
 						withAnimation(.spring()) {
 							needAnimate = true

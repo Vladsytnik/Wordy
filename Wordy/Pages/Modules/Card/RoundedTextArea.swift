@@ -47,6 +47,7 @@ struct RoundedTextArea: View {
 						Spacer()
 						Text("\(countOfPhrases)/15")
 							.foregroundColor(Color(asset: Asset.Colors.moduleCardLightGray))
+							.fixedSize()
 					}
 				} else {
 					HStack() {
