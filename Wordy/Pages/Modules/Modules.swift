@@ -120,7 +120,8 @@ struct Modules: View {
 													width: 170,
 													cardName: filteredModules[i].name,
 													emoji: filteredModules[i].emoji,
-													module: $filteredModules[i]
+													module: $filteredModules[i],
+													isSelected: .constant(false)
 												)
 											})
 									}
@@ -192,7 +193,7 @@ struct Modules: View {
 				}
 			})
 			.fullScreenCover(isPresented: $showSelectModulePage, content: {
-				ModuleSelectPage(modules: $modules)
+				ModuleSelectPage(modules: $modules, isOpened: $showSelectModulePage, groupName: testWords[(selectedCategoryIndex >= testWords.count || selectedCategoryIndex < 0) ? 0 : selectedCategoryIndex])
 			})
 			.showAlert(title: alert.title, description: alert.description, isPresented: $showAlert) {
 				fetchModules()

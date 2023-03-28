@@ -48,7 +48,6 @@ extension Module {
 								id: moduleID)
 			
 			let date = Date().generateDate(from: data[moduleID]?["date"] as? String)
-//			print(date)
 			module.date = date
 			
 			if let phrasesData = data[moduleID]?["phrases"] as? [Any] {
@@ -72,10 +71,6 @@ extension Module {
 			
 			modules.append(module)
 		}
-		
-//		modules.forEach {
-//			print($0.date)
-//		}
 		
 		return modules
 	}

@@ -22,6 +22,7 @@ struct ModuleCard: View {
 	]
 	
 	@Binding var module: Module
+	@Binding var isSelected: Bool
 	
 	private var height: CGFloat {
 		width / 0.9268
@@ -30,12 +31,34 @@ struct ModuleCard: View {
 	var body: some View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 35.0)
+				.overlay {
+					if isSelected {
+						Color.green.opacity(0.6)
+							.cornerRadius(35.0)
+					}
+				}
 				.foregroundColor(backgroundColor)
 				.frame(width: width, height: height)
 			VStack {
 				Spacer()
-				Text(emoji)
-					.font(.system(size: width / 3.16666))
+				ZStack {
+					Text(emoji)
+						.font(.system(size: width / 3.16666))
+					if isSelected {
+						HStack {
+							Spacer()
+							VStack {
+								Image(systemName: "checkmark.circle.fill")
+									.resizable()
+									.foregroundColor(.white)
+									.frame(width: 20, height: 20)
+									.opacity(0.9)
+								Spacer()
+							}
+						}
+						.padding()
+					}
+				}
 				Spacer()
 				RoundedTextArea(
 					cardWidth: width,
@@ -51,7 +74,7 @@ struct ModuleCard: View {
 
 struct ModuleCard_Previews: PreviewProvider {
 	static var previews: some View {
-		ModuleCard(width: 150, module: .constant(.init()))
+		ModuleCard(width: 150, module: .constant(.init()), isSelected: .constant(false))
 			.frame(width: 150)
 	}
 }

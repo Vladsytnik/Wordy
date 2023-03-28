@@ -16,6 +16,12 @@ extension View {
 }
 
 extension View {
+	func animateSelected(isSelected: Binding<Bool>) -> some View {
+		ModifiedContent(content: self, modifier: CardFlipModifier(isFlipped: isSelected))
+	}
+}
+
+extension View {
 	func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
 		ModifiedContent(content: self, modifier: CornerRadiusStyle(radius: radius, corners: corners))
 	}
@@ -141,6 +147,30 @@ struct ShowAlert: ViewModifier {
 					.transition(.move(edge: .bottom))
 			}
 		}
+	}
+}
+
+struct CardFlipModifier: ViewModifier {
+	
+	@Binding var isFlipped: Bool
+	
+	func body(content: Content) -> some View {
+		content
+			.rotation3DEffect(
+				Angle(degrees: isFlipped ? 360 : 0),
+				axis: (x: 0.0, y: 1.0, z: 0.0)
+			)
+			.animation(
+				Animation.spring()
+			)
+			.onTapGesture {
+				withAnimation(
+					Animation.interpolatingSpring(stiffness: 200, damping: 20)
+				) {
+					self.isFlipped.toggle()
+				}
+			}
+			.scaleEffect(isFlipped ? 1.05 : 1)
 	}
 }
 
