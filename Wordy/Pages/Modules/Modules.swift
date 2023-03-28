@@ -43,10 +43,13 @@ struct Modules: View {
 	@State private var needUpdateData = false
 	
 	@State var showAlert = false
+	@State var showGroupsAlert = false
 	@State var alert = (title: "", description: "")
 	@State var showSelectModulePage = false
 	
-	@State var testWords: [String] = ["Эйфория", "Хороший доктор", "Мистер робот", "Нулевой пациент"]
+	@State var groups: [Group] = [
+//		"Эйфория", "Хороший доктор", "Мистер робот", "Нулевой пациент"
+	]
 	
 	private var generator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .light)
 	
@@ -81,7 +84,8 @@ struct Modules: View {
 												NewCategoryCard() { success, text in
 													if success {
 														showCreateGroupSheet = false
-														testWords.insert(text, at: 0)
+														let newGroup = Group(name: text)
+														groups.insert(newGroup, at: 0)
 														DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 															showSelectModulePage.toggle()
 														}
@@ -93,10 +97,18 @@ struct Modules: View {
 												}
 											}
 											HStack(spacing: 12) {
-												ForEach(0..<testWords.count, id: \.self) { j in
-													CategoryCard(text: testWords[j], isSelected: selectedCategoryIndex == j)
+												ForEach(0..<groups.count, id: \.self) { j in
+													CategoryCard(
+														group: groups[j],
+														isSelected: selectedCategoryIndex == j,
+														modules: $modules,
+														filteredModules: $filteredModules,
+														searchText: $searchText
+													)
 														.onTapGesture {
-															selectedCategoryIndex = j != selectedCategoryIndex ? j : -1
+															withAnimation(Animation.spring()) {
+																selectedCategoryIndex = j != selectedCategoryIndex ? j : -1
+															}
 														}
 												}
 											}
@@ -173,6 +185,7 @@ struct Modules: View {
 				listenUserAuth()
 				checkUser()
 				fetchModules()
+				fetchGroups()
 			}
 			.sheet(isPresented: $showCreateModuleSheet) {
 				CreateModuleView(needUpdateData: $needUpdateData, showActivity: $showActivity)
@@ -184,6 +197,7 @@ struct Modules: View {
 			.activity($showActivity)
 			.onChange(of: needUpdateData) { _ in
 				fetchModules()
+				fetchGroups()
 			}
 			.onChange(of: modules, perform: { newValue in
 				if searchText.count > 0 {
@@ -193,10 +207,18 @@ struct Modules: View {
 				}
 			})
 			.fullScreenCover(isPresented: $showSelectModulePage, content: {
-				ModuleSelectPage(modules: $modules, isOpened: $showSelectModulePage, groupName: testWords[(selectedCategoryIndex >= testWords.count || selectedCategoryIndex < 0) ? 0 : selectedCategoryIndex])
+				ModuleSelectPage(modules: $modules, isOpened: $showSelectModulePage, groupName: groups[(selectedCategoryIndex >= groups.count || selectedCategoryIndex < 0) ? 0 : selectedCategoryIndex].name)
 			})
 			.showAlert(title: alert.title, description: alert.description, isPresented: $showAlert) {
 				fetchModules()
+			}
+			.showAlert(title: alert.title, description: alert.description, isPresented: $showGroupsAlert) {
+				fetchGroups()
+			}
+			.onChange(of: selectedCategoryIndex) { newValue in
+				if newValue == -1 {
+					filteredModules = modules
+				}
 			}
 	}
 	
@@ -210,6 +232,7 @@ struct Modules: View {
 			while scrollOffset < 0 {
 				if scrollOffset >= 0 {
 					fetchModules()
+					fetchGroups()
 					break
 				}
 			}
@@ -231,12 +254,28 @@ struct Modules: View {
 		} errorBlock: { errorText in
 			showActivity = false
 			guard !errorText.isEmpty else { return }
-			withAnimation {
-				showAlert.toggle()
-			}
-			alert.title = "Упс! Произошла ошибка"
-			alert.description = errorText
+			showAlert(errorText: errorText)
 		}
+	}
+	
+	private func fetchGroups() {
+		NetworkManager.getGroups { groups in
+			showActivity = false
+			self.groups = groups
+		} errorBlock: { errorText in
+			showActivity = false
+			guard !errorText.isEmpty else { return }
+			showAlert(errorText: errorText)
+		}
+
+	}
+	
+	private func showAlert(errorText: String) {
+		withAnimation {
+			showAlert.toggle()
+		}
+		alert.title = "Упс! Произошла ошибка"
+		alert.description = errorText
 	}
 	
 	private func configNavBarStyle() {

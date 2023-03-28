@@ -34,11 +34,18 @@ struct ModuleSelectPage: View {
 	
 	private var generator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .light)
 	
+	@State private var modulesStates: [Int: Bool] = [:]
+	@State private var addedModules: [Module] = []
+	
 	init(modules: Binding<[Module]>, isOpened: Binding<Bool>, groupName: String) {
 		animations = Array(repeating: false, count: modules.count)
+		
 		self._modules = modules
 		self._isOpened = isOpened
 		self.groupName = groupName
+		
+		let stateKeys = modulesStates.keys.map{ Int($0) }
+		stateKeys.forEach{ modulesStates[$0] = false }
 	}
 	
 	var body: some View {
@@ -63,8 +70,7 @@ struct ModuleSelectPage: View {
 								LazyVGrid(columns: columns, spacing: 14) {
 									ForEach(0..<modules.count, id: \.self) { i in
 										Button {
-											print("did select \(i)")
-											selectedCardIndex = i
+											
 										} label: {
 											ModuleCard(
 												width: 170,
@@ -73,7 +79,7 @@ struct ModuleSelectPage: View {
 												module: $modules[i],
 												isSelected: $animations[i]
 											)
-											.animateSelected(isSelected: $animations[i])
+											.animateSelected(isSelected: $animations[i], index: i, selectedCardIndex: $selectedCardIndex)
 										}
 									}
 									.listRowBackground(Color.green)
@@ -100,8 +106,7 @@ struct ModuleSelectPage: View {
 						VStack {
 							Spacer()
 							SaveButton() {
-								generator?.impactOccurred()
-								isOpened.toggle()
+								createNewGroup()
 							}
 							.frame(width: geometry.size.width - 60)
 							.opacity(createModuleButtonOpacity)
@@ -123,16 +128,43 @@ struct ModuleSelectPage: View {
 			.showAlert(title: alert.title, description: alert.description, isPresented: $showAlert) {
 				fetchModules()
 			}
-			.onChange(of: selectedCardIndex) { newValue in
-				createAnimations()
+			.onChange(of: animations) { newValue in
+				print("test")
+				if modulesStates[selectedCardIndex] == nil {
+					modulesStates[selectedCardIndex] = true
+				} else {
+					modulesStates[selectedCardIndex]?.toggle()
+				}
+				
+				print(modulesStates)
 			}
+			.activity($showActivity)
 	}
 	
-	func createAnimations() {
-		if selectedCardIndex >= 0 && animations.count > 0 {
-			animations[selectedCardIndex].toggle()
+	func createNewGroup() {
+		showActivity = true
+		let modulesIndexes = modulesStates.filter{ $0.value == true && $0.key >= 0 }.keys.map{ Int($0) }
+		modulesIndexes.forEach{ addedModules.append(modules[$0]) }
+		NetworkManager.createGroup(name: groupName, modules: addedModules) { _ in
+			generator?.impactOccurred()
+			showActivity = false
+			isOpened.toggle()
+		} errorBlock: { errorText in
+			showActivity = false
+			guard !errorText.isEmpty else { return }
+			withAnimation {
+				showAlert.toggle()
+			}
+			alert.title = "Упс! Произошла ошибка"
+			alert.description = errorText
 		}
 	}
+	
+//	func createAnimations() {
+//		if selectedCardIndex >= 0 && animations.count > 0 {
+//			animations[selectedCardIndex].toggle()
+//		}
+//	}
 	
 	func simpleSuccess() {
 		let generator = UINotificationFeedbackGenerator()

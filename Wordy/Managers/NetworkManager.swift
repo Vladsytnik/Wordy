@@ -170,4 +170,67 @@ class NetworkManager {
 		}
 		
 	}
+	
+	static func createGroup(name: String, modules: [Module]? = nil, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void ) {
+		guard let currentUserID = currentUserID else {
+			errorBlock("error in createGroup -> currentUserID")
+			return
+		}
+		
+		let date = String().generateCurrentDateMarker()
+		
+		if let modules = modules, modules.count > 0 {
+			let modulesID = modules.map{ $0.id }
+			ref.child("users").child(currentUserID).child("groups").childByAutoId().updateChildValues(["name": name, "date": date, "modulesID": modulesID]) { error, ref in
+				guard error == nil else {
+					errorBlock("error in createGroup -> updateChildValues")
+					return
+				}
+				
+				success("success")
+			}
+		} else {
+			ref.child("users").child(currentUserID).child("groups").childByAutoId().updateChildValues(["name": name, "date": date]) { error, ref in
+				guard error == nil else {
+					errorBlock("error in createGroup -> updateChildValues")
+					return
+				}
+				
+				success("success")
+			}
+		}
+	}
+	
+	static func getGroups(success: @escaping ([Group]) -> Void, errorBlock: @escaping (String) -> Void) {
+		guard let currentUserID = currentUserID else {
+			errorBlock("error in getGroups -> currentUserID")
+			return
+		}
+		
+		let queue = DispatchQueue(label: "sytnik.wordy.getModules")
+		queue.async {
+			ref.child("users").child(currentUserID).child("groups").getData { error, snap in
+				if let error = error {
+					DispatchQueue.main.async {
+						errorBlock("error in getGroups -> getData { error, snap in }" + error.localizedDescription)
+						//						errorBlock("")
+					}
+					return
+				}
+				
+				if let snapshot = snap {
+					guard let groups = Group.parse(from: snapshot) else {
+						DispatchQueue.main.async {
+							errorBlock("error in getGroups -> parse groups")
+						}
+						return
+					}
+					
+					DispatchQueue.main.async {
+						success(groups.sorted(by: { $0.date ?? Date() > $1.date ?? Date() }))
+					}
+				}
+			}
+		}
+	}
 }

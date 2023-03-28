@@ -77,6 +77,7 @@
 		0190564C2944AA710058B566 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0190564B2944AA700058B566 /* .gitignore */; };
 		019056562944D0DE0058B566 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 019056552944D0DE0058B566 /* Colors.xcassets */; };
 		019160BC29D098DD0094F36D /* ModuleSelectPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019160BB29D098DD0094F36D /* ModuleSelectPage.swift */; };
+		019160BE29D2D0360094F36D /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019160BD29D2D0360094F36D /* Group.swift */; };
 		01978FAB294CBCB600B8EFC3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 01978FAA294CBCB600B8EFC3 /* Lottie */; };
 		01978FB3294CBF6600B8EFC3 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01978FB2294CBF6600B8EFC3 /* LottieView.swift */; };
 		01978FB7294CC92200B8EFC3 /* loader.json in Resources */ = {isa = PBXBuildFile; fileRef = 01978FB6294CC92100B8EFC3 /* loader.json */; };
@@ -155,6 +156,7 @@
 		019056542944C7200058B566 /* swiftgen.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
 		019056552944D0DE0058B566 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		019160BB29D098DD0094F36D /* ModuleSelectPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleSelectPage.swift; sourceTree = "<group>"; };
+		019160BD29D2D0360094F36D /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		01978FB2294CBF6600B8EFC3 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		01978FB6294CC92100B8EFC3 /* loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader.json; sourceTree = "<group>"; };
 		01B92B34294F606000F440EE /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 			children = (
 				0135E24E295B645300B1C8A0 /* Module.swift */,
 				017642442972EB920042DB86 /* Phrase.swift */,
+				019160BD29D2D0360094F36D /* Group.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -697,6 +700,7 @@
 				0185B55F2949F26D00934373 /* ObservableScrollView.swift in Sources */,
 				01E4B759294B119800720BE0 /* NetworkManager.swift in Sources */,
 				01FB3A8029505E5100330DDE /* SearchTextField.swift in Sources */,
+				019160BE29D2D0360094F36D /* Group.swift in Sources */,
 				0103FF4E294C76CB004C2EA6 /* StartView.swift in Sources */,
 				016AA3AD29477E40002C00CC /* RoundedTextArea.swift in Sources */,
 				014681102955FADD0080732C /* CreateModuleView.swift in Sources */,

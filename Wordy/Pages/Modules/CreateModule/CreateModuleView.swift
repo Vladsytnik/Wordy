@@ -26,34 +26,50 @@ struct CreateModuleView: View {
 			.background {
 				GeometryReader { geo in
 					ZStack {
-						Color(asset: Asset.Colors.moduleCardBG).ignoresSafeArea()
+						Color(asset: Asset.Colors.moduleCardBG)
+							.ignoresSafeArea()
 						VStack(spacing: 40) {
 							Text("Новый модуль")
 								.foregroundColor(.white)
 								.font(.system(size: 38, weight: .bold))
 								.padding(EdgeInsets(top: 52, leading: 0, bottom: 0, trailing: 0))
 								.offset(y: needAnimate ? 0 : 100)
-							CreateModuleCard(
-								width: geo.size.width - 200,
-								needAnimate: $needAnimate,
-								showEmojiView: $showEmojiView,
-								emoji: $emoji,
-								moduleName: $moduleName
-							) {
-								createModule()
-							}
+							if geo.size.width < 812 {
+								CreateModuleCard(
+									width: geo.size.width - 100,
+									needAnimate: $needAnimate,
+									showEmojiView: $showEmojiView,
+									emoji: $emoji,
+									moduleName: $moduleName
+								) {
+									createModule()
+								}
 								.shadow(radius: 19)
+							} else {
+								CreateModuleCard(
+									width: geo.size.width - 200,
+									needAnimate: $needAnimate,
+									showEmojiView: $showEmojiView,
+									emoji: $emoji,
+									moduleName: $moduleName
+								) {
+									createModule()
+								}
+								.shadow(radius: 19)
+							}
 							Button {
 								guard !moduleName.isEmpty else { return }
 								createModule()
 							} label: {
 								HStack(spacing: 12) {
 									Image(asset: Asset.Images.addModuleCheckMark)
+										.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
 									Text("Добавить")
 										.foregroundColor(.white)
 										.font(.system(size: 18, weight: .bold))
+										.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))
 								}
-								.frame(width: geo.size.width - 200, height: 50)
+								.frame(height: 50)
 								.background(Color(asset: Asset.Colors.addModuleButtonBG))
 								.cornerRadius(17)
 								.offset(y: needAnimate ? 0 : 300)

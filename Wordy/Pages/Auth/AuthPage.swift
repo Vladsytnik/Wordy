@@ -12,18 +12,20 @@ struct AuthPage: View {
 	
 	@StateObject private var viewModel = AuthViewModel()
 	@EnvironmentObject var router: Router
-
+	
 	var body: some View {
 		Color.clear
 			.background {
 				GeometryReader { geometry in
-					ZStack {
+					VStack {
+						Spacer()
 						VStack {
 							TextField("Логин", text: $viewModel.email)
 							TextField("Пароль", text: $viewModel.password)
 						}
 						.textFieldStyle(.roundedBorder)
 						.padding()
+						Spacer()
 						ButtonStack(geometry: geometry)
 							.environmentObject(viewModel)
 					}
@@ -59,7 +61,6 @@ struct ButtonStack: View {
 	
 	var body: some View {
 		VStack(alignment: .center) {
-			Spacer()
 			VStack {
 				Button {
 					endEditing()
@@ -67,11 +68,8 @@ struct ButtonStack: View {
 					viewModel.signIn()
 				} label: {
 					Text("Авторизоваться")
+						.padding(EdgeInsets(top: 8, leading: 32, bottom: 8, trailing: 32))
 				}
-				.frame(
-					width: geometry.size.width - 200,
-					height: 40
-				)
 				.background(Color.blue)
 				.foregroundColor(.white)
 				.cornerRadius(12)

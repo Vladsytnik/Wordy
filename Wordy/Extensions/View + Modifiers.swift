@@ -16,8 +16,8 @@ extension View {
 }
 
 extension View {
-	func animateSelected(isSelected: Binding<Bool>) -> some View {
-		ModifiedContent(content: self, modifier: CardFlipModifier(isFlipped: isSelected))
+	func animateSelected(isSelected: Binding<Bool>, index: Int, selectedCardIndex: Binding<Int>) -> some View {
+		ModifiedContent(content: self, modifier: CardFlipModifier(index: index, isFlipped: isSelected, selectedCardIndex: selectedCardIndex))
 	}
 }
 
@@ -152,7 +152,9 @@ struct ShowAlert: ViewModifier {
 
 struct CardFlipModifier: ViewModifier {
 	
+	let index: Int
 	@Binding var isFlipped: Bool
+	@Binding var selectedCardIndex: Int
 	
 	func body(content: Content) -> some View {
 		content
@@ -164,6 +166,10 @@ struct CardFlipModifier: ViewModifier {
 				Animation.spring()
 			)
 			.onTapGesture {
+				if index == selectedCardIndex {
+					selectedCardIndex = -1
+				}
+				selectedCardIndex = index
 				withAnimation(
 					Animation.interpolatingSpring(stiffness: 200, damping: 20)
 				) {
