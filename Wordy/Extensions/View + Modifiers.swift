@@ -180,3 +180,33 @@ struct CardFlipModifier: ViewModifier {
 	}
 }
 
+struct CategoryLongTapModifier: ViewModifier {
+	
+//	private let timer = Timer
+	@State private var scaleEffect: CGFloat = 1
+	
+	func body(content: Content) -> some View {
+		content
+//			.simultaneousGesture(LongPressGesture().onChanged { _ in
+//				print(">> long press")
+//			})
+//			.simultaneousGesture(LongPressGesture().onEnded { _ in
+//				print(">> long press ended")
+//			})
+			.onLongPressGesture(minimumDuration: 0.5) {
+				
+			} onPressingChanged: { isChanged in
+				if isChanged {
+					withAnimation(.easeInOut(duration: 0.5)) {
+						scaleEffect = 0.95
+					}
+				} else {
+					scaleEffect = 1
+				}
+					
+			}
+			.scaleEffect(scaleEffect)
+
+	}
+}
+

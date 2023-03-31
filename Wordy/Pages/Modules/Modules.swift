@@ -122,13 +122,14 @@ struct Modules: View {
 																selectedCategoryIndex = j != selectedCategoryIndex ? j : -1
 															}
 														}
-														.onLongPressGesture {
+														.onLongPressGesture(minimumDuration: 0.5) {
 															isEditMode = true
 															self.groupId = groups[j].id
 															selectedIndexes = translateUuidies(groups[j].modulesID)
 															showEditModulePage.toggle()
 															generator2?.impactOccurred()
 														}
+														.modifier(CategoryLongTapModifier())
 												}
 											}
 											Rectangle()
