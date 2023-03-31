@@ -233,4 +233,34 @@ class NetworkManager {
 			}
 		}
 	}
+	
+	static func changeGroup(_ group: Group, modules: [Module]? = nil, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void ) {
+		guard let currentUserID = currentUserID else {
+			errorBlock("error in createGroup -> currentUserID")
+			return
+		}
+		
+		let date = String().generateCurrentDateMarker()
+		
+		if let modules = modules, modules.count > 0 {
+			let modulesID = modules.map{ $0.id }
+			ref.child("users").child(currentUserID).child("groups").child(group.id).updateChildValues(["name": group.name, "modulesID": modulesID]) { error, ref in
+				guard error == nil else {
+					errorBlock("error in createGroup -> updateChildValues")
+					return
+				}
+				
+				success("success")
+			}
+		} else {
+			ref.child("users").child(currentUserID).child("groups").child(group.id).updateChildValues(["name": group.name, "modulesID": []]) { error, ref in
+				guard error == nil else {
+					errorBlock("error in createGroup -> updateChildValues")
+					return
+				}
+				
+				success("success")
+			}
+		}
+	}
 }

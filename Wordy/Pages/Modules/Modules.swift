@@ -48,12 +48,21 @@ struct Modules: View {
 	@State var showGroupsAlert = false
 	@State var alert = (title: "", description: "")
 	@State var showSelectModulePage = false
+	@State var showEditModulePage = false
+	
+	@State private var longPressIndex = 0
+	
+	@State private var groupId = ""
 	
 	@State var groups: [Group] = [
 //		"Эйфория", "Хороший доктор", "Мистер робот", "Нулевой пациент"
 	]
 	
+	@State var selectedIndexes: [Int] = []
+	@State var isEditMode = false
+	
 	private var generator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .light)
+	private var generator2: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
 	
 	var body: some View {
 		Color.clear
@@ -85,6 +94,7 @@ struct Modules: View {
 											if showCreateGroupSheet {
 												NewCategoryCard() { success, text in
 													if success {
+														isEditMode = false
 														showCreateGroupSheet = false
 														let newGroup = Group(name: text)
 														groups.insert(newGroup, at: 0)
@@ -111,6 +121,13 @@ struct Modules: View {
 															withAnimation(Animation.spring()) {
 																selectedCategoryIndex = j != selectedCategoryIndex ? j : -1
 															}
+														}
+														.onLongPressGesture {
+															isEditMode = true
+															self.groupId = groups[j].id
+															selectedIndexes = translateUuidies(groups[j].modulesID)
+															showEditModulePage.toggle()
+															generator2?.impactOccurred()
 														}
 												}
 											}
@@ -212,8 +229,21 @@ struct Modules: View {
 				ModuleSelectPage(
 					modules: $modules,
 					isOpened: $showSelectModulePage,
-					groupName: groups[(selectedCategoryIndex >= groups.count || selectedCategoryIndex < 0) ? 0 : selectedCategoryIndex].name,
-					needUpdate: $needUpdateData
+					groupId: $groups[0].id,
+					needUpdate: $needUpdateData,
+					groups: $groups,
+					isEditMode: $isEditMode
+				)
+			})
+			.sheet(isPresented: $showEditModulePage, content: {
+				ModuleSelectPage(
+					modules: $modules,
+					isOpened: $showEditModulePage,
+					groupId: $groupId,
+					needUpdate: $needUpdateData,
+					groups: $groups,
+					isEditMode: $isEditMode,
+					selectedIndexes: $selectedIndexes
 				)
 			})
 			.showAlert(title: alert.title, description: alert.description, isPresented: $showAlert) {
@@ -231,6 +261,20 @@ struct Modules: View {
 	
 	init() {
 		configNavBarStyle()
+	}
+	
+	private func translateUuidies(_ uuidies: [String]) -> [Int] {
+		var result: [Int] = []
+		
+		for uuid in uuidies {
+			for (i, module) in modules.enumerated() {
+				if module.id == uuid {
+					result.append(i)
+				}
+			}
+		}
+		
+		return result
 	}
 	
 	private func pullDownToRefresh() {
@@ -266,6 +310,7 @@ struct Modules: View {
 	}
 	
 	private func fetchGroups() {
+		selectedCategoryIndex = -1
 		showActivity = true
 		NetworkManager.getGroups { groups in
 			showActivity = false

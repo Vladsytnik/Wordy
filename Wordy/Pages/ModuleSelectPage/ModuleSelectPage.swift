@@ -31,20 +31,37 @@ struct ModuleSelectPage: View {
 	@State private var selectedCardIndex = -1
 	@State private var animations: Array<Bool> = []
 	@Binding var isOpened: Bool
-	let groupName: String
+	@Binding var groupId: String
+	@Binding var groups: [Group]
 	
 	private var generator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .light)
 	
 	@State private var modulesStates: [Int: Bool] = [:]
 	@State private var addedModules: [Module] = []
 	
-	init(modules: Binding<[Module]>, isOpened: Binding<Bool>, groupName: String, needUpdate: Binding<Bool>) {
+	@Binding var selectedIndexes: [Int]
+	@Binding var isEditMode: Bool
+	
+	private var currentGroup: Group {
+		groups.first(where: { $0.id == groupId }) ?? Group()
+	}
+	
+	init(modules: Binding<[Module]>,
+		 isOpened: Binding<Bool>,
+		 groupId: Binding<String>,
+		 needUpdate: Binding<Bool>,
+		 groups: Binding<[Group]>,
+		 isEditMode: Binding<Bool>,
+		 selectedIndexes: Binding<[Int]>? = nil) {
 		animations = Array(repeating: false, count: modules.count)
 		
 		self._modules = modules
 		self._isOpened = isOpened
-		self.groupName = groupName
+		self._groupId = groupId
 		self._needUpdate = needUpdate
+		self._selectedIndexes = selectedIndexes ?? .constant([])
+		self._groups = groups
+		self._isEditMode = isEditMode
 		
 		let stateKeys = modulesStates.keys.map{ Int($0) }
 		stateKeys.forEach{ modulesStates[$0] = false }
@@ -62,7 +79,7 @@ struct ModuleSelectPage: View {
 										.frame(height: 16)
 										.foregroundColor(.clear)
 									HStack {
-										Text(groupName)
+										Text(currentGroup.name)
 											.foregroundColor(.white)
 											.font(.system(size: 36, weight: .bold))
 										Spacer()
@@ -79,9 +96,9 @@ struct ModuleSelectPage: View {
 												cardName: modules[i].name,
 												emoji: modules[i].emoji,
 												module: $modules[i],
-												isSelected: $animations[i]
+												isSelected: animations.count > 0 ? $animations[i] : .constant(false)
 											)
-											.animateSelected(isSelected: $animations[i], index: i, selectedCardIndex: $selectedCardIndex)
+											.animateSelected(isSelected: animations.count > 0 ? $animations[i] : .constant(false), index: i, selectedCardIndex: $selectedCardIndex)
 										}
 									}
 									.listRowBackground(Color.green)
@@ -108,7 +125,7 @@ struct ModuleSelectPage: View {
 						VStack {
 							Spacer()
 							SaveButton() {
-								createNewGroup()
+								createNewGroupOrChangeExisting()
 							}
 							.frame(width: geometry.size.width - 60)
 							.opacity(createModuleButtonOpacity)
@@ -133,21 +150,36 @@ struct ModuleSelectPage: View {
 			.onChange(of: animations) { newValue in
 				print("test")
 				if modulesStates[selectedCardIndex] == nil {
-					modulesStates[selectedCardIndex] = true
+					if selectedIndexes.contains(selectedCardIndex) {
+						modulesStates[selectedCardIndex] = false
+					} else {
+						modulesStates[selectedCardIndex] = true
+					}
 				} else {
 					modulesStates[selectedCardIndex]?.toggle()
 				}
 				
 				print(modulesStates)
 			}
+			.onAppear{
+				if selectedIndexes.count > 0 {
+					if animations.count > 0 {
+						selectedIndexes.forEach{ animations[$0] = true }
+					}
+				}
+			}
 			.activity($showActivity)
 	}
 	
-	func createNewGroup() {
+	func createNewGroupOrChangeExisting() {
+		isEditMode ? changeGroup() : createNewGroup()
+	}
+	
+	private func createNewGroup() {
 		showActivity = true
 		let modulesIndexes = modulesStates.filter{ $0.value == true && $0.key >= 0 }.keys.map{ Int($0) }
 		modulesIndexes.forEach{ addedModules.append(modules[$0]) }
-		NetworkManager.createGroup(name: groupName, modules: addedModules) { _ in
+		NetworkManager.createGroup(name: currentGroup.name, modules: addedModules) { _ in
 			generator?.impactOccurred()
 			needUpdate.toggle()
 			showActivity = false
@@ -163,11 +195,30 @@ struct ModuleSelectPage: View {
 		}
 	}
 	
-//	func createAnimations() {
-//		if selectedCardIndex >= 0 && animations.count > 0 {
-//			animations[selectedCardIndex].toggle()
-//		}
-//	}
+	private func changeGroup() {
+		showActivity = true
+
+		selectedIndexes.forEach{ if modulesStates[$0] == nil { modulesStates[$0] = true } }
+		let modulesIndexes = modulesStates.filter{ $0.value == true && $0.key >= 0 }.keys.map{ Int($0) }
+		modulesIndexes.forEach{ addedModules.append(modules[$0]) }
+		
+		guard let group = groups.first(where: { $0.id == groupId }) else { return }
+		
+		NetworkManager.changeGroup(group, modules: addedModules) { _ in
+			generator?.impactOccurred()
+			needUpdate.toggle()
+			showActivity = false
+			isOpened.toggle()
+		} errorBlock: { errorText in
+			showActivity = false
+			guard !errorText.isEmpty else { return }
+			withAnimation {
+				showAlert.toggle()
+			}
+			alert.title = "Упс! Произошла ошибка"
+			alert.description = errorText
+		}
+	}
 	
 	func simpleSuccess() {
 		let generator = UINotificationFeedbackGenerator()
@@ -216,7 +267,15 @@ struct ModuleSelectPage: View {
 
 struct ModuleSelectPage_Previews: PreviewProvider {
 	static var previews: some View {
-		ModuleSelectPage(modules: .constant([]), isOpened: .constant(false), groupName: "test group", needUpdate: .constant(false))
+		ModuleSelectPage(
+			modules: .constant([]),
+			isOpened: .constant(false),
+//			groupName: "test group",
+			groupId: .constant("test group"),
+			needUpdate: .constant(false),
+			groups: .constant([]),
+			isEditMode: .constant(false)
+		)
 	}
 }
 

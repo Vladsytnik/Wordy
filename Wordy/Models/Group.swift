@@ -18,7 +18,7 @@ struct Group: Equatable {
 extension Group {
 	static func parse(from snapshot: DataSnapshot) -> [Group]? {
 		guard let data = (snapshot.value as? [String: [String: Any]]) else {
-			return nil
+			return []
 		}
 		guard let dbGroupKeys = (snapshot.value as? [String: Any])?.keys else {
 			return nil
