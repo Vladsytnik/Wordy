@@ -32,8 +32,8 @@ class LearnSelectionPageViewModel: ObservableObject {
 	
 	@Published var currentQuestion = ""
 	@Published var currentAnswers = ["", "", "", ""]
-//	@Published var currentPageType: LearnPageType = .random()
-	@Published var currentPageType: LearnPageType = .inputable
+	//	@Published var currentPageType: LearnPageType = .random()
+	@Published var currentPageType: LearnPageType = .selectable
 	
 	@Published var inputText = ""
 	
@@ -45,10 +45,14 @@ class LearnSelectionPageViewModel: ObservableObject {
 	@Published var textFieldIsFirstResponder = true
 	@Published var isAppeared = false
 	@Published var needClosePage = false
+	@Published var buttonSelected: [Bool] = [false, false, false, false]
+	@Published var indexOfCorrectButton = -1
+	@Published var needOpenTextField = false
 	
 	func start() {
 		print("Start")
-		currentPageType = .random()
+		currentPageType = .selectable
+		buttonSelected = Array(repeating: false, count: 4)
 		currentAnswers = Array(repeating: "nil", count: 4)
 		currentQuestion = "nil"
 		phrases = module.phrases
@@ -66,15 +70,28 @@ class LearnSelectionPageViewModel: ObservableObject {
 	}
 	
 	func userDidSelectAnswer(answer: String) {
+		guard phrases.count > 0 else {
+			needClosePage.toggle()
+			return
+		}
+		
 		let correctAnswer = currentCorrectAnswer.getAnswer(answerType: answersLanguageType)
-		userHasAnsweredCorrect(answer == correctAnswer)
-		print("user tap \(answer), is correct: \(answer == correctAnswer)")
+		var phrasesAreEqualed = answer == correctAnswer
+		if currentPageType == .inputable {
+			phrasesAreEqualed = comparePhrases(answer, correctAnswer)
+		}
+		userHasAnsweredCorrect(phrasesAreEqualed)
+		print("user tap \(answer), is correct: \(phrasesAreEqualed)")
+	}
+	
+	func didTapButton(index: Int) {
+		buttonSelected[index].toggle()
 	}
 	
 	private func getRandomQuestion() {
 		guard module.phrases.count >= 4 else { return }
 		guard phrases.count > 0 else {
-			print("Все слова прошли")
+			needClosePage.toggle()
 			return
 		}
 		var shuffledPhrases = phrases.shuffled()
@@ -98,19 +115,22 @@ class LearnSelectionPageViewModel: ObservableObject {
 			tempArray[2]
 		].map{ $0.getAnswer(answerType: answersLanguageType) }
 		
-		print("Массив без правильного ответа: \(answersWithoutCorrect)")
-		print("Правильный ответ: \(currentCorrectAnswer.nativeText)")
 		let correctAnswer = currentCorrectAnswer.getAnswer(answerType: answersLanguageType)
 		let shuffledFullAnswers = (answersWithoutCorrect + [correctAnswer]).shuffled()
-		
+		indexOfCorrectButton = shuffledFullAnswers.firstIndex(where: { $0.lowercased() == correctAnswer.lowercased() } ) ?? -1
 		currentAnswers = shuffledFullAnswers
-		print("Массив с правильным ответом: \(currentAnswers)")
 	}
 	
 	private func userHasAnsweredCorrect(_ isCorrect: Bool) {
 		if isCorrect {
-			needRedraw = true
-			inputText = ""
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+				self.inputText = ""
+				self.indexOfCorrectButton = -1
+				self.currentCorrectAnswer = .init(nativeText: "", translatedText: "")
+				self.buttonSelected = Array(repeating: false, count: 4)
+				self.needRedraw = true
+				self.needRedraw = false
+			}
 		}
 	}
 	
@@ -118,6 +138,58 @@ class LearnSelectionPageViewModel: ObservableObject {
 		getRandomQuestion()
 		getAnswers()
 		currentPageType = .random()
+		if currentPageType == .inputable {
+			needOpenTextField.toggle()
+		}
+	}
+	
+	private func comparePhrases(_ phrase1: String, _ phrase2: String) -> Bool {
+		let trimmedPhrase1 = phrase1.trimmingCharacters(in: .whitespacesAndNewlines)
+		let trimmedPhrase2 = phrase2.trimmingCharacters(in: .whitespacesAndNewlines)
+		
+		if trimmedPhrase1.caseInsensitiveCompare(trimmedPhrase2) == .orderedSame {
+			return true
+		}
+		
+		let count1 = trimmedPhrase1.count
+		let count2 = trimmedPhrase2.count
+		let maxCount = max(count1, count2)
+		let minCount = min(count1, count2)
+		
+		if maxCount - minCount > 1 {
+			return false
+		}
+		
+		// Алгоритм Левенштейна
+		var matrix = Array(repeating: Array(repeating: 0, count: minCount + 1), count: maxCount + 1)
+		
+		for i in 0..<maxCount {
+			for j in 0..<minCount {
+				if i == 0 {
+					matrix[i][j] = j
+				} else if j == 0 {
+					matrix[i][j] = i
+				} else if trimmedPhrase1[trimmedPhrase1.index(trimmedPhrase1.startIndex, offsetBy: i - 1)] == trimmedPhrase2[trimmedPhrase2.index(trimmedPhrase2.startIndex, offsetBy: j - 1)] {
+					matrix[i][j] = matrix[i - 1][j - 1]
+				} else {
+					matrix[i][j] = 1 + min(matrix[i][j - 1], matrix[i - 1][j], matrix[i - 1][j - 1])
+				}
+			}
+		}
+		
+		return matrix[maxCount][minCount] <= 1
+	}
+	
+	func clearAllProperties() {
+		isAppeared = false
+		inputText = ""
+		currentCorrectAnswer = .init(nativeText: "", translatedText: "")
 		needRedraw = false
+		phrases = module.phrases
+		buttonSelected = Array(repeating: false, count: 4)
+		currentAnswers = Array(repeating: "nil", count: 4)
+		currentQuestion = "nil"
+		indexOfCorrectButton = -1
+		cancellables.forEach { $0.cancel() }
 	}
 }

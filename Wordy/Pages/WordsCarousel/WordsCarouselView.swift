@@ -71,7 +71,7 @@ struct WordsCarouselView: View {
 		}
 		.onChange(of: showLearnPage, perform: { newValue in
 			if !newValue {
-				learnPageViewModel.isAppeared = false
+				learnPageViewModel.clearAllProperties()
 			}
 		})
 	}

@@ -50,7 +50,7 @@ struct LearnSelectionPage: View {
 						ForEach(0..<viewModel.answersCount, id: \.self) { i in
 							ZStack {
 								RoundedRectangle(cornerRadius: 20)
-									.foregroundColor(colors[i])
+									.foregroundColor(viewModel.buttonSelected[i] ? viewModel.indexOfCorrectButton == i ? Color.green : Color.red : colors[i])
 									.frame(height: 80)
 									.overlay {
 										RoundedRectangle(cornerRadius: 20)
@@ -59,6 +59,7 @@ struct LearnSelectionPage: View {
 									}
 									.padding(EdgeInsets(top: 0, leading: -1, bottom: 0, trailing: -1))
 									.shadow(color: .black.opacity(0.24), radius: 26)
+									.animation(.spring(), value: viewModel.buttonSelected[i])
 								Rectangle()
 									.frame(height: 80)
 									.foregroundColor(colors[i])
@@ -72,22 +73,37 @@ struct LearnSelectionPage: View {
 							.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 							.onTapGesture {
 								viewModel.userDidSelectAnswer(answer: viewModel.currentAnswers[i])
+								viewModel.didTapButton(index: i)
 							}
 						}
 					}
 				}
 				else {
-					LearnTextField(
-						placeholder: "Введите ваш ответ",
-						text: $viewModel.inputText,
-						enableFocuse: true,
-						isFirstResponder: $viewModel.textFieldIsFirstResponder,
-						closeKeyboard: .constant(false),
-						onReturn: {
-							viewModel.userDidSelectAnswer(answer: viewModel.inputText)
-						}
-					)
-					.padding()
+					if viewModel.needOpenTextField {
+						LearnTextField(
+							placeholder: "Введите ваш ответ",
+							text: $viewModel.inputText,
+							needOpen: $viewModel.needOpenTextField,
+							isFirstResponder: $viewModel.textFieldIsFirstResponder,
+							closeKeyboard: .constant(false),
+							onReturn: {
+								viewModel.userDidSelectAnswer(answer: viewModel.inputText)
+							}
+						)
+						.padding()
+					} else {
+						LearnTextField(
+							placeholder: "Введите ваш ответ",
+							text: $viewModel.inputText,
+							needOpen: $viewModel.needOpenTextField,
+							isFirstResponder: $viewModel.textFieldIsFirstResponder,
+							closeKeyboard: .constant(true),
+							onReturn: {
+								viewModel.userDidSelectAnswer(answer: viewModel.inputText)
+							}
+						)
+						.padding()
+					}
 					Spacer()
 				}
 			}
@@ -98,8 +114,8 @@ struct LearnSelectionPage: View {
 			}
 			if !viewModel.isAppeared {
 				viewModel.start()
+				viewModel.isAppeared = true
 			}
-			viewModel.isAppeared = true
 			print("method onAppear")
 		}
 		.onChange(of: viewModel.needClosePage) { _ in
@@ -113,7 +129,7 @@ struct LearnTextField: View {
 	
 	let placeholder: String
 	@Binding var text: String
-	let enableFocuse: Bool
+	@Binding var needOpen: Bool
 	@Binding var isFirstResponder: Bool
 	@Binding var closeKeyboard: Bool
 	
@@ -156,10 +172,19 @@ struct LearnTextField: View {
 				return
 			}
 			.onAppear {
-				isFocused = enableFocuse ? true : false
+				isFocused = true
 			}
 			.onChange(of: isFocused) { newValue in
 				isFirstResponder = newValue
+				if !newValue {
+					
+				}
+			}
+			.onChange(of: needOpen) { newValue in
+				if newValue {
+					isFocused = true
+					needOpen = false
+				}
 			}
 			Rectangle()
 				.foregroundColor(isFocused ? .white.opacity(1) : .white.opacity(0.2))
