@@ -30,76 +30,107 @@ struct LearnSelectionPage: View {
 	var body: some View {
 		ZStack {
 			LearnBG()
-			VStack {
-				LearnBackButton()
-				Spacer()
-				Text(viewModel.currentQuestion)
-					.foregroundColor(viewModel.inputTextAnsweredType == .notSelected ? .white : viewModel.inputTextAnsweredType == .correct ? .green : .red)
-					.font(.system(size: 24, weight: .bold))
-					.padding()
-					.multilineTextAlignment(.center)
-					.animation(.spring(), value: viewModel.inputTextAnsweredType)
-				Spacer()
-				if viewModel.currentPageType == .selectable {
-					VStack(spacing: spacing) {
-						ForEach(0..<viewModel.answersCount, id: \.self) { i in
-							ZStack {
-								RoundedRectangle(cornerRadius: 20)
-									.foregroundColor(colors[i])
-									.frame(height: 80)
-									.overlay {
-										RoundedRectangle(cornerRadius: 20)
-											.stroke()
-											.foregroundColor(.white.opacity(0.1))
-									}
-									.padding(EdgeInsets(top: 0, leading: -1, bottom: 0, trailing: -1))
-									.shadow(color: .black.opacity(0.24), radius: 26)
-								Rectangle()
-									.frame(height: 80)
-									.foregroundColor(colors[i])
-									.offset(y: i != viewModel.currentAnswers.count - 1 ? 20 : 50)
-								Text(viewModel.currentAnswers[i])
-									.foregroundColor(viewModel.buttonSelected[i] ? viewModel.indexOfCorrectButton == i ? Color.green : Color.red : .white)
-									.font(.system(size: 18, weight: .medium))
-									.padding()
-									.lineLimit(2)
-									.animation(.spring(), value: viewModel.buttonSelected[i])
-							}
-							.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-							.onTapGesture {
-								viewModel.userDidSelectAnswer(answer: viewModel.currentAnswers[i])
-								viewModel.didTapButton(index: i)
+			if viewModel.learningIsFinished {
+				VStack {
+					Spacer()
+					VStack {
+						Text("Поздравляем!")
+							.foregroundColor(.white)
+							.font(.system(size: 36, weight: .bold))
+							.multilineTextAlignment(.center)
+							.padding()
+						Text("Ты прошел еще одну тренировку 🥳")
+							.foregroundColor(.white)
+							.font(.system(size: 28, weight: .medium))
+							.multilineTextAlignment(.center)
+					}
+					Spacer()
+					LottieView(fileName: "congeralations")
+					Spacer()
+					CreateModuleButton(action: {
+						dismiss()
+					}, text: "Супер!")
+					.frame(width: 200)
+					Spacer()
+				}
+			} else {
+				VStack {
+					if viewModel.showSuccessAnimation {
+						LottieView(fileName: "success")
+					}
+				}
+				.ignoresSafeArea()
+				VStack {
+					LearnBackButton()
+					Spacer()
+					Text(viewModel.currentQuestion)
+						.foregroundColor(viewModel.inputTextAnsweredType == .notSelected ? .white : viewModel.inputTextAnsweredType == .correct ? .green : .red)
+						.font(.system(size: 24, weight: .bold))
+						.padding()
+						.multilineTextAlignment(.center)
+						.animation(.spring(), value: viewModel.inputTextAnsweredType)
+					Spacer()
+					if viewModel.currentPageType == .selectable {
+						VStack(spacing: spacing) {
+							ForEach(0..<viewModel.answersCount, id: \.self) { i in
+								ZStack {
+									RoundedRectangle(cornerRadius: 20)
+										.foregroundColor(colors[i])
+										.frame(height: 80)
+										.overlay {
+											RoundedRectangle(cornerRadius: 20)
+												.stroke()
+												.foregroundColor(.white.opacity(0.1))
+										}
+										.padding(EdgeInsets(top: 0, leading: -1, bottom: 0, trailing: -1))
+										.shadow(color: .black.opacity(0.24), radius: 26)
+									Rectangle()
+										.frame(height: 80)
+										.foregroundColor(colors[i])
+										.offset(y: i != viewModel.currentAnswers.count - 1 ? 20 : 50)
+									Text(viewModel.currentAnswers[i])
+										.foregroundColor(viewModel.buttonSelected[i] ? viewModel.indexOfCorrectButton == i ? Color.green : Color.red : .white)
+										.font(.system(size: 18, weight: .medium))
+										.padding()
+										.lineLimit(2)
+										.animation(.spring(), value: viewModel.buttonSelected[i])
+								}
+								.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+								.onTapGesture {
+									viewModel.userDidSelectAnswer(answer: viewModel.currentAnswers[i])
+									viewModel.didTapButton(index: i)
+								}
 							}
 						}
 					}
-				}
-				else {
-					if viewModel.needOpenTextField {
-						LearnTextField(
-							placeholder: "Введите ваш ответ",
-							text: $viewModel.inputText,
-							needOpen: $viewModel.needOpenTextField,
-							isFirstResponder: $viewModel.textFieldIsFirstResponder,
-							closeKeyboard: .constant(false),
-							onReturn: {
-								viewModel.userDidSelectAnswer(answer: viewModel.inputText)
-							}
-						)
-						.padding()
-					} else {
-						LearnTextField(
-							placeholder: "Введите ваш ответ",
-							text: $viewModel.inputText,
-							needOpen: $viewModel.needOpenTextField,
-							isFirstResponder: $viewModel.textFieldIsFirstResponder,
-							closeKeyboard: .constant(true),
-							onReturn: {
-								viewModel.userDidSelectAnswer(answer: viewModel.inputText)
-							}
-						)
-						.padding()
+					else {
+						if viewModel.needOpenTextField {
+							LearnTextField(
+								placeholder: "Введите ваш ответ",
+								text: $viewModel.inputText,
+								needOpen: $viewModel.needOpenTextField,
+								isFirstResponder: $viewModel.textFieldIsFirstResponder,
+								closeKeyboard: .constant(false),
+								onReturn: {
+									viewModel.userDidSelectAnswer(answer: viewModel.inputText)
+								}
+							)
+							.padding()
+						} else {
+							LearnTextField(
+								placeholder: "Введите ваш ответ",
+								text: $viewModel.inputText,
+								needOpen: $viewModel.needOpenTextField,
+								isFirstResponder: $viewModel.textFieldIsFirstResponder,
+								closeKeyboard: .constant(true),
+								onReturn: {
+									viewModel.userDidSelectAnswer(answer: viewModel.inputText)
+								}
+							)
+							.padding()
+						}
+						Spacer()
 					}
-					Spacer()
 				}
 			}
 		}
@@ -151,7 +182,7 @@ struct LearnTextField: View {
 					.tint(.white)
 					.font(.system(size: fontSize, weight: .medium))
 					.focused($isFocused)
-//					.keyboardType(.twitter)
+					//					.keyboardType(.twitter)
 					if text.count > 0 && isFocused {
 						Button {
 							text = ""

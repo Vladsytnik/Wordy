@@ -75,7 +75,9 @@ struct WordsCarouselView: View {
 		}
 		.onChange(of: showLearnPage, perform: { newValue in
 			if !newValue {
-				learnPageViewModel.clearAllProperties()
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+					learnPageViewModel.clearAllProperties()
+				}
 			}
 		})
 		.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showAlert, titleWithoutAction: "OK", titleForAction: "", withoutButtons: true) {
@@ -89,7 +91,7 @@ struct WordsCarouselView: View {
 		viewModel.index = moduleIndex
 		viewModel.selectedWordIndex = selectedWordIndex
 	}
-
+	
 	
 	func didTapShowLearnPage() {
 		if viewModel.thisModule.phrases.count >= 4 {
@@ -134,7 +136,7 @@ struct CarouselCard: View {
 }
 
 struct WordsCarouselView_Previews: PreviewProvider {
-    static var previews: some View {
+	static var previews: some View {
 		WordsCarouselView(modules: .constant([
 			Module(name: "Test",
 				   emoji: "👻",
@@ -147,7 +149,7 @@ struct WordsCarouselView_Previews: PreviewProvider {
 					Phrase(nativeText: "Test", translatedText: "Test", date: Date())
 				   ])
 		]), moduleIndex: 0, selectedWordIndex: 0)
-    }
+	}
 }
 
 fileprivate struct SpeachButton: View {

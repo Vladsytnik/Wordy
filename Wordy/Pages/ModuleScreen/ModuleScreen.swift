@@ -91,7 +91,9 @@ struct ModuleScreen: View {
 			})
 			.onChange(of: showLearnPage, perform: { newValue in
 				if !newValue {
-					learnPageViewModel.clearAllProperties()
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+						learnPageViewModel.clearAllProperties()
+					}
 				}
 			})
 			.activity($viewModel.showActivity)

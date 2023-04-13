@@ -57,6 +57,9 @@ class LearnSelectionPageViewModel: ObservableObject {
 	@Published var needOpenTextField = false
 	@Published var inputTextAnsweredType: InputAnswerType = .notSelected
 	
+	@Published var showSuccessAnimation = false
+	@Published var learningIsFinished = false
+	
 	private var sucessGenerator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
 	private var failedGenerator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .heavy)
 	
@@ -135,13 +138,17 @@ class LearnSelectionPageViewModel: ObservableObject {
 	private func userHasAnsweredCorrect(_ isCorrect: Bool) {
 		if isCorrect {
 			sucessGenerator?.impactOccurred()
+			showSuccessAnimation = true
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+				self.showSuccessAnimation = false
+			}
 		} else {
 			failedGenerator?.impactOccurred()
 		}
-		if currentPageType == .inputable {
-			inputTextAnsweredType = isCorrect ? .correct : .uncorrect
-		}
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+		
+		inputTextAnsweredType = isCorrect ? .correct : .uncorrect
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
 			self.inputTextAnsweredType = .notSelected
 			if !isCorrect {
 				self.phrases.append(self.currentCorrectAnswer)
@@ -155,9 +162,14 @@ class LearnSelectionPageViewModel: ObservableObject {
 				self.needRedraw = true
 				self.needRedraw = false
 			} else {
-				self.needClosePage.toggle()
+				self.showCongratulationAndClose()
 			}
 		}
+	}
+	
+	private func showCongratulationAndClose() {
+		Vibration.success.vibrate()
+		learningIsFinished = true
 	}
 	
 	private func updateUI() {
@@ -218,6 +230,7 @@ class LearnSelectionPageViewModel: ObservableObject {
 		currentQuestion = "nil"
 		indexOfCorrectButton = -1
 		cancellables.forEach { $0.cancel() }
+		learningIsFinished = false
 	}
 	
 	private func isNotSelectedAnyButtonYet() -> Bool {

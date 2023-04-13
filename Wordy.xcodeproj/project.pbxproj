@@ -53,6 +53,9 @@
 		014681102955FADD0080732C /* CreateModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0146810F2955FADD0080732C /* CreateModuleView.swift */; };
 		014681132955FF9C0080732C /* CreateModuleCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014681122955FF9C0080732C /* CreateModuleCard.swift */; };
 		01468115295602290080732C /* InputRoundedTextArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01468114295602290080732C /* InputRoundedTextArea.swift */; };
+		014955A629E84DD8000BC30F /* success.json in Resources */ = {isa = PBXBuildFile; fileRef = 014955A529E84DD8000BC30F /* success.json */; };
+		014955A829E855FE000BC30F /* congeralations.json in Resources */ = {isa = PBXBuildFile; fileRef = 014955A729E855FE000BC30F /* congeralations.json */; };
+		014955AA29E85946000BC30F /* Vibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014955A929E85946000BC30F /* Vibration.swift */; };
 		014A46522964646300E43508 /* ModuleScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014A46512964646300E43508 /* ModuleScreenViewModel.swift */; };
 		014B767D29E038D10044DF87 /* LearnSelectionPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014B767C29E038D10044DF87 /* LearnSelectionPage.swift */; };
 		014B767F29E03B750044DF87 /* LearnSelectionPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014B767E29E03B750044DF87 /* LearnSelectionPageViewModel.swift */; };
@@ -132,6 +135,9 @@
 		0146810F2955FADD0080732C /* CreateModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateModuleView.swift; sourceTree = "<group>"; };
 		014681122955FF9C0080732C /* CreateModuleCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateModuleCard.swift; sourceTree = "<group>"; };
 		01468114295602290080732C /* InputRoundedTextArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputRoundedTextArea.swift; sourceTree = "<group>"; };
+		014955A529E84DD8000BC30F /* success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = success.json; sourceTree = "<group>"; };
+		014955A729E855FE000BC30F /* congeralations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = congeralations.json; sourceTree = "<group>"; };
+		014955A929E85946000BC30F /* Vibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vibration.swift; sourceTree = "<group>"; };
 		014A46512964646300E43508 /* ModuleScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleScreenViewModel.swift; sourceTree = "<group>"; };
 		014B767C29E038D10044DF87 /* LearnSelectionPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnSelectionPage.swift; sourceTree = "<group>"; };
 		014B767E29E03B750044DF87 /* LearnSelectionPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnSelectionPageViewModel.swift; sourceTree = "<group>"; };
@@ -342,6 +348,7 @@
 				017642462972EEF30042DB86 /* Date.swift */,
 				0176424B29744BC90042DB86 /* DateFormatter.swift */,
 				0110F710297EECD2007F26BC /* NavigationView.swift */,
+				014955A929E85946000BC30F /* Vibration.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -492,6 +499,8 @@
 			children = (
 				01770ECB296AF05100578F81 /* addWordLoader.json */,
 				01978FB6294CC92100B8EFC3 /* loader.json */,
+				014955A529E84DD8000BC30F /* success.json */,
+				014955A729E855FE000BC30F /* congeralations.json */,
 			);
 			path = Lottie;
 			sourceTree = "<group>";
@@ -632,6 +641,7 @@
 				012D95E2294867DA00165DAF /* SF-Pro-Display-SemiboldItalic.otf in Resources */,
 				012D95D5294867DA00165DAF /* SF-Pro-Display-LightItalic.otf in Resources */,
 				012D95E0294867DA00165DAF /* SF-Pro-Display-MediumItalic.otf in Resources */,
+				014955A829E855FE000BC30F /* congeralations.json in Resources */,
 				012D95D7294867DA00165DAF /* SF-Pro-Display-ThinItalic.otf in Resources */,
 				019056562944D0DE0058B566 /* Colors.xcassets in Resources */,
 				012D95DD294867DA00165DAF /* SF-Pro-Display-Semibold.otf in Resources */,
@@ -649,6 +659,7 @@
 				0190564C2944AA710058B566 /* .gitignore in Resources */,
 				012D95DC294867DA00165DAF /* SF-Pro-Display-RegularItalic.otf in Resources */,
 				012D95D4294867DA00165DAF /* SF-Pro-Display-HeavyItalic.otf in Resources */,
+				014955A629E84DD8000BC30F /* success.json in Resources */,
 				0190563D2944A7170058B566 /* Images.xcassets in Resources */,
 				012D95DF294867DA00165DAF /* SF-Pro-Display-UltralightItalic.otf in Resources */,
 			);
@@ -728,6 +739,7 @@
 				014681102955FADD0080732C /* CreateModuleView.swift in Sources */,
 				01F57696294A4F2E00F52EB1 /* VisualEffectView.swift in Sources */,
 				012D95E5294867E600165DAF /* Fonts+Generated.swift in Sources */,
+				014955AA29E85946000BC30F /* Vibration.swift in Sources */,
 				012D95CB29485FD300165DAF /* XCAssets+Generated.swift in Sources */,
 				015CB521299438270088A1FC /* WordsCarouselViewModel.swift in Sources */,
 				0103FF4C294C7471004C2EA6 /* UserDefaultsManager.swift in Sources */,

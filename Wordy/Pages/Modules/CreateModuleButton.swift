@@ -10,6 +10,7 @@ import SwiftUI
 struct CreateModuleButton: View {
 	
 	let action: () -> Void
+	var text: String?
 	
     var body: some View {
 		Button {
@@ -20,8 +21,10 @@ struct CreateModuleButton: View {
 					.foregroundColor(Color(asset: Asset.Colors.createModuleButton))
 					.shadow(color: .white.opacity(0.15), radius: 20)
 				HStack {
-					Image(asset: Asset.Images.addModule)
-					Text("Создать модуль")
+					if text == nil {
+						Image(asset: Asset.Images.addModule)
+					}
+					Text((text == nil ? "Создать модуль" : text) ?? "")
 						.foregroundColor(.white)
 						.font(.system(size: 16, weight: .medium))
 				}
