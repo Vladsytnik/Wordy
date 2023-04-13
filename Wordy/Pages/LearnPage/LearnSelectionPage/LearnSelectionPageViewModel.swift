@@ -22,6 +22,12 @@ enum LearnPageType: CaseIterable {
 	}
 }
 
+enum InputAnswerType {
+	case notSelected
+	case uncorrect
+	case correct
+}
+
 class LearnSelectionPageViewModel: ObservableObject {
 	
 	@Published var module: Module = .init()
@@ -48,6 +54,7 @@ class LearnSelectionPageViewModel: ObservableObject {
 	@Published var buttonSelected: [Bool] = [false, false, false, false]
 	@Published var indexOfCorrectButton = -1
 	@Published var needOpenTextField = false
+	@Published var inputTextAnsweredType: InputAnswerType = .notSelected
 	
 	func start() {
 		print("Start")
@@ -70,8 +77,7 @@ class LearnSelectionPageViewModel: ObservableObject {
 	}
 	
 	func userDidSelectAnswer(answer: String) {
-		guard phrases.count > 0 else {
-			needClosePage.toggle()
+		guard isNotSelectedAnyButtonYet() else {
 			return
 		}
 		
@@ -85,15 +91,16 @@ class LearnSelectionPageViewModel: ObservableObject {
 	}
 	
 	func didTapButton(index: Int) {
+		guard isNotSelectedAnyButtonYet() else {
+			return
+		}
 		buttonSelected[index].toggle()
 	}
 	
 	private func getRandomQuestion() {
+		print("Phrases count: \(phrases.count)")
 		guard module.phrases.count >= 4 else { return }
-		guard phrases.count > 0 else {
-			needClosePage.toggle()
-			return
-		}
+		
 		var shuffledPhrases = phrases.shuffled()
 		let removed = shuffledPhrases.removeFirst()
 		phrases = shuffledPhrases
@@ -122,14 +129,24 @@ class LearnSelectionPageViewModel: ObservableObject {
 	}
 	
 	private func userHasAnsweredCorrect(_ isCorrect: Bool) {
-		if isCorrect {
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-				self.inputText = ""
-				self.indexOfCorrectButton = -1
-				self.currentCorrectAnswer = .init(nativeText: "", translatedText: "")
-				self.buttonSelected = Array(repeating: false, count: 4)
+		if currentPageType == .inputable {
+			inputTextAnsweredType = isCorrect ? .correct : .uncorrect
+		}
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+			self.inputTextAnsweredType = .notSelected
+			if !isCorrect {
+				self.phrases.append(self.currentCorrectAnswer)
+			}
+			self.inputText = ""
+			self.indexOfCorrectButton = -1
+			self.currentCorrectAnswer = .init(nativeText: "", translatedText: "")
+			self.buttonSelected = Array(repeating: false, count: 4)
+			
+			if self.phrases.count > 0 {
 				self.needRedraw = true
 				self.needRedraw = false
+			} else {
+				self.needClosePage.toggle()
 			}
 		}
 	}
@@ -144,40 +161,41 @@ class LearnSelectionPageViewModel: ObservableObject {
 	}
 	
 	private func comparePhrases(_ phrase1: String, _ phrase2: String) -> Bool {
-		let trimmedPhrase1 = phrase1.trimmingCharacters(in: .whitespacesAndNewlines)
-		let trimmedPhrase2 = phrase2.trimmingCharacters(in: .whitespacesAndNewlines)
 		
-		if trimmedPhrase1.caseInsensitiveCompare(trimmedPhrase2) == .orderedSame {
-			return true
+		var firstString = phrase1
+		var secondString = phrase2
+		let trimWhiteSpacesAndNewLines = true
+		let ignoreCase = true
+		let maxDistance = 1
+		
+		if ignoreCase {
+			firstString = firstString.lowercased()
+			secondString = secondString.lowercased()
 		}
 		
-		let count1 = trimmedPhrase1.count
-		let count2 = trimmedPhrase2.count
-		let maxCount = max(count1, count2)
-		let minCount = min(count1, count2)
-		
-		if maxCount - minCount > 1 {
-			return false
+		if trimWhiteSpacesAndNewLines {
+			firstString = firstString.trimmingCharacters(in: .whitespacesAndNewlines)
+			secondString = secondString.trimmingCharacters(in: .whitespacesAndNewlines)
 		}
 		
-		// Алгоритм Левенштейна
-		var matrix = Array(repeating: Array(repeating: 0, count: minCount + 1), count: maxCount + 1)
+		let empty = [Int](repeating: 0, count: secondString.count)
+		var last = [Int](0...secondString.count)
 		
-		for i in 0..<maxCount {
-			for j in 0..<minCount {
-				if i == 0 {
-					matrix[i][j] = j
-				} else if j == 0 {
-					matrix[i][j] = i
-				} else if trimmedPhrase1[trimmedPhrase1.index(trimmedPhrase1.startIndex, offsetBy: i - 1)] == trimmedPhrase2[trimmedPhrase2.index(trimmedPhrase2.startIndex, offsetBy: j - 1)] {
-					matrix[i][j] = matrix[i - 1][j - 1]
-				} else {
-					matrix[i][j] = 1 + min(matrix[i][j - 1], matrix[i - 1][j], matrix[i - 1][j - 1])
-				}
+		for (i, tLett) in firstString.enumerated() {
+			var cur = [i + 1] + empty
+			for (j, sLett) in secondString.enumerated() {
+				cur[j + 1] = tLett == sLett ? last[j] : Swift.min(last[j], last[j + 1], cur[j]) + 1
 			}
+			
+			last = cur
 		}
 		
-		return matrix[maxCount][minCount] <= 1
+		if let validDistance = last.last {
+			return validDistance <= maxDistance
+		}
+		
+		assertionFailure()
+		return true
 	}
 	
 	func clearAllProperties() {
@@ -191,5 +209,9 @@ class LearnSelectionPageViewModel: ObservableObject {
 		currentQuestion = "nil"
 		indexOfCorrectButton = -1
 		cancellables.forEach { $0.cancel() }
+	}
+	
+	private func isNotSelectedAnyButtonYet() -> Bool {
+		!buttonSelected.reduce(false, { $0 || $1 })
 	}
 }

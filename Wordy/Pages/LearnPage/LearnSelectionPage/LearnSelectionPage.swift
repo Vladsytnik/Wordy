@@ -40,17 +40,18 @@ struct LearnSelectionPage: View {
 				LearnBackButton()
 				Spacer()
 				Text(viewModel.currentQuestion)
-					.foregroundColor(.white)
+					.foregroundColor(viewModel.inputTextAnsweredType == .notSelected ? .white : viewModel.inputTextAnsweredType == .correct ? .green : .red)
 					.font(.system(size: 24, weight: .bold))
 					.padding()
 					.multilineTextAlignment(.center)
+					.animation(.spring(), value: viewModel.inputTextAnsweredType)
 				Spacer()
 				if viewModel.currentPageType == .selectable {
 					VStack(spacing: spacing) {
 						ForEach(0..<viewModel.answersCount, id: \.self) { i in
 							ZStack {
 								RoundedRectangle(cornerRadius: 20)
-									.foregroundColor(viewModel.buttonSelected[i] ? viewModel.indexOfCorrectButton == i ? Color.green : Color.red : colors[i])
+									.foregroundColor(colors[i])
 									.frame(height: 80)
 									.overlay {
 										RoundedRectangle(cornerRadius: 20)
@@ -59,16 +60,16 @@ struct LearnSelectionPage: View {
 									}
 									.padding(EdgeInsets(top: 0, leading: -1, bottom: 0, trailing: -1))
 									.shadow(color: .black.opacity(0.24), radius: 26)
-									.animation(.spring(), value: viewModel.buttonSelected[i])
 								Rectangle()
 									.frame(height: 80)
 									.foregroundColor(colors[i])
 									.offset(y: i != answers.count - 1 ? 20 : 50)
 								Text(viewModel.currentAnswers[i])
-									.foregroundColor(.white)
+									.foregroundColor(viewModel.buttonSelected[i] ? viewModel.indexOfCorrectButton == i ? Color.green : Color.red : .white)
 									.font(.system(size: 18, weight: .medium))
 									.padding()
 									.lineLimit(2)
+									.animation(.spring(), value: viewModel.buttonSelected[i])
 							}
 							.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 							.onTapGesture {

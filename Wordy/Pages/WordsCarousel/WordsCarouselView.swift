@@ -13,9 +13,9 @@ struct WordsCarouselView: View {
 	@ObservedObject var viewModel = WordsCarouselViewModel()
 	@Binding var modules: [Module]
 	@Environment(\.dismiss) private var dismiss
-	@State var showLearnPage = false
 	
 	@StateObject var learnPageViewModel = LearnSelectionPageViewModel()
+	@State var showLearnPage = false
 	
 	var body: some View {
 		ZStack {
@@ -74,6 +74,9 @@ struct WordsCarouselView: View {
 				learnPageViewModel.clearAllProperties()
 			}
 		})
+		.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showAlert, titleWithoutAction: "OK", titleForAction: "", withoutButtons: true) {
+			
+		}
 	}
 	
 	init(modules: Binding<[Module]>, moduleIndex: Int, selectedWordIndex: Int) {
@@ -84,6 +87,18 @@ struct WordsCarouselView: View {
 	}
 
 	
+	func didTapShowLearnPage() {
+		if viewModel.thisModule.phrases.count >= 4 {
+			showLearnPage.toggle()
+		} else {
+			let wordsCountDifference = 4 - viewModel.thisModule.phrases.count
+			viewModel.alert.title = "Для изучения слов необходимо минимум 4 фразы"
+			viewModel.alert.description = "\nОсталось добавить еще \(viewModel.getCorrectWord(value: wordsCountDifference))!"
+			withAnimation {
+				self.viewModel.showAlert = true
+			}
+		}
+	}
 }
 
 struct CarouselCard: View {
