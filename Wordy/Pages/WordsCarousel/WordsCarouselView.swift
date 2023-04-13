@@ -13,6 +13,9 @@ struct WordsCarouselView: View {
 	@ObservedObject var viewModel = WordsCarouselViewModel()
 	@Binding var modules: [Module]
 	@Environment(\.dismiss) private var dismiss
+	@State var showLearnPage = false
+	
+	@StateObject var learnPageViewModel = LearnSelectionPageViewModel()
 	
 	var body: some View {
 		ZStack {
@@ -47,7 +50,8 @@ struct WordsCarouselView: View {
 				
 				Spacer(minLength: 50)
 				LearnModuleButton {
-					
+					learnPageViewModel.module = viewModel.thisModule
+					showLearnPage.toggle()
 				}
 				.padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
 			}
@@ -55,10 +59,21 @@ struct WordsCarouselView: View {
 		.onChange(of: viewModel.modules) { newValue in
 			modules = newValue
 		}
+		.fullScreenCover(isPresented: $showLearnPage, content: {
+			LearnSelectionPage(
+				module: viewModel.thisModule,
+				viewModel: learnPageViewModel
+			)
+		})
 		.navigationBarBackButtonHidden()
 		.onChange(of: scrollOffset) { newValue in
 			print(newValue)
 		}
+		.onChange(of: showLearnPage, perform: { newValue in
+			if !newValue {
+				learnPageViewModel.isAppeared = false
+			}
+		})
 	}
 	
 	init(modules: Binding<[Module]>, moduleIndex: Int, selectedWordIndex: Int) {

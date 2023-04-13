@@ -54,6 +54,8 @@
 		014681132955FF9C0080732C /* CreateModuleCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014681122955FF9C0080732C /* CreateModuleCard.swift */; };
 		01468115295602290080732C /* InputRoundedTextArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01468114295602290080732C /* InputRoundedTextArea.swift */; };
 		014A46522964646300E43508 /* ModuleScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014A46512964646300E43508 /* ModuleScreenViewModel.swift */; };
+		014B767D29E038D10044DF87 /* LearnSelectionPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014B767C29E038D10044DF87 /* LearnSelectionPage.swift */; };
+		014B767F29E03B750044DF87 /* LearnSelectionPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014B767E29E03B750044DF87 /* LearnSelectionPageViewModel.swift */; };
 		015713972964607E0022E1FA /* ModuleScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015713962964607E0022E1FA /* ModuleScreen.swift */; };
 		015CB51F2994381B0088A1FC /* WordsCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015CB51E2994381B0088A1FC /* WordsCarouselView.swift */; };
 		015CB521299438270088A1FC /* WordsCarouselViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015CB520299438270088A1FC /* WordsCarouselViewModel.swift */; };
@@ -131,6 +133,8 @@
 		014681122955FF9C0080732C /* CreateModuleCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateModuleCard.swift; sourceTree = "<group>"; };
 		01468114295602290080732C /* InputRoundedTextArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputRoundedTextArea.swift; sourceTree = "<group>"; };
 		014A46512964646300E43508 /* ModuleScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleScreenViewModel.swift; sourceTree = "<group>"; };
+		014B767C29E038D10044DF87 /* LearnSelectionPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnSelectionPage.swift; sourceTree = "<group>"; };
+		014B767E29E03B750044DF87 /* LearnSelectionPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnSelectionPageViewModel.swift; sourceTree = "<group>"; };
 		015713962964607E0022E1FA /* ModuleScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleScreen.swift; sourceTree = "<group>"; };
 		015CB51E2994381B0088A1FC /* WordsCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsCarouselView.swift; sourceTree = "<group>"; };
 		015CB520299438270088A1FC /* WordsCarouselViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsCarouselViewModel.swift; sourceTree = "<group>"; };
@@ -267,6 +271,23 @@
 			path = CreateModule;
 			sourceTree = "<group>";
 		};
+		014B767A29E0387D0044DF87 /* LearnPage */ = {
+			isa = PBXGroup;
+			children = (
+				014B767B29E038AD0044DF87 /* LearnSelectionPage */,
+			);
+			path = LearnPage;
+			sourceTree = "<group>";
+		};
+		014B767B29E038AD0044DF87 /* LearnSelectionPage */ = {
+			isa = PBXGroup;
+			children = (
+				014B767E29E03B750044DF87 /* LearnSelectionPageViewModel.swift */,
+				014B767C29E038D10044DF87 /* LearnSelectionPage.swift */,
+			);
+			path = LearnSelectionPage;
+			sourceTree = "<group>";
+		};
 		015713952964604A0022E1FA /* ModuleScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -394,6 +415,7 @@
 		019056462944A8450058B566 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				014B767A29E0387D0044DF87 /* LearnPage */,
 				019160BA29D0989C0094F36D /* ModuleSelectPage */,
 				015CB51D299437F40088A1FC /* WordsCarousel */,
 				017A6F722969CEF0001C1855 /* AddNewPhrase */,
@@ -711,9 +733,11 @@
 				0103FF4C294C7471004C2EA6 /* UserDefaultsManager.swift in Sources */,
 				0101956129646CD7007BDEAB /* WordCard.swift in Sources */,
 				019056392944A7140058B566 /* WordyApp.swift in Sources */,
+				014B767F29E03B750044DF87 /* LearnSelectionPageViewModel.swift in Sources */,
 				013E64AE2950B281002A85E2 /* CreateModuleButton.swift in Sources */,
 				01468115295602290080732C /* InputRoundedTextArea.swift in Sources */,
 				0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */,
+				014B767D29E038D10044DF87 /* LearnSelectionPage.swift in Sources */,
 				016817FF2969B0B400F30E39 /* Alert.swift in Sources */,
 				019160BC29D098DD0094F36D /* ModuleSelectPage.swift in Sources */,
 				01F708BB29B6573F00585B2E /* NewCategoryCard.swift in Sources */,
@@ -859,6 +883,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Wordy/Preview Content\"";
 				DEVELOPMENT_TEAM = 73WN3K2PDD;
 				ENABLE_PREVIEWS = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

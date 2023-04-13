@@ -13,3 +13,13 @@ struct Phrase: Equatable {
 	
 	var date: Date?
 }
+
+extension Phrase {
+	func getAnswer(answerType: BasicLanguageType) -> String {
+		answerType == .translated ? translatedText : nativeText
+	}
+	
+	func getQuestion(answerType: BasicLanguageType) -> String {
+		answerType == .native ? translatedText : nativeText
+	}
+}

@@ -35,6 +35,10 @@ internal enum Asset {
     internal static let navBarPurple = ColorAsset(name: "NavBarPurple")
     internal static let nonActiveCategory = ColorAsset(name: "NonActiveCategory")
     internal static let searchTFBackground = ColorAsset(name: "SearchTFBackground")
+    internal static let answer1 = ColorAsset(name: "answer1")
+    internal static let answer2 = ColorAsset(name: "answer2")
+    internal static let answer3 = ColorAsset(name: "answer3")
+    internal static let answer4 = ColorAsset(name: "answer4")
   }
   internal enum Images {
     internal static let accentColor = ColorAsset(name: "AccentColor")
@@ -51,6 +55,7 @@ internal enum Asset {
     internal static let searchIcon = ImageAsset(name: "SearchIcon")
     internal static let settingsIcon = ImageAsset(name: "SettingsIcon")
     internal static let speach = ImageAsset(name: "Speach")
+    internal static let learnPageBG = ImageAsset(name: "learnPageBG")
     internal static let newGroup = ImageAsset(name: "newGroup")
   }
 }
