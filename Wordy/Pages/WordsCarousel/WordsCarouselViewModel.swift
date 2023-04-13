@@ -29,11 +29,9 @@ class WordsCarouselViewModel: ObservableObject {
 	}
 	
 	func didTapShowLearnPage() {
-		if thisModule.phrases.count >= 4 {
-			showLearnPage.toggle()
-		} else {
+		if thisModule.phrases.count < 4 {
 			let wordsCountDifference = 4 - thisModule.phrases.count
-			alert.title = "Для изучения слов необходимо минимум 4 фразы"
+			alert.title = "Для изучения слов необходимо минимум \n4 фразы"
 			alert.description = "\nОсталось добавить еще \(getCorrectWord(value: wordsCountDifference))!"
 			withAnimation {
 				self.showAlert = true

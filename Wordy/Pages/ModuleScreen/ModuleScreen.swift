@@ -13,6 +13,8 @@ struct ModuleScreen: View {
 	@Binding var filteredModules: [Module]
 	@Binding var searchText: String
 	@ObservedObject var viewModel = ModuleScreenViewModel()
+	@StateObject var learnPageViewModel = LearnSelectionPageViewModel()
+	@State var showLearnPage = false
 	
 	@Environment(\.dismiss) private var dismiss
 	
@@ -33,7 +35,14 @@ struct ModuleScreen: View {
 //									.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 24))
 								AddWordPlusButton { viewModel.showActionSheet = true }
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
-								LearnModuleButton {  }
+								LearnModuleButton {
+									if viewModel.module.phrases.count >= 4 {
+										learnPageViewModel.module = viewModel.module
+										showLearnPage.toggle()
+									} else {
+										viewModel.didTapShowLearnPage()
+									}
+								}
 									.frame(height: 45)
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
 								ForEach(0..<viewModel.phraseCount, id: \.self) { i in
@@ -74,6 +83,17 @@ struct ModuleScreen: View {
 			.fullScreenCover(isPresented: $viewModel.showWordsCarousel) {
 				WordsCarouselView(modules: $filteredModules, moduleIndex: viewModel.index, selectedWordIndex: viewModel.selectedWordIndex)
 			}
+			.fullScreenCover(isPresented: $showLearnPage, content: {
+				LearnSelectionPage(
+					module: viewModel.module,
+					viewModel: learnPageViewModel
+				)
+			})
+			.onChange(of: showLearnPage, perform: { newValue in
+				if !newValue {
+					learnPageViewModel.clearAllProperties()
+				}
+			})
 			.activity($viewModel.showActivity)
 			.onChange(of: viewModel.thisModuleSuccessfullyDeleted) { newValue in
 				if newValue == true {
@@ -84,6 +104,9 @@ struct ModuleScreen: View {
 				viewModel.nowReallyNeedToDeleteModule()
 			}
 			.showAlert(title: "Правило\n пятнадцати слов", description: "\nНаш мозг устроен таким образом, \nчто информация усваивается более эффективно, если она разделена \nна порции. \n\n 15 слов – это та самая порция, которая является оптимальной для запоминания в рамках одного модуля", isPresented: $showInfoAlert, titleWithoutAction: "Буду знать!", withoutButtons: true) {
+				
+			}
+			.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAboutPhraseCount, withoutButtons: true) {
 				
 			}
 	}

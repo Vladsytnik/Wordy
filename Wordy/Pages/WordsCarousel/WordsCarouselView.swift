@@ -50,8 +50,12 @@ struct WordsCarouselView: View {
 				
 				Spacer(minLength: 50)
 				LearnModuleButton {
-					learnPageViewModel.module = viewModel.thisModule
-					showLearnPage.toggle()
+					if viewModel.thisModule.phrases.count >= 4 {
+						learnPageViewModel.module = viewModel.thisModule
+						showLearnPage.toggle()
+					} else {
+						viewModel.didTapShowLearnPage()
+					}
 				}
 				.padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
 			}

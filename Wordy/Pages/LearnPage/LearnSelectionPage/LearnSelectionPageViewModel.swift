@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 enum BasicLanguageType {
 	case native
@@ -55,6 +56,9 @@ class LearnSelectionPageViewModel: ObservableObject {
 	@Published var indexOfCorrectButton = -1
 	@Published var needOpenTextField = false
 	@Published var inputTextAnsweredType: InputAnswerType = .notSelected
+	
+	private var sucessGenerator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
+	private var failedGenerator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .heavy)
 	
 	func start() {
 		print("Start")
@@ -129,6 +133,11 @@ class LearnSelectionPageViewModel: ObservableObject {
 	}
 	
 	private func userHasAnsweredCorrect(_ isCorrect: Bool) {
+		if isCorrect {
+			sucessGenerator?.impactOccurred()
+		} else {
+			failedGenerator?.impactOccurred()
+		}
 		if currentPageType == .inputable {
 			inputTextAnsweredType = isCorrect ? .correct : .uncorrect
 		}

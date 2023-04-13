@@ -20,6 +20,7 @@ class ModuleScreenViewModel: ObservableObject {
 	@Published var thisModuleSuccessfullyDeleted = false
 	@Published var showActivity = false
 	@Published var showErrorAlert = false
+	@Published var showErrorAboutPhraseCount = false
 	
 	var selectedWordIndex = 0
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
@@ -60,5 +61,28 @@ class ModuleScreenViewModel: ObservableObject {
 			self.showErrorAlert = true
 		}
 
+	}
+	
+	func didTapShowLearnPage() {
+		if module.phrases.count < 4 {
+			let wordsCountDifference = 4 - module.phrases.count
+			alert.title = "Для изучения слов необходимо минимум \n4 фразы"
+			alert.description = "\nОсталось добавить еще \(getCorrectWord(value: wordsCountDifference))!"
+			withAnimation {
+				self.showErrorAboutPhraseCount = true
+			}
+		}
+	}
+	
+	func getCorrectWord(value: Int) -> String {
+		if value == 1 {
+			return "одну"
+		} else if value == 2 {
+			return "две"
+		} else if value == 3 {
+			return "три"
+		} else {
+			return "четыре"
+		}
 	}
 }
