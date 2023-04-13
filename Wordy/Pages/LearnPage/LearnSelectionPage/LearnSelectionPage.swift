@@ -14,12 +14,6 @@ struct LearnSelectionPage: View {
 	
 	@State var spacing: CGFloat = -100
 	
-	private let answers = [
-		"Желание",
-		"Хорошо ладить с кем-то",
-		"Быть наедине с собой Быть наедине с собой Быть наедине с собой Быть наедине с собой Быть наедине с собой Быть наедине с собой",
-		"Нанимать на работу b tot jx lkbyysq ntrcn vd f dwdf wefwecwecvwev"
-	]
 	private let colors = [
 		Color(asset: Asset.Colors.answer1),
 		Color(asset: Asset.Colors.answer2),
@@ -63,7 +57,7 @@ struct LearnSelectionPage: View {
 								Rectangle()
 									.frame(height: 80)
 									.foregroundColor(colors[i])
-									.offset(y: i != answers.count - 1 ? 20 : 50)
+									.offset(y: i != viewModel.currentAnswers.count - 1 ? 20 : 50)
 								Text(viewModel.currentAnswers[i])
 									.foregroundColor(viewModel.buttonSelected[i] ? viewModel.indexOfCorrectButton == i ? Color.green : Color.red : .white)
 									.font(.system(size: 18, weight: .medium))
