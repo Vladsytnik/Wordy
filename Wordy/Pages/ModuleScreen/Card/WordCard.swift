@@ -50,10 +50,15 @@ struct WordCard: View {
 
 				}
 				Color.clear
-					.frame(height: 5)
-				Text("I want to overcome myself because i bealive I want to overcome myself because i bealive ")
-					.foregroundColor(.white)
-					.multilineTextAlignment(.leading)
+					.frame(height: viewModel.phrase.example != nil ? 5 : 1)
+				if viewModel.phrase.example != nil {
+					highlightSubstring(
+						viewModel.phrase.nativeText,
+						in: viewModel.phrase.example ?? ""
+					)
+						.foregroundColor(.white)
+						.multilineTextAlignment(.leading)
+				}
 			}
 			.padding()
 		}
@@ -65,6 +70,17 @@ struct WordCard: View {
 				.foregroundColor(Color(asset: Asset.Colors.moduleCardBG))
 //				.frame(width: width)
 		}
+	}
+	
+	func highlightSubstring(_ substring: String, in string: String) -> Text {
+		guard let range = string.range(of: substring, options: [.caseInsensitive, .diacriticInsensitive]) else {
+			return Text(string) // если подстрока не найдена, возвращаем исходный текст
+		}
+		let wordRange = string.rangeOfWord(containing: range)
+		let prefix = string.prefix(upTo: wordRange.lowerBound)
+		let highlightedSubstring = Text(string[wordRange]).foregroundColor(Color(asset: Asset.Colors.exampleYellow))
+		let suffix = string.suffix(from: wordRange.upperBound)
+		return Text(prefix) + highlightedSubstring + highlightSubstring(substring, in: String(suffix))
 	}
 }
 

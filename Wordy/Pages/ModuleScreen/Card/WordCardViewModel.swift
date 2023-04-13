@@ -14,4 +14,8 @@ class WordCardViewModel: ObservableObject {
 	var index = 0
 	var phrase = Phrase(nativeText: "", translatedText: "")
 	
+	var thisModule: Module {
+		modules[index]
+	}
+	
 }

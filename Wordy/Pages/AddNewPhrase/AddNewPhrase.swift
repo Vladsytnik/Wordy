@@ -70,6 +70,18 @@ struct AddNewPhrase: View {
 					}
 					.offset(x: !viewModel.translatedPhraseIsEmpty ? 0 : 10)
 					
+					CustomTextField(
+						placeholder: "I like apple",
+						text: $viewModel.examplePhrase,
+						enableFocuse: false,
+						isFirstResponder: $viewModel.textFieldThreeIsActive,
+						closeKeyboard: $viewModel.closeKeyboards
+					)
+					.onTapGesture {
+						viewModel.didTapTextField(index: 1)
+					}
+					.offset(x: !viewModel.examplePhraseIsEmpty ? 0 : 10)
+					
 					Rectangle()
 						.foregroundColor(.clear)
 						.frame(height: 30)

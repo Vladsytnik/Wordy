@@ -28,6 +28,7 @@ internal enum Asset {
     internal static let addModuleButtonBG = ColorAsset(name: "AddModuleButtonBG")
     internal static let createModuleButton = ColorAsset(name: "CreateModuleButton")
     internal static let descrWordOrange = ColorAsset(name: "DescrWordOrange")
+    internal static let exampleYellow = ColorAsset(name: "ExampleYellow")
     internal static let lightPurple = ColorAsset(name: "LightPurple")
     internal static let moduleCardBG = ColorAsset(name: "ModuleCardBG")
     internal static let moduleCardDarkGray = ColorAsset(name: "ModuleCardDarkGray")

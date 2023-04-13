@@ -22,11 +22,16 @@ extension Module {
 		var dictArray: [[String: Any]] = [[:]]
 		
 		for phrase in phrases {
-			dictArray.append([
+			var tempDict: [String: Any] = [:]
+			tempDict = [
 				Constants.nativeText : phrase.nativeText,
 				Constants.translatedText : phrase.translatedText,
 				Constants.date: String().generateDate(from: phrase.date) as Any
-			])
+			]
+			if let example = phrase.example {
+				tempDict[Constants.example] = example
+			}
+			dictArray.append(tempDict)
 		}
 		
 		return dictArray
@@ -61,8 +66,11 @@ extension Module {
 							if let date = phraseDict[Constants.date] as? String {
 								phrase.date = Date().generateDate(from: date)
 							}
-							module.phrases.append(phrase)
+							if let example = phraseDict[Constants.example] as? String {
+								phrase.example = example
+							}
 							
+							module.phrases.append(phrase)
 						}
 						
 					}

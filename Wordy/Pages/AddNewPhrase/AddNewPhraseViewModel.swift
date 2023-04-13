@@ -17,9 +17,11 @@ class AddNewPhraseViewModel: ObservableObject {
 	@Published var nativePhrase = ""
 	@Published var translatedPhrase = ""
 	@Published var searchedText = ""
+	@Published var examplePhrase = ""
 	
 	@Published var textFieldOneIsActive = true
 	@Published var textFieldTwoIsActive = false
+	@Published var textFieldThreeIsActive = false
 	
 	@Published var swipeOffsetValue: CGFloat = 0
 	
@@ -28,6 +30,7 @@ class AddNewPhraseViewModel: ObservableObject {
 	
 	@Published var nativePhraseIsEmpty = false
 	@Published var translatedPhraseIsEmpty = false
+	@Published var examplePhraseIsEmpty = false
 	
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
@@ -40,6 +43,7 @@ class AddNewPhraseViewModel: ObservableObject {
 	func didTapTextField(index: Int) {
 		textFieldOneIsActive = index == 0
 		textFieldTwoIsActive = index == 1
+		textFieldTwoIsActive = index == 2
 	}
 	
 	func addWordToCurrentModule(success: @escaping () -> Void) {
@@ -54,7 +58,8 @@ class AddNewPhraseViewModel: ObservableObject {
 		existingPhrases.append([
 			Constants.nativeText: nativePhrase,
 			Constants.translatedText: translatedPhrase,
-			Constants.date: String().generateCurrentDateMarker()
+			Constants.date: String().generateCurrentDateMarker(),
+			Constants.example: examplePhrase
 		])
 		
 		let queue = DispatchQueue(label: "sytnik.wordy.addWordTo")

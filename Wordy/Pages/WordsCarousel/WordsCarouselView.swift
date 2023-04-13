@@ -185,11 +185,31 @@ fileprivate struct MainText: View {
 					.multilineTextAlignment(.center)
 					.minimumScaleFactor(0.5)
 			}
-			Text("Get on well with my friend i write now somthing for example yeah i know that it is nothing")
-				.foregroundColor(.white)
-				.font(.system(size: 18))
-				.multilineTextAlignment(.center)
-				.minimumScaleFactor(0.6)
+			if phrase.example == nil {
+				Text("Here can be your example")
+					.foregroundColor(.white)
+					.font(.system(size: 18))
+					.multilineTextAlignment(.center)
+					.minimumScaleFactor(0.6)
+			} else {
+				highlightSubstring(phrase.nativeText, in: phrase.example ?? "")
+					.foregroundColor(.white)
+					.font(.system(size: 18))
+					.multilineTextAlignment(.center)
+					.minimumScaleFactor(0.6)
+			}
+			
 		}
+	}
+	
+	func highlightSubstring(_ substring: String, in string: String) -> Text {
+		guard let range = string.range(of: substring, options: [.caseInsensitive, .diacriticInsensitive]) else {
+			return Text(string) // если подстрока не найдена, возвращаем исходный текст
+		}
+		let wordRange = string.rangeOfWord(containing: range)
+		let prefix = string.prefix(upTo: wordRange.lowerBound)
+		let highlightedSubstring = Text(string[wordRange]).foregroundColor(Color(asset: Asset.Colors.exampleYellow))
+		let suffix = string.suffix(from: wordRange.upperBound)
+		return Text(prefix) + highlightedSubstring + highlightSubstring(substring, in: String(suffix))
 	}
 }

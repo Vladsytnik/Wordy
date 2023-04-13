@@ -11,6 +11,8 @@ struct Phrase: Equatable {
 	let nativeText: String
 	let translatedText: String
 	
+	var example: String?
+	
 	var date: Date?
 }
 

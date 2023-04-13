@@ -11,4 +11,5 @@ enum Constants {
 	static let nativeText = "nativePhrase"
 	static let translatedText = "translatedPhrase"
 	static let date = "date"
+	static let example = "example"
 }

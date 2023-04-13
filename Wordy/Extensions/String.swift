@@ -59,4 +59,18 @@ extension String {
 	}
 }
 
-
+extension String {
+	func rangeOfWord(containing range: Range<String.Index>) -> Range<String.Index> {
+		let start = range.lowerBound
+		let end = range.upperBound
+		var startOfWord = start
+		while startOfWord > startIndex && !self[startOfWord].isWhitespace {
+			startOfWord = index(before: startOfWord)
+		}
+		var endOfWord = end
+		while endOfWord < endIndex && !self[endOfWord].isWhitespace {
+			endOfWord = index(after: endOfWord)
+		}
+		return startOfWord..<endOfWord
+	}
+}
