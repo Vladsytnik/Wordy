@@ -106,25 +106,29 @@ struct LearnSelectionPage: View {
 					else {
 						if viewModel.needOpenTextField {
 							LearnTextField(
-								placeholder: "Введите ваш ответ",
+								placeholder: $viewModel.textFieldPLaceholder,
 								text: $viewModel.inputText,
 								needOpen: $viewModel.needOpenTextField,
 								isFirstResponder: $viewModel.textFieldIsFirstResponder,
 								closeKeyboard: .constant(false),
 								onReturn: {
 									viewModel.userDidSelectAnswer(answer: viewModel.inputText)
+								}, onUserDoesntKnow : {
+									viewModel.userDoesntKnow()
 								}
 							)
 							.padding()
 						} else {
 							LearnTextField(
-								placeholder: "Введите ваш ответ",
+								placeholder: $viewModel.textFieldPLaceholder,
 								text: $viewModel.inputText,
 								needOpen: $viewModel.needOpenTextField,
 								isFirstResponder: $viewModel.textFieldIsFirstResponder,
 								closeKeyboard: .constant(true),
 								onReturn: {
 									viewModel.userDidSelectAnswer(answer: viewModel.inputText)
+								}, onUserDoesntKnow : {
+									viewModel.userDoesntKnow()
 								}
 							)
 							.padding()
@@ -153,7 +157,7 @@ struct LearnSelectionPage: View {
 
 struct LearnTextField: View {
 	
-	let placeholder: String
+	@Binding var placeholder: String
 	@Binding var text: String
 	@Binding var needOpen: Bool
 	@Binding var isFirstResponder: Bool
@@ -166,6 +170,7 @@ struct LearnTextField: View {
 	@FocusState var isFocused: Bool
 	
 	var onReturn: (() -> Void)?
+	var onUserDoesntKnow: (() -> Void)?
 	
 	var body: some View {
 		VStack {
@@ -190,6 +195,15 @@ struct LearnTextField: View {
 							Image(asset: Asset.Images.plusIcon)
 								.rotationEffect(.degrees(45))
 								.opacity(isFocused ? 1 : 0)
+						}
+					}
+					if isFocused && text.count == 0 {
+						Button {
+							onUserDoesntKnow?()
+						} label: {
+							Text("Не знаю")
+								.foregroundColor(.white.opacity(0.6))
+								.font(.system(size: fontSize, weight: .medium))
 						}
 					}
 				}

@@ -13,6 +13,7 @@ struct WordCard: View {
 	@ObservedObject var viewModel = WordCardViewModel()
 	
 	@Binding var modules: [Module]
+	@FocusState var isFocused: Bool
 	
 	init(width: CGFloat, modules: Binding<[Module]>, index: Int, phrase: Phrase) {
 		self._modules = modules
@@ -51,13 +52,33 @@ struct WordCard: View {
 				}
 				Color.clear
 					.frame(height: viewModel.phrase.example != nil ? 5 : 1)
-				if viewModel.phrase.example != nil {
+				if let example = viewModel.phrase.example, example.count > 0 {
 					highlightSubstring(
 						viewModel.phrase.nativeText,
-						in: viewModel.phrase.example ?? ""
+						in: example
 					)
 						.foregroundColor(.white)
 						.multilineTextAlignment(.leading)
+				} else {
+					Button {
+						
+					} label: {
+						VStack(spacing: 5) {
+							Text("Добавить пример")
+								.foregroundColor(.white.opacity(0.9))
+								.font(.system(size: 16, weight: .regular))
+								.background {
+									VStack {
+										Spacer()
+										Rectangle()
+											.foregroundColor(.white)
+											.frame(height: 1)
+									}
+									.offset(y: 5)
+								}
+						}
+					}
+					.padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
 				}
 			}
 			.padding()

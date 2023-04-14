@@ -60,6 +60,8 @@ class LearnSelectionPageViewModel: ObservableObject {
 	@Published var showSuccessAnimation = false
 	@Published var learningIsFinished = false
 	
+	@Published var textFieldPLaceholder = "Введите ваш ответ"
+	
 	private var sucessGenerator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
 	private var failedGenerator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .heavy)
 	
@@ -102,6 +104,10 @@ class LearnSelectionPageViewModel: ObservableObject {
 			return
 		}
 		buttonSelected[index].toggle()
+	}
+	
+	func userDoesntKnow() {
+		textFieldPLaceholder = currentCorrectAnswer.getAnswer(answerType: answersLanguageType)
 	}
 	
 	private func getRandomQuestion() {
@@ -155,6 +161,7 @@ class LearnSelectionPageViewModel: ObservableObject {
 			}
 			self.inputText = ""
 			self.indexOfCorrectButton = -1
+			self.textFieldPLaceholder = "Введите ваш ответ"
 			self.currentCorrectAnswer = .init(nativeText: "", translatedText: "")
 			self.buttonSelected = Array(repeating: false, count: 4)
 			
