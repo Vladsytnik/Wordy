@@ -22,6 +22,9 @@ class ModuleScreenViewModel: ObservableObject {
 	@Published var showErrorAlert = false
 	@Published var showErrorAboutPhraseCount = false
 	
+	@Published var showEditPhrasePage = false
+	@Published var phraseIndexForEdit = 0
+	
 	var selectedWordIndex = 0
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
@@ -84,5 +87,11 @@ class ModuleScreenViewModel: ObservableObject {
 		} else {
 			return "четыре"
 		}
+	}
+	
+	func didTapAddExample(index: Int) {
+		phraseIndexForEdit = index
+		print(index)
+		showEditPhrasePage.toggle()
 	}
 }

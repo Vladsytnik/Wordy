@@ -15,10 +15,14 @@ struct WordCard: View {
 	@Binding var modules: [Module]
 	@FocusState var isFocused: Bool
 	
-	init(width: CGFloat, modules: Binding<[Module]>, index: Int, phrase: Phrase) {
+	var onAddExampleTap: ((Int) -> Void)?
+	
+	init(width: CGFloat, modules: Binding<[Module]>, index: Int, phrase: Phrase, phraseIndex: Int, onAddExampleTap: ((Int) -> Void)?) {
 		self._modules = modules
 		self.width = width
+		self.onAddExampleTap = onAddExampleTap
 		viewModel.modules = modules.wrappedValue
+		viewModel.phraseIndex = phraseIndex
 		viewModel.index = index
 		viewModel.phrase = phrase
 	}
@@ -61,7 +65,7 @@ struct WordCard: View {
 						.multilineTextAlignment(.leading)
 				} else {
 					Button {
-						
+						onAddExampleTap?(viewModel.phraseIndex)
 					} label: {
 						VStack(spacing: 5) {
 							Text("Добавить пример")
@@ -111,7 +115,7 @@ struct WordCard_Previews: PreviewProvider {
 			width: 300,
 			modules: .constant([.init(name: "Test", emoji: "🔮")]),
 			index: 0,
-			phrase: Phrase(nativeText: "Overcome", translatedText: "Преодолевать")
+			phrase: Phrase(nativeText: "Overcome", translatedText: "Преодолевать"), phraseIndex: 0, onAddExampleTap: { _ in}
 		)
     }
 }

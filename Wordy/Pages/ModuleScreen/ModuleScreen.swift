@@ -25,6 +25,18 @@ struct ModuleScreen: View {
 			.background(content: {
 				GeometryReader { geo in
 					ZStack {
+						NavigationLink(
+							destination: PhraseEditPage(
+								modules: $modules,
+								searchedText: $searchText,
+								filteredModules: $filteredModules,
+								phraseIndex: viewModel.phraseIndexForEdit,
+								moduleIndex: viewModel.index
+							),
+							isActive: $viewModel.showEditPhrasePage
+						) {
+							EmptyView()
+						}.hidden()
 						ScrollView {
 							VStack {
 								Header(viewModel: viewModel, showAlert: $showInfoAlert, module: viewModel.module)
@@ -53,8 +65,11 @@ struct ModuleScreen: View {
 											width: geo.size.width - 60,
 											modules: $filteredModules,
 											index: viewModel.index,
-											phrase: viewModel.phrases[i]
-										)
+											phrase: viewModel.phrases[i],
+											phraseIndex: i,
+											onAddExampleTap: { index in
+												viewModel.didTapAddExample(index: index)
+											})
 									}
 									.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
 								}
