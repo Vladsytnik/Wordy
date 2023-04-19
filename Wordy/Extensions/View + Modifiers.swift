@@ -256,3 +256,111 @@ struct EdgeBorder: Shape {
 	}
 }
 
+extension View {
+	func showInputTextPopover(show: Binding<Bool>) -> some View {
+		ModifiedContent(content: self, modifier: ShowInputTextPopover(show: show))
+	}
+}
+
+struct ShowInputTextPopover: ViewModifier {
+	
+	@Binding var show: Bool
+	@State var text = ""
+	
+	func body(content: Content) -> some View {
+		ZStack {
+			content
+				.zIndex(0)
+				.disabled(show)
+				.opacity(show ? 0.5 : 1)
+				.onTapGesture {
+					if show {
+						withAnimation {
+							text = ""
+							show.toggle()
+						}
+					}
+				}
+			if show {
+				VStack {
+					Spacer()
+					InputTextField(
+						placeholder: .constant("Example"),
+						text: $text,
+						needOpen: .constant(true),
+						isFirstResponder: .constant(false),
+						closeKeyboard: .constant(false),
+						onReturn: {
+							text = ""
+							show.toggle()
+						}
+					)
+					.padding()
+					.background {
+						ZStack {
+							Color(asset: Asset.Colors.moduleCardBG)
+								.padding(EdgeInsets(top: -32, leading: 0, bottom: 0, trailing: 0))
+								.cornerRadius(12, corners: [.topLeft, .topRight])
+								.edgesIgnoringSafeArea(.bottom)
+						}
+					}
+				}
+				.zIndex(1)
+				.transition(.move(edge: .bottom))
+			}
+		}
+	}
+}
+
+struct InputTextField: View {
+	
+	@Binding var placeholder: String
+	@Binding var text: String
+	@Binding var needOpen: Bool
+	@Binding var isFirstResponder: Bool
+	@Binding var closeKeyboard: Bool
+	
+	let fontSize: CGFloat = 20
+	
+	@Environment(\.dismiss) var dismiss
+	
+	@FocusState var isFocused: Bool
+	
+	var onReturn: (() -> Void)?
+	var onUserDoesntKnow: (() -> Void)?
+	
+	var body: some View {
+		VStack {
+			ZStack(alignment: .leading) {
+				Text(placeholder)
+					.foregroundColor(.white.opacity(0.3))
+					.font(.system(size: fontSize, weight: .medium))
+					.opacity(text.isEmpty ? 1 : 0)
+				HStack {
+					TextField("", text: $text, onCommit: {
+						onReturn?()
+					})
+					.foregroundColor(.white)
+					.tint(.white)
+					.font(.system(size: fontSize, weight: .medium))
+					.focused($isFocused)
+					if text.count > 0 && isFocused {
+						Button {
+							text = ""
+						} label: {
+							Image(asset: Asset.Images.plusIcon)
+								.rotationEffect(.degrees(45))
+								.opacity(isFocused ? 1 : 0)
+						}
+					}
+				}
+			}
+			.onAppear {
+				isFocused = true
+			}
+			Rectangle()
+				.foregroundColor(.white.opacity(1))
+				.frame(height: 1)
+		}
+	}
+}

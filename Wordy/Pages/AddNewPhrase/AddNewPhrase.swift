@@ -70,17 +70,42 @@ struct AddNewPhrase: View {
 					}
 					.offset(x: !viewModel.translatedPhraseIsEmpty ? 0 : 10)
 					
-					CustomTextField(
-						placeholder: "I like apple",
-						text: $viewModel.examplePhrase,
-						enableFocuse: false,
-						isFirstResponder: $viewModel.textFieldThreeIsActive,
-						closeKeyboard: $viewModel.closeKeyboards
-					)
-					.onTapGesture {
-						viewModel.didTapTextField(index: 1)
+					if viewModel.wasTappedAddExample {
+						CustomTextField(
+							placeholder: "I like apple",
+							text: $viewModel.examplePhrase,
+							enableFocuse: false,
+							isFirstResponder: $viewModel.textFieldThreeIsActive,
+							closeKeyboard: $viewModel.closeKeyboards
+						)
+						.onTapGesture {
+							viewModel.didTapTextField(index: 1)
+						}
+						.offset(x: !viewModel.examplePhraseIsEmpty ? 0 : 10)
+					} else {
+						HStack {
+							Button {
+								viewModel.wasTappedAddExample.toggle()
+								DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+									viewModel.didTapTextField(index: 2)
+								}
+							} label: {
+								Text("Добавить пример использования")
+									.foregroundColor(.white)
+									.font(.system(size: 14, weight: .regular))
+							}
+							.background {
+								VStack {
+									Spacer()
+									Rectangle()
+										.frame(height: 1)
+										.foregroundColor(.white)
+								}
+							}
+							.padding(EdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0))
+							Spacer()
+						}
 					}
-					.offset(x: !viewModel.examplePhraseIsEmpty ? 0 : 10)
 					
 					Rectangle()
 						.foregroundColor(.clear)

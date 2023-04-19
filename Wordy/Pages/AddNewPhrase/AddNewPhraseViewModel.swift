@@ -32,6 +32,8 @@ class AddNewPhraseViewModel: ObservableObject {
 	@Published var translatedPhraseIsEmpty = false
 	@Published var examplePhraseIsEmpty = false
 	
+	@Published var wasTappedAddExample = false
+	
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
 	var module: Module {
@@ -43,7 +45,7 @@ class AddNewPhraseViewModel: ObservableObject {
 	func didTapTextField(index: Int) {
 		textFieldOneIsActive = index == 0
 		textFieldTwoIsActive = index == 1
-		textFieldTwoIsActive = index == 2
+		textFieldThreeIsActive = index == 2
 	}
 	
 	func addWordToCurrentModule(success: @escaping () -> Void) {
