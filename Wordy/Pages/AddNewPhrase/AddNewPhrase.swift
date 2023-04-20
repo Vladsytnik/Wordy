@@ -15,6 +15,10 @@ struct AddNewPhrase: View {
 	@Binding var filteredModules: [Module]
 	@Binding var searchText: String
 	
+	@State private var nativeText = ""
+	@State private var translatedText = ""
+	@State private var exampleText = ""
+	
 	@Environment(\.dismiss) private var dismiss
 	@ObservedObject var viewModel = AddNewPhraseViewModel()
 	
@@ -26,6 +30,10 @@ struct AddNewPhrase: View {
 		viewModel.searchedText = searchedText.wrappedValue
 		viewModel.filteredModules = filteredModules.wrappedValue
 		viewModel.index = index
+		
+		viewModel.nativePhrase = nativeText
+		viewModel.translatedPhrase = translatedText
+		viewModel.examplePhrase = exampleText
 	}
 	
 	var body: some View {
@@ -48,7 +56,7 @@ struct AddNewPhrase: View {
 					
 					CustomTextField(
 						placeholder: "Apple",
-						text: $viewModel.nativePhrase,
+						text: $nativeText,
 						enableFocuse: true,
 						isFirstResponder: $viewModel.textFieldOneIsActive,
 						closeKeyboard: $viewModel.closeKeyboards
@@ -60,7 +68,7 @@ struct AddNewPhrase: View {
 					
 					CustomTextField(
 						placeholder: "Яблоко",
-						text: $viewModel.translatedPhrase,
+						text: $translatedText,
 						enableFocuse: false,
 						isFirstResponder: $viewModel.textFieldTwoIsActive,
 						closeKeyboard: $viewModel.closeKeyboards
@@ -73,7 +81,7 @@ struct AddNewPhrase: View {
 					if viewModel.wasTappedAddExample {
 						CustomTextField(
 							placeholder: "I like apple",
-							text: $viewModel.examplePhrase,
+							text: $exampleText,
 							enableFocuse: false,
 							isFirstResponder: $viewModel.textFieldThreeIsActive,
 							closeKeyboard: $viewModel.closeKeyboards
@@ -166,13 +174,30 @@ struct AddNewPhrase: View {
 					.foregroundColor(.white.opacity(0.00001))
 			}
 		}
-		
+		.onChange(of: viewModel.nativePhrase) { newValue in
+			self.nativeText = newValue
+		}
+		.onChange(of: viewModel.translatedPhrase) { newValue in
+			self.translatedText = newValue
+		}
+		.onChange(of: viewModel.examplePhrase) { newValue in
+			self.exampleText = newValue
+		}
+//		.onAppear {
+//			viewModel.nativePhrase = nativeText
+//			viewModel.translatedPhrase = translatedText
+//			viewModel.examplePhrase = exampleText
+//		}
 	}
 	
 	private func addPhraseToModule() {
-		viewModel.addWordToCurrentModule(success: {
-			dismiss()
-		})
+		viewModel.addWordToCurrentModule(
+			native: nativeText,
+			translated: translatedText,
+			example: exampleText,
+			success: {
+				dismiss()
+			})
 	}
 }
 

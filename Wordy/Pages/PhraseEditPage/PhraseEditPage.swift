@@ -36,9 +36,11 @@ struct PhraseEditPage: View {
 		let index = filteredModules[moduleIndex].phrases.count - phraseIndex - 1
 		viewModel.phraseIndex = index
 		
-		viewModel.nativePhrase = viewModel.filteredModules[moduleIndex].phrases[index].nativeText
-		viewModel.translatedPhrase = viewModel.filteredModules[moduleIndex].phrases[index].translatedText
-		viewModel.examplePhrase = viewModel.filteredModules[moduleIndex].phrases[index].example ?? ""
+		if moduleIndex >= 0 && index >= 0 {
+			viewModel.nativePhrase = viewModel.filteredModules[moduleIndex].phrases[index].nativeText
+			viewModel.translatedPhrase = viewModel.filteredModules[moduleIndex].phrases[index].translatedText
+			viewModel.examplePhrase = viewModel.filteredModules[moduleIndex].phrases[index].example ?? ""
+		}
 	}
 	
 	var body: some View {

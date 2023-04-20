@@ -48,7 +48,10 @@ class AddNewPhraseViewModel: ObservableObject {
 		textFieldThreeIsActive = index == 2
 	}
 	
-	func addWordToCurrentModule(success: @escaping () -> Void) {
+	func addWordToCurrentModule(native: String, translated: String, example: String, success: @escaping () -> Void) {
+		nativePhrase = native
+		translatedPhrase = translated
+		examplePhrase = example
 		guard !nativePhrase.isEmpty && !translatedPhrase.isEmpty else {
 			shakeTextField()
 			return
