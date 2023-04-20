@@ -96,7 +96,7 @@ struct PhraseEditPage: View {
 							.offset(y: -30)
 							.transition(.scale)
 					} else {
-						Button { addPhraseToModule() } label: {
+						Button { savePhrase() } label: {
 							HStack {
 								Image(uiImage: UIImage(systemName: "checkmark") ?? UIImage())
 									.renderingMode(.template)
@@ -130,7 +130,7 @@ struct PhraseEditPage: View {
 				}
 			)
 			.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showAlert) {
-				addPhraseToModule()
+				savePhrase()
 			}
 			.onChange(of: viewModel.showAlert) { newValue in
 				if !newValue {
@@ -147,7 +147,7 @@ struct PhraseEditPage: View {
 		
 	}
 	
-	private func addPhraseToModule() {
+	private func savePhrase() {
 		viewModel.saveChanges(success: {
 			dismiss()
 		})

@@ -32,7 +32,7 @@ enum InputAnswerType {
 class LearnSelectionPageViewModel: ObservableObject {
 	
 	@Published var module: Module = .init()
-	@Published var currentCorrectAnswer: Phrase = .init(nativeText: "", translatedText: "")
+	@Published var currentCorrectAnswer: Phrase = .init(nativeText: "", translatedText: "", indexInFirebase: 0)
 	@Published var needRedraw = false
 	
 	@Published var answersCount = 4
@@ -162,7 +162,7 @@ class LearnSelectionPageViewModel: ObservableObject {
 			self.inputText = ""
 			self.indexOfCorrectButton = -1
 			self.textFieldPLaceholder = "Введите ваш ответ"
-			self.currentCorrectAnswer = .init(nativeText: "", translatedText: "")
+			self.currentCorrectAnswer = .init(nativeText: "", translatedText: "", indexInFirebase: 0)
 			self.buttonSelected = Array(repeating: false, count: 4)
 			
 			if self.phrases.count > 0 {
@@ -229,7 +229,7 @@ class LearnSelectionPageViewModel: ObservableObject {
 	func clearAllProperties() {
 		isAppeared = false
 		inputText = ""
-		currentCorrectAnswer = .init(nativeText: "", translatedText: "")
+		currentCorrectAnswer = .init(nativeText: "", translatedText: "", indexInFirebase: 0)
 		needRedraw = false
 		phrases = module.phrases
 		buttonSelected = Array(repeating: false, count: 4)

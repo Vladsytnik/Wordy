@@ -56,13 +56,13 @@ extension Module {
 			module.date = date
 			
 			if let phrasesData = data[moduleID]?["phrases"] as? [Any] {
-				for phrases in phrasesData {
+				for (i, phrases) in phrasesData.enumerated() {
 					if let phraseDict = phrases as? [String: Any] {
 						
 						if let nativeTxt = phraseDict[Constants.nativeText] as? String,
 						   let trasnlatedTxt = phraseDict[Constants.translatedText] as? String {
 							
-							var phrase = Phrase(nativeText: nativeTxt, translatedText: trasnlatedTxt)
+							var phrase = Phrase(nativeText: nativeTxt, translatedText: trasnlatedTxt, indexInFirebase: i)
 							if let date = phraseDict[Constants.date] as? String {
 								phrase.date = Date().generateDate(from: date)
 							}

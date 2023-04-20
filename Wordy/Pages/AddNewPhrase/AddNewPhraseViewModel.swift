@@ -52,6 +52,7 @@ class AddNewPhraseViewModel: ObservableObject {
 		nativePhrase = native
 		translatedPhrase = translated
 		examplePhrase = example
+		
 		guard !nativePhrase.isEmpty && !translatedPhrase.isEmpty else {
 			shakeTextField()
 			return

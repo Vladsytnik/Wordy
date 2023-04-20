@@ -143,10 +143,10 @@ struct WordsCarouselView_Previews: PreviewProvider {
 				   id: "400",
 				   date: Date(),
 				   phrases: [
-					Phrase(nativeText: "Test", translatedText: "Test", date: Date()),
-					Phrase(nativeText: "Test", translatedText: "Test", date: Date()),
-					Phrase(nativeText: "Test", translatedText: "Test", date: Date()),
-					Phrase(nativeText: "Test", translatedText: "Test", date: Date())
+					Phrase(nativeText: "Test", translatedText: "Test", indexInFirebase: 0, date: Date()),
+					Phrase(nativeText: "Test", translatedText: "Test", indexInFirebase: 0, date: Date()),
+					Phrase(nativeText: "Test", translatedText: "Test", indexInFirebase: 0, date: Date()),
+					Phrase(nativeText: "Test", translatedText: "Test", indexInFirebase: 0, date: Date())
 				   ])
 		]), moduleIndex: 0, selectedWordIndex: 0)
 	}

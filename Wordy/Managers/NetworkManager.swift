@@ -168,9 +168,25 @@ class NetworkManager {
 			
 			success()
 		}
-		
 	}
 	
+	static func updatePhrase(_ phrase: [String: Any], with phraseIndex: Int, from moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
+		guard let currentUserID = currentUserID else {
+			errorBlock("error in add(phrase: [String: String] -> currentUserID")
+			return
+		}
+		
+		ref.child("users").child(currentUserID).child("modules").child(moduleID).child("phrases").updateChildValues(["\(phraseIndex)" : phrase]) { error, ref in
+			guard error == nil else {
+				errorBlock("error in updatePhrase(_ phrase: [String: Any] -> updateChildValues")
+				return
+			}
+			
+			success()
+		}
+	}
+	
+
 	static func createGroup(name: String, modules: [Module]? = nil, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void ) {
 		guard let currentUserID = currentUserID else {
 			errorBlock("error in createGroup -> currentUserID")
