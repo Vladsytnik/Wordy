@@ -12,6 +12,7 @@ struct WordsCarouselView: View {
 	@State private var scrollOffset = CGFloat.zero
 	@ObservedObject var viewModel = WordsCarouselViewModel()
 	@Binding var modules: [Module]
+	@Binding var filteredModules: [Module]
 	@Environment(\.dismiss) private var dismiss
 	
 	@StateObject var learnPageViewModel = LearnSelectionPageViewModel()
@@ -63,6 +64,9 @@ struct WordsCarouselView: View {
 		.onChange(of: viewModel.modules) { newValue in
 			modules = newValue
 		}
+		.onChange(of: viewModel.filteredModules) { newValue in
+			self.filteredModules = newValue
+		}
 		.fullScreenCover(isPresented: $showLearnPage, content: {
 			LearnSelectionPage(
 				module: viewModel.thisModule,
@@ -85,9 +89,11 @@ struct WordsCarouselView: View {
 		}
 	}
 	
-	init(modules: Binding<[Module]>, moduleIndex: Int, selectedWordIndex: Int) {
+	init(modules: Binding<[Module]>, filteredModules: Binding<[Module]>, moduleIndex: Int, selectedWordIndex: Int) {
 		self._modules = modules
+		self._filteredModules = filteredModules
 		viewModel.modules = modules.wrappedValue
+		viewModel.filteredModules = filteredModules.wrappedValue
 		viewModel.index = moduleIndex
 		viewModel.selectedWordIndex = selectedWordIndex
 	}
@@ -148,7 +154,7 @@ struct WordsCarouselView_Previews: PreviewProvider {
 					Phrase(nativeText: "Test", translatedText: "Test", indexInFirebase: 0, date: Date()),
 					Phrase(nativeText: "Test", translatedText: "Test", indexInFirebase: 0, date: Date())
 				   ])
-		]), moduleIndex: 0, selectedWordIndex: 0)
+		]), filteredModules: .constant([]), moduleIndex: 0, selectedWordIndex: 0)
 	}
 }
 

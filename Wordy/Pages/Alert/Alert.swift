@@ -59,28 +59,30 @@ struct Alert: View {
 										.font(.system(size: 16, weight: .medium))
 								}
 						}
-						.offset(y: buttonsOffset)
+						.offset(y: !withoutButtons ? buttonsOffset : -16)
 //						.opacity(withoutButtons ? 0 : 1)
-						Button {
-							withAnimation {
-								isShow = false
-							}
-							DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-								repeatAction()
-							}
-						} label: {
-							RoundedRectangle(cornerRadius: 18)
-								.foregroundColor(.clear)
-								.frame(width: 300, height: 55)
-								.overlay {
-									Text(titleForAction)
-										.foregroundColor(.white)
-										.font(.system(size: 16, weight: .medium))
+						if !withoutButtons {
+							Button {
+								withAnimation {
+									isShow = false
 								}
+								DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+									repeatAction()
+								}
+							} label: {
+								RoundedRectangle(cornerRadius: 18)
+									.foregroundColor(.clear)
+									.frame(width: 300, height: 55)
+									.overlay {
+										Text(titleForAction)
+											.foregroundColor(.white)
+											.font(.system(size: 16, weight: .medium))
+									}
+							}
+							.offset(y: buttonsOffset)
+							.opacity(withoutButtons ? 0 : 1)
+							.padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
 						}
-						.offset(y: buttonsOffset)
-						.opacity(withoutButtons ? 0 : 1)
-						.padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
 					}
 					.frame(width: geo.size.width)
 					.padding(EdgeInsets(top: 0, leading: 0, bottom: 100, trailing: 0))

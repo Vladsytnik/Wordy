@@ -25,6 +25,7 @@ class ModuleScreenViewModel: ObservableObject {
 	@Published var showEditPhrasePage = false
 	@Published var phraseIndexForEdit = 0
 	
+	
 	var selectedWordIndex = 0
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
@@ -93,5 +94,27 @@ class ModuleScreenViewModel: ObservableObject {
 		phraseIndexForEdit = index
 		print(index)
 		showEditPhrasePage.toggle()
+	}
+	
+	func didTapDeletePhrase(with index: Int) {
+		let phrase = phrases[index]
+		self.showActivity = true
+		NetworkManager.deletePhrase(
+			with: String(phrase.indexInFirebase),
+			moduleID: module.id) {
+				NetworkManager.getModules { modules in
+					self.showActivity = false
+					self.modules = modules
+				} errorBlock: { errorText in
+					self.showActivity = false
+					self.alert.description = errorText
+					self.showActivity = false
+					self.showErrorAlert = true
+				}
+			} errorBlock: { errorText in
+				self.alert.description = errorText
+				self.showActivity = false
+				self.showErrorAlert = true
+			}
 	}
 }

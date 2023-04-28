@@ -33,13 +33,15 @@ struct PhraseEditPage: View {
 		viewModel.filteredModules = filteredModules.wrappedValue
 		viewModel.modulesIndex = moduleIndex
 		
-		let index = filteredModules[moduleIndex].phrases.count - phraseIndex - 1
-		viewModel.phraseIndex = index
-		
-		if moduleIndex >= 0 && index >= 0 {
-			viewModel.nativePhrase = viewModel.filteredModules[moduleIndex].phrases[index].nativeText
-			viewModel.translatedPhrase = viewModel.filteredModules[moduleIndex].phrases[index].translatedText
-			viewModel.examplePhrase = viewModel.filteredModules[moduleIndex].phrases[index].example ?? ""
+		if moduleIndex < filteredModules.count {
+			let index = filteredModules[moduleIndex].phrases.count - phraseIndex - 1
+			viewModel.phraseIndex = index
+			
+			if moduleIndex >= 0 && index >= 0 {
+				viewModel.nativePhrase = viewModel.filteredModules[moduleIndex].phrases[index].nativeText
+				viewModel.translatedPhrase = viewModel.filteredModules[moduleIndex].phrases[index].translatedText
+				viewModel.examplePhrase = viewModel.filteredModules[moduleIndex].phrases[index].example ?? ""
+			}
 		}
 	}
 	
@@ -49,6 +51,17 @@ struct PhraseEditPage: View {
 				Color(asset: Asset.Colors.navBarPurple)
 					.ignoresSafeArea()
 				VStack(spacing: 20) {
+					HStack {
+						Button {
+							dismiss()
+						} label: {
+							Image(asset: Asset.Images.backButton)
+								.resizable()
+								.frame(width: 31, height: 31, alignment: .leading)
+								.offset(x: -1)
+						}
+						Spacer()
+					}
 					Spacer()
 					CustomTextField(
 						placeholder: "Apple",
@@ -144,7 +157,7 @@ struct PhraseEditPage: View {
 					.foregroundColor(.white.opacity(0.00001))
 			}
 		}
-		
+		.navigationBarHidden(true)
 	}
 	
 	private func savePhrase() {

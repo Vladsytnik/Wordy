@@ -154,6 +154,40 @@ class NetworkManager {
 		}
 	}
 	
+	static func deletePhrase(with phraseIndex: String, moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
+		guard let currentUserID = currentUserID else {
+			errorBlock("error in getModules -> currentUserID")
+			return
+		}
+		
+		let queue = DispatchQueue(label: "sytnik.wordy.deletePhrase")
+		queue.async {
+			ref.child("users").child(currentUserID).child("modules").child(moduleID).child("phrases").child(phraseIndex).removeValue { error, snap in
+				if let error = error {
+					DispatchQueue.main.async {
+						errorBlock("error in deleteModule -> getData { error, snap in }" + error.localizedDescription)
+						//						errorBlock("")
+					}
+					return
+				}
+				
+				success()
+				//				if let snapshot = snap {
+				//					guard let modules = Module.parse(from: snapshot) else {
+				//						DispatchQueue.main.async {
+				//							errorBlock("error in getModules -> parse module")
+				//						}
+				//						return
+				//					}
+				//
+				//					DispatchQueue.main.async {
+				//						success()
+				//					}
+				//				}
+			}
+		}
+	}
+	
 	static func update(phrases: [[String: Any]], from moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
 		guard let currentUserID = currentUserID else {
 			errorBlock("error in add(phrase: [String: String] -> currentUserID")

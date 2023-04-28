@@ -36,6 +36,7 @@ struct StartView: View {
 //			.transition(.slide)
 		}
 		.environmentObject(router)
+		.accentColor(.white)
 	}
 }
 

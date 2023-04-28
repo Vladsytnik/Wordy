@@ -13,13 +13,14 @@ class WordsCarouselViewModel: ObservableObject {
 	var index = 0
 	@Published var selectedWordIndex = 0
 	@Published var modules: [Module] = []
+	@Published var filteredModules: [Module] = []
 	@Published var showAlert = false
 	@Published var showLearnPage = false
 	
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
 	var thisModule: Module {
-		modules[index]
+		filteredModules[index]
 	}
 	var phrases: [Phrase] {
 		thisModule.phrases

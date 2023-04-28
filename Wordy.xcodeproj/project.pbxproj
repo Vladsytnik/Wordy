@@ -17,6 +17,7 @@
 		0103FF56294C9E75004C2EA6 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF55294C9E75004C2EA6 /* Router.swift */; };
 		010C7E9129AE7EA900133179 /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 010C7E9029AE7EA900133179 /* MCEmojiPicker */; };
 		0110F711297EECD2007F26BC /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110F710297EECD2007F26BC /* NavigationView.swift */; };
+		011B138C29FBB81B00D4CCBF /* GroupsEditingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B138B29FBB81B00D4CCBF /* GroupsEditingPage.swift */; };
 		012D95CB29485FD300165DAF /* XCAssets+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012D95CA29485FD300165DAF /* XCAssets+Generated.swift */; };
 		012D95D0294867D600165DAF /* SF-Pro-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 012D95BF29485F2500165DAF /* SF-Pro-Display-Black.otf */; };
 		012D95D1294867DA00165DAF /* SF-Pro-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 012D95C829485F2500165DAF /* SF-Pro-Display-Thin.otf */; };
@@ -109,6 +110,7 @@
 		0103FF51294C86F5004C2EA6 /* ErrorCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCodeManager.swift; sourceTree = "<group>"; };
 		0103FF55294C9E75004C2EA6 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		0110F710297EECD2007F26BC /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
+		011B138B29FBB81B00D4CCBF /* GroupsEditingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsEditingPage.swift; sourceTree = "<group>"; };
 		012D95B629485F2400165DAF /* SF-Pro-Display-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-MediumItalic.otf"; sourceTree = "<group>"; };
 		012D95B729485F2400165DAF /* SF-Pro-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Medium.otf"; sourceTree = "<group>"; };
 		012D95B829485F2400165DAF /* SF-Pro-Display-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-RegularItalic.otf"; sourceTree = "<group>"; };
@@ -224,6 +226,14 @@
 				0103FF47294C5035004C2EA6 /* AuthPage.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		011B138A29FBB7F200D4CCBF /* GroupsEditingPage */ = {
+			isa = PBXGroup;
+			children = (
+				011B138B29FBB81B00D4CCBF /* GroupsEditingPage.swift */,
+			);
+			path = GroupsEditingPage;
 			sourceTree = "<group>";
 		};
 		012D95B529485EEC00165DAF /* Fonts */ = {
@@ -436,6 +446,7 @@
 				0103FF46294C501B004C2EA6 /* Auth */,
 				019056472944A8490058B566 /* Modules */,
 				01B92B33294F604B00F440EE /* Settings */,
+				011B138A29FBB7F200D4CCBF /* GroupsEditingPage */,
 			);
 			path = Pages;
 			sourceTree = "<group>";
@@ -760,6 +771,7 @@
 				0101956129646CD7007BDEAB /* WordCard.swift in Sources */,
 				019056392944A7140058B566 /* WordyApp.swift in Sources */,
 				01F01B6F29F02F8D00742DF3 /* PhraseEditPage.swift in Sources */,
+				011B138C29FBB81B00D4CCBF /* GroupsEditingPage.swift in Sources */,
 				014B767F29E03B750044DF87 /* LearnSelectionPageViewModel.swift in Sources */,
 				013E64AE2950B281002A85E2 /* CreateModuleButton.swift in Sources */,
 				01468115295602290080732C /* InputRoundedTextArea.swift in Sources */,

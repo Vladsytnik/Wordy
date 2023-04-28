@@ -98,8 +98,8 @@ struct AddNewPhrase: View {
 									viewModel.didTapTextField(index: 2)
 								}
 							} label: {
-								Text("Добавить пример использования")
-									.foregroundColor(.white)
+								Text("Добавить пример")
+									.foregroundColor(Color(asset: Asset.Colors.descrWordOrange))
 									.font(.system(size: 14, weight: .regular))
 							}
 							.background {
@@ -107,12 +107,14 @@ struct AddNewPhrase: View {
 									Spacer()
 									Rectangle()
 										.frame(height: 1)
-										.foregroundColor(.white)
+										.foregroundColor(Color(asset: Asset.Colors.descrWordOrange))
 								}
+								.offset(y: 6)
 							}
 							.padding(EdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0))
 							Spacer()
 						}
+						.opacity(0.9)
 					}
 					
 					Rectangle()

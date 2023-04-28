@@ -16,11 +16,21 @@ struct WordCard: View {
 	@FocusState var isFocused: Bool
 	
 	var onAddExampleTap: ((Int) -> Void)?
+	var onEditTap: ((Int) -> Void)?
 	
-	init(width: CGFloat, modules: Binding<[Module]>, index: Int, phrase: Phrase, phraseIndex: Int, onAddExampleTap: ((Int) -> Void)?) {
+	init(
+		width: CGFloat,
+		modules: Binding<[Module]>,
+		index: Int,
+		phrase: Phrase,
+		phraseIndex: Int,
+		onAddExampleTap: ((Int) -> Void)?,
+		onEditTap: ((Int) -> Void)?
+	) {
 		self._modules = modules
 		self.width = width
 		self.onAddExampleTap = onAddExampleTap
+		self.onEditTap = onEditTap
 		viewModel.modules = modules.wrappedValue
 		viewModel.phraseIndex = phraseIndex
 		viewModel.index = index
@@ -44,15 +54,30 @@ struct WordCard: View {
 					}
 //					.padding()
 					Spacer()
-					Button {
-						
-					} label: {
-						Image(asset: Asset.Images.speach)
-							.resizable()
-							.frame(width: 30, height: 30)
-							.offset(x: -11, y: 5)
+					HStack(spacing: 0) {
+						Button {
+							print("tap speach")
+						} label: {
+							Image(asset: Asset.Images.speach)
+								.resizable()
+								.frame(width: 30, height: 30)
+//								.offset(x: -11, y: 5)
+								.padding(EdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 8))
+						}
+						Button {
+							print("tap more")
+							onEditTap?(viewModel.phraseIndex)
+						} label: {
+							Image(systemName: "ellipsis")
+							//								.resizable()
+							//								.frame(width: 30, height: 30)
+								.foregroundColor(.white)
+								.rotationEffect(.degrees(90))
+							//								.offset(y: 3)
+								.scaleEffect(1.4)
+								.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 8))
+						}
 					}
-
 				}
 				Color.clear
 					.frame(height: viewModel.phrase.example != nil ? 5 : 1)
@@ -115,7 +140,10 @@ struct WordCard_Previews: PreviewProvider {
 			width: 300,
 			modules: .constant([.init(name: "Test", emoji: "🔮")]),
 			index: 0,
-			phrase: Phrase(nativeText: "Overcome", translatedText: "Преодолевать", indexInFirebase: 0), phraseIndex: 0, onAddExampleTap: { _ in}
+			phrase: Phrase(nativeText: "Overcome", translatedText: "Преодолевать", indexInFirebase: 0),
+			phraseIndex: 0,
+			onAddExampleTap: { _ in},
+			onEditTap: { _ in }
 		)
     }
 }

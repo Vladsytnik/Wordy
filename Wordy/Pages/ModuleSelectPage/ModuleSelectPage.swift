@@ -83,6 +83,16 @@ struct ModuleSelectPage: View {
 											.foregroundColor(.white)
 											.font(.system(size: 36, weight: .bold))
 										Spacer()
+//										Button {
+//
+//										} label: {
+//											Image(systemName: "trash.fill")
+//												.resizable()
+//												.frame(width: 25, height: 25)
+//												.foregroundColor(.red)
+//												.opacity(0.85)
+//										}
+//										.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
 									}
 									.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
 								}

@@ -15,6 +15,9 @@ struct ModuleScreen: View {
 	@ObservedObject var viewModel = ModuleScreenViewModel()
 	@StateObject var learnPageViewModel = LearnSelectionPageViewModel()
 	@State var showLearnPage = false
+	@State var showEditAlert = false
+	
+	@State var currentEditPhraseIndex = 0
 	
 	@Environment(\.dismiss) private var dismiss
 	
@@ -36,15 +39,16 @@ struct ModuleScreen: View {
 							isActive: $viewModel.showEditPhrasePage
 						) {
 							EmptyView()
-						}.hidden()
+						}
+						.hidden()
 						ScrollView {
 							VStack {
 								Header(viewModel: viewModel, showAlert: $showInfoAlert, module: viewModel.module)
-//								Color.clear
-//									.frame(height: 30)
+								//								Color.clear
+								//									.frame(height: 30)
 								Text(viewModel.module.emoji)
 									.font(.system(size: 28))
-//									.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 24))
+								//									.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 24))
 								AddWordPlusButton { viewModel.showActionSheet = true }
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
 								LearnModuleButton {
@@ -55,8 +59,8 @@ struct ModuleScreen: View {
 										viewModel.didTapShowLearnPage()
 									}
 								}
-									.frame(height: 45)
-									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
+								.frame(height: 45)
+								.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
 								ForEach(0..<viewModel.phraseCount, id: \.self) { i in
 									Button {
 										viewModel.didTapWord(with: i)
@@ -69,7 +73,11 @@ struct ModuleScreen: View {
 											phraseIndex: i,
 											onAddExampleTap: { index in
 												viewModel.didTapAddExample(index: index)
-											})
+											},
+											onEditTap: { index in
+												currentEditPhraseIndex = index
+												showEditAlert.toggle()
+											} )
 									}
 									.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
 								}
@@ -96,7 +104,12 @@ struct ModuleScreen: View {
 				viewModel.nowReallyNeedToDeleteModule()
 			}
 			.fullScreenCover(isPresented: $viewModel.showWordsCarousel) {
-				WordsCarouselView(modules: $filteredModules, moduleIndex: viewModel.index, selectedWordIndex: viewModel.selectedWordIndex)
+				WordsCarouselView(
+					modules: $modules,
+					filteredModules: $filteredModules,
+					moduleIndex: viewModel.index,
+					selectedWordIndex: viewModel.selectedWordIndex
+				)
 			}
 			.fullScreenCover(isPresented: $showLearnPage, content: {
 				LearnSelectionPage(
@@ -111,6 +124,23 @@ struct ModuleScreen: View {
 					}
 				}
 			})
+			.actionSheet(isPresented: $showEditAlert, content: {
+				ActionSheet(
+					title: Text(""),
+					message: Text("Выберите действие")
+						.bold(),
+					buttons: [
+						.default(Text("Изменить"), action: {
+							viewModel.didTapAddExample(index: currentEditPhraseIndex)
+						}),
+						.destructive(Text("Удалить"), action: {
+							viewModel.didTapDeletePhrase(with: currentEditPhraseIndex)
+						}),
+						.cancel(Text("Отменить"), action: {
+							
+						})
+					])
+			})
 			.activity($viewModel.showActivity)
 			.onChange(of: viewModel.thisModuleSuccessfullyDeleted) { newValue in
 				if newValue == true {
@@ -120,7 +150,7 @@ struct ModuleScreen: View {
 			.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAlert) {
 				viewModel.nowReallyNeedToDeleteModule()
 			}
-			.showAlert(title: "Правило\n пятнадцати слов", description: "\nНаш мозг устроен таким образом, \nчто информация усваивается более эффективно, если она разделена \nна порции. \n\n 15 слов – это та самая порция, которая является оптимальной для запоминания в рамках одного модуля", isPresented: $showInfoAlert, titleWithoutAction: "Буду знать!", withoutButtons: true) {
+			.showAlert(title: "💡 Правило\n пятнадцати слов", description: "\nНаш мозг устроен таким образом, \nчто информация усваивается \nболее эффективно, если она \nразделена на порции. \n\n 15 – это та самая порция, которая \nявляется оптимальной \nдля запоминания слов 🧠", isPresented: $showInfoAlert, titleWithoutAction: "Буду знать!", withoutButtons: true) {
 				
 			}
 			.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAboutPhraseCount, withoutButtons: true) {
@@ -156,7 +186,7 @@ struct Header: View {
 	
 	@Binding var showAlert: Bool
 	let module: Module
-//	private var alertText = ""
+	//	private var alertText = ""
 	
 	var body: some View {
 		VStack(spacing: 7) {
@@ -180,13 +210,13 @@ struct Header: View {
 						.foregroundColor(.white)
 						.font(.system(size: 36, weight: .bold))
 						.multilineTextAlignment(.center)
-//						.lineLimit(1)
-//					VStack {
-//						Spacer()
-//						Text(viewModel.module.emoji)
-//							.font(.system(size: 28))
-//							.padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 24))
-//					}
+					//						.lineLimit(1)
+					//					VStack {
+					//						Spacer()
+					//						Text(viewModel.module.emoji)
+					//							.font(.system(size: 28))
+					//							.padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 24))
+					//					}
 					Spacer()
 					BackButton { dismiss() }
 						.opacity(0)
