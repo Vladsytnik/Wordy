@@ -12,41 +12,78 @@ struct AuthPage: View {
 	
 	@StateObject private var viewModel = AuthViewModel()
 	@EnvironmentObject var router: Router
+	@State var animate = false
+	@State var isFocused = false
 	
 	var body: some View {
-		Color.clear
-			.background {
-				GeometryReader { geometry in
+		GeometryReader { geometry in
+			ZStack {
+				Image(asset: Asset.Images.authBG)
+					.resizable()
+					.edgesIgnoringSafeArea(.all)
+				
+				Image(asset: Asset.Images.authBG)
+					.resizable()
+					.offset(y: 10)
+					.edgesIgnoringSafeArea(.top)
+					.edgesIgnoringSafeArea(.leading)
+					.edgesIgnoringSafeArea(.trailing)
+					.opacity(isFocused ? 1 : 0)
+					.animation(.default.delay(0.1), value: isFocused)
+				
+				VStack {
+					Spacer()
+					
+					Text("Wordy.app")
+						.foregroundColor(.white)
+						.opacity(animate ? 1 : 0)
+						.font(.system(size: 36, weight: .bold))
+						.multilineTextAlignment(.center)
+						.offset(y: animate ? 0 : -20)
+						.padding(EdgeInsets(top: 32, leading: 0, bottom: 0, trailing: 0))
+						.animation(.spring().delay(0.5), value: animate)
+					Text("Изучай слова с комфортом")
+						.foregroundColor(.white.opacity(0.9))
+						.multilineTextAlignment(.center)
+						.opacity(animate ? 1 : 0)
+						.offset(y: animate ? 0 : -20)
+						.animation(.spring().delay(0.7), value: animate)
+					
+					Spacer()
+					
 					VStack {
-						Spacer()
-						VStack {
-							TextField("Логин", text: $viewModel.email)
-							TextField("Пароль", text: $viewModel.password)
-						}
-						.textFieldStyle(.roundedBorder)
-						.padding()
-						Spacer()
-						ButtonStack(geometry: geometry)
-							.environmentObject(viewModel)
+						AuthTextField(placeholder: "Логин", text: $viewModel.email, isFocused: $isFocused)
+						AuthTextField(placeholder: "Пароль", text: $viewModel.password, isFocused: $isFocused)
 					}
-					.activity($viewModel.showActivity)
+					.textFieldStyle(.roundedBorder)
+					.padding()
+					
+					Spacer()
+					
+					ButtonStack(geometry: geometry)
+						.environmentObject(viewModel)
 				}
+				.activity($viewModel.showActivity)
 			}
-			.alert(isPresented: $viewModel.showAlert) {
-				.init(title: Text(viewModel.alertText))
+		}
+		.alert(isPresented: $viewModel.showAlert) {
+			.init(title: Text(viewModel.alertText))
+		}
+		.onChange(of: viewModel.showNextPage) { newValue in
+			withAnimation {
+				router.userIsLoggedIn = true
 			}
-			.onChange(of: viewModel.showNextPage) { newValue in
-				withAnimation {
-					router.userIsLoggedIn = true
-				}
-			}
+		}
+		.onAppear {
+			animate.toggle()
+		}
 	}
 }
 
 struct AuthPage_Previews: PreviewProvider {
-    static var previews: some View {
-        AuthPage()
-    }
+	static var previews: some View {
+		AuthPage()
+	}
 }
 
 struct ButtonStack: View {
@@ -57,17 +94,19 @@ struct ButtonStack: View {
 	
 	var body: some View {
 		VStack(alignment: .center) {
-			VStack {
+			VStack(spacing: 0) {
 				Button {
 					endEditing()
 					viewModel.signIn()
 				} label: {
 					Text("Авторизоваться")
-						.padding(EdgeInsets(top: 8, leading: 32, bottom: 8, trailing: 32))
+						.fontWeight(.bold)
+						.padding(EdgeInsets(top: 12, leading: 32, bottom: 12, trailing: 32))
 				}
-				.background(Color.blue)
+				.background(Color(asset: Asset.Colors.lightPurple))
 				.foregroundColor(.white)
 				.cornerRadius(12)
+				
 				Button {
 					endEditing()
 					viewModel.register()
@@ -75,7 +114,8 @@ struct ButtonStack: View {
 					Text("Зарегистрироваться")
 				}
 				.font(.system(size: 14))
-				.foregroundColor(.blue)
+				.foregroundColor(.white)
+				.padding()
 			}
 		}
 		.disabled(!(viewModel.email.count > 2 && viewModel.password.count > 2))
@@ -86,3 +126,31 @@ struct ButtonStack: View {
 		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 	}
 }
+
+struct AuthTextField: View {
+	
+	var placeholder: String
+	@Binding var text: String
+	@Binding var isFocused: Bool
+	private let cornerRadius: CGFloat = 12
+	@FocusState var textFieldIsFocused: Bool
+	
+	var body: some View {
+		TextField(placeholder, text: $text)
+			.offset(x: -16)
+			.textFieldStyle(.plain)
+			.padding()
+			.focused($textFieldIsFocused)
+			.background {
+				RoundedRectangle(cornerRadius: cornerRadius)
+				//					.stroke(lineWidth: 0.5)
+					.border(width: 0.5, edges: [.bottom], color: .white)
+				//					.foregroundColor(Color(asset: Asset.Colors.lightPurple))
+					.foregroundColor(.clear)
+			}
+			.onChange(of: textFieldIsFocused) { newValue in
+				isFocused = newValue
+			}
+	}
+}
+

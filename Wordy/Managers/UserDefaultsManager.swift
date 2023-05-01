@@ -11,10 +11,18 @@ class UserDefaultsManager {
 	static var isLoggedIn: Bool {
 		get {
 			UserDefaults().bool(forKey: "isLoggedIn")
-//			false
 		}
 		set {
 			UserDefaults().setValue(newValue, forKey: "isLoggedIn")
+		}
+	}
+	
+	static var langCodeForLearn: String? {
+		get {
+			UserDefaults().string(forKey: "langCodeForLearn")
+		}
+		set {
+			UserDefaults().setValue(newValue, forKey: "langCodeForLearn")
 		}
 	}
 }

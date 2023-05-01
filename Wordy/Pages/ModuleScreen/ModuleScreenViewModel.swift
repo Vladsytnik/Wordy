@@ -121,16 +121,15 @@ class ModuleScreenViewModel: ObservableObject {
 	}
 	
 	func didTapSpeach(index: Int) {
-		synthesizer.stopSpeaking(at: .immediate)
-		
 		let phrase = phrases[index]
 		let wordForSpeach = phrase.getAnswer(answerType: .native)
+
+		var langForSpeach = UserDefaultsManager.langCodeForLearn ?? "en-US"
+
+		synthesizer.stopSpeaking(at: .immediate)
 		
 		let utterance = AVSpeechUtterance(string: "\(wordForSpeach)")
-//		utterance.
-		
-//		utterance.voice = AVSpeechSynthesisVoice(language: "ru-RU")
-//		utterance.voice = AVSpeechSynthesisVoice(language: "en-EN")
+		utterance.voice = AVSpeechSynthesisVoice(language: langForSpeach)
 		
 		synthesizer.speak(utterance)
 	}

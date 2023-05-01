@@ -46,6 +46,7 @@ internal enum Asset {
     internal static let addModule = ImageAsset(name: "AddModule")
     internal static let addModuleCheckMark = ImageAsset(name: "AddModuleCheckMark")
     internal static let addWordButton = ImageAsset(name: "AddWordButton")
+    internal static let authBG = ImageAsset(name: "AuthBG")
     internal static let backButton = ImageAsset(name: "BackButton")
     internal static let carouselBG = ImageAsset(name: "CarouselBG")
     internal static let closeEmoji = ImageAsset(name: "CloseEmoji")
