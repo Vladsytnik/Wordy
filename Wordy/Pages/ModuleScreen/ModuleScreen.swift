@@ -77,6 +77,8 @@ struct ModuleScreen: View {
 											onEditTap: { index in
 												currentEditPhraseIndex = index
 												showEditAlert.toggle()
+											}, onSpeachTap: { index in
+												viewModel.didTapSpeach(index: index)
 											} )
 									}
 									.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))

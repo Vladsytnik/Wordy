@@ -14,10 +14,11 @@ struct StartView: View {
 	let transition = AnyTransition.move(edge: .bottom)
 	
 	var body: some View {
-		NavigationView {
 			ZStack {
 				if router.userIsLoggedIn {
-					Modules()
+					NavigationView {
+						Modules()
+					}
 						.transition(transition)
 				} else {
 					AuthPage()
@@ -34,7 +35,6 @@ struct StartView: View {
 				}
 			}
 //			.transition(.slide)
-		}
 		.environmentObject(router)
 		.accentColor(.white)
 	}

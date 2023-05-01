@@ -16,6 +16,7 @@ class WordsCarouselViewModel: ObservableObject {
 	@Published var filteredModules: [Module] = []
 	@Published var showAlert = false
 	@Published var showLearnPage = false
+	@Published var showActivity = false
 	
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
@@ -50,5 +51,28 @@ class WordsCarouselViewModel: ObservableObject {
 		} else {
 			return "четыре"
 		}
+	}
+	
+	func didTapDeletePhrase(with index: Int) {
+		let phrase = phrases[index]
+		self.showActivity = true
+		NetworkManager.deletePhrase(
+			with: String(phrase.indexInFirebase),
+			moduleID: thisModule.id
+		) {
+				NetworkManager.getModules { modules in
+					self.showActivity = false
+					self.modules = modules
+				} errorBlock: { errorText in
+					self.showActivity = false
+					self.alert.description = errorText
+					self.showActivity = false
+					self.showAlert = true
+				}
+			} errorBlock: { errorText in
+				self.alert.description = errorText
+				self.showActivity = false
+				self.showAlert = true
+			}
 	}
 }

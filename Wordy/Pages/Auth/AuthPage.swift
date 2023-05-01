@@ -29,6 +29,7 @@ struct AuthPage: View {
 						ButtonStack(geometry: geometry)
 							.environmentObject(viewModel)
 					}
+					.activity($viewModel.showActivity)
 				}
 			}
 			.alert(isPresented: $viewModel.showAlert) {
@@ -37,11 +38,6 @@ struct AuthPage: View {
 			.onChange(of: viewModel.showNextPage) { newValue in
 				withAnimation {
 					router.userIsLoggedIn = true
-				}
-			}
-			.onChange(of: viewModel.hideActivityView) { _ in
-				if viewModel.hideActivityView {
-					router.showActivityView = false
 				}
 			}
 	}
@@ -64,7 +60,6 @@ struct ButtonStack: View {
 			VStack {
 				Button {
 					endEditing()
-					router.showActivityView = true
 					viewModel.signIn()
 				} label: {
 					Text("Авторизоваться")
@@ -75,7 +70,6 @@ struct ButtonStack: View {
 				.cornerRadius(12)
 				Button {
 					endEditing()
-					router.showActivityView = true
 					viewModel.register()
 				} label: {
 					Text("Зарегистрироваться")

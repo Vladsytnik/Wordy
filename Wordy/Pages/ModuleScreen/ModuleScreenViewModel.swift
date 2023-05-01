@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVKit
 
 class ModuleScreenViewModel: ObservableObject {
 	
@@ -25,6 +26,7 @@ class ModuleScreenViewModel: ObservableObject {
 	@Published var showEditPhrasePage = false
 	@Published var phraseIndexForEdit = 0
 	
+	let synthesizer = AVSpeechSynthesizer()
 	
 	var selectedWordIndex = 0
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
@@ -116,5 +118,20 @@ class ModuleScreenViewModel: ObservableObject {
 				self.showActivity = false
 				self.showErrorAlert = true
 			}
+	}
+	
+	func didTapSpeach(index: Int) {
+		synthesizer.stopSpeaking(at: .immediate)
+		
+		let phrase = phrases[index]
+		let wordForSpeach = phrase.getAnswer(answerType: .native)
+		
+		let utterance = AVSpeechUtterance(string: "\(wordForSpeach)")
+//		utterance.
+		
+//		utterance.voice = AVSpeechSynthesisVoice(language: "ru-RU")
+//		utterance.voice = AVSpeechSynthesisVoice(language: "en-EN")
+		
+		synthesizer.speak(utterance)
 	}
 }

@@ -172,18 +172,27 @@ class NetworkManager {
 				}
 				
 				success()
-				//				if let snapshot = snap {
-				//					guard let modules = Module.parse(from: snapshot) else {
-				//						DispatchQueue.main.async {
-				//							errorBlock("error in getModules -> parse module")
-				//						}
-				//						return
-				//					}
-				//
-				//					DispatchQueue.main.async {
-				//						success()
-				//					}
-				//				}
+			}
+		}
+	}
+	
+	static func deleteGroup(with groupIndex: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
+		guard let currentUserID = currentUserID else {
+			errorBlock("error in getModules -> currentUserID")
+			return
+		}
+		
+		let queue = DispatchQueue(label: "sytnik.wordy.deletePhrase")
+		queue.async {
+			ref.child("users").child(currentUserID).child("groups").child(groupIndex).removeValue { error, snap in
+				if let error = error {
+					DispatchQueue.main.async {
+						errorBlock("error in deleteGroup -> getData { error, snap in }" + error.localizedDescription)
+					}
+					return
+				}
+				
+				success()
 			}
 		}
 	}

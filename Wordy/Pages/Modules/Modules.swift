@@ -10,8 +10,9 @@ import Firebase
 
 struct Modules: View {
 	
-	private let columns = [GridItem(.adaptive(minimum: UIScreen.main.bounds.height < 812 ? 100 : 150),
-									spacing: UIScreen.main.bounds.height < 812 ? 10 : 20) ]
+//	private let columns = [GridItem(.adaptive(minimum: UIScreen.main.bounds.height < 812 ? 100 : 150),
+//									spacing: UIScreen.main.bounds.height < 812 ? 10 : 20) ]
+	private let columns = [GridItem(.adaptive(minimum: 150), spacing: 20) ]
 	private let moduleCardWidth: CGFloat = UIScreen.main.bounds.height < 812 ? 145 : 170
 	
 	@State private var scrollOffset = CGFloat.zero
@@ -187,6 +188,7 @@ struct Modules: View {
 								.frame(width: geometry.size.width - 60)
 								.opacity(createModuleButtonOpacity)
 								.transition(AnyTransition.offset() )
+								.offset(y: geometry.size.height < 812 ? -16 : 0 )
 						}
 						.ignoresSafeArea(.keyboard)
 					}

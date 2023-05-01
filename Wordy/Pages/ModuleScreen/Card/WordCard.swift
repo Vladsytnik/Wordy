@@ -17,6 +17,7 @@ struct WordCard: View {
 	
 	var onAddExampleTap: ((Int) -> Void)?
 	var onEditTap: ((Int) -> Void)?
+	var onSpeachTap: ((Int) -> Void)?
 	
 	init(
 		width: CGFloat,
@@ -25,12 +26,14 @@ struct WordCard: View {
 		phrase: Phrase,
 		phraseIndex: Int,
 		onAddExampleTap: ((Int) -> Void)?,
-		onEditTap: ((Int) -> Void)?
+		onEditTap: ((Int) -> Void)?,
+		onSpeachTap: ((Int) -> Void)?
 	) {
 		self._modules = modules
 		self.width = width
 		self.onAddExampleTap = onAddExampleTap
 		self.onEditTap = onEditTap
+		self.onSpeachTap = onSpeachTap
 		viewModel.modules = modules.wrappedValue
 		viewModel.phraseIndex = phraseIndex
 		viewModel.index = index
@@ -56,6 +59,7 @@ struct WordCard: View {
 					Spacer()
 					HStack(spacing: 0) {
 						Button {
+							onSpeachTap?(viewModel.phraseIndex)
 							print("tap speach")
 						} label: {
 							Image(asset: Asset.Images.speach)
@@ -143,7 +147,8 @@ struct WordCard_Previews: PreviewProvider {
 			phrase: Phrase(nativeText: "Overcome", translatedText: "Преодолевать", indexInFirebase: 0),
 			phraseIndex: 0,
 			onAddExampleTap: { _ in},
-			onEditTap: { _ in }
+			onEditTap: { _ in },
+			onSpeachTap: { _ in}
 		)
     }
 }

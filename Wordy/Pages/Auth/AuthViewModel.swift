@@ -14,7 +14,8 @@ class AuthViewModel: ObservableObject {
 	
 	@Published var showAlert = false
 	@Published var showNextPage = false
-	@Published var hideActivityView = false
+//	@Published var hideActivityView = false
+	@Published var showActivity = false
 	
 	var alertText = ""
 	
@@ -22,26 +23,40 @@ class AuthViewModel: ObservableObject {
 	@EnvironmentObject var router: Router
 	
 	func signIn() {
+		showActivity = true
 		NetworkManager.signIn(email: email, password: password) { [weak self] resultText in
-			self?.showNextPage = true
-			self?.alertText = resultText
-			self?.showAlert.toggle()
+			guard let self = self else { return }
+			self.hideActivity()
+			self.showNextPage = true
+			self.alertText = resultText
+			self.showAlert.toggle()
 		} errorBlock: { [weak self] errorText in
-			self?.hideActivityView = true
-			self?.alertText = errorText
-			self?.showAlert.toggle()
+			guard let self = self else { return }
+			self.hideActivity()
+			self.alertText = errorText
+			self.showAlert.toggle()
 		}
 	}
 	
 	func register() {
+		showActivity = true
 		NetworkManager.register(email: email, password: password) { [weak self] resultText in
-			self?.showNextPage = true
-			self?.alertText = resultText
-			self?.showAlert.toggle()
+			guard let self = self else { return }
+			self.hideActivity()
+			self.showNextPage = true
+			self.alertText = resultText
+			self.showAlert.toggle()
 		} errorBlock: { [weak self] errorText in
-			self?.hideActivityView = true
-			self?.alertText = errorText
-			self?.showAlert.toggle()
+			guard let self = self else { return }
+			self.hideActivity()
+			self.alertText = errorText
+			self.showAlert.toggle()
+		}
+	}
+	
+	private func hideActivity() {
+		DispatchQueue.main.async {
+			self.showActivity = false
 		}
 	}
 }

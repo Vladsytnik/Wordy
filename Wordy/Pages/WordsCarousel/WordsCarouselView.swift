@@ -40,7 +40,10 @@ struct WordsCarouselView: View {
 				
 				TabView(selection: $viewModel.selectedWordIndex) {
 					ForEach(0..<viewModel.phrases.count, id: \.self) { i in
-						CarouselCard(phrase: viewModel.phrases[viewModel.phrases.count - 1 - i])
+						CarouselCard(phrase: viewModel.phrases[viewModel.phrases.count - 1 - i],
+									 onDeletedTap: {
+							viewModel.didTapDeletePhrase(with: viewModel.phrases.count - 1 - i)
+						})
 							.padding(.leading)
 							.padding(.trailing)
 							.tag(i)
@@ -87,6 +90,7 @@ struct WordsCarouselView: View {
 		.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showAlert, titleWithoutAction: "OK", titleForAction: "", withoutButtons: true) {
 			
 		}
+		.activity($viewModel.showActivity)
 	}
 	
 	init(modules: Binding<[Module]>, filteredModules: Binding<[Module]>, moduleIndex: Int, selectedWordIndex: Int) {
@@ -116,6 +120,7 @@ struct WordsCarouselView: View {
 struct CarouselCard: View {
 	
 	var phrase: Phrase
+	var onDeletedTap: (() -> Void)
 	
 	var body: some View {
 		VStack {
@@ -124,7 +129,7 @@ struct CarouselCard: View {
 			MainText(phrase: phrase)
 			Spacer()
 			Button {
-				
+				onDeletedTap()
 			} label: {
 				Text("УДАЛИТЬ")
 					.font(.system(size: 16, weight: .bold))
