@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import AuthenticationServices
 
 struct AuthPage: View {
 	
@@ -14,6 +15,7 @@ struct AuthPage: View {
 	@EnvironmentObject var router: Router
 	@State var animate = false
 	@State var isFocused = false
+	@State var loginWithEmail = false
 	
 	var body: some View {
 		GeometryReader { geometry in
@@ -40,28 +42,58 @@ struct AuthPage: View {
 						.font(.system(size: 36, weight: .bold))
 						.multilineTextAlignment(.center)
 						.offset(y: animate ? 0 : -20)
-						.padding(EdgeInsets(top: 32, leading: 0, bottom: 0, trailing: 0))
-						.animation(.spring().delay(0.5), value: animate)
-					Text("Изучай слова с комфортом")
+						.padding(EdgeInsets(top: 32, leading: 0, bottom: 8, trailing: 0))
+						.animation(.spring().delay(0.3), value: animate)
+					Text("Изучай слова с комфортом \nи минималистичным дизайном")
 						.foregroundColor(.white.opacity(0.9))
 						.multilineTextAlignment(.center)
 						.opacity(animate ? 1 : 0)
 						.offset(y: animate ? 0 : -20)
-						.animation(.spring().delay(0.7), value: animate)
+						.animation(.spring().delay(0.5), value: animate)
 					
-					Spacer()
-					
-					VStack {
-						AuthTextField(placeholder: "Логин", text: $viewModel.email, isFocused: $isFocused)
-						AuthTextField(placeholder: "Пароль", text: $viewModel.password, isFocused: $isFocused)
+					if loginWithEmail {
+						Spacer()
+						
+						VStack {
+							AuthTextField(placeholder: "Логин", text: $viewModel.email, isFocused: $isFocused)
+							AuthTextField(placeholder: "Пароль", text: $viewModel.password, isFocused: $isFocused)
+						}
+						.textFieldStyle(.roundedBorder)
+						.padding()
+						
+						Spacer()
+						
+						ButtonStack(geometry: geometry)
+							.environmentObject(viewModel)
+						
+						Button {
+							loginWithEmail.toggle()
+						} label: {
+							Text("Войти через AppleID")
+						}
+						.font(.system(size: 14))
+						.foregroundColor(.white)
+						.padding()
 					}
-					.textFieldStyle(.roundedBorder)
-					.padding()
 					
 					Spacer()
 					
-					ButtonStack(geometry: geometry)
-						.environmentObject(viewModel)
+					if !loginWithEmail {
+						SignInWithApple()
+							.frame(width: 280, height: 60)
+							.onTapGesture(perform: showAppleLogin)
+					}
+					
+					if !loginWithEmail {
+						Button {
+							loginWithEmail.toggle()
+						} label: {
+							Text("Войти через почту")
+						}
+						.font(.system(size: 14))
+						.foregroundColor(.white)
+						.padding()
+					}
 				}
 				.activity($viewModel.showActivity)
 			}
@@ -77,6 +109,17 @@ struct AuthPage: View {
 		.onAppear {
 			animate.toggle()
 		}
+	}
+	
+	private func showAppleLogin() {
+		// 1
+		let request = ASAuthorizationAppleIDProvider().createRequest()
+		
+		// 2
+		request.requestedScopes = [.email]
+		
+		// 3
+		let controller = ASAuthorizationController(authorizationRequests: [request])
 	}
 }
 

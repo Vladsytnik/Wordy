@@ -18,6 +18,8 @@
 		010C7E9129AE7EA900133179 /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 010C7E9029AE7EA900133179 /* MCEmojiPicker */; };
 		0110F711297EECD2007F26BC /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110F710297EECD2007F26BC /* NavigationView.swift */; };
 		011B138C29FBB81B00D4CCBF /* GroupsEditingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B138B29FBB81B00D4CCBF /* GroupsEditingPage.swift */; };
+		011B138E2A00176B00D4CCBF /* SignInWithApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B138D2A00176B00D4CCBF /* SignInWithApple.swift */; };
+		011B13912A001DB300D4CCBF /* SignInWithAppleDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B13902A001DB300D4CCBF /* SignInWithAppleDelegates.swift */; };
 		012D95CB29485FD300165DAF /* XCAssets+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012D95CA29485FD300165DAF /* XCAssets+Generated.swift */; };
 		012D95D0294867D600165DAF /* SF-Pro-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 012D95BF29485F2500165DAF /* SF-Pro-Display-Black.otf */; };
 		012D95D1294867DA00165DAF /* SF-Pro-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 012D95C829485F2500165DAF /* SF-Pro-Display-Thin.otf */; };
@@ -111,6 +113,8 @@
 		0103FF55294C9E75004C2EA6 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		0110F710297EECD2007F26BC /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		011B138B29FBB81B00D4CCBF /* GroupsEditingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsEditingPage.swift; sourceTree = "<group>"; };
+		011B138D2A00176B00D4CCBF /* SignInWithApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithApple.swift; sourceTree = "<group>"; };
+		011B13902A001DB300D4CCBF /* SignInWithAppleDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleDelegates.swift; sourceTree = "<group>"; };
 		012D95B629485F2400165DAF /* SF-Pro-Display-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-MediumItalic.otf"; sourceTree = "<group>"; };
 		012D95B729485F2400165DAF /* SF-Pro-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Medium.otf"; sourceTree = "<group>"; };
 		012D95B829485F2400165DAF /* SF-Pro-Display-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-RegularItalic.otf"; sourceTree = "<group>"; };
@@ -234,6 +238,15 @@
 				011B138B29FBB81B00D4CCBF /* GroupsEditingPage.swift */,
 			);
 			path = GroupsEditingPage;
+			sourceTree = "<group>";
+		};
+		011B138F2A001DA600D4CCBF /* SignInWithApple */ = {
+			isa = PBXGroup;
+			children = (
+				011B138D2A00176B00D4CCBF /* SignInWithApple.swift */,
+				011B13902A001DB300D4CCBF /* SignInWithAppleDelegates.swift */,
+			);
+			path = SignInWithApple;
 			sourceTree = "<group>";
 		};
 		012D95B529485EEC00165DAF /* Fonts */ = {
@@ -379,6 +392,7 @@
 		0185B55C2949F24600934373 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				011B138F2A001DA600D4CCBF /* SignInWithApple */,
 				0185B55E2949F26D00934373 /* ObservableScrollView.swift */,
 				01F57695294A4F2E00F52EB1 /* VisualEffectView.swift */,
 			);
@@ -750,6 +764,7 @@
 				017642432972E7250042DB86 /* WordCardViewModel.swift in Sources */,
 				01978FB3294CBF6600B8EFC3 /* LottieView.swift in Sources */,
 				015713972964607E0022E1FA /* ModuleScreen.swift in Sources */,
+				011B138E2A00176B00D4CCBF /* SignInWithApple.swift in Sources */,
 				013251E0296B034900B071F1 /* UIApplication + hideKeyboard.swift in Sources */,
 				019056492944A85E0058B566 /* Modules.swift in Sources */,
 				0103FF52294C86F5004C2EA6 /* ErrorCodeManager.swift in Sources */,
@@ -778,6 +793,7 @@
 				0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */,
 				014B767D29E038D10044DF87 /* LearnSelectionPage.swift in Sources */,
 				016817FF2969B0B400F30E39 /* Alert.swift in Sources */,
+				011B13912A001DB300D4CCBF /* SignInWithAppleDelegates.swift in Sources */,
 				019160BC29D098DD0094F36D /* ModuleSelectPage.swift in Sources */,
 				01F708BB29B6573F00585B2E /* NewCategoryCard.swift in Sources */,
 				0176424C29744BC90042DB86 /* DateFormatter.swift in Sources */,
