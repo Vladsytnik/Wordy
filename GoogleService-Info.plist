@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>436274307446-l8700ncglkho9m0r8vkcv7mvj9pafegr.apps.googleusercontent.com</string>
+	<string>436274307446-60q55ofjdafj8dasvbq0ifjlgbkkibnk.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.436274307446-l8700ncglkho9m0r8vkcv7mvj9pafegr</string>
+	<string>com.googleusercontent.apps.436274307446-60q55ofjdafj8dasvbq0ifjlgbkkibnk</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDgb26prlM7DgbcOn8m6-rp7GgLLvnclbY</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>sytnik.Wordy</string>
+	<string>sytnik.wordy.app</string>
 	<key>PROJECT_ID</key>
 	<string>wordy-a720d</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:436274307446:ios:fa3f727d616821ce335a57</string>
+	<string>1:436274307446:ios:fbe990d8c66d1226335a57</string>
+	<key>DATABASE_URL</key>
+	<string>https://wordy-a720d-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>
 </plist>

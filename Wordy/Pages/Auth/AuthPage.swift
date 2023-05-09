@@ -112,14 +112,7 @@ struct AuthPage: View {
 	}
 	
 	private func showAppleLogin() {
-		// 1
-		let request = ASAuthorizationAppleIDProvider().createRequest()
-		
-		// 2
-		request.requestedScopes = [.email]
-		
-		// 3
-		let controller = ASAuthorizationController(authorizationRequests: [request])
+		viewModel.loginWithApple()
 	}
 }
 

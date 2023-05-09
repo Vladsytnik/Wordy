@@ -39,10 +39,10 @@ extension Module {
 	
 	static func parse(from snapshot: DataSnapshot) -> [Module]? {
 		guard let data = (snapshot.value as? [String: [String: Any]]) else {
-			return nil
+			return []
 		}
 		guard let dbModuleKeys = (snapshot.value as? [String: Any])?.keys else {
-			return nil
+			return []
 		}
 		
 		var modules: [Module] = []
