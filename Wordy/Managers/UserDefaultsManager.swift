@@ -25,4 +25,13 @@ class UserDefaultsManager {
 			UserDefaults().setValue(newValue, forKey: "langCodeForLearn")
 		}
 	}
+	
+	static var isAlreadyLaunched: Bool {
+		get {
+			UserDefaults().bool(forKey: "isFirstLaunch")
+		}
+		set {
+			UserDefaults().setValue(newValue, forKey: "isFirstLaunch")
+		}
+	}
 }

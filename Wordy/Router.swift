@@ -14,6 +14,11 @@ class Router: ObservableObject {
 			UserDefaultsManager.isLoggedIn = userIsLoggedIn
 		}
 	}
+	@Published var userIsAlreadyLaunched = UserDefaultsManager.isAlreadyLaunched {
+		didSet {
+			UserDefaultsManager.isAlreadyLaunched = userIsAlreadyLaunched
+		}
+	}
 	
 	@Published var showActivityView = false
 }

@@ -208,6 +208,7 @@ struct Modules: View {
 				checkUser()
 				fetchModules()
 				fetchGroups()
+				router.userIsAlreadyLaunched = true
 			}
 			.sheet(isPresented: $showCreateModuleSheet) {
 				CreateModuleView(needUpdateData: $needUpdateData, showActivity: $showActivity)

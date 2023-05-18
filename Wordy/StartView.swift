@@ -16,10 +16,15 @@ struct StartView: View {
 	var body: some View {
 			ZStack {
 				if router.userIsLoggedIn {
-					NavigationView {
-						Modules()
-					}
+					if router.userIsAlreadyLaunched {
+						NavigationView {
+							Modules()
+						}
 						.transition(transition)
+					} else {
+						OnboardingPage()
+							.transition(transition)
+					}
 				} else {
 					AuthPage()
 						.transition(authTransition)
