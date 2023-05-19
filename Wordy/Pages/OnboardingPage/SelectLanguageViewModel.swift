@@ -15,15 +15,20 @@ enum OnboardingScreenType {
 	case onboardingTwo
 }
 
-class OnboardingViewModel: ObservableObject {
+class SelectLanguageViewModel: ObservableObject {
 	
 	@Published var screenType = OnboardingScreenType.languageSelection
 	@Published var nativeSelectedLanguage: Language?
 	@Published var learnSelectedLanguage: Language?
 	@Published var userCanContinue = false
 	@Published var shakeContinueBtn = false
+	@Published var showOnboardingPage = false
+	
+	@Published var showAlert = false
+	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
 	private var cancellable = Set<AnyCancellable>()
+
 	
 	init() {
 		checkNativeLanguageOnRepeat()
@@ -34,6 +39,25 @@ class OnboardingViewModel: ObservableObject {
 	func goNext() {
 		if userCanContinue {
 			// показываем экран онбординг с видео (как пользоваться)
+			UserDefaultsManager.nativeLanguage = nativeSelectedLanguage
+			UserDefaultsManager.learnLanguage = learnSelectedLanguage
+			switch screenType {
+			case .languageSelection:
+				withAnimation{
+//					screenType = .onboardingOne
+					showOnboardingPage = true
+				}
+			case .onboardingOne:
+				break
+			case .onboardingTwo:
+				break
+			}
+		} else {
+			alert.title = "Вам нужно выбрать два языка"
+			alert.description = "Для продолжения, вам необходимо выбрать ваш родной язык и тот, который вы хотите изучать"
+			withAnimation {
+				showAlert.toggle()
+			}
 		}
 	}
 	
