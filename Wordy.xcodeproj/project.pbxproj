@@ -81,6 +81,7 @@
 		01780D2C294A110A004F11AC /* ReverseMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01780D2B294A110A004F11AC /* ReverseMask.swift */; };
 		017A6F742969CF4B001C1855 /* AddNewPhrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017A6F732969CF4B001C1855 /* AddNewPhrase.swift */; };
 		0185B55F2949F26D00934373 /* ObservableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0185B55E2949F26D00934373 /* ObservableScrollView.swift */; };
+		01897C032A17DCC3007F6A2C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01897C052A17DCC3007F6A2C /* Localizable.strings */; };
 		019056392944A7140058B566 /* WordyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019056382944A7140058B566 /* WordyApp.swift */; };
 		0190563D2944A7170058B566 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0190563C2944A7170058B566 /* Images.xcassets */; };
 		019056402944A7170058B566 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0190563F2944A7170058B566 /* Preview Assets.xcassets */; };
@@ -173,6 +174,8 @@
 		01780D2B294A110A004F11AC /* ReverseMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseMask.swift; sourceTree = "<group>"; };
 		017A6F732969CF4B001C1855 /* AddNewPhrase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewPhrase.swift; sourceTree = "<group>"; };
 		0185B55E2949F26D00934373 /* ObservableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableScrollView.swift; sourceTree = "<group>"; };
+		01897C042A17DCC3007F6A2C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		01897C062A17DCD5007F6A2C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		019056352944A7140058B566 /* Wordy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wordy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		019056382944A7140058B566 /* WordyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordyApp.swift; sourceTree = "<group>"; };
 		0190563C2944A7170058B566 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -509,6 +512,7 @@
 				0190563C2944A7170058B566 /* Images.xcassets */,
 				019056552944D0DE0058B566 /* Colors.xcassets */,
 				0190564B2944AA700058B566 /* .gitignore */,
+				01897C052A17DCC3007F6A2C /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -673,6 +677,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 0190562C2944A7140058B566;
 			packageReferences = (
@@ -719,6 +724,7 @@
 				012D95E1294867DA00165DAF /* SF-Pro-Text-BoldItalic.otf in Resources */,
 				0190564C2944AA710058B566 /* .gitignore in Resources */,
 				012D95DC294867DA00165DAF /* SF-Pro-Display-RegularItalic.otf in Resources */,
+				01897C032A17DCC3007F6A2C /* Localizable.strings in Resources */,
 				012D95D4294867DA00165DAF /* SF-Pro-Display-HeavyItalic.otf in Resources */,
 				014955A629E84DD8000BC30F /* success.json in Resources */,
 				0190563D2944A7170058B566 /* Images.xcassets in Resources */,
@@ -837,6 +843,18 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		01897C052A17DCC3007F6A2C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				01897C042A17DCC3007F6A2C /* en */,
+				01897C062A17DCD5007F6A2C /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		019056412944A7170058B566 /* Debug */ = {

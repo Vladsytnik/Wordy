@@ -44,7 +44,7 @@ struct AuthPage: View {
 						.offset(y: animate ? 0 : -20)
 						.padding(EdgeInsets(top: 32, leading: 0, bottom: 8, trailing: 0))
 						.animation(.spring().delay(0.3), value: animate)
-					Text("Изучай слова с комфортом \nи минималистичным дизайном")
+					Text(LocalizedStringKey("Изучай слова с комфортом \nи минималистичным дизайном"))
 						.foregroundColor(.white.opacity(0.9))
 						.multilineTextAlignment(.center)
 						.opacity(animate ? 1 : 0)
@@ -69,7 +69,7 @@ struct AuthPage: View {
 						Button {
 							loginWithEmail.toggle()
 						} label: {
-							Text("Войти через AppleID")
+							Text(LocalizedStringKey("Войти через AppleID"))
 						}
 						.font(.system(size: 14))
 						.foregroundColor(.white)
@@ -88,7 +88,7 @@ struct AuthPage: View {
 						Button {
 							loginWithEmail.toggle()
 						} label: {
-							Text("Войти через почту")
+							Text(LocalizedStringKey("Войти через почту"))
 						}
 						.font(.system(size: 14))
 						.foregroundColor(.white)
@@ -135,7 +135,7 @@ struct ButtonStack: View {
 					endEditing()
 					viewModel.signIn()
 				} label: {
-					Text("Авторизоваться")
+					Text(LocalizedStringKey("Авторизоваться"))
 						.fontWeight(.bold)
 						.padding(EdgeInsets(top: 12, leading: 32, bottom: 12, trailing: 32))
 				}
@@ -147,7 +147,7 @@ struct ButtonStack: View {
 					endEditing()
 					viewModel.register()
 				} label: {
-					Text("Зарегистрироваться")
+					Text(LocalizedStringKey("Зарегистрироваться"))
 				}
 				.font(.system(size: 14))
 				.foregroundColor(.white)

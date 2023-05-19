@@ -12,6 +12,8 @@ struct CreateModuleButton: View {
 	let action: () -> Void
 	var text: String?
 	
+	let createModuleText = LocalizedStringKey("Создать модуль")
+	
     var body: some View {
 		Button {
 			action()
@@ -22,11 +24,18 @@ struct CreateModuleButton: View {
 					.shadow(color: .white.opacity(0.15), radius: 20)
 				HStack {
 					if text == nil {
-						Image(asset: Asset.Images.addModule)
+						Image(systemName: "plus.circle.fill")
+							.foregroundColor(.white)
 					}
-					Text((text == nil ? "Создать модуль" : text) ?? "")
-						.foregroundColor(.white)
-						.font(.system(size: 16, weight: .medium))
+					if text == nil {
+						Text(LocalizedStringKey("Создать модуль"))
+							.foregroundColor(.white)
+							.font(.system(size: 16, weight: .medium))
+					} else {
+						Text(LocalizedStringKey(text ?? ""))
+							.foregroundColor(.white)
+							.font(.system(size: 16, weight: .medium))
+					}
 				}
 			}
 		}

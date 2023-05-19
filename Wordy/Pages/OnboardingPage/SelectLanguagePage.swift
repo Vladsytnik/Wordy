@@ -37,7 +37,7 @@ struct SelectLanguagePage: View {
 								
 								VStack {
 									HStack {
-										Text("Родной")
+										Text(LocalizedStringKey("Родной"))
 											.foregroundColor(.init(white: 0.9))
 											.font(.system(size: 24, weight: .bold))
 										Spacer()
@@ -50,7 +50,7 @@ struct SelectLanguagePage: View {
 								
 								VStack {
 									HStack {
-										Text("Хочу выучить")
+										Text(LocalizedStringKey("Хочу выучить"))
 											.foregroundColor(.init(white: 0.9))
 											.font(.system(size: 24, weight: .bold))
 										Spacer()
@@ -71,7 +71,7 @@ struct SelectLanguagePage: View {
 						
 						VStack {
 							HStack {
-								Text("Выберите язык")
+								Text(LocalizedStringKey("Выберите язык"))
 									.foregroundColor(.init(white: 0.9))
 									.font(.system(size: 32, weight: .bold))
 								Spacer()
@@ -95,7 +95,7 @@ struct SelectLanguagePage: View {
 									.foregroundColor(viewModel.userCanContinue ? Color(asset: Asset.Colors.answer4) : Color(asset: Asset.Colors.answer1))
 									.shadow(color: .white.opacity(0.1), radius: 8, x: 0, y: 2)
 									.overlay{
-										Text("ПРОДОЛЖИТЬ")
+										Text(LocalizedStringKey("ПРОДОЛЖИТЬ"))
 											.fontWeight(.medium)
 											.foregroundColor(.init(white: 0.9))
 									}

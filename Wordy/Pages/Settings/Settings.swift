@@ -46,7 +46,7 @@ struct Settings: View {
 				}
 			}
 		}
-		.navigationBarTitle("Настройки")
+		.navigationBarTitle(LocalizedStringKey("Настройки"))
 	}
 
 	// MARK: - Helpers
@@ -88,7 +88,7 @@ struct EditFolderRow: View {
 				Image(systemName: "folder")
 					.foregroundColor(.white)
 					.padding()
-				Text("Редактировать группы")
+				Text(LocalizedStringKey("Редактировать группы"))
 					.font(.system(size: 16, weight: .regular))
 					.foregroundColor(.white)
 				Spacer()
@@ -117,7 +117,7 @@ struct LogOutRow: View {
 					Image(systemName: "rectangle.portrait.and.arrow.forward")
 						.foregroundColor(.white)
 						.padding()
-					Text("Выйти")
+					Text(LocalizedStringKey("Выйти"))
 						.font(.system(size: 16, weight: .medium))
 						.foregroundColor(.red)
 					Spacer()

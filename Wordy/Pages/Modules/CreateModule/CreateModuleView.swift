@@ -29,7 +29,7 @@ struct CreateModuleView: View {
 						Color(asset: Asset.Colors.moduleCardBG)
 							.ignoresSafeArea()
 						VStack(spacing: 40) {
-							Text("Новый модуль")
+							Text(LocalizedStringKey("Новый модуль"))
 								.foregroundColor(.white)
 								.font(.system(size: 38, weight: .bold))
 								.padding(EdgeInsets(top: 52, leading: 0, bottom: 0, trailing: 0))
@@ -65,7 +65,7 @@ struct CreateModuleView: View {
 								HStack(spacing: 12) {
 									Image(asset: Asset.Images.addModuleCheckMark)
 										.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
-									Text("Добавить")
+									Text(LocalizedStringKey("Добавить"))
 										.foregroundColor(.white)
 										.font(.system(size: 18, weight: .bold))
 										.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))

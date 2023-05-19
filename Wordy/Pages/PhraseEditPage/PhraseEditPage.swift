@@ -114,7 +114,7 @@ struct PhraseEditPage: View {
 								Image(uiImage: UIImage(systemName: "checkmark") ?? UIImage())
 									.renderingMode(.template)
 									.foregroundColor(.white)
-								Text("Сохранить")
+								Text(LocalizedStringKey("Сохранить"))
 									.foregroundColor(.white)
 									.font(.system(size: 20, weight: .medium))
 							}

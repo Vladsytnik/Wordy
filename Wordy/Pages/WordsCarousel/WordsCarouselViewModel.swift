@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import AVKit
 
 class WordsCarouselViewModel: ObservableObject {
 	
@@ -17,6 +18,8 @@ class WordsCarouselViewModel: ObservableObject {
 	@Published var showAlert = false
 	@Published var showLearnPage = false
 	@Published var showActivity = false
+	
+	let synthesizer = AVSpeechSynthesizer()
 	
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
@@ -74,5 +77,18 @@ class WordsCarouselViewModel: ObservableObject {
 				self.showActivity = false
 				self.showAlert = true
 			}
+	}
+	
+	func didTapSpeach(phrase: Phrase) {
+		let wordForSpeach = phrase.getAnswer(answerType: .native)
+		
+		var langForSpeach = UserDefaultsManager.langCodeForLearn ?? "en-US"
+		
+		synthesizer.stopSpeaking(at: .immediate)
+		
+		let utterance = AVSpeechUtterance(string: "\(wordForSpeach)")
+		utterance.voice = AVSpeechSynthesisVoice(language: langForSpeach)
+		
+		synthesizer.speak(utterance)
 	}
 }

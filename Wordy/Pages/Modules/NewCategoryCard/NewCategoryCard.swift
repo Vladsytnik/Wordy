@@ -16,7 +16,7 @@ struct NewCategoryCard: View {
 	var onSubmit: (Bool, String) -> Void
 	
 	var body: some View {
-		TextField("Новая группа", text: $inputText)
+		TextField(LocalizedStringKey("Новая группа"), text: $inputText)
 			.focused($isFocused)
 			.padding(EdgeInsets(top: 10, leading: 32, bottom: 10, trailing: 32))
 			.tint(.white)

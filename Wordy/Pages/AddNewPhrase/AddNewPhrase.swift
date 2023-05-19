@@ -46,7 +46,7 @@ struct AddNewPhrase: View {
 						Button {
 							dismiss()
 						} label: {
-							Text("Отменить")
+							Text(LocalizedStringKey("Отменить"))
 								.foregroundColor(.white)
 								.font(.system(size: 20, weight: .medium))
 						}
@@ -55,7 +55,7 @@ struct AddNewPhrase: View {
 					}
 					
 					CustomTextField(
-						placeholder: "Apple",
+						placeholder: "Фраза",
 						text: $nativeText,
 						enableFocuse: true,
 						isFirstResponder: $viewModel.textFieldOneIsActive,
@@ -67,7 +67,7 @@ struct AddNewPhrase: View {
 					.offset(x: !viewModel.nativePhraseIsEmpty ? 0 : 10)
 					
 					CustomTextField(
-						placeholder: "Яблоко",
+						placeholder: "Перевод",
 						text: $translatedText,
 						enableFocuse: false,
 						isFirstResponder: $viewModel.textFieldTwoIsActive,
@@ -98,7 +98,7 @@ struct AddNewPhrase: View {
 									viewModel.didTapTextField(index: 2)
 								}
 							} label: {
-								Text("Добавить пример")
+								Text(LocalizedStringKey("Добавить пример"))
 									.foregroundColor(Color(asset: Asset.Colors.descrWordOrange))
 									.font(.system(size: 14, weight: .regular))
 							}
@@ -132,7 +132,7 @@ struct AddNewPhrase: View {
 								Image(uiImage: UIImage(systemName: "checkmark") ?? UIImage())
 									.renderingMode(.template)
 									.foregroundColor(.white)
-								Text("Добавить")
+								Text(LocalizedStringKey("Добавить"))
 									.foregroundColor(.white)
 									.font(.system(size: 20, weight: .medium))
 							}
@@ -231,7 +231,7 @@ struct CustomTextField: View {
 	var body: some View {
 		VStack {
 			ZStack(alignment: .leading) {
-				Text(placeholder)
+				Text(LocalizedStringKey(placeholder))
 					.foregroundColor(.white.opacity(0.3))
 					.font(.system(size: fontSize, weight: .medium))
 					.opacity(text.isEmpty ? 1 : 0)

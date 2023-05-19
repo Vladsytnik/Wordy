@@ -200,7 +200,7 @@ struct Modules: View {
 							UIApplication.shared.endEditing()
 						}
 				)
-				.navigationTitle("Модули")
+				.navigationTitle(LocalizedStringKey("Модули"))
 				.onAppear{ router.showActivityView = false }
 			}
 			.onAppear{

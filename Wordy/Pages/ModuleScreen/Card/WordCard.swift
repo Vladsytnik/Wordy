@@ -97,7 +97,7 @@ struct WordCard: View {
 						onAddExampleTap?(viewModel.phraseIndex)
 					} label: {
 						VStack(spacing: 5) {
-							Text("Добавить пример")
+							Text(LocalizedStringKey("Добавить пример"))
 								.foregroundColor(.white.opacity(0.9))
 								.font(.system(size: 16, weight: .regular))
 								.background {

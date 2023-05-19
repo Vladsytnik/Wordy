@@ -30,7 +30,7 @@ struct InputRoundedTextArea: View {
 		ZStack {
 			Background(width: width, height: height)
 			VStack(alignment: .leading) {
-				TextField("Модуль", text: $moduleName)
+				TextField(LocalizedStringKey("Модуль"), text: $moduleName)
 					.font(.system(size: 28, weight: .bold))
 					.focused($moduleNameIsFocused)
 					.tint(.white)

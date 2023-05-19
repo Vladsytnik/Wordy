@@ -48,7 +48,7 @@ struct GroupsEditingPage: View {
 					}
 					
 					HStack {
-						Text("Группы")
+						Text(LocalizedStringKey("Группы"))
 							.foregroundColor(.white)
 							.font(.system(size: 36, weight: .bold))
 							.multilineTextAlignment(.center)

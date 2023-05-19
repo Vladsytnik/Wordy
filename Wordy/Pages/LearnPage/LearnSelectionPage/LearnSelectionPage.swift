@@ -34,12 +34,12 @@ struct LearnSelectionPage: View {
 				VStack {
 					Spacer()
 					VStack {
-						Text("Поздравляем!")
+						Text(LocalizedStringKey("Поздравляем!"))
 							.foregroundColor(.white)
 							.font(.system(size: 36, weight: .bold))
 							.multilineTextAlignment(.center)
 							.padding()
-						Text("Ты прошел еще одну тренировку 🥳")
+						Text(LocalizedStringKey("Ты прошел еще одну тренировку 🥳"))
 							.foregroundColor(.white)
 							.font(.system(size: 28, weight: .medium))
 							.multilineTextAlignment(.center)
@@ -201,7 +201,7 @@ struct LearnTextField: View {
 						Button {
 							onUserDoesntKnow?()
 						} label: {
-							Text("Не знаю")
+							Text(LocalizedStringKey("Не знаю"))
 								.foregroundColor(.white.opacity(0.6))
 								.font(.system(size: fontSize, weight: .medium))
 						}

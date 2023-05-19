@@ -47,6 +47,7 @@ struct WordsCarouselView: View {
 							.padding(.leading)
 							.padding(.trailing)
 							.tag(i)
+							.environmentObject(viewModel)
 						
 					}
 				}
@@ -121,17 +122,20 @@ struct CarouselCard: View {
 	
 	var phrase: Phrase
 	var onDeletedTap: (() -> Void)
+	@EnvironmentObject var viewModel: WordsCarouselViewModel
 	
 	var body: some View {
 		VStack {
-			SpeachButton()
+			SpeachButton {
+				viewModel.didTapSpeach(phrase: phrase)
+			}
 			Spacer()
 			MainText(phrase: phrase)
 			Spacer()
 			Button {
 				onDeletedTap()
 			} label: {
-				Text("УДАЛИТЬ")
+				Text(LocalizedStringKey("УДАЛИТЬ"))
 					.font(.system(size: 16, weight: .bold))
 					.foregroundColor(.white.opacity(0.82))
 			}
@@ -164,11 +168,14 @@ struct WordsCarouselView_Previews: PreviewProvider {
 }
 
 fileprivate struct SpeachButton: View {
+	
+	var action: (() -> Void)?
+	
 	var body: some View {
 		HStack {
 			Spacer()
 			Button {
-				
+				action?()
 			} label: {
 				Image(asset: Asset.Images.speach)
 					.resizable()

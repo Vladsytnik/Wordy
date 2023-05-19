@@ -102,7 +102,7 @@ struct ModuleScreen: View {
 			})
 			.background(BackgroundView())
 			.navigationBarBackButtonHidden()
-			.showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Отмена", titleForAction: "Удалить") {
+			.showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Отменить", titleForAction: "Удалить") {
 				viewModel.nowReallyNeedToDeleteModule()
 			}
 			.fullScreenCover(isPresented: $viewModel.showWordsCarousel) {
@@ -129,16 +129,16 @@ struct ModuleScreen: View {
 			.actionSheet(isPresented: $showEditAlert, content: {
 				ActionSheet(
 					title: Text(""),
-					message: Text("Выберите действие")
+					message: Text(LocalizedStringKey("Выберите действие"))
 						.bold(),
 					buttons: [
-						.default(Text("Изменить"), action: {
+						.default(Text(LocalizedStringKey("Изменить")), action: {
 							viewModel.didTapAddExample(index: currentEditPhraseIndex)
 						}),
-						.destructive(Text("Удалить"), action: {
+						.destructive(Text(LocalizedStringKey("Удалить")), action: {
 							viewModel.didTapDeletePhrase(with: currentEditPhraseIndex)
 						}),
-						.cancel(Text("Отменить"), action: {
+						.cancel(Text(LocalizedStringKey("Отменить")), action: {
 							
 						})
 					])
@@ -290,7 +290,7 @@ struct LearnModuleButton: View {
 			action()
 		} label: {
 			ZStack {
-				Text("Выучить модуль")
+				Text(LocalizedStringKey("Выучить модуль"))
 					.foregroundColor(Color(asset: Asset.Colors.descrWordOrange))
 					.font(.system(size: 18, weight: .bold))
 					.padding(EdgeInsets(top: 16, leading: 26, bottom: 16, trailing: 26))
@@ -316,7 +316,7 @@ struct AddWordButton: View {
 				.overlay {
 					HStack {
 						Image(asset: Asset.Images.plusIcon)
-						Text("Добавить слово")
+						Text(LocalizedStringKey("Добавить слово"))
 							.foregroundColor(.white)
 							.font(.system(size: 18, weight: .medium))
 					}
@@ -342,7 +342,7 @@ struct DeleteModuleButton: View {
 		Button {
 			action()
 		} label: {
-			Text("Удалить модуль")
+			Text(LocalizedStringKey("Удалить модуль"))
 				.foregroundColor(.white)
 				.font(.system(size: 16, weight: .regular))
 				.frame(width: 300, height: 50)

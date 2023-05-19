@@ -151,7 +151,7 @@ struct ModuleSelectPage: View {
 							UIApplication.shared.endEditing()
 						}
 				)
-				.navigationTitle("Модули")
+				.navigationTitle(LocalizedStringKey("Модули"))
 			}
 			.activity($showActivity)
 			.showAlert(title: alert.title, description: alert.description, isPresented: $showAlert) {
@@ -303,7 +303,7 @@ fileprivate struct SaveButton: View {
 					.foregroundColor(Color(asset: Asset.Colors.createModuleButton))
 					.shadow(color: .white.opacity(0.15), radius: 20)
 				HStack {
-					Text("Сохранить")
+					Text(LocalizedStringKey("Сохранить"))
 						.foregroundColor(.white)
 						.font(.system(size: 16, weight: .medium))
 				}
