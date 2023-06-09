@@ -59,7 +59,8 @@ struct AddNewPhrase: View {
 						text: $nativeText,
 						enableFocuse: true,
 						isFirstResponder: $viewModel.textFieldOneIsActive,
-						closeKeyboard: $viewModel.closeKeyboards
+						closeKeyboard: $viewModel.closeKeyboards,
+						language: UserDefaultsManager.nativeLanguage
 					)
 					.onTapGesture {
 						viewModel.didTapTextField(index: 0)
@@ -71,7 +72,8 @@ struct AddNewPhrase: View {
 						text: $translatedText,
 						enableFocuse: false,
 						isFirstResponder: $viewModel.textFieldTwoIsActive,
-						closeKeyboard: $viewModel.closeKeyboards
+						closeKeyboard: $viewModel.closeKeyboards,
+						language: UserDefaultsManager.learnLanguage
 					)
 					.onTapGesture {
 						viewModel.didTapTextField(index: 1)
@@ -84,7 +86,8 @@ struct AddNewPhrase: View {
 							text: $exampleText,
 							enableFocuse: false,
 							isFirstResponder: $viewModel.textFieldThreeIsActive,
-							closeKeyboard: $viewModel.closeKeyboards
+							closeKeyboard: $viewModel.closeKeyboards,
+							language: UserDefaultsManager.learnLanguage
 						)
 						.onTapGesture {
 							viewModel.didTapTextField(index: 1)
@@ -217,10 +220,12 @@ struct AddNewPhrase_Previews: PreviewProvider {
 struct CustomTextField: View {
 	
 	let placeholder: String
+	
 	@Binding var text: String
 	let enableFocuse: Bool
 	@Binding var isFirstResponder: Bool
 	@Binding var closeKeyboard: Bool
+	var language: Language? = .eng
 	
 	let fontSize: CGFloat = 20
 	
@@ -236,9 +241,13 @@ struct CustomTextField: View {
 					.font(.system(size: fontSize, weight: .medium))
 					.opacity(text.isEmpty ? 1 : 0)
 				HStack {
-					TextField("", text: $text, onCommit: {
-						return
-					})
+					LanguageTextField(placeholder: "",
+									  text: $text,
+									  isFirstResponder: _isFocused,
+									  language: language)
+//					TextField("", text: $text, onCommit: {
+//						return
+//					})
 					.foregroundColor(.white)
 					.tint(.white)
 					.font(.system(size: fontSize, weight: .medium))
@@ -279,16 +288,21 @@ struct CustomTextField: View {
 
 struct LanguageTextField: UIViewRepresentable {
 	
-	var textLanguage: String?
 	var placeholder: String?
-	
 	@Binding var text: String
+	@FocusState var isFirstResponder: Bool
+	var language: Language?
 	
 	func makeUIView(context: Context) -> UILanguageTextField {
-		let textField = UILanguageTextField(frame: .zero)
-		textField.textLanguage = textLanguage
-		textField.placeholder = placeholder
-		return textField
+		let langTextField = UILanguageTextField(textLanguage: language)
+		langTextField.delegate = context.coordinator
+		if isFirstResponder {
+			langTextField.becomeFirstResponder()
+		} else {
+			langTextField.resignFirstResponder()
+		}
+		langTextField.placeholder = NSLocalizedString(placeholder ?? "", comment: "")
+		return langTextField
 	}
 	
 	func updateUIView(_ uiView: UILanguageTextField, context: Context) {
@@ -297,11 +311,26 @@ struct LanguageTextField: UIViewRepresentable {
 		uiView.setContentCompressionResistancePriority(.required, for: .vertical)
 	}
 	
+	func makeCoordinator() -> Coordinator {
+		Coordinator(self)
+	}
+	
+	class Coordinator: NSObject, UITextFieldDelegate {
+		let parent: LanguageTextField
+		
+		init(_ parent: LanguageTextField) {
+			self.parent = parent
+		}
+		
+		func textFieldDidChangeSelection(_ textField: UITextField) {
+			parent.text = textField.text ?? ""
+		}
+	}
 }
 
 class UILanguageTextField: UITextField {
 	
-	var textLanguage: String?
+	private var textLanguage: String?
 	
 	convenience init(textLanguage: Language? = nil) {
 		self.init(frame: .zero)
@@ -311,6 +340,15 @@ class UILanguageTextField: UITextField {
 	override var textInputMode: UITextInputMode? {
 		for tim in UITextInputMode.activeInputModes {
 			if tim.primaryLanguage == textLanguage {
+				return tim
+			}
+			if textLanguage == "en-US"
+				&& (tim.primaryLanguage == "en-UK"
+					|| tim.primaryLanguage == "en-GB"
+					|| tim.primaryLanguage == "en-AU"
+					|| tim.primaryLanguage == "en-CA"
+					|| tim.primaryLanguage == "en-IN"
+					|| tim.primaryLanguage == "en-SG") {
 				return tim
 			}
 		}

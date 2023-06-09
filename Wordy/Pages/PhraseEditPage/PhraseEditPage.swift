@@ -64,11 +64,12 @@ struct PhraseEditPage: View {
 					}
 					Spacer()
 					CustomTextField(
-						placeholder: "Apple",
+						placeholder: "Яблоко",
 						text: $viewModel.nativePhrase,
 						enableFocuse: true,
 						isFirstResponder: $viewModel.textFieldOneIsActive,
-						closeKeyboard: $viewModel.closeKeyboards
+						closeKeyboard: $viewModel.closeKeyboards,
+						language: UserDefaultsManager.nativeLanguage
 					)
 					.onTapGesture {
 						viewModel.didTapTextField(index: 0)
@@ -76,11 +77,12 @@ struct PhraseEditPage: View {
 					.offset(x: !viewModel.nativePhraseIsEmpty ? 0 : 10)
 					
 					CustomTextField(
-						placeholder: "Яблоко",
+						placeholder: "Apple",
 						text: $viewModel.translatedPhrase,
 						enableFocuse: false,
 						isFirstResponder: $viewModel.textFieldTwoIsActive,
-						closeKeyboard: $viewModel.closeKeyboards
+						closeKeyboard: $viewModel.closeKeyboards,
+						language: UserDefaultsManager.learnLanguage
 					)
 					.onTapGesture {
 						viewModel.didTapTextField(index: 1)
@@ -92,7 +94,8 @@ struct PhraseEditPage: View {
 						text: $viewModel.examplePhrase,
 						enableFocuse: false,
 						isFirstResponder: $viewModel.textFieldThreeIsActive,
-						closeKeyboard: $viewModel.closeKeyboards
+						closeKeyboard: $viewModel.closeKeyboards,
+						language: UserDefaultsManager.learnLanguage
 					)
 					.onTapGesture {
 						viewModel.didTapTextField(index: 1)

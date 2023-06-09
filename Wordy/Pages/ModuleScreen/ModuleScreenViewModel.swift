@@ -73,7 +73,11 @@ class ModuleScreenViewModel: ObservableObject {
 		if module.phrases.count < 4 {
 			let wordsCountDifference = 4 - module.phrases.count
 			alert.title = "Для изучения слов необходимо минимум \n4 фразы"
-			alert.description = "\nОсталось добавить еще \(getCorrectWord(value: wordsCountDifference))!"
+			if Locale.current.languageCode == Language.ru.getLangCode() {
+				alert.description = "\nОсталось добавить еще \(getCorrectWord(value: wordsCountDifference))!"
+			} else {
+				alert.description = "\nAdd a few more words"
+			}
 			withAnimation {
 				self.showErrorAboutPhraseCount = true
 			}

@@ -37,7 +37,11 @@ class WordsCarouselViewModel: ObservableObject {
 		if thisModule.phrases.count < 4 {
 			let wordsCountDifference = 4 - thisModule.phrases.count
 			alert.title = "Для изучения слов необходимо минимум \n4 фразы"
-			alert.description = "\nОсталось добавить еще \(getCorrectWord(value: wordsCountDifference))!"
+			if Locale.current.languageCode == Language.ru.getLangCode() {
+				alert.description = "\nОсталось добавить еще \(getCorrectWord(value: wordsCountDifference))!"
+			} else {
+				alert.description = "\nAdd a few more words"
+			}
 			withAnimation {
 				self.showAlert = true
 			}
