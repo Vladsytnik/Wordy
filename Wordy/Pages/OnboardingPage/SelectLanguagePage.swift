@@ -18,12 +18,18 @@ struct SelectLanguagePage: View {
 	var body: some View {
 		NavigationView {
 			ZStack {
-				NavigationLink(
-					destination: OnboardingPage(),
-					isActive: $viewModel.showOnboardingPage
-				) {
-					EmptyView()
-				}
+//				NavigationLink(
+//					destination: OnboardingPage(),
+//					isActive: $viewModel.showOnboardingPage
+//				) {
+//					EmptyView()
+//				}
+//				NavigationLink(
+//					destination: Modules(),
+//					isActive: $viewModel.showOnboardingPage
+//				) {
+//					EmptyView()
+//				}
 				Color(asset: Asset.Colors.navBarPurple)
 					.ignoresSafeArea()
 					ZStack {
@@ -117,6 +123,11 @@ struct SelectLanguagePage: View {
 //
 //				}
 //			}
+			.onChange(of: viewModel.showOnboardingPage) { newValue in
+				withAnimation {
+					router.userIsAlreadyLaunched = true
+				}
+			}
 		}
 	}
 }

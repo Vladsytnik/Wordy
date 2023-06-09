@@ -23,6 +23,7 @@ class SelectLanguageViewModel: ObservableObject {
 	@Published var userCanContinue = false
 	@Published var shakeContinueBtn = false
 	@Published var showOnboardingPage = false
+	@EnvironmentObject var router: Router
 	
 	@Published var showAlert = false
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
@@ -46,6 +47,7 @@ class SelectLanguageViewModel: ObservableObject {
 				withAnimation{
 //					screenType = .onboardingOne
 					showOnboardingPage = true
+//					router.userIsAlreadyLaunched = true
 				}
 			case .onboardingOne:
 				break

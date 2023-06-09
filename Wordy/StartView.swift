@@ -10,21 +10,23 @@ import SwiftUI
 struct StartView: View {
 	
 	@EnvironmentObject var router: Router
-	let authTransition = AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)).combined(with: .opacity)
-	let transition = AnyTransition.move(edge: .bottom)
+//	let authTransition = AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)).combined(with: .opacity)
+	let authTransition = AnyTransition.opacity
+	let transition = AnyTransition.opacity
+	let opacityTransition = AnyTransition.opacity
 	
 	var body: some View {
 			ZStack {
 				if router.userIsLoggedIn {
-//					if router.userIsAlreadyLaunched {
+					if router.userIsAlreadyLaunched {
 						NavigationView {
 							Modules()
 						}
 						.transition(transition)
-//					} else {
-//						SelectLanguagePage()
-//							.transition(transition)
-//					}
+					} else {
+						SelectLanguagePage()
+							.transition(opacityTransition)
+					}
 				} else {
 					AuthPage()
 						.transition(authTransition)

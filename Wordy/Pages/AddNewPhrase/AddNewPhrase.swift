@@ -276,3 +276,44 @@ struct CustomTextField: View {
 		}
 	}
 }
+
+struct LanguageTextField: UIViewRepresentable {
+	
+	var textLanguage: String?
+	var placeholder: String?
+	
+	@Binding var text: String
+	
+	func makeUIView(context: Context) -> UILanguageTextField {
+		let textField = UILanguageTextField(frame: .zero)
+		textField.textLanguage = textLanguage
+		textField.placeholder = placeholder
+		return textField
+	}
+	
+	func updateUIView(_ uiView: UILanguageTextField, context: Context) {
+		uiView.text = text
+		uiView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+		uiView.setContentCompressionResistancePriority(.required, for: .vertical)
+	}
+	
+}
+
+class UILanguageTextField: UITextField {
+	
+	var textLanguage: String?
+	
+	convenience init(textLanguage: Language? = nil) {
+		self.init(frame: .zero)
+		self.textLanguage = textLanguage?.getLangCode()
+	}
+	
+	override var textInputMode: UITextInputMode? {
+		for tim in UITextInputMode.activeInputModes {
+			if tim.primaryLanguage == textLanguage {
+				return tim
+			}
+		}
+		return super.textInputMode
+	}
+}
