@@ -49,6 +49,7 @@ internal enum Asset {
     internal static let authBG = ImageAsset(name: "AuthBG")
     internal static let backButton = ImageAsset(name: "BackButton")
     internal static let carouselBG = ImageAsset(name: "CarouselBG")
+    internal static let closeBtn = ImageAsset(name: "CloseBtn")
     internal static let closeEmoji = ImageAsset(name: "CloseEmoji")
     internal static let gradientBG = ImageAsset(name: "GradientBG")
     internal static let moduleCardBottomStuff = ImageAsset(name: "ModuleCardBottomStuff")
@@ -57,6 +58,7 @@ internal enum Asset {
     internal static let searchIcon = ImageAsset(name: "SearchIcon")
     internal static let settingsIcon = ImageAsset(name: "SettingsIcon")
     internal static let speach = ImageAsset(name: "Speach")
+    internal static let advantage = ImageAsset(name: "advantage")
     internal static let learnPageBG = ImageAsset(name: "learnPageBG")
     internal static let newGroup = ImageAsset(name: "newGroup")
   }

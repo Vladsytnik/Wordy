@@ -53,6 +53,8 @@
 		0135E2482959DFDC00B1C8A0 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0135E2472959DFDC00B1C8A0 /* FirebaseFirestoreSwift */; };
 		0135E24A2959DFDC00B1C8A0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 0135E2492959DFDC00B1C8A0 /* FirebaseStorage */; };
 		0135E24F295B645300B1C8A0 /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135E24E295B645300B1C8A0 /* Module.swift */; };
+		013D97772A434A1B00F03AF7 /* Paywall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D97762A434A1B00F03AF7 /* Paywall.swift */; };
+		013D97792A49BDF100F03AF7 /* PaywallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013D97782A49BDF100F03AF7 /* PaywallViewModel.swift */; };
 		013E64AE2950B281002A85E2 /* CreateModuleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013E64AD2950B281002A85E2 /* CreateModuleButton.swift */; };
 		014681102955FADD0080732C /* CreateModuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0146810F2955FADD0080732C /* CreateModuleView.swift */; };
 		014681132955FF9C0080732C /* CreateModuleCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014681122955FF9C0080732C /* CreateModuleCard.swift */; };
@@ -146,6 +148,8 @@
 		0130B01D2A0A6C0B001391FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		013251DF296B034900B071F1 /* UIApplication + hideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication + hideKeyboard.swift"; sourceTree = "<group>"; };
 		0135E24E295B645300B1C8A0 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
+		013D97762A434A1B00F03AF7 /* Paywall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paywall.swift; sourceTree = "<group>"; };
+		013D97782A49BDF100F03AF7 /* PaywallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewModel.swift; sourceTree = "<group>"; };
 		013E64AD2950B281002A85E2 /* CreateModuleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateModuleButton.swift; sourceTree = "<group>"; };
 		0146810F2955FADD0080732C /* CreateModuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateModuleView.swift; sourceTree = "<group>"; };
 		014681122955FF9C0080732C /* CreateModuleCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateModuleCard.swift; sourceTree = "<group>"; };
@@ -296,6 +300,15 @@
 				019160BD29D2D0360094F36D /* Group.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		013D97752A434A0200F03AF7 /* Paywall */ = {
+			isa = PBXGroup;
+			children = (
+				013D97782A49BDF100F03AF7 /* PaywallViewModel.swift */,
+				013D97762A434A1B00F03AF7 /* Paywall.swift */,
+			);
+			path = Paywall;
 			sourceTree = "<group>";
 		};
 		014681112955FF5C0080732C /* CreateModuleCard */ = {
@@ -474,6 +487,7 @@
 		019056462944A8450058B566 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				013D97752A434A0200F03AF7 /* Paywall */,
 				01F01B6D29F02F7100742DF3 /* PhraseEditPage */,
 				014B767A29E0387D0044DF87 /* LearnPage */,
 				019160BA29D0989C0094F36D /* ModuleSelectPage */,
@@ -784,6 +798,8 @@
 			files = (
 				01770EC8296AB27600578F81 /* AddNewPhraseViewModel.swift in Sources */,
 				0176424A2972FCC10042DB86 /* Constants.swift in Sources */,
+				013D97792A49BDF100F03AF7 /* PaywallViewModel.swift in Sources */,
+				013D97772A434A1B00F03AF7 /* Paywall.swift in Sources */,
 				0110F711297EECD2007F26BC /* NavigationView.swift in Sources */,
 				0103FF48294C5035004C2EA6 /* AuthPage.swift in Sources */,
 				014681132955FF9C0080732C /* CreateModuleCard.swift in Sources */,

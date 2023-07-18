@@ -17,6 +17,15 @@ class UserDefaultsManager {
 		}
 	}
 	
+	static var userHasSubscription: Bool {
+		get {
+			UserDefaults().bool(forKey: "userHasSubscription")
+		}
+		set {
+			UserDefaults().setValue(newValue, forKey: "userHasSubscription")
+		}
+	}
+	
 	static var langCodeForLearn: String? {
 		get {
 			UserDefaults().string(forKey: "langCodeForLearn")
