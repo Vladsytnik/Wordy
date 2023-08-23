@@ -125,7 +125,7 @@ struct GroupsEditingPage: View {
 				selectedIndexes: $selectedIndexes
 			)
 		}
-		.showAlert(title: "Вы действительно хотите удалить эту группу?", description: "Это действие нельзя будет отменить", isPresented: $showDeleteAlert, titleWithoutAction: "Отмена", titleForAction: "Удалить") {
+		.showAlert(title: "Вы действительно хотите удалить эту группу?", description: "Это действие нельзя будет отменить", isPresented: $showDeleteAlert, titleWithoutAction: "Отменить", titleForAction: "Удалить") {
 			nowReallyNeedToDeleteModule()
 		}
 	}
