@@ -41,6 +41,7 @@ struct ModuleSelectPage: View {
 	
 	@Binding var selectedIndexes: [Int]
 	@Binding var isEditMode: Bool
+	var isOnboardingMode = false
 	
 	private var currentGroup: Group {
 		groups.first(where: { $0.id == groupId }) ?? Group()
@@ -52,6 +53,7 @@ struct ModuleSelectPage: View {
 		 needUpdate: Binding<Bool>,
 		 groups: Binding<[Group]>,
 		 isEditMode: Binding<Bool>,
+		 isOnboardingMode: Bool = false,
 		 selectedIndexes: Binding<[Int]>? = nil) {
 		animations = Array(repeating: false, count: modules.count)
 		
@@ -62,6 +64,7 @@ struct ModuleSelectPage: View {
 		self._selectedIndexes = selectedIndexes ?? .constant([])
 		self._groups = groups
 		self._isEditMode = isEditMode
+		self.isOnboardingMode = isOnboardingMode
 		
 		let stateKeys = modulesStates.keys.map{ Int($0) }
 		stateKeys.forEach{ modulesStates[$0] = false }
@@ -182,7 +185,11 @@ struct ModuleSelectPage: View {
 	}
 	
 	func createNewGroupOrChangeExisting() {
-		isEditMode ? changeGroup() : createNewGroup()
+		if isOnboardingMode {
+			isOpened.toggle()
+		} else {
+			isEditMode ? changeGroup() : createNewGroup()
+		}
 	}
 	
 	private func createNewGroup() {

@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		0101956129646CD7007BDEAB /* WordCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101956029646CD7007BDEAB /* WordCard.swift */; };
+		0101B8A92AA0CB060055DEFB /* MockDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101B8A82AA0CB060055DEFB /* MockDataManager.swift */; };
+		0101B8AB2AA0D38D0055DEFB /* MyTooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101B8AA2AA0D38D0055DEFB /* MyTooltip.swift */; };
+		0101B8AE2AA0D4260055DEFB /* MyTooltipConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101B8AD2AA0D4260055DEFB /* MyTooltipConfig.swift */; };
+		0101B8B02AA0D45B0055DEFB /* MyTooltipSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101B8AF2AA0D45B0055DEFB /* MyTooltipSide.swift */; };
+		0101B8B22AA0D54C0055DEFB /* MyArrowShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101B8B12AA0D54B0055DEFB /* MyArrowShape.swift */; };
+		0101B8B42AA0D5680055DEFB /* MyCurveInArrowShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101B8B32AA0D5680055DEFB /* MyCurveInArrowShape.swift */; };
+		0101B8B62AA0D5A00055DEFB /* MyDefaultTooltipConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101B8B52AA0D5A00055DEFB /* MyDefaultTooltipConfig.swift */; };
+		0101B8B82AA0DD890055DEFB /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0101B8B72AA0DD890055DEFB /* OnboardingManager.swift */; };
 		0103FF48294C5035004C2EA6 /* AuthPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF47294C5035004C2EA6 /* AuthPage.swift */; };
 		0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF49294C58A9004C2EA6 /* AuthViewModel.swift */; };
 		0103FF4C294C7471004C2EA6 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF4B294C7471004C2EA6 /* UserDefaultsManager.swift */; };
@@ -17,6 +25,7 @@
 		0103FF56294C9E75004C2EA6 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF55294C9E75004C2EA6 /* Router.swift */; };
 		010C7E9129AE7EA900133179 /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 010C7E9029AE7EA900133179 /* MCEmojiPicker */; };
 		0110F711297EECD2007F26BC /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110F710297EECD2007F26BC /* NavigationView.swift */; };
+		0113F9592A96799800566EAC /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = 0113F9582A96799800566EAC /* SwiftUITooltip */; };
 		011B138C29FBB81B00D4CCBF /* GroupsEditingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B138B29FBB81B00D4CCBF /* GroupsEditingPage.swift */; };
 		011B138E2A00176B00D4CCBF /* SignInWithApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B138D2A00176B00D4CCBF /* SignInWithApple.swift */; };
 		011B13912A001DB300D4CCBF /* SignInWithAppleDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B13902A001DB300D4CCBF /* SignInWithAppleDelegates.swift */; };
@@ -95,6 +104,8 @@
 		01978FAB294CBCB600B8EFC3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 01978FAA294CBCB600B8EFC3 /* Lottie */; };
 		01978FB3294CBF6600B8EFC3 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01978FB2294CBF6600B8EFC3 /* LottieView.swift */; };
 		01978FB7294CC92200B8EFC3 /* loader.json in Resources */ = {isa = PBXBuildFile; fileRef = 01978FB6294CC92100B8EFC3 /* loader.json */; };
+		01B59DF82AA23CEC003115E6 /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B59DF72AA23CEC003115E6 /* TooltipView.swift */; };
+		01B59DFA2AA24B1B003115E6 /* onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B59DF92AA24B1B003115E6 /* onboarding.json */; };
 		01B92B35294F606100F440EE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B92B34294F606000F440EE /* Settings.swift */; };
 		01D2F1BE294CE468000330A8 /* View + Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2F1BD294CE468000330A8 /* View + Modifiers.swift */; };
 		01D2F1C1294CEAD5000330A8 /* CategoryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2F1C0294CEAD5000330A8 /* CategoryCard.swift */; };
@@ -111,6 +122,14 @@
 
 /* Begin PBXFileReference section */
 		0101956029646CD7007BDEAB /* WordCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCard.swift; sourceTree = "<group>"; };
+		0101B8A82AA0CB060055DEFB /* MockDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataManager.swift; sourceTree = "<group>"; };
+		0101B8AA2AA0D38D0055DEFB /* MyTooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTooltip.swift; sourceTree = "<group>"; };
+		0101B8AD2AA0D4260055DEFB /* MyTooltipConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTooltipConfig.swift; sourceTree = "<group>"; };
+		0101B8AF2AA0D45B0055DEFB /* MyTooltipSide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTooltipSide.swift; sourceTree = "<group>"; };
+		0101B8B12AA0D54B0055DEFB /* MyArrowShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyArrowShape.swift; sourceTree = "<group>"; };
+		0101B8B32AA0D5680055DEFB /* MyCurveInArrowShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCurveInArrowShape.swift; sourceTree = "<group>"; };
+		0101B8B52AA0D5A00055DEFB /* MyDefaultTooltipConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDefaultTooltipConfig.swift; sourceTree = "<group>"; };
+		0101B8B72AA0DD890055DEFB /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
 		0103FF47294C5035004C2EA6 /* AuthPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPage.swift; sourceTree = "<group>"; };
 		0103FF49294C58A9004C2EA6 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		0103FF4B294C7471004C2EA6 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -192,6 +211,8 @@
 		019160BD29D2D0360094F36D /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		01978FB2294CBF6600B8EFC3 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		01978FB6294CC92100B8EFC3 /* loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader.json; sourceTree = "<group>"; };
+		01B59DF72AA23CEC003115E6 /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
+		01B59DF92AA24B1B003115E6 /* onboarding.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = onboarding.json; sourceTree = "<group>"; };
 		01B92B34294F606000F440EE /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		01D2F1BD294CE468000330A8 /* View + Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View + Modifiers.swift"; sourceTree = "<group>"; };
 		01D2F1C0294CEAD5000330A8 /* CategoryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCard.swift; sourceTree = "<group>"; };
@@ -217,6 +238,7 @@
 				0135E2422959DFDC00B1C8A0 /* FirebaseDatabase in Frameworks */,
 				0135E23E2959DFDC00B1C8A0 /* FirebaseAnalyticsSwift in Frameworks */,
 				010C7E9129AE7EA900133179 /* MCEmojiPicker in Frameworks */,
+				0113F9592A96799800566EAC /* SwiftUITooltip in Frameworks */,
 				0135E24A2959DFDC00B1C8A0 /* FirebaseStorage in Frameworks */,
 				0135E2402959DFDC00B1C8A0 /* FirebaseAuth in Frameworks */,
 				54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */,
@@ -237,6 +259,19 @@
 				0101956029646CD7007BDEAB /* WordCard.swift */,
 			);
 			path = Card;
+			sourceTree = "<group>";
+		};
+		0101B8AC2AA0D40C0055DEFB /* MyTooltip */ = {
+			isa = PBXGroup;
+			children = (
+				0101B8AA2AA0D38D0055DEFB /* MyTooltip.swift */,
+				0101B8AD2AA0D4260055DEFB /* MyTooltipConfig.swift */,
+				0101B8AF2AA0D45B0055DEFB /* MyTooltipSide.swift */,
+				0101B8B12AA0D54B0055DEFB /* MyArrowShape.swift */,
+				0101B8B32AA0D5680055DEFB /* MyCurveInArrowShape.swift */,
+				0101B8B52AA0D5A00055DEFB /* MyDefaultTooltipConfig.swift */,
+			);
+			path = MyTooltip;
 			sourceTree = "<group>";
 		};
 		0103FF46294C501B004C2EA6 /* Auth */ = {
@@ -428,9 +463,11 @@
 		0185B55C2949F24600934373 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				0101B8AC2AA0D40C0055DEFB /* MyTooltip */,
 				011B138F2A001DA600D4CCBF /* SignInWithApple */,
 				0185B55E2949F26D00934373 /* ObservableScrollView.swift */,
 				01F57695294A4F2E00F52EB1 /* VisualEffectView.swift */,
+				01B59DF72AA23CEC003115E6 /* TooltipView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -567,6 +604,7 @@
 		01978FAF294CBEE600B8EFC3 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				01B59DF92AA24B1B003115E6 /* onboarding.json */,
 				01770ECB296AF05100578F81 /* addWordLoader.json */,
 				01978FB6294CC92100B8EFC3 /* loader.json */,
 				014955A529E84DD8000BC30F /* success.json */,
@@ -597,6 +635,8 @@
 				01E4B758294B119800720BE0 /* NetworkManager.swift */,
 				0103FF4B294C7471004C2EA6 /* UserDefaultsManager.swift */,
 				0103FF51294C86F5004C2EA6 /* ErrorCodeManager.swift */,
+				0101B8A82AA0CB060055DEFB /* MockDataManager.swift */,
+				0101B8B72AA0DD890055DEFB /* OnboardingManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -664,6 +704,7 @@
 				0135E2472959DFDC00B1C8A0 /* FirebaseFirestoreSwift */,
 				0135E2492959DFDC00B1C8A0 /* FirebaseStorage */,
 				010C7E9029AE7EA900133179 /* MCEmojiPicker */,
+				0113F9582A96799800566EAC /* SwiftUITooltip */,
 			);
 			productName = Wordy;
 			productReference = 019056352944A7140058B566 /* Wordy.app */;
@@ -698,6 +739,7 @@
 				01978FA9294CBCB600B8EFC3 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				0135E23A2959DFDC00B1C8A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				010C7E8F29AE7EA900133179 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
+				0113F9572A96799800566EAC /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */,
 			);
 			productRefGroup = 019056362944A7140058B566 /* Products */;
 			projectDirPath = "";
@@ -719,6 +761,7 @@
 				01978FB7294CC92200B8EFC3 /* loader.json in Resources */,
 				0130B01E2A0A6C5E001391FC /* GoogleService-Info.plist in Resources */,
 				012D95E2294867DA00165DAF /* SF-Pro-Display-SemiboldItalic.otf in Resources */,
+				01B59DFA2AA24B1B003115E6 /* onboarding.json in Resources */,
 				012D95D5294867DA00165DAF /* SF-Pro-Display-LightItalic.otf in Resources */,
 				012D95E0294867DA00165DAF /* SF-Pro-Display-MediumItalic.otf in Resources */,
 				014955A829E855FE000BC30F /* congeralations.json in Resources */,
@@ -801,6 +844,7 @@
 				013D97792A49BDF100F03AF7 /* PaywallViewModel.swift in Sources */,
 				013D97772A434A1B00F03AF7 /* Paywall.swift in Sources */,
 				0110F711297EECD2007F26BC /* NavigationView.swift in Sources */,
+				0101B8AE2AA0D4260055DEFB /* MyTooltipConfig.swift in Sources */,
 				0103FF48294C5035004C2EA6 /* AuthPage.swift in Sources */,
 				014681132955FF9C0080732C /* CreateModuleCard.swift in Sources */,
 				014A46522964646300E43508 /* ModuleScreenViewModel.swift in Sources */,
@@ -808,8 +852,11 @@
 				017642432972E7250042DB86 /* WordCardViewModel.swift in Sources */,
 				01978FB3294CBF6600B8EFC3 /* LottieView.swift in Sources */,
 				015713972964607E0022E1FA /* ModuleScreen.swift in Sources */,
+				0101B8A92AA0CB060055DEFB /* MockDataManager.swift in Sources */,
 				011B138E2A00176B00D4CCBF /* SignInWithApple.swift in Sources */,
 				013251E0296B034900B071F1 /* UIApplication + hideKeyboard.swift in Sources */,
+				0101B8B02AA0D45B0055DEFB /* MyTooltipSide.swift in Sources */,
+				0101B8B62AA0D5A00055DEFB /* MyDefaultTooltipConfig.swift in Sources */,
 				019056492944A85E0058B566 /* Modules.swift in Sources */,
 				0103FF52294C86F5004C2EA6 /* ErrorCodeManager.swift in Sources */,
 				0103FF56294C9E75004C2EA6 /* Router.swift in Sources */,
@@ -817,10 +864,12 @@
 				0185B55F2949F26D00934373 /* ObservableScrollView.swift in Sources */,
 				01DC12CA2A153605007BF79E /* Languages.swift in Sources */,
 				01E4B759294B119800720BE0 /* NetworkManager.swift in Sources */,
+				0101B8B82AA0DD890055DEFB /* OnboardingManager.swift in Sources */,
 				01FB3A8029505E5100330DDE /* SearchTextField.swift in Sources */,
 				019160BE29D2D0360094F36D /* Group.swift in Sources */,
 				0103FF4E294C76CB004C2EA6 /* StartView.swift in Sources */,
 				016AA3AD29477E40002C00CC /* RoundedTextArea.swift in Sources */,
+				0101B8AB2AA0D38D0055DEFB /* MyTooltip.swift in Sources */,
 				014681102955FADD0080732C /* CreateModuleView.swift in Sources */,
 				01F57696294A4F2E00F52EB1 /* VisualEffectView.swift in Sources */,
 				012D95E5294867E600165DAF /* Fonts+Generated.swift in Sources */,
@@ -835,10 +884,13 @@
 				011B138C29FBB81B00D4CCBF /* GroupsEditingPage.swift in Sources */,
 				014B767F29E03B750044DF87 /* LearnSelectionPageViewModel.swift in Sources */,
 				01E984D92A17D1DA009D889F /* OnboardingPage.swift in Sources */,
+				0101B8B42AA0D5680055DEFB /* MyCurveInArrowShape.swift in Sources */,
+				01B59DF82AA23CEC003115E6 /* TooltipView.swift in Sources */,
 				013E64AE2950B281002A85E2 /* CreateModuleButton.swift in Sources */,
 				01468115295602290080732C /* InputRoundedTextArea.swift in Sources */,
 				0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */,
 				014B767D29E038D10044DF87 /* LearnSelectionPage.swift in Sources */,
+				0101B8B22AA0D54C0055DEFB /* MyArrowShape.swift in Sources */,
 				016817FF2969B0B400F30E39 /* Alert.swift in Sources */,
 				011B13912A001DB300D4CCBF /* SignInWithAppleDelegates.swift in Sources */,
 				019160BC29D098DD0094F36D /* ModuleSelectPage.swift in Sources */,
@@ -1085,6 +1137,14 @@
 				version = 1.1.1;
 			};
 		};
+		0113F9572A96799800566EAC /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/quassum/SwiftUI-Tooltip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		0135E23A2959DFDC00B1C8A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1108,6 +1168,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 010C7E8F29AE7EA900133179 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */;
 			productName = MCEmojiPicker;
+		};
+		0113F9582A96799800566EAC /* SwiftUITooltip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0113F9572A96799800566EAC /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */;
+			productName = SwiftUITooltip;
 		};
 		0135E23B2959DFDC00B1C8A0 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

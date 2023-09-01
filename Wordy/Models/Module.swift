@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseDatabase
 
-struct Module: Equatable {
+struct Module: Equatable, Codable {
 	var name: String = ""
 	var emoji: String = ""
 	var id: String = ""

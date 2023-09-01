@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseDatabase
 
-struct Group: Equatable {
+struct Group: Equatable, Codable {
 	var name: String = ""
 	var id: String = ""
 	var modulesID: [String] = []

@@ -16,6 +16,8 @@ struct CreateModuleView: View {
 	@State var showEmojiView = false
 	@State var moduleName = ""
 	@State var emoji = "📄"
+	
+	var isOnboardingMode = false
 //	let action: () -> Void
 	
 	@EnvironmentObject var router: Router
@@ -71,6 +73,7 @@ struct CreateModuleView: View {
 										.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))
 								}
 								.frame(height: 50)
+								.padding(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
 								.background(Color(asset: Asset.Colors.addModuleButtonBG))
 								.cornerRadius(17)
 								.offset(y: needAnimate ? 0 : 300)
@@ -94,12 +97,16 @@ struct CreateModuleView: View {
     }
 	
 	private func createModule() {
-		showActivity = true
-		NetworkManager.createModule(name: moduleName, emoji: emoji) { successResult in
-			needUpdateData.toggle()
+		if isOnboardingMode {
 			self.presentation.wrappedValue.dismiss()
-		} errorBlock: { error in
-
+		} else {
+			showActivity = true
+			NetworkManager.createModule(name: moduleName, emoji: emoji) { successResult in
+				needUpdateData.toggle()
+				self.presentation.wrappedValue.dismiss()
+			} errorBlock: { error in
+				
+			}
 		}
 	}
 }

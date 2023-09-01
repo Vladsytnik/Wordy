@@ -7,6 +7,15 @@
 
 import SwiftUI
 import Firebase
+import SwiftUITooltip
+
+class ScrollToModel: ObservableObject {
+	enum Action {
+		case end
+		case top
+	}
+	@Published var direction: Action? = nil
+}
 
 struct Modules: View {
 	
@@ -58,12 +67,18 @@ struct Modules: View {
 	@State var groups: [Group] = [
 //		"Эйфория", "Хороший доктор", "Мистер робот", "Нулевой пациент"
 	]
+	@State var isOnAppear = false
 	
 	@State var selectedIndexes: [Int] = []
 	@State var isEditMode = false
 	
+	private var tooltipConfig = MyDefaultTooltipConfig()
+	
 	private var generator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .light)
 	private var generator2: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
+	@ObservedObject private var onboardingManager = OnboardingManager(screen: .modules, countOfSteps: 3)
+	
+	@StateObject var vm = ScrollToModel()
 	
 	var body: some View {
 		Color.clear
@@ -77,6 +92,7 @@ struct Modules: View {
 									.padding(.leading)
 									.padding(.trailing)
 									.padding(.top)
+									.disabled(onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
 								ScrollView(.horizontal, showsIndicators: false) {
 									withAnimation {
 										HStack(spacing: 10) {
@@ -92,6 +108,7 @@ struct Modules: View {
 													.resizable()
 													.frame(width: 35, height: 35)
 											}
+											.disabled(onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
 											if showCreateGroupSheet {
 												NewCategoryCard() { success, text in
 													if success {
@@ -119,11 +136,17 @@ struct Modules: View {
 														searchText: $searchText
 													)
 														.onTapGesture {
+															if isOnboardingStepNumber(2) {
+																onboardingManager.goToNextStep()
+															}
 															withAnimation(Animation.spring()) {
 																selectedCategoryIndex = j != selectedCategoryIndex ? j : -1
 															}
 														}
 														.onLongPressGesture(minimumDuration: 0.5) {
+															if isOnboardingStepNumber(0) {
+																onboardingManager.goToNextStep()
+															}
 															isEditMode = true
 															self.groupId = groups[j].id
 															selectedIndexes = translateUuidies(groups[j].modulesID)
@@ -139,7 +162,23 @@ struct Modules: View {
 										}
 									}
 								}
+								
 								.padding(.top)
+								.mytooltip(isOnboardingStepNumber(0), config: tooltipConfig, appearingDelayValue: 0.5) {
+									TooltipView(text: "Удерживайте, чтобы добавить \nили удалить модуль из группы",
+												stepNumber: onboardingManager.currentStepIndex,
+												allStepCount: onboardingManager.countOfSteps) {
+										self.onboardingManager.goToNextStep()
+									}
+								}
+								.mytooltip(isOnboardingStepNumber(2), config: tooltipConfig, appearingDelayValue: 0.5) {
+									TooltipView(text: "Нажмите, чтобы увидеть \nмодули из этой группы",
+												stepNumber: onboardingManager.currentStepIndex,
+												allStepCount: onboardingManager.countOfSteps) {
+										self.onboardingManager.goToNextStep()
+									}
+								}
+								.zIndex(100)
 								LazyVGrid(columns: columns, spacing: 14) {
 									ForEach(0..<filteredModules.count, id: \.self) { i in
 										NavigationLink(
@@ -157,6 +196,7 @@ struct Modules: View {
 													isSelected: .constant(false)
 												)
 											})
+										.disabled(onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
 									}
 									.listRowBackground(Color.green)
 									.listStyle(.plain)
@@ -169,10 +209,11 @@ struct Modules: View {
 						}
 						.coordinateSpace(name: "RefreshControl")
 						.edgesIgnoringSafeArea(.bottom)
-						.setTrailingNavBarItem(completion: {
+						.setTrailingNavBarItem(disabled: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage, completion: {
 							print("settings")
 						})
 						.onChange(of: scrollOffset) { newValue in
+							
 							withAnimation(.easeInOut(duration: 0.1)) {
 								showOrHideNavBar(value: newValue)
 							}
@@ -181,16 +222,41 @@ struct Modules: View {
 						BlurNavBar(show: $isInlineNavBar, scrollOffset: $scrollOffset)
 						VStack {
 							Spacer()
+							if onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
+								Button {
+									onboardingManager.finish()
+								} label: {
+									Text("Пропустить обучение")
+										.bold()
+								}
+								.padding(EdgeInsets(top: 0, leading: 0, bottom: 32, trailing: 0))
+							}
 							CreateModuleButton() {
 								generator?.impactOccurred()
 								showCreateModuleSheet = true
+								onboardingManager.goToNextStep()
 							}
 								.frame(width: geometry.size.width - 60)
 								.opacity(createModuleButtonOpacity)
 								.transition(AnyTransition.offset() )
 								.offset(y: geometry.size.height < 812 ? -16 : 0 )
+								.disabled(!isOnboardingStepNumber(1))
+								.mytooltip(isOnboardingStepNumber(1), side: .top, config: tooltipConfig, appearingDelayValue: 0.5) {
+									TooltipView(text: "Нажмите, чтобы создать \nновый модуль",
+												stepNumber: onboardingManager.currentStepIndex,
+												allStepCount: onboardingManager.countOfSteps) {
+										self.onboardingManager.goToNextStep()
+									}
+								}
 						}
 						.ignoresSafeArea(.keyboard)
+						VStack {
+							Spacer()
+							if onboardingManager.onboardingHasFinished {
+								LottieView(fileName: "onboarding", isLooped: false)
+							}
+						}
+						.ignoresSafeArea()
 					}
 					.disabled(showActivity || showAlert)
 				}
@@ -204,6 +270,7 @@ struct Modules: View {
 				.onAppear{ router.showActivityView = false }
 			}
 			.onAppear{
+				isOnAppear = true
 				listenUserAuth()
 				checkUser()
 				fetchModules()
@@ -211,12 +278,9 @@ struct Modules: View {
 				router.userIsAlreadyLaunched = true
 			}
 			.sheet(isPresented: $showCreateModuleSheet) {
-				CreateModuleView(needUpdateData: $needUpdateData, showActivity: $showActivity)
-				.environmentObject(router)
+				CreateModuleView(needUpdateData: $needUpdateData, showActivity: $showActivity, isOnboardingMode: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+						.environmentObject(router)
 			}
-//			.sheet(isPresented: $showCreateGroupSheet, content: {
-//
-//			})
 			.activity($showActivity)
 			.onChange(of: needUpdateData) { _ in
 				fetchModules()
@@ -227,6 +291,12 @@ struct Modules: View {
 					filteredModules = modules.filter{ $0.name.contains("\(searchText)") }
 				} else {
 					filteredModules = modules
+				}
+			})
+			.onChange(of: onboardingManager.isOnboardingMode, perform: { newValue in
+				if !newValue {
+					fetchGroups()
+					fetchModules()
 				}
 			})
 			.fullScreenCover(isPresented: $showSelectModulePage, content: {
@@ -247,6 +317,7 @@ struct Modules: View {
 					needUpdate: $needUpdateData,
 					groups: $groups,
 					isEditMode: $isEditMode,
+					isOnboardingMode: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage,
 					selectedIndexes: $selectedIndexes
 				)
 			})
@@ -261,10 +332,45 @@ struct Modules: View {
 					filteredModules = modules
 				}
 			}
+			.onChange(of: onboardingManager.onboardingHasFinished) { newValue in
+				if newValue {
+					generator2?.impactOccurred()
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+						generator2?.impactOccurred()
+						DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+							generator2?.impactOccurred()
+						}
+					}
+				}
+			}
 	}
 	
 	init() {
 		configNavBarStyle()
+		configTooltip()
+	}
+	
+	private func isOnboardingStepNumber(_ value: Int) -> Bool {
+		onboardingManager.isOnboardingMode
+		&& onboardingManager.currentStepIndex == value
+		&& !UserDefaultsManager.isNotFirstLaunchOfModulesPage
+	}
+	
+	private mutating func configTooltip() {
+		self.tooltipConfig.enableAnimation = true
+		self.tooltipConfig.animationOffset = 10
+		self.tooltipConfig.animationTime = 1
+		self.tooltipConfig.backgroundColor = Color(asset: Asset.Colors.moduleCardDarkGray)
+		self.tooltipConfig.borderWidth = 0
+		self.tooltipConfig.zIndex = 1000
+		self.tooltipConfig.contentPaddingBottom = 12
+		self.tooltipConfig.contentPaddingTop = 12
+		self.tooltipConfig.contentPaddingLeft = 16
+		self.tooltipConfig.contentPaddingRight = 16
+		self.tooltipConfig.borderRadius = 12
+		self.tooltipConfig.shadowColor = .black.opacity(0.3)
+		self.tooltipConfig.shadowRadius = 20
+		self.tooltipConfig.shadowOffset = .init(x: 3, y: 20)
 	}
 	
 	private func translateUuidies(_ uuidies: [String]) -> [Int] {
@@ -300,31 +406,38 @@ struct Modules: View {
 	}
 	
 	private func fetchModules() {
-		showActivity = true
-		searchText = ""
-		NetworkManager.getModules { modules in
-			showActivity = false
-			self.modules = modules
-			self.filteredModules = modules
-		} errorBlock: { errorText in
-			showActivity = false
-			guard !errorText.isEmpty else { return }
-			showAlert(errorText: errorText)
+		if onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
+			modules = MockDataManager().modules
+		} else {
+			showActivity = true
+			searchText = ""
+			NetworkManager.getModules { modules in
+				showActivity = false
+				self.modules = modules
+				self.filteredModules = modules
+			} errorBlock: { errorText in
+				showActivity = false
+				guard !errorText.isEmpty else { return }
+				showAlert(errorText: errorText)
+			}
 		}
 	}
 	
 	private func fetchGroups() {
-		selectedCategoryIndex = -1
-		showActivity = true
-		NetworkManager.getGroups { groups in
-			showActivity = false
-			self.groups = groups
-		} errorBlock: { errorText in
-			showActivity = false
-			guard !errorText.isEmpty else { return }
-			showAlert(errorText: errorText)
+		if onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
+			groups = MockDataManager().groups
+		} else {
+			selectedCategoryIndex = -1
+			showActivity = true
+			NetworkManager.getGroups { groups in
+				showActivity = false
+				self.groups = groups
+			} errorBlock: { errorText in
+				showActivity = false
+				guard !errorText.isEmpty else { return }
+				showAlert(errorText: errorText)
+			}
 		}
-
 	}
 	
 	private func showAlert(errorText: String) {

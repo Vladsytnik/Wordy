@@ -14,8 +14,8 @@ extension View {
 }
 
 extension View {
-	func setTrailingNavBarItem(completion: @escaping () -> Void) -> some View {
-		var view = TrailingNavBarItem()
+	func setTrailingNavBarItem(disabled: Bool = false, completion: @escaping () -> Void) -> some View {
+		var view = TrailingNavBarItem(disabled: disabled)
 		view.completion = completion
 		return modifier(view)
 	}
@@ -46,6 +46,8 @@ extension View {
 // MARK: - TrailingNavBarItem
 
 struct TrailingNavBarItem: ViewModifier {
+	
+	var disabled: Bool
 	var completion: (() -> Void)?
 	
 	func body(content: Content) -> some View {
@@ -62,6 +64,7 @@ struct TrailingNavBarItem: ViewModifier {
 								.resizable()
 								.frame(width: 32, height: 30)
 						}
+						.disabled(disabled)
 					})
 			)
 	}

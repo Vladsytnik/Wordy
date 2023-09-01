@@ -13,7 +13,7 @@ struct SelectLanguagePage: View {
 	@EnvironmentObject var router: Router
 	let slideTransition = AnyTransition.move(edge: .leading)
 	
-	private let languages = Language.getAll()
+	private let languages = Language.getAll().sorted(by: { $0.getTitle() < $1.getTitle() })
 	
 	var body: some View {
 		NavigationView {

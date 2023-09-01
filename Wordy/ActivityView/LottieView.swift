@@ -12,6 +12,7 @@ struct LottieView: UIViewRepresentable {
 	let fileName: String
 	
 	let animationView = LottieAnimationView()
+	var isLooped = true
 	
 	func makeUIView(context: Context) -> some UIView {
 		let view = UIView(frame: .zero)
@@ -19,7 +20,7 @@ struct LottieView: UIViewRepresentable {
 		
 		animationView.animation = .named(fileName)
 		animationView.backgroundColor = .clear
-		animationView.loopMode = .loop
+		animationView.loopMode = isLooped ? .loop : .playOnce
 		animationView.contentMode = .scaleAspectFit
 		animationView.play()
 		

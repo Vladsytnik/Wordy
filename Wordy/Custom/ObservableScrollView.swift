@@ -48,6 +48,5 @@ struct ObservableScrollView<Content>: View where Content : View {
 		.onPreferenceChange(ScrollViewOffsetPreferenceKey.self) { value in
 			scrollOffset = value
 		}
-		
 	}
 }

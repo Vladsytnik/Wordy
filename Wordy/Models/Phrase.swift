@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Phrase: Equatable {
+struct Phrase: Equatable, Codable {
 	let nativeText: String
 	let translatedText: String
 	let indexInFirebase: Int

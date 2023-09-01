@@ -85,4 +85,15 @@ class UserDefaultsManager {
 			}
 		}
 	}
+	
+	static var isNotFirstLaunchOfModulesPage: Bool {
+		get {
+			UserDefaults().bool(forKey: "isFirstLaunchOfModulesPage")
+		}
+		set {
+			UserDefaults().setValue(newValue, forKey: "isFirstLaunchOfModulesPage")
+		}
+	}
 }
+
+
