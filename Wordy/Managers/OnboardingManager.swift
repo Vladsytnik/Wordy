@@ -43,6 +43,9 @@ class OnboardingManager: ObservableObject {
 	// MARK: - Methods
 	
 	func goToNextStep() {
+		if UserDefaultsManager.isNotFirstLaunchOfModulesPage {
+			return
+		}
 		currentStepIndex += 1
 		if currentStepIndex == countOfSteps {
 			onboardingHasFinished = true

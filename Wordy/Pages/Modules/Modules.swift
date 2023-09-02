@@ -71,6 +71,7 @@ struct Modules: View {
 	
 	@State var selectedIndexes: [Int] = []
 	@State var isEditMode = false
+	@State var paywallIsOpened = false
 	
 	private var tooltipConfig = MyDefaultTooltipConfig()
 	
@@ -137,7 +138,9 @@ struct Modules: View {
 													)
 														.onTapGesture {
 															if isOnboardingStepNumber(2) {
-																onboardingManager.goToNextStep()
+																DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+																	onboardingManager.goToNextStep()
+																}
 															}
 															withAnimation(Animation.spring()) {
 																selectedCategoryIndex = j != selectedCategoryIndex ? j : -1
@@ -240,7 +243,7 @@ struct Modules: View {
 								.opacity(createModuleButtonOpacity)
 								.transition(AnyTransition.offset() )
 								.offset(y: geometry.size.height < 812 ? -16 : 0 )
-								.disabled(!isOnboardingStepNumber(1))
+								.disabled(!isOnboardingStepNumber(1) && onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
 								.mytooltip(isOnboardingStepNumber(1), side: .top, config: tooltipConfig, appearingDelayValue: 0.5) {
 									TooltipView(text: "Нажмите, чтобы создать \nновый модуль",
 												stepNumber: onboardingManager.currentStepIndex,
@@ -257,6 +260,21 @@ struct Modules: View {
 							}
 						}
 						.ignoresSafeArea()
+						if modules.count == 0 {
+								Spacer()
+								VStack(spacing: 16) {
+									Spacer()
+									Text("👀")
+										.font(.system(size: 48))
+									Text("There is nothing\nhere yet...")
+										.multilineTextAlignment(.center)
+										.font(.system(size: 20, weight: .medium))
+										.opacity(0.72)
+									Spacer()
+								}
+								.offset(y: -15)
+								Spacer()
+						}
 					}
 					.disabled(showActivity || showAlert)
 				}
@@ -278,8 +296,12 @@ struct Modules: View {
 				router.userIsAlreadyLaunched = true
 			}
 			.sheet(isPresented: $showCreateModuleSheet) {
-				CreateModuleView(needUpdateData: $needUpdateData, showActivity: $showActivity, isOnboardingMode: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+				if UserDefaultsManager.userHasSubscription || !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
+					CreateModuleView(needUpdateData: $needUpdateData, showActivity: $showActivity, isOnboardingMode: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
 						.environmentObject(router)
+				} else {
+					Paywall(isOpened: $paywallIsOpened)
+				}
 			}
 			.activity($showActivity)
 			.onChange(of: needUpdateData) { _ in
