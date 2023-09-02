@@ -83,7 +83,29 @@ struct CreateModuleView: View {
 						}
 						if showEmojiView {
 //							EmojiView(show: $showEmojiView, txt: $emoji)
-							EmojiPopoverView(showEmojiView: $showEmojiView, emoji: $emoji)
+							ZStack {
+								EmojiPopoverView(showEmojiView: $showEmojiView, emoji: $emoji)
+								VStack(alignment: .trailing) {
+									Spacer()
+									Button {
+										withAnimation {
+											showEmojiView.toggle()
+										}
+									} label: {
+										Text("Готово")
+											.bold()
+											.padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
+											.foregroundColor(.white)
+											.background {
+												RoundedRectangle(cornerRadius: 15)
+													.foregroundColor(Color(asset: Asset.Colors.lightPurple))
+											}
+											.opacity(0.95)
+									}
+								}
+								.padding()
+								.offset(y: -64)
+							}
 						}
 					}
 					.frame(width: geo.size.width, height: geo.size.height)
