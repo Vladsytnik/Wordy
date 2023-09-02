@@ -99,8 +99,10 @@ struct Paywall: View {
 								Text("TERMS & CONDITIONS")
 							}
 						}
+						.font(.system(size: 14))
 						.foregroundColor(.white.opacity(0.8))
 						.padding()
+						.offset(y: -16)
 					}
 				}
 			}

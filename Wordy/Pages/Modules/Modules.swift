@@ -236,7 +236,11 @@ struct Modules: View {
 							}
 							CreateModuleButton() {
 								generator?.impactOccurred()
-								showCreateModuleSheet = true
+								if UserDefaultsManager.userHasSubscription || !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
+									showCreateModuleSheet = true
+								} else {
+									paywallIsOpened.toggle()
+								}
 								onboardingManager.goToNextStep()
 							}
 								.frame(width: geometry.size.width - 60)
@@ -296,13 +300,12 @@ struct Modules: View {
 				router.userIsAlreadyLaunched = true
 			}
 			.sheet(isPresented: $showCreateModuleSheet) {
-				if UserDefaultsManager.userHasSubscription || !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
-					CreateModuleView(needUpdateData: $needUpdateData, showActivity: $showActivity, isOnboardingMode: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
-						.environmentObject(router)
-				} else {
-					Paywall(isOpened: $paywallIsOpened)
-				}
+				CreateModuleView(needUpdateData: $needUpdateData, showActivity: $showActivity, isOnboardingMode: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+					.environmentObject(router)
 			}
+			.fullScreenCover(isPresented: $paywallIsOpened, content: {
+				Paywall(isOpened: $paywallIsOpened)
+			})
 			.activity($showActivity)
 			.onChange(of: needUpdateData) { _ in
 				fetchModules()
