@@ -16,7 +16,7 @@ class PhraseEditViewModel: ObservableObject {
 	@Published var searchedText = ""
 	
 	var currentPhrase: Phrase {
-		filteredModules[modulesIndex].phrases[phraseIndex]
+		filteredModules[modulesIndex].phrases.sorted(by: { $0.date ?? Date() > $1.date ?? Date() })[phraseIndex]
 	}
 	var currentModule: Module {
 		filteredModules[modulesIndex]
@@ -70,7 +70,7 @@ class PhraseEditViewModel: ObservableObject {
 			guard let self = self else { return }
 			NetworkManager.updatePhrase(
 				newPhrase,
-				with: self.currentPhrase.indexInFirebase,
+				with: self.currentPhrase.id,
 				from: self.currentModule.id
 			) { [weak self] in
 				guard let self = self else { return }

@@ -237,12 +237,12 @@ struct LearnTextField: View {
 struct LearnSelectionPage_Previews: PreviewProvider {
 	static var previews: some View {
 		LearnSelectionPage(module: .init(phrases: [
-			.init(nativeText: "Обезьяна", translatedText: "Monkey", indexInFirebase: 0),
-			.init(nativeText: "Солнце", translatedText: "Sun", indexInFirebase: 0),
-			.init(nativeText: "Я знаю что это ничего", translatedText: "I know that it is nothing", indexInFirebase: 0),
-			.init(nativeText: "хорошо ладить с кем то", translatedText: "Get on well with smbd", indexInFirebase: 0),
-			.init(nativeText: "Вторник", translatedText: "Thusday", indexInFirebase: 0),
-			.init(nativeText: "хорошо ладить с кем то", translatedText: "Get on well with smbd", indexInFirebase: 0)
+			.init(nativeText: "Обезьяна", translatedText: "Monkey", id: ""),
+			.init(nativeText: "Солнце", translatedText: "Sun", id: ""),
+			.init(nativeText: "Я знаю что это ничего", translatedText: "I know that it is nothing", id: ""),
+			.init(nativeText: "хорошо ладить с кем то", translatedText: "Get on well with smbd", id: ""),
+			.init(nativeText: "Вторник", translatedText: "Thusday", id: ""),
+			.init(nativeText: "хорошо ладить с кем то", translatedText: "Get on well with smbd", id: "")
 		]), viewModel: .init())
 	}
 }

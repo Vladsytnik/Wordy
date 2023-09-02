@@ -27,7 +27,7 @@ class WordsCarouselViewModel: ObservableObject {
 		filteredModules[index]
 	}
 	var phrases: [Phrase] {
-		thisModule.phrases
+		thisModule.phrases.sorted(by: { $0.date ?? Date() > $1.date ?? Date() })
 	}
 	var selectedPhrase: Phrase {
 		phrases[selectedWordIndex]
@@ -64,7 +64,7 @@ class WordsCarouselViewModel: ObservableObject {
 		let phrase = phrases[index]
 		self.showActivity = true
 		NetworkManager.deletePhrase(
-			with: String(phrase.indexInFirebase),
+			with: phrase.id,
 			moduleID: thisModule.id
 		) {
 				NetworkManager.getModules { modules in

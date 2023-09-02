@@ -68,15 +68,45 @@ class AddNewPhraseViewModel: ObservableObject {
 			Constants.example: examplePhrase
 		])
 		
+		let newPhrase = [
+			Constants.nativeText: nativePhrase,
+			Constants.translatedText: translatedPhrase,
+			Constants.date: String().generateCurrentDateMarker(),
+			Constants.example: examplePhrase
+		]
+		
 		let queue = DispatchQueue(label: "sytnik.wordy.addWordTo")
 		
 		queue.async {
-			NetworkManager.update(phrases: existingPhrases, from: self.module.id) { [weak self] in
+//			NetworkManager.update(phrases: existingPhrases, from: self.module.id) { [weak self] in
+//				guard let self = self else { return }
+//
+//				NetworkManager.getModules { modules in
+//					self.changeActivityState(toProccess: false)
+////					self.filteredModules = modules.filter{ $0.name.contains("\(self.searchedText)") }
+//					self.modules = modules
+//					success()
+//				} errorBlock: { errorText in
+//					self.changeActivityState(toProccess: false)
+//					self.alert.description = errorText
+//					self.showAlertNow()
+//				}
+//
+//
+//			} errorBlock: { [weak self] errorText in
+//				guard let self else { return }
+//				self.changeActivityState(toProccess: false)
+//				self.alert.description = errorText
+//				self.showAlertNow()
+//				return
+//			}
+			
+			NetworkManager.addNewPhrase(newPhrase, to: self.module.id) { [weak self] in
 				guard let self = self else { return }
 				
 				NetworkManager.getModules { modules in
 					self.changeActivityState(toProccess: false)
-//					self.filteredModules = modules.filter{ $0.name.contains("\(self.searchedText)") }
+					//					self.filteredModules = modules.filter{ $0.name.contains("\(self.searchedText)") }
 					self.modules = modules
 					success()
 				} errorBlock: { errorText in
@@ -84,7 +114,7 @@ class AddNewPhraseViewModel: ObservableObject {
 					self.alert.description = errorText
 					self.showAlertNow()
 				}
-
+				
 				
 			} errorBlock: { [weak self] errorText in
 				guard let self else { return }

@@ -144,7 +144,7 @@ struct WordCard_Previews: PreviewProvider {
 			width: 300,
 			modules: .constant([.init(name: "Test", emoji: "🔮")]),
 			index: 0,
-			phrase: Phrase(nativeText: "Overcome", translatedText: "Преодолевать", indexInFirebase: 0),
+			phrase: Phrase(nativeText: "Overcome", translatedText: "Преодолевать", id: ""),
 			phraseIndex: 0,
 			onAddExampleTap: { _ in},
 			onEditTap: { _ in },

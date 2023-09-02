@@ -18,6 +18,8 @@ struct PhraseEditPage: View {
 	@Environment(\.dismiss) private var dismiss
 	@ObservedObject var viewModel = PhraseEditViewModel()
 	
+	@State var test = ""
+	
 	init(
 		modules: Binding<[Module]>,
 		searchedText: Binding<String>,
@@ -34,13 +36,15 @@ struct PhraseEditPage: View {
 		viewModel.modulesIndex = moduleIndex
 		
 		if moduleIndex < filteredModules.count {
-			let index = filteredModules[moduleIndex].phrases.count - phraseIndex - 1
+//			let index = filteredModules[moduleIndex].phrases.count - phraseIndex - 1
+			let index = phraseIndex
 			viewModel.phraseIndex = index
 			
 			if moduleIndex >= 0 && index >= 0 {
-				viewModel.nativePhrase = viewModel.filteredModules[moduleIndex].phrases[index].nativeText
-				viewModel.translatedPhrase = viewModel.filteredModules[moduleIndex].phrases[index].translatedText
-				viewModel.examplePhrase = viewModel.filteredModules[moduleIndex].phrases[index].example ?? ""
+				let phrases = viewModel.filteredModules[moduleIndex].phrases.sorted(by: { $0.date ?? Date() > $1.date ?? Date() })
+				viewModel.nativePhrase = phrases[index].nativeText
+				viewModel.translatedPhrase = phrases[index].translatedText
+				viewModel.examplePhrase = phrases[index].example ?? ""
 			}
 		}
 	}
@@ -69,7 +73,8 @@ struct PhraseEditPage: View {
 						enableFocuse: true,
 						isFirstResponder: $viewModel.textFieldOneIsActive,
 						closeKeyboard: $viewModel.closeKeyboards,
-						language: UserDefaultsManager.nativeLanguage
+						language: UserDefaultsManager.learnLanguage,
+						isNotLanguageTextField: true
 					)
 					.onTapGesture {
 						viewModel.didTapTextField(index: 0)
@@ -82,7 +87,8 @@ struct PhraseEditPage: View {
 						enableFocuse: false,
 						isFirstResponder: $viewModel.textFieldTwoIsActive,
 						closeKeyboard: $viewModel.closeKeyboards,
-						language: UserDefaultsManager.learnLanguage
+						language: UserDefaultsManager.nativeLanguage,
+						isNotLanguageTextField: true
 					)
 					.onTapGesture {
 						viewModel.didTapTextField(index: 1)
@@ -95,10 +101,11 @@ struct PhraseEditPage: View {
 						enableFocuse: false,
 						isFirstResponder: $viewModel.textFieldThreeIsActive,
 						closeKeyboard: $viewModel.closeKeyboards,
-						language: UserDefaultsManager.learnLanguage
+						language: UserDefaultsManager.learnLanguage,
+						isNotLanguageTextField: true
 					)
 					.onTapGesture {
-						viewModel.didTapTextField(index: 1)
+						viewModel.didTapTextField(index: 2)
 					}
 					.offset(x: !viewModel.examplePhraseIsEmpty ? 0 : 10)
 					

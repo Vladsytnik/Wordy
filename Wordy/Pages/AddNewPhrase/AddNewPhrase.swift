@@ -60,7 +60,7 @@ struct AddNewPhrase: View {
 						enableFocuse: true,
 						isFirstResponder: $viewModel.textFieldOneIsActive,
 						closeKeyboard: $viewModel.closeKeyboards,
-						language: UserDefaultsManager.nativeLanguage
+						language: UserDefaultsManager.learnLanguage
 					)
 					.onTapGesture {
 						viewModel.didTapTextField(index: 0)
@@ -73,7 +73,7 @@ struct AddNewPhrase: View {
 						enableFocuse: false,
 						isFirstResponder: $viewModel.textFieldTwoIsActive,
 						closeKeyboard: $viewModel.closeKeyboards,
-						language: UserDefaultsManager.learnLanguage
+						language: UserDefaultsManager.nativeLanguage
 					)
 					.onTapGesture {
 						viewModel.didTapTextField(index: 1)
@@ -90,7 +90,7 @@ struct AddNewPhrase: View {
 							language: UserDefaultsManager.learnLanguage
 						)
 						.onTapGesture {
-							viewModel.didTapTextField(index: 1)
+							viewModel.didTapTextField(index: 2)
 						}
 						.offset(x: !viewModel.examplePhraseIsEmpty ? 0 : 10)
 					} else {
@@ -226,6 +226,7 @@ struct CustomTextField: View {
 	@Binding var isFirstResponder: Bool
 	@Binding var closeKeyboard: Bool
 	var language: Language? = .eng
+	var isNotLanguageTextField = false
 	
 	let fontSize: CGFloat = 20
 	
@@ -241,18 +242,26 @@ struct CustomTextField: View {
 					.font(.system(size: fontSize, weight: .medium))
 					.opacity(text.isEmpty ? 1 : 0)
 				HStack {
-					LanguageTextField(placeholder: "",
-									  text: $text,
-									  isFirstResponder: _isFocused,
-									  language: language)
-//					TextField("", text: $text, onCommit: {
-//						return
-//					})
-					.foregroundColor(.white)
-					.tint(.white)
-					.font(.system(size: fontSize, weight: .medium))
-					.focused($isFocused)
-					.keyboardType(.twitter)
+					if isNotLanguageTextField {
+						TextField("", text: $text, onCommit: {
+							return
+						})
+						.foregroundColor(.white)
+						.tint(.white)
+						.font(.system(size: fontSize, weight: .medium))
+						.focused($isFocused)
+						.keyboardType(.twitter)
+					} else {
+						LanguageTextField(placeholder: "",
+										  text: $text,
+										  isFirstResponder: _isFocused,
+										  language: language)
+						.foregroundColor(.white)
+						.tint(.white)
+						.font(.system(size: fontSize, weight: .medium))
+						.focused($isFocused)
+						.keyboardType(.twitter)
+					}
 					if text.count > 0 && isFocused {
 						Button {
 							text = ""

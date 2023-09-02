@@ -69,6 +69,28 @@ class ModuleScreenViewModel: ObservableObject {
 
 	}
 	
+	func didTapDeletePhrase(with index: Int) {
+		let phrase = phrases[index]
+		self.showActivity = true
+		NetworkManager.deletePhrase(
+			with: phrase.id,
+			moduleID: module.id) {
+				NetworkManager.getModules { modules in
+					self.showActivity = false
+					self.modules = modules
+				} errorBlock: { errorText in
+					self.showActivity = false
+					self.alert.description = errorText
+					self.showActivity = false
+					self.showErrorAlert = true
+				}
+			} errorBlock: { errorText in
+				self.alert.description = errorText
+				self.showActivity = false
+				self.showErrorAlert = true
+			}
+	}
+	
 	func didTapShowLearnPage() {
 		if module.phrases.count < 4 {
 			let wordsCountDifference = 4 - module.phrases.count
@@ -100,28 +122,6 @@ class ModuleScreenViewModel: ObservableObject {
 		phraseIndexForEdit = index
 		print(index)
 		showEditPhrasePage.toggle()
-	}
-	
-	func didTapDeletePhrase(with index: Int) {
-		let phrase = phrases[index]
-		self.showActivity = true
-		NetworkManager.deletePhrase(
-			with: String(phrase.indexInFirebase),
-			moduleID: module.id) {
-				NetworkManager.getModules { modules in
-					self.showActivity = false
-					self.modules = modules
-				} errorBlock: { errorText in
-					self.showActivity = false
-					self.alert.description = errorText
-					self.showActivity = false
-					self.showErrorAlert = true
-				}
-			} errorBlock: { errorText in
-				self.alert.description = errorText
-				self.showActivity = false
-				self.showErrorAlert = true
-			}
 	}
 	
 	func didTapSpeach(index: Int) {

@@ -28,19 +28,21 @@ struct ModuleScreen: View {
 			.background(content: {
 				GeometryReader { geo in
 					ZStack {
-						NavigationLink(
-							destination: PhraseEditPage(
-								modules: $modules,
-								searchedText: $searchText,
-								filteredModules: $filteredModules,
-								phraseIndex: viewModel.phraseIndexForEdit,
-								moduleIndex: viewModel.index
-							),
-							isActive: $viewModel.showEditPhrasePage
-						) {
-							EmptyView()
+						if viewModel.showEditPhrasePage {
+							NavigationLink(
+								destination: PhraseEditPage(
+									modules: $modules,
+									searchedText: $searchText,
+									filteredModules: $filteredModules,
+									phraseIndex: viewModel.phraseIndexForEdit,
+									moduleIndex: viewModel.index
+								),
+								isActive: $viewModel.showEditPhrasePage
+							) {
+								EmptyView()
+							}
+							.hidden()
 						}
-						.hidden()
 						ScrollView {
 							VStack {
 								Header(viewModel: viewModel, showAlert: $showInfoAlert, module: viewModel.module)

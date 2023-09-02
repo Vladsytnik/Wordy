@@ -10,7 +10,7 @@ import Foundation
 struct Phrase: Equatable, Codable {
 	let nativeText: String
 	let translatedText: String
-	let indexInFirebase: Int
+	let id: String
 	
 	var example: String?
 	

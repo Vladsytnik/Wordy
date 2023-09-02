@@ -213,13 +213,34 @@ class NetworkManager {
 		}
 	}
 	
-	static func updatePhrase(_ phrase: [String: Any], with phraseIndex: Int, from moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
+	static func addNewPhrase(_ phrase: [String: Any], to moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
 		guard let currentUserID = currentUserID else {
 			errorBlock("error in add(phrase: [String: String] -> currentUserID")
 			return
 		}
 		
-		ref.child("users").child(currentUserID).child("modules").child(moduleID).child("phrases").updateChildValues(["\(phraseIndex)" : phrase]) { error, ref in
+		ref.child("users").child(currentUserID).child("modules").child(moduleID).child("phrases").childByAutoId().updateChildValues([
+			"date" : phrase[Constants.date],
+			"example" : phrase[Constants.example],
+			"nativePhrase": phrase[Constants.nativeText],
+			"translatedPhrase": phrase[Constants.translatedText]
+		]) { error, ref in
+			guard error == nil else {
+				errorBlock("error in add(phrase: [String: String] -> updateChildValues")
+				return
+			}
+			
+			success()
+		}
+	}
+	
+	static func updatePhrase(_ phrase: [String: Any], with phraseIndex: String, from moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
+		guard let currentUserID = currentUserID else {
+			errorBlock("error in add(phrase: [String: String] -> currentUserID")
+			return
+		}
+		
+		ref.child("users").child(currentUserID).child("modules").child(moduleID).child("phrases").child(phraseIndex).updateChildValues(phrase) { error, ref in
 			guard error == nil else {
 				errorBlock("error in updatePhrase(_ phrase: [String: Any] -> updateChildValues")
 				return

@@ -38,6 +38,7 @@ extension Module {
 	}
 	
 	static func parse(from snapshot: DataSnapshot) -> [Module]? {
+		newParse(from: snapshot)
 		guard let data = (snapshot.value as? [String: [String: Any]]) else {
 			return []
 		}
@@ -55,14 +56,16 @@ extension Module {
 			let date = Date().generateDate(from: data[moduleID]?["date"] as? String)
 			module.date = date
 			
-			if let phrasesData = data[moduleID]?["phrases"] as? [Any] {
-				for (i, phrases) in phrasesData.enumerated() {
+			if let phrasesData = data[moduleID]?["phrases"] as? [String: Any] {
+				for (i, (phraseIdentifier, phrases)) in phrasesData.enumerated() {
 					if let phraseDict = phrases as? [String: Any] {
 						
 						if let nativeTxt = phraseDict[Constants.nativeText] as? String,
 						   let trasnlatedTxt = phraseDict[Constants.translatedText] as? String {
 							
-							var phrase = Phrase(nativeText: nativeTxt, translatedText: trasnlatedTxt, indexInFirebase: i)
+							var phrase = Phrase(nativeText: nativeTxt,
+												translatedText: trasnlatedTxt,
+												id: phraseIdentifier)
 							if let date = phraseDict[Constants.date] as? String {
 								phrase.date = Date().generateDate(from: date)
 							}
@@ -77,9 +80,47 @@ extension Module {
 				}
 			}
 			
+//			if let phrasesData = data[moduleID]?["phrases"] as? [String: Any] {
+//				for (phraseKey, phrases) in phrasesData {
+//					guard let phraseIndex = Int(phraseKey) else { return [] }
+//					if let phraseDict = phrases as? [String: Any] {
+//
+//						if let nativeTxt = phraseDict[Constants.nativeText] as? String,
+//						   let trasnlatedTxt = phraseDict[Constants.translatedText] as? String {
+//
+//							var phrase = Phrase(nativeText: nativeTxt, translatedText: trasnlatedTxt, indexInFirebase: phraseIndex)
+//							if let date = phraseDict[Constants.date] as? String {
+//								phrase.date = Date().generateDate(from: date)
+//							}
+//							if let example = phraseDict[Constants.example] as? String {
+//								phrase.example = example
+//							}
+//
+//							module.phrases.append(phrase)
+//						}
+//
+//					}
+//				}
+//			}
+			
 			modules.append(module)
 		}
 		
 		return modules
+	}
+	
+	static func newParse(from snapshot: DataSnapshot) {
+		guard let data = snapshot.value as? Data else { return }
+		do {
+			if let jsonDictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+				// Теперь у вас есть словарь jsonDictionary, содержащий данные из Firebase
+				// Вы можете работать с данными, как с обычным словарем Swift
+			} else {
+				// Ошибка: Данные из Firebase не могут быть преобразованы в словарь
+			}
+		} catch {
+			// Ошибка при декодировании JSON
+			print("Ошибка декодирования JSON: \(error.localizedDescription)")
+		}
 	}
 }

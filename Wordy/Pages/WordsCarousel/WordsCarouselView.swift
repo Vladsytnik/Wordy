@@ -40,9 +40,13 @@ struct WordsCarouselView: View {
 				
 				TabView(selection: $viewModel.selectedWordIndex) {
 					ForEach(0..<viewModel.phrases.count, id: \.self) { i in
-						CarouselCard(phrase: viewModel.phrases[viewModel.phrases.count - 1 - i],
+//						CarouselCard(phrase: viewModel.phrases[viewModel.phrases.count - 1 - i],
+//									 onDeletedTap: {
+//							viewModel.didTapDeletePhrase(with: viewModel.phrases.count - 1 - i)
+//						})
+						CarouselCard(phrase: viewModel.phrases[i],
 									 onDeletedTap: {
-							viewModel.didTapDeletePhrase(with: viewModel.phrases.count - 1 - i)
+							viewModel.didTapDeletePhrase(with: i)
 						})
 							.padding(.leading)
 							.padding(.trailing)
@@ -158,10 +162,10 @@ struct WordsCarouselView_Previews: PreviewProvider {
 				   id: "400",
 				   date: Date(),
 				   phrases: [
-					Phrase(nativeText: "Test", translatedText: "Test", indexInFirebase: 0, date: Date()),
-					Phrase(nativeText: "Test", translatedText: "Test", indexInFirebase: 0, date: Date()),
-					Phrase(nativeText: "Test", translatedText: "Test", indexInFirebase: 0, date: Date()),
-					Phrase(nativeText: "Test", translatedText: "Test", indexInFirebase: 0, date: Date())
+					Phrase(nativeText: "Test", translatedText: "Test", id: "", date: Date()),
+					Phrase(nativeText: "Test", translatedText: "Test", id: "", date: Date()),
+					Phrase(nativeText: "Test", translatedText: "Test", id: "", date: Date()),
+					Phrase(nativeText: "Test", translatedText: "Test", id: "", date: Date())
 				   ])
 		]), filteredModules: .constant([]), moduleIndex: 0, selectedWordIndex: 0)
 	}

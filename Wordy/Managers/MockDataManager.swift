@@ -14,7 +14,7 @@ class MockDataManager {
 			Module(name: "Barbie", emoji: "👩🏼‍❤️‍👨🏼", id: "1", date: Date(), phrases: [
 				Phrase(nativeText: "Test native",
 					   translatedText: "Test translated",
-					   indexInFirebase: 0,
+					   id: "",
 					   example: "Test example",
 					   date: Date())
 			]),
