@@ -236,11 +236,11 @@ struct Modules: View {
 							}
 							CreateModuleButton() {
 								generator?.impactOccurred()
-								if UserDefaultsManager.userHasSubscription || !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
+//								if UserDefaultsManager.userHasSubscription || !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
 									showCreateModuleSheet = true
-								} else {
-									paywallIsOpened.toggle()
-								}
+//								} else {
+//									paywallIsOpened.toggle()
+//								}
 								onboardingManager.goToNextStep()
 							}
 								.frame(width: geometry.size.width - 60)
@@ -264,7 +264,7 @@ struct Modules: View {
 							}
 						}
 						.ignoresSafeArea()
-						if modules.count == 0 {
+						if modules.count == 0 || filteredModules.count == 0 {
 								Spacer()
 								VStack(spacing: 16) {
 									Spacer()

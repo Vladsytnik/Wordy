@@ -18,6 +18,7 @@ struct CreateModuleView: View {
 	@State var emoji = "📄"
 	
 	var isOnboardingMode = false
+	@State var disableClosing = false
 //	let action: () -> Void
 	
 	@EnvironmentObject var router: Router
@@ -94,6 +95,7 @@ struct CreateModuleView: View {
 				}
 			}
 			.activity($showActivity)
+			.interactiveDismissDisabled(showEmojiView)
     }
 	
 	private func createModule() {
