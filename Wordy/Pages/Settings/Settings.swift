@@ -13,6 +13,9 @@ struct Settings: View {
 	@EnvironmentObject var router: Router
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@State private var multiSelection = Set<Int>()
+	@State var showDeleteAccountAlert = false
+	@State var showDeleteAccountError = false
+	@State var showAcivity = false
 	
 	private let rowsTitles = [
 		"Редактирование групп",
@@ -43,13 +46,52 @@ struct Settings: View {
 							withAnimation { self.logOut() }
 						}
 					}
+					
+					Button {
+						withAnimation {
+							showDeleteAccountAlert.toggle()
+						}
+					} label: {
+						Text("Удалить аккаунт")
+							.foregroundColor(.gray)
+					}
+					.padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
 				}
 			}
+			.showAlert(title: "Wordy.app",
+					   description: "\nВы уверены, что хотите\n удалить аккаунт? \n\nЭто действие нельзя \nбудет отменить.",
+					   isPresented: $showDeleteAccountAlert,
+					   titleWithoutAction: NSLocalizedString("Отменить", comment: ""),
+					   titleForAction: "Удалить аккаунт",
+					   withoutButtons: false)
+			{
+				deleteAccount()
+			}
+			.showAlert(title: "Wordy.app",
+					   description: "\n Возникла проблема \nпри удалении аккаунта.",
+					   isPresented: $showDeleteAccountError)
+			{
+				deleteAccount()
+			}
+			.activity($showAcivity)
 		}
 		.navigationBarTitle(LocalizedStringKey("Настройки"))
 	}
 
 	// MARK: - Helpers
+	
+	private func deleteAccount() {
+		showAcivity = true
+		NetworkManager.deleteAccount { isSuccess in
+			showAcivity = false
+			if isSuccess {
+				showDeleteAccountAlert.toggle()
+				self.logOut()
+			} else {
+				showDeleteAccountError.toggle()
+			}
+		}
+	}
 	
 	private func isLastRow(_ i: Int) -> Bool {
 		i == rowsTitles.count - 1

@@ -343,4 +343,19 @@ class NetworkManager {
 			}
 		}
 	}
+	
+	static func deleteAccount(callback: @escaping (Bool) -> Void) {
+		guard let currentUserID = currentUserID else {
+			print("error in deleteAccount -> currentUserID")
+			callback(false)
+			return
+		}
+		ref.child("users").child(currentUserID).removeValue { error, ref in
+			if let error {
+				callback(false)
+				return
+			}
+			callback(true)
+		}
+	}
 }
