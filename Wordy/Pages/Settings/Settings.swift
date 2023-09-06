@@ -16,6 +16,7 @@ struct Settings: View {
 	@State var showDeleteAccountAlert = false
 	@State var showDeleteAccountError = false
 	@State var showAcivity = false
+	@State var isPro = false
 	
 	private let rowsTitles = [
 		"Редактирование групп",
@@ -47,6 +48,11 @@ struct Settings: View {
 						}
 					}
 					
+					Toggle(isOn: $isPro) {
+						Text("PRO Subscription")
+					}
+					.padding()
+					
 					Button {
 						withAnimation {
 							showDeleteAccountAlert.toggle()
@@ -76,6 +82,12 @@ struct Settings: View {
 			.activity($showAcivity)
 		}
 		.navigationBarTitle(LocalizedStringKey("Настройки"))
+		.onAppear{
+			isPro = UserDefaultsManager.userHasSubscription
+		}
+		.onChange(of: isPro) { newValue in
+			UserDefaultsManager.userHasSubscription = newValue
+		}
 	}
 
 	// MARK: - Helpers

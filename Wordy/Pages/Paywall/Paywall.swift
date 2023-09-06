@@ -17,9 +17,9 @@ struct Paywall: View {
 	}
 	
 	let advantagesText = [
-		"Discover and get done hundreds of lifestyle checklists",
-		"Save your time: use any of our 100500 templates instead of creating new ones",
-		"Synchronise all your devices"
+		"Создавай неограниченное количество фраз в модуле",
+		"Добавляй неограниченное количество групп",
+		"Запоминай фразы эффективнее на 70%: получи полный доступ к обучающему режиму"
 	]
 	
     var body: some View {

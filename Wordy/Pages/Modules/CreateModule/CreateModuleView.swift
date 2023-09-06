@@ -149,6 +149,7 @@ struct EmojiPopoverView: UIViewControllerRepresentable {
 	
 	@Binding var showEmojiView: Bool
 	@Binding var emoji: String
+	let countForFree = 10
 	
 	private let viewController = MCEmojiPickerViewController()
 	
@@ -180,5 +181,6 @@ struct EmojiPopoverView: UIViewControllerRepresentable {
 				showEmojiView.toggle()
 			}
 		}
+		
 	}
 }

@@ -147,9 +147,20 @@ struct LearnSelectionPage: View {
 				viewModel.isAppeared = true
 			}
 			print("method onAppear")
+			upCountOfFreeLearnMode()
 		}
 		.onChange(of: viewModel.needClosePage) { _ in
 			dismiss()
+		}
+	}
+	
+	private func upCountOfFreeLearnMode() {
+		guard !UserDefaultsManager.userHasSubscription else { return }
+		
+		if let value = UserDefaultsManager.countOfStartingLearnModes[self.viewModel.module.id] {
+			UserDefaultsManager.countOfStartingLearnModes[self.viewModel.module.id] = value + 1
+		} else {
+			UserDefaultsManager.countOfStartingLearnModes[self.viewModel.module.id] = 1
 		}
 	}
 }

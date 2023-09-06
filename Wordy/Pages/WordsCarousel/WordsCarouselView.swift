@@ -60,8 +60,14 @@ struct WordsCarouselView: View {
 				Spacer(minLength: 50)
 				LearnModuleButton {
 					if viewModel.thisModule.phrases.count >= 4 {
-						learnPageViewModel.module = viewModel.thisModule
-						showLearnPage.toggle()
+						viewModel.checkSubscriptionAndAccessability { isAllow in
+							if isAllow {
+								learnPageViewModel.module = viewModel.thisModule
+								showLearnPage.toggle()
+							} else {
+								viewModel.showPaywall()
+							}
+						}
 					} else {
 						viewModel.didTapShowLearnPage()
 					}
@@ -80,6 +86,9 @@ struct WordsCarouselView: View {
 				module: viewModel.thisModule,
 				viewModel: learnPageViewModel
 			)
+		})
+		.sheet(isPresented: $viewModel.isShowPaywall, content: {
+			Paywall(isOpened: $viewModel.isShowPaywall)
 		})
 		.navigationBarBackButtonHidden()
 		.onChange(of: scrollOffset) { newValue in

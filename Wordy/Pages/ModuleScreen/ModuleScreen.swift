@@ -17,6 +17,8 @@ struct ModuleScreen: View {
 	@State var showLearnPage = false
 	@State var showEditAlert = false
 	
+	private let countOfWordsForFree = 15
+	
 	@State var currentEditPhraseIndex = 0
 	
 	@Environment(\.dismiss) private var dismiss
@@ -51,14 +53,22 @@ struct ModuleScreen: View {
 								Text(viewModel.module.emoji)
 									.font(.system(size: 28))
 								//									.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 24))
-								AddWordPlusButton { viewModel.showActionSheet = true }
+								AddWordPlusButton {
+									didTapAddNewPhrase()
+								}
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
 								LearnModuleButton {
 									if viewModel.module.phrases.count >= 4 {
-										learnPageViewModel.module = viewModel.module
-										showLearnPage.toggle()
+										viewModel.checkSubscriptionAndAccessability { isAllow in
+											if isAllow {
+												learnPageViewModel.module = viewModel.module
+												showLearnPage.toggle()
+											} else {
+												viewModel.showPaywall()
+											}
+										}
 									} else {
-										viewModel.didTapShowLearnPage()
+										viewModel.didTapPhraseCountAlert()
 									}
 								}
 								.frame(height: 45)
@@ -85,7 +95,7 @@ struct ModuleScreen: View {
 									}
 									.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
 								}
-								AddWordButton { viewModel.showActionSheet = true }
+								AddWordButton { didTapAddNewPhrase() }
 								DeleteModuleButton { viewModel.didTapDeleteModule() }
 							}
 						}
@@ -145,6 +155,9 @@ struct ModuleScreen: View {
 						})
 					])
 			})
+			.sheet(isPresented: $viewModel.isShowPaywall, content: {
+				Paywall(isOpened: $viewModel.isShowPaywall)
+			})
 			.activity($viewModel.showActivity)
 			.onChange(of: viewModel.thisModuleSuccessfullyDeleted) { newValue in
 				if newValue == true {
@@ -169,6 +182,14 @@ struct ModuleScreen: View {
 		viewModel.modules = modules.wrappedValue
 		viewModel.filteredModules = filteredModules.wrappedValue
 		viewModel.index = index
+	}
+	
+	func didTapAddNewPhrase() {
+		if viewModel.phrases.count < countOfWordsForFree || UserDefaultsManager.userHasSubscription {
+			viewModel.showActionSheet = true
+		} else {
+			viewModel.showPaywall()
+		}
 	}
 }
 

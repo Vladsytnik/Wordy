@@ -80,6 +80,9 @@ struct Modules: View {
 	@ObservedObject private var onboardingManager = OnboardingManager(screen: .modules, countOfSteps: 3)
 	
 	@StateObject var vm = ScrollToModel()
+	private let macCountOfFreeGroups = 3
+	
+	@State var isShowPaywall = false
 	
 	var body: some View {
 		Color.clear
@@ -102,7 +105,13 @@ struct Modules: View {
 												.frame(width: 12)
 											Button {
 												withAnimation {
-													showCreateGroupSheet.toggle()
+													checkSubscriptionAndCountOfGroups { isAllow in
+														if isAllow {
+															showCreateGroupSheet.toggle()
+														} else {
+															isShowPaywall.toggle()
+														}
+													}
 												}
 											} label: {
 												Image(asset: Asset.Images.newGroup)
@@ -352,6 +361,9 @@ struct Modules: View {
 			.showAlert(title: alert.title, description: alert.description, isPresented: $showGroupsAlert) {
 				fetchGroups()
 			}
+			.sheet(isPresented: $isShowPaywall, content: {
+				Paywall(isOpened: $isShowPaywall)
+			})
 			.onChange(of: selectedCategoryIndex) { newValue in
 				if newValue == -1 {
 					filteredModules = modules
@@ -534,6 +546,11 @@ struct Modules: View {
 				print("NOT ERROR")
 			}
 		}
+	}
+	
+	private func checkSubscriptionAndCountOfGroups(isAllow: ((Bool) -> Void)) {
+		isAllow(UserDefaultsManager.userHasSubscription
+				|| groups.count < macCountOfFreeGroups)
 	}
 }
 

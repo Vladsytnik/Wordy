@@ -26,6 +26,15 @@ class UserDefaultsManager {
 		}
 	}
 	
+	static var countOfStartingLearnModes: [String: Int] {
+		get {
+			(UserDefaults().dictionary(forKey: "countOfStartingLearnMode") as? [String: Int]) ?? [:]
+		}
+		set {
+			UserDefaults().setValue(newValue, forKey: "countOfStartingLearnMode")
+		}
+	}
+	
 	static var langCodeForLearn: String? {
 		get {
 			UserDefaults().string(forKey: "langCodeForLearn")

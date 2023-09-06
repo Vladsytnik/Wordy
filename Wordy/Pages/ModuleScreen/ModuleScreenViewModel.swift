@@ -8,6 +8,8 @@
 import SwiftUI
 import AVKit
 
+let maxCountOfStartingLearnMode = 3
+
 class ModuleScreenViewModel: ObservableObject {
 	
 	var index = 0
@@ -22,6 +24,7 @@ class ModuleScreenViewModel: ObservableObject {
 	@Published var showActivity = false
 	@Published var showErrorAlert = false
 	@Published var showErrorAboutPhraseCount = false
+	@Published var isShowPaywall = false
 	
 	@Published var showEditPhrasePage = false
 	@Published var phraseIndexForEdit = 0
@@ -91,7 +94,7 @@ class ModuleScreenViewModel: ObservableObject {
 			}
 	}
 	
-	func didTapShowLearnPage() {
+	func didTapPhraseCountAlert() {
 		if module.phrases.count < 4 {
 			let wordsCountDifference = 4 - module.phrases.count
 			alert.title = "Для изучения слов необходимо минимум \n4 фразы"
@@ -104,6 +107,12 @@ class ModuleScreenViewModel: ObservableObject {
 				self.showErrorAboutPhraseCount = true
 			}
 		}
+	}
+	
+	func checkSubscriptionAndAccessability(isAllow: ((Bool) -> Void)) {
+		let countOfStartingLearnMode =  UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
+		isAllow(UserDefaultsManager.userHasSubscription
+				|| countOfStartingLearnMode < maxCountOfStartingLearnMode)
 	}
 	
 	func getCorrectWord(value: Int) -> String {
@@ -136,5 +145,9 @@ class ModuleScreenViewModel: ObservableObject {
 		utterance.voice = AVSpeechSynthesisVoice(language: langForSpeach)
 		
 		synthesizer.speak(utterance)
+	}
+	
+	func showPaywall() {
+		isShowPaywall.toggle()
 	}
 }

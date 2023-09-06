@@ -18,6 +18,7 @@ class WordsCarouselViewModel: ObservableObject {
 	@Published var showAlert = false
 	@Published var showLearnPage = false
 	@Published var showActivity = false
+	@Published var isShowPaywall = false
 	
 	let synthesizer = AVSpeechSynthesizer()
 	
@@ -94,5 +95,15 @@ class WordsCarouselViewModel: ObservableObject {
 		utterance.voice = AVSpeechSynthesisVoice(language: langForSpeach)
 		
 		synthesizer.speak(utterance)
+	}
+	
+	func checkSubscriptionAndAccessability(isAllow: ((Bool) -> Void)) {
+		let countOfStartingLearnMode = UserDefaultsManager.countOfStartingLearnModes[thisModule.id] ?? 0
+		isAllow(UserDefaultsManager.userHasSubscription
+				|| countOfStartingLearnMode < maxCountOfStartingLearnMode)
+	}
+	
+	func showPaywall() {
+		isShowPaywall.toggle()
 	}
 }
