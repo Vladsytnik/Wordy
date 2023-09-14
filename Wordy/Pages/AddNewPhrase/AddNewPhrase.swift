@@ -318,6 +318,7 @@ struct LanguageTextField: UIViewRepresentable {
 		uiView.text = text
 		uiView.setContentHuggingPriority(.defaultHigh, for: .vertical)
 		uiView.setContentCompressionResistancePriority(.required, for: .vertical)
+		uiView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 	}
 	
 	func makeCoordinator() -> Coordinator {
