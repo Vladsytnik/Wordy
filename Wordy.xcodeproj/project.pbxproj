@@ -51,7 +51,6 @@
 		012D95E2294867DA00165DAF /* SF-Pro-Display-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 012D95C729485F2500165DAF /* SF-Pro-Display-SemiboldItalic.otf */; };
 		012D95E3294867DA00165DAF /* SF-Pro-Display-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 012D95C129485F2500165DAF /* SF-Pro-Display-Heavy.otf */; };
 		012D95E5294867E600165DAF /* Fonts+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012D95E4294867E600165DAF /* Fonts+Generated.swift */; };
-		0130B01E2A0A6C5E001391FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0130B01D2A0A6C0B001391FC /* GoogleService-Info.plist */; };
 		013251E0296B034900B071F1 /* UIApplication + hideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013251DF296B034900B071F1 /* UIApplication + hideKeyboard.swift */; };
 		0135E23C2959DFDC00B1C8A0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 0135E23B2959DFDC00B1C8A0 /* FirebaseAnalytics */; };
 		0135E23E2959DFDC00B1C8A0 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0135E23D2959DFDC00B1C8A0 /* FirebaseAnalyticsSwift */; };
@@ -104,6 +103,7 @@
 		01978FAB294CBCB600B8EFC3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 01978FAA294CBCB600B8EFC3 /* Lottie */; };
 		01978FB3294CBF6600B8EFC3 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01978FB2294CBF6600B8EFC3 /* LottieView.swift */; };
 		01978FB7294CC92200B8EFC3 /* loader.json in Resources */ = {isa = PBXBuildFile; fileRef = 01978FB6294CC92100B8EFC3 /* loader.json */; };
+		019AC10F2AB43F3B00B31E8F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 019AC10E2AB43F3B00B31E8F /* GoogleService-Info.plist */; };
 		01B59DF82AA23CEC003115E6 /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B59DF72AA23CEC003115E6 /* TooltipView.swift */; };
 		01B59DFA2AA24B1B003115E6 /* onboarding.json in Resources */ = {isa = PBXBuildFile; fileRef = 01B59DF92AA24B1B003115E6 /* onboarding.json */; };
 		01B92B35294F606100F440EE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B92B34294F606000F440EE /* Settings.swift */; };
@@ -164,7 +164,6 @@
 		012D95CA29485FD300165DAF /* XCAssets+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCAssets+Generated.swift"; sourceTree = "<group>"; };
 		012D95E4294867E600165DAF /* Fonts+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Fonts+Generated.swift"; sourceTree = "<group>"; };
 		0130B01B2A0A57E9001391FC /* Wordy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Wordy.entitlements; sourceTree = "<group>"; };
-		0130B01D2A0A6C0B001391FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		013251DF296B034900B071F1 /* UIApplication + hideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication + hideKeyboard.swift"; sourceTree = "<group>"; };
 		0135E24E295B645300B1C8A0 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
 		013D97762A434A1B00F03AF7 /* Paywall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paywall.swift; sourceTree = "<group>"; };
@@ -211,6 +210,7 @@
 		019160BD29D2D0360094F36D /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		01978FB2294CBF6600B8EFC3 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		01978FB6294CC92100B8EFC3 /* loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader.json; sourceTree = "<group>"; };
+		019AC10E2AB43F3B00B31E8F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		01B59DF72AA23CEC003115E6 /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
 		01B59DF92AA24B1B003115E6 /* onboarding.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = onboarding.json; sourceTree = "<group>"; };
 		01B92B34294F606000F440EE /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -475,7 +475,7 @@
 		0190562C2944A7140058B566 = {
 			isa = PBXGroup;
 			children = (
-				0130B01D2A0A6C0B001391FC /* GoogleService-Info.plist */,
+				019AC10E2AB43F3B00B31E8F /* GoogleService-Info.plist */,
 				019056542944C7200058B566 /* swiftgen.yml */,
 				0190564E2944AC1E0058B566 /* SwiftGen */,
 				019056372944A7140058B566 /* Wordy */,
@@ -759,7 +759,6 @@
 				012D95D6294867DA00165DAF /* SF-Pro-Display-Regular.otf in Resources */,
 				019056402944A7170058B566 /* Preview Assets.xcassets in Resources */,
 				01978FB7294CC92200B8EFC3 /* loader.json in Resources */,
-				0130B01E2A0A6C5E001391FC /* GoogleService-Info.plist in Resources */,
 				012D95E2294867DA00165DAF /* SF-Pro-Display-SemiboldItalic.otf in Resources */,
 				01B59DFA2AA24B1B003115E6 /* onboarding.json in Resources */,
 				012D95D5294867DA00165DAF /* SF-Pro-Display-LightItalic.otf in Resources */,
@@ -771,6 +770,7 @@
 				012D95DB294867DA00165DAF /* SF-Pro-Display-Bold.otf in Resources */,
 				012D95D2294867DA00165DAF /* SF-Pro-Display-BlackItalic.otf in Resources */,
 				012D95E3294867DA00165DAF /* SF-Pro-Display-Heavy.otf in Resources */,
+				019AC10F2AB43F3B00B31E8F /* GoogleService-Info.plist in Resources */,
 				012D95DE294867DA00165DAF /* SF-Pro-Display-Light.otf in Resources */,
 				012D95D8294867DA00165DAF /* SF-Pro-Display-BoldItalic.otf in Resources */,
 				01770ECC296AF05200578F81 /* addWordLoader.json in Resources */,
@@ -1050,7 +1050,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Wordy/Preview Content\"";
-				DEVELOPMENT_TEAM = 6VUC56BPGJ;
+				DEVELOPMENT_TEAM = 3HWHLG8J3L;
 				ENABLE_PREVIEWS = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1065,7 +1065,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = sytnik.wordy.app;
+				PRODUCT_BUNDLE_IDENTIFIER = app.wordy.wordy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1083,7 +1083,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Wordy/Preview Content\"";
-				DEVELOPMENT_TEAM = 6VUC56BPGJ;
+				DEVELOPMENT_TEAM = 3HWHLG8J3L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1097,7 +1097,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = sytnik.wordy.app;
+				PRODUCT_BUNDLE_IDENTIFIER = app.wordy.wordy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
