@@ -80,6 +80,35 @@ struct AddNewPhrase: View {
 					}
 					.offset(x: !viewModel.translatedPhraseIsEmpty ? 0 : 10)
 					
+					if viewModel.showAutomaticTranslatedView {
+						HStack() {
+							HStack {
+								Text(viewModel.automaticTranslatedText)
+									.foregroundColor(.white)
+									.padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+									.background {
+										RoundedRectangle(cornerRadius: 12)
+											.foregroundColor(Color(asset: Asset.Colors.lightPurple))
+									}
+									.onTapGesture {
+										translatedText = viewModel.automaticTranslatedText
+										viewModel.showAutomaticTranslatedView = false
+									}
+								
+								Button {
+									viewModel.showAutomaticTranslatedView = false
+								} label: {
+									Image(asset: Asset.Images.plusIcon)
+										.rotationEffect(.degrees(45))
+								}
+								.padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 0))
+							}
+							Spacer()
+						}
+						.padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+						
+					}
+					
 					if viewModel.wasTappedAddExample {
 						CustomTextField(
 							placeholder: "I like apple",
@@ -114,7 +143,7 @@ struct AddNewPhrase: View {
 								}
 								.offset(y: 6)
 							}
-							.padding(EdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0))
+							.padding(EdgeInsets(top: 0, leading: 0, bottom: viewModel.showAutomaticTranslatedView ? 0 : 30, trailing: 0))
 							Spacer()
 						}
 						.opacity(0.9)
@@ -122,7 +151,7 @@ struct AddNewPhrase: View {
 					
 					Rectangle()
 						.foregroundColor(.clear)
-						.frame(height: 30)
+						.frame(height: viewModel.showAutomaticTranslatedView ? 0 : 30)
 
 					if viewModel.isActivityProccess {
 						LottieView(fileName: "addWordLoader")
@@ -149,6 +178,7 @@ struct AddNewPhrase: View {
 				}
 				.padding()
 			}
+			.animation(.spring(), value: viewModel.showAutomaticTranslatedView)
 			.onChange(of: viewModel.modules, perform: { newValue in
 				self.modules = newValue
 			})
@@ -188,11 +218,9 @@ struct AddNewPhrase: View {
 		.onChange(of: viewModel.examplePhrase) { newValue in
 			self.exampleText = newValue
 		}
-//		.onAppear {
-//			viewModel.nativePhrase = nativeText
-//			viewModel.translatedPhrase = translatedText
-//			viewModel.examplePhrase = exampleText
-//		}
+		.onChange(of: nativeText) { newValue in
+			viewModel.userDidWriteNativeText(newValue)
+		}
 	}
 	
 	private func addPhraseToModule() {

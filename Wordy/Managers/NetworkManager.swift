@@ -358,4 +358,55 @@ class NetworkManager {
 			callback(true)
 		}
 	}
+	
+	static func translate(from text: String) async throws -> String {
+		let session = URLSession.shared
+		session.invalidateAndCancel()
+		guard let url = URL(string: "https://translate.api.cloud.yandex.net/translate/v2/translate") else {
+			print("error in url [translate method]")
+			throw fatalError()
+		}
+		guard let learnLang = UserDefaultsManager.learnLanguage else {
+			print("error in url [translate method] - learn lang")
+			throw fatalError()
+		}
+		guard let nativeLang = UserDefaultsManager.nativeLanguage else {
+			print("error in url [translate method] - native lang")
+			throw fatalError()
+		}
+		
+		var request = URLRequest(url: url)
+		request.httpMethod = "POST";
+		request.allHTTPHeaderFields = [
+			"Content-Type" : "application/json",
+			"Authorization" : "Api-Key AQVN0OEuE0aqTVasJb1JxIBXZpsvwCUx2xiZCSk7"
+		]
+		
+		let body = [
+			"sourceLanguageCode" : "\(learnLang.getLangCodeForYandexApy())",
+			"targetLanguageCode" : "\(nativeLang.getLangCodeForYandexApy())",
+			"format" : "PLAIN_TEXT",
+			"texts" : ["\(text)"],
+			"speller" : false,
+		] as [String : Any]
+		
+		guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
+			throw fatalError("Возникла ошибка при сериализации в NetworkManager -> translate")
+		}
+		request.httpBody = httpBody
+		let (data, response) = try await session.data(for: request)
+		
+		guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+			throw fatalError("NetworkManager -> translate status code is not 200: \(response)")
+		}
+		
+		let transaltions = try JSONDecoder().decode(TranslatedResponse.self, from: data)
+		
+		guard let result = transaltions.translations.first?.text else {
+			throw fatalError("Не удалось декодировать ответ в NetworkManager -> translate")
+		}
+		
+		print("TRANSLATED: ", transaltions.translations.first!.text)
+		return result
+	}
 }

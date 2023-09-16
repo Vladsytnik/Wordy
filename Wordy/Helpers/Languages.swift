@@ -69,4 +69,21 @@ enum Language: String, CaseIterable, Codable {
 			return "es-ES"
 		}
 	}
+	
+	func getLangCodeForYandexApy() -> String {
+		switch self {
+		case .ru:
+			return "ru"
+		case .eng:
+			return "en"
+		case .it:
+			return "it-IT"
+		case .ro:
+			return "ro-RO"
+		case .tur:
+			return "tr-TR"
+		case .ispan:
+			return "es-ES"
+		}
+	}
 }

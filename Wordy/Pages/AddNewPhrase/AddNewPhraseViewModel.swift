@@ -34,6 +34,13 @@ class AddNewPhraseViewModel: ObservableObject {
 	
 	@Published var wasTappedAddExample = false
 	
+	@Published var showAutomaticTranslatedView = false
+	@Published var automaticTranslatedText = ""
+	@Published var servicedNativeText = ""
+	
+	private var cancellable = Set<AnyCancellable>()
+	private var networkTask: Task<(), Never>?
+	
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
 	var module: Module {
@@ -41,6 +48,39 @@ class AddNewPhraseViewModel: ObservableObject {
 	}
 	
 	@Published var closeKeyboards = false
+	
+	init() {
+		$servicedNativeText
+			.removeDuplicates()
+			.debounce(for: 1.5, scheduler: DispatchQueue.main)
+			.sink { $0.count > 0 ? self.getTranslatedText(from: $0) : nil }
+			.store(in: &cancellable)
+		$automaticTranslatedText
+			.receive(on: DispatchQueue.main)
+			.sink { text in
+				if text.count > 0 && !self.showAutomaticTranslatedView {
+					self.showAutomaticTranslatedView = true
+				}
+			}
+			.store(in: &cancellable)
+	}
+	
+	// MARK: - Translating logic
+	
+	func getTranslatedText(from text: String) {
+		networkTask?.cancel()
+		networkTask = Task { @MainActor in
+			do {
+				automaticTranslatedText = try await NetworkManager.translate(from: text)
+			} catch(let error) {
+				print("Error on translating text api: \(error.localizedDescription)")
+			}
+		}
+	}
+	
+	func userDidWriteNativeText(_ text: String) {
+		servicedNativeText = text
+	}
 	
 	func didTapTextField(index: Int) {
 		textFieldOneIsActive = index == 0
