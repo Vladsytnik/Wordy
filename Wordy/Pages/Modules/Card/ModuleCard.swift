@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ModuleCard: View {
 	
-	let backgroundColor = Color(asset: Asset.Colors.moduleCardBG)
+	let backgroundColor = Color(asset: Asset.Colors.main)
 	let width: CGFloat
 	
 	var cardName = "Games"

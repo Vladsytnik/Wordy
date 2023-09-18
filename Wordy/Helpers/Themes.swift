@@ -11,11 +11,11 @@ import SwiftUI
 struct Themes {
 	static let availableThemes: [ColorTheme] = [
 		ColorTheme(id: "MainColor",
-				   accent: Color(asset: Asset.Colors.lightPurple), //
-				   main: Color(asset: Asset.Colors.moduleCardBG), //
+				   accent: Color(asset: Asset.Colors.accent), //
+				   main: Color(asset: Asset.Colors.main), //
 				   mainText: .white,
-				   findedWordsHighlited: Color(asset: Asset.Colors.exampleYellow), //
-				   brightForBtnsText: Color(asset: Asset.Colors.descrWordOrange), //
+				   findedWordsHighlited: Color(asset: Asset.Colors.findedWordHighlite), //
+				   brightForBtnsText: Color(asset: Asset.Colors.brightBtnText), //
 				   moduleCreatingBtn: Color(asset: Asset.Colors.addModuleButtonBG), //
 				   mainGray: Color(asset: Asset.Colors.createModuleButton), //
 				   purchaseBtn: Color(asset: Asset.Colors.purchaseBtn),

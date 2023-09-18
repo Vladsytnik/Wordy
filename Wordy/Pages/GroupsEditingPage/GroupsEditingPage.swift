@@ -88,7 +88,7 @@ struct GroupsEditingPage: View {
 							.padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
 							.background {
 								RoundedRectangle(cornerRadius: 12)
-									.foregroundColor(Color(asset: Asset.Colors.moduleCardBG))
+									.foregroundColor(Color(asset: Asset.Colors.main))
 							}
 							.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
 							.onTapGesture {

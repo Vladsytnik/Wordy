@@ -227,7 +227,7 @@ struct GeneralSettingsRow: View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 12)
 				.frame(height: cellHeight)
-				.foregroundColor(Color(asset: Asset.Colors.moduleCardBG))
+				.foregroundColor(Color(asset: Asset.Colors.main))
 			HStack(spacing: 0) {
 				Image(systemName: cellImageName)
 					.foregroundColor(.white)
@@ -271,7 +271,7 @@ struct EditFolderRow: View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 12)
 				.frame(height: cellHeight)
-				.foregroundColor(Color(asset: Asset.Colors.moduleCardBG))
+				.foregroundColor(Color(asset: Asset.Colors.main))
 			HStack(spacing: 0) {
 				Image(systemName: "folder")
 					.foregroundColor(.white)
@@ -300,7 +300,7 @@ struct LogOutRow: View {
 			ZStack {
 				RoundedRectangle(cornerRadius: 12)
 					.frame(height: cellHeight)
-					.foregroundColor(Color(asset: Asset.Colors.moduleCardBG))
+					.foregroundColor(Color(asset: Asset.Colors.main))
 				HStack(spacing: 0) {
 					Image(systemName: "rectangle.portrait.and.arrow.forward")
 						.foregroundColor(.white)

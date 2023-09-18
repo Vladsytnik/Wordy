@@ -315,7 +315,7 @@ struct LearnModuleButton: View {
 		} label: {
 			ZStack {
 				Text(LocalizedStringKey("Выучить модуль"))
-					.foregroundColor(Color(asset: Asset.Colors.descrWordOrange))
+					.foregroundColor(Color(asset: Asset.Colors.brightBtnText))
 					.font(.system(size: 18, weight: .bold))
 					.padding(EdgeInsets(top: 16, leading: 26, bottom: 16, trailing: 26))
 			}
@@ -346,7 +346,7 @@ struct AddWordButton: View {
 					}
 				}
 				.foregroundColor (
-					Color(asset: Asset.Colors.moduleCardBG)
+					Color(asset: Asset.Colors.main)
 				)
 				.overlay {
 					RoundedRectangle(cornerRadius: 20)

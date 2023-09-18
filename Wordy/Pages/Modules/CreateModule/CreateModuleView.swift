@@ -30,7 +30,7 @@ struct CreateModuleView: View {
 			.background {
 				GeometryReader { geo in
 					ZStack {
-						Color(asset: Asset.Colors.moduleCardBG)
+						Color(asset: Asset.Colors.main)
 							.ignoresSafeArea()
 						VStack(spacing: 40) {
 							Text(LocalizedStringKey("Новый модуль"))

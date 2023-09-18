@@ -50,7 +50,7 @@ struct WordCard: View {
 							.font(.system(size: 24, weight: .bold))
 							.multilineTextAlignment(.leading)
 						Text(viewModel.phrase.translatedText)
-							.foregroundColor(Color(asset: Asset.Colors.descrWordOrange))
+							.foregroundColor(Color(asset: Asset.Colors.brightBtnText))
 							.font(.system(size: 18, weight: .medium))
 							.multilineTextAlignment(.leading)
 //							.lineLimit(1)
@@ -121,7 +121,7 @@ struct WordCard: View {
 		})
 		.background {
 			RoundedRectangle(cornerRadius: 20)
-				.foregroundColor(Color(asset: Asset.Colors.moduleCardBG))
+				.foregroundColor(Color(asset: Asset.Colors.main))
 //				.frame(width: width)
 		}
 	}
@@ -132,7 +132,7 @@ struct WordCard: View {
 		}
 		let wordRange = string.rangeOfWord(containing: range)
 		let prefix = string.prefix(upTo: wordRange.lowerBound)
-		let highlightedSubstring = Text(string[wordRange]).foregroundColor(Color(asset: Asset.Colors.exampleYellow))
+		let highlightedSubstring = Text(string[wordRange]).foregroundColor(Color(asset: Asset.Colors.findedWordHighlite))
 		let suffix = string.suffix(from: wordRange.upperBound)
 		return Text(prefix) + highlightedSubstring + highlightSubstring(substring, in: String(suffix))
 	}

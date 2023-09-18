@@ -25,12 +25,12 @@ internal typealias AssetImageTypeAlias = ImageAsset.Image
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 internal enum Asset {
   internal enum Colors {
+    internal static let accent = ColorAsset(name: "Accent")
     internal static let addModuleButtonBG = ColorAsset(name: "AddModuleButtonBG")
+    internal static let brightBtnText = ColorAsset(name: "BrightBtnText")
     internal static let createModuleButton = ColorAsset(name: "CreateModuleButton")
-    internal static let descrWordOrange = ColorAsset(name: "DescrWordOrange")
-    internal static let exampleYellow = ColorAsset(name: "ExampleYellow")
-    internal static let lightPurple = ColorAsset(name: "LightPurple")
-    internal static let moduleCardBG = ColorAsset(name: "ModuleCardBG")
+    internal static let findedWordHighlite = ColorAsset(name: "FindedWordHighlite")
+    internal static let main = ColorAsset(name: "Main")
     internal static let moduleCardDarkGray = ColorAsset(name: "ModuleCardDarkGray")
     internal static let moduleCardLightGray = ColorAsset(name: "ModuleCardLightGray")
     internal static let navBarPurple = ColorAsset(name: "NavBarPurple")
@@ -43,6 +43,7 @@ internal enum Asset {
     internal static let answer4 = ColorAsset(name: "answer4")
   }
   internal enum Colors2 {
+    internal static let purchaseBtn = ColorAsset(name: "PurchaseBtn")
     internal static let testColor = ColorAsset(name: "TestColor")
   }
   internal enum Images {

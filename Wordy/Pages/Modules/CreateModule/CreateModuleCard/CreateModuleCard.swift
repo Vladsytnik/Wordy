@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CreateModuleCard: View {
     
-	let backgroundColor = Color(asset: Asset.Colors.moduleCardBG)
+	let backgroundColor = Color(asset: Asset.Colors.main)
 	let width: CGFloat
 	
 	@Binding var needAnimate: Bool
@@ -72,7 +72,7 @@ struct CreateModuleCard: View {
 struct CreateModuleCard_Previews: PreviewProvider {
     static var previews: some View {
 		ZStack {
-			Color(asset: Asset.Colors.moduleCardBG).ignoresSafeArea()
+			Color(asset: Asset.Colors.main).ignoresSafeArea()
 			CreateModuleCard(
 				width: 250,
 				needAnimate: .constant(false),

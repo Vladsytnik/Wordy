@@ -132,7 +132,7 @@ struct AddNewPhrase: View {
 								}
 							} label: {
 								Text(LocalizedStringKey("Добавить пример"))
-									.foregroundColor(Color(asset: Asset.Colors.descrWordOrange))
+									.foregroundColor(Color(asset: Asset.Colors.brightBtnText))
 									.font(.system(size: 14, weight: .regular))
 							}
 							.background {
@@ -140,7 +140,7 @@ struct AddNewPhrase: View {
 									Spacer()
 									Rectangle()
 										.frame(height: 1)
-										.foregroundColor(Color(asset: Asset.Colors.descrWordOrange))
+										.foregroundColor(Color(asset: Asset.Colors.brightBtnText))
 								}
 								.offset(y: 6)
 							}

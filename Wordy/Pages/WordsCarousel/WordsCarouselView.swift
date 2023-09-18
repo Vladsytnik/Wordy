@@ -211,7 +211,7 @@ fileprivate struct MainText: View {
 					.multilineTextAlignment(.center)
 					.minimumScaleFactor(0.5)
 				Text(phrase.translatedText)
-					.foregroundColor(Color(asset: Asset.Colors.descrWordOrange))
+					.foregroundColor(Color(asset: Asset.Colors.brightBtnText))
 					.font(.system(size: 18, weight: .medium))
 					.multilineTextAlignment(.center)
 					.minimumScaleFactor(0.5)
@@ -239,7 +239,7 @@ fileprivate struct MainText: View {
 		}
 		let wordRange = string.rangeOfWord(containing: range)
 		let prefix = string.prefix(upTo: wordRange.lowerBound)
-		let highlightedSubstring = Text(string[wordRange]).foregroundColor(Color(asset: Asset.Colors.exampleYellow))
+		let highlightedSubstring = Text(string[wordRange]).foregroundColor(Color(asset: Asset.Colors.findedWordHighlite))
 		let suffix = string.suffix(from: wordRange.upperBound)
 		return Text(prefix) + highlightedSubstring + highlightSubstring(substring, in: String(suffix))
 	}
