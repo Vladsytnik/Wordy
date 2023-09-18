@@ -332,6 +332,7 @@ struct LanguageTextField: UIViewRepresentable {
 	
 	func makeUIView(context: Context) -> UILanguageTextField {
 		let langTextField = UILanguageTextField(textLanguage: language)
+		langTextField.textColor = .white
 		langTextField.delegate = context.coordinator
 		if isFirstResponder {
 			langTextField.becomeFirstResponder()

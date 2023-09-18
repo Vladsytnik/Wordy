@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ApphudSDK
 
 struct StartView: View {
 	
@@ -44,6 +45,9 @@ struct StartView: View {
 //			.transition(.slide)
 		.environmentObject(router)
 		.accentColor(.white)
+		.onAppear {
+			Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr")
+		}
 	}
 }
 

@@ -23,6 +23,7 @@
 		0103FF50294C7FFA004C2EA6 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF4F294C7FFA004C2EA6 /* String.swift */; };
 		0103FF52294C86F5004C2EA6 /* ErrorCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF51294C86F5004C2EA6 /* ErrorCodeManager.swift */; };
 		0103FF56294C9E75004C2EA6 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF55294C9E75004C2EA6 /* Router.swift */; };
+		0109D19A2AB6E91800714E55 /* ApphudSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0109D1992AB6E91800714E55 /* ApphudSDK */; };
 		010C7E9129AE7EA900133179 /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 010C7E9029AE7EA900133179 /* MCEmojiPicker */; };
 		0110F711297EECD2007F26BC /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110F710297EECD2007F26BC /* NavigationView.swift */; };
 		0113F9592A96799800566EAC /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = 0113F9582A96799800566EAC /* SwiftUITooltip */; };
@@ -138,6 +139,7 @@
 		0103FF4F294C7FFA004C2EA6 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		0103FF51294C86F5004C2EA6 /* ErrorCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCodeManager.swift; sourceTree = "<group>"; };
 		0103FF55294C9E75004C2EA6 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		0109D1972AB5D7FC00714E55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0110F710297EECD2007F26BC /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		011B138B29FBB81B00D4CCBF /* GroupsEditingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsEditingPage.swift; sourceTree = "<group>"; };
 		011B138D2A00176B00D4CCBF /* SignInWithApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithApple.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 			files = (
 				0135E2442959DFDC00B1C8A0 /* FirebaseDatabaseSwift in Frameworks */,
 				0135E2422959DFDC00B1C8A0 /* FirebaseDatabase in Frameworks */,
+				0109D19A2AB6E91800714E55 /* ApphudSDK in Frameworks */,
 				0135E23E2959DFDC00B1C8A0 /* FirebaseAnalyticsSwift in Frameworks */,
 				010C7E9129AE7EA900133179 /* MCEmojiPicker in Frameworks */,
 				0113F9592A96799800566EAC /* SwiftUITooltip in Frameworks */,
@@ -499,6 +502,7 @@
 		019056372944A7140058B566 /* Wordy */ = {
 			isa = PBXGroup;
 			children = (
+				0109D1972AB5D7FC00714E55 /* Info.plist */,
 				0130B01B2A0A57E9001391FC /* Wordy.entitlements */,
 				019056382944A7140058B566 /* WordyApp.swift */,
 				0103FF4D294C76CB004C2EA6 /* StartView.swift */,
@@ -716,6 +720,7 @@
 				0135E2492959DFDC00B1C8A0 /* FirebaseStorage */,
 				010C7E9029AE7EA900133179 /* MCEmojiPicker */,
 				0113F9582A96799800566EAC /* SwiftUITooltip */,
+				0109D1992AB6E91800714E55 /* ApphudSDK */,
 			);
 			productName = Wordy;
 			productReference = 019056352944A7140058B566 /* Wordy.app */;
@@ -751,6 +756,7 @@
 				0135E23A2959DFDC00B1C8A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				010C7E8F29AE7EA900133179 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
 				0113F9572A96799800566EAC /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */,
+				0109D1982AB6E91800714E55 /* XCRemoteSwiftPackageReference "ApphudSDK" */,
 			);
 			productRefGroup = 019056362944A7140058B566 /* Products */;
 			projectDirPath = "";
@@ -1066,9 +1072,9 @@
 				ENABLE_PREVIEWS = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Wordy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1098,9 +1104,9 @@
 				DEVELOPMENT_TEAM = 3HWHLG8J3L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Wordy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1141,6 +1147,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0109D1982AB6E91800714E55 /* XCRemoteSwiftPackageReference "ApphudSDK" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apphud/ApphudSDK";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		010C7E8F29AE7EA900133179 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/izyumkin/MCEmojiPicker";
@@ -1176,6 +1190,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0109D1992AB6E91800714E55 /* ApphudSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0109D1982AB6E91800714E55 /* XCRemoteSwiftPackageReference "ApphudSDK" */;
+			productName = ApphudSDK;
+		};
 		010C7E9029AE7EA900133179 /* MCEmojiPicker */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 010C7E8F29AE7EA900133179 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */;

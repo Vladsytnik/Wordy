@@ -62,8 +62,10 @@ struct GroupsEditingPage: View {
 								HStack(alignment: .top, spacing: 12) {
 									Image(systemName: "folder")
 										.offset(y: 1)
+										.foregroundColor(.white)
 									Text(group.name)
 										.font(.system(size: 16, weight: .regular))
+										.foregroundColor(.white)
 								}
 								.padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
 								

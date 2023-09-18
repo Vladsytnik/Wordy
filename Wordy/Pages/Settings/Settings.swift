@@ -50,6 +50,7 @@ struct Settings: View {
 					
 					Toggle(isOn: $isPro) {
 						Text("PRO Subscription")
+							.foregroundColor(.white)
 					}
 					.padding()
 					

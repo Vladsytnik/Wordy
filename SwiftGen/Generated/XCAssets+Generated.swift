@@ -58,6 +58,7 @@ internal enum Asset {
     internal static let searchIcon = ImageAsset(name: "SearchIcon")
     internal static let settingsIcon = ImageAsset(name: "SettingsIcon")
     internal static let speach = ImageAsset(name: "Speach")
+    internal static let wordyYellow = ImageAsset(name: "WordyYellow")
     internal static let advantage = ImageAsset(name: "advantage")
     internal static let learnPageBG = ImageAsset(name: "learnPageBG")
     internal static let newGroup = ImageAsset(name: "newGroup")
