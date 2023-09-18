@@ -10,6 +10,7 @@ import Firebase
 
 struct Settings: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	@EnvironmentObject var router: Router
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@State private var multiSelection = Set<Int>()
@@ -17,6 +18,9 @@ struct Settings: View {
 	@State var showDeleteAccountError = false
 	@State var showAcivity = false
 	@State var isPro = false
+	
+	@State var isThemeSelecting = false
+	var offset: Double = 76
 	
 	private let rowsTitles = [
 		"Редактирование групп",
@@ -40,6 +44,86 @@ struct Settings: View {
 							print("Редактировать группы")
 						}
 					}
+					
+					ZStack {
+						ZStack {
+//							RoundedRectangle(cornerRadius: isThemeSelecting ? 12 : 12)
+//								.stroke()
+//								.frame(height: cellHeight)
+//								.foregroundColor(Color(asset: Asset.Colors.moduleCardBG))
+							ScrollView(.horizontal, showsIndicators: false) {
+								HStack(spacing: 8) {
+									ForEach(0..<themeManager.allThemes().count) { index in
+										
+//										ZStack {
+//											RoundedRectangle(cornerRadius: 16)
+//												.foregroundColor(themeManager.allThemes()[index].accent)
+//												.frame(width: 32, height: 32)
+//												.padding(EdgeInsets(top: 0, leading: index == 0 ? 16 : 0, bottom: 0, trailing: 0))
+//												.opacity(isThemeSelecting ? 1 : 0)
+//												.animation(isThemeSelecting ? .spring().delay(0.03 * Double(index)) : .spring(), value: isThemeSelecting)
+//
+//											RoundedRectangle(cornerRadius: 16)
+//												.foregroundColor(themeManager.allThemes()[index].main)
+//												.frame(width: 32, height: 32)
+//												.padding(EdgeInsets(top: 0, leading: index == 0 ? 16 : 0, bottom: 0, trailing: 0))
+//												.opacity(isThemeSelecting ? 1 : 0)
+//												.animation(isThemeSelecting ? .spring().delay(0.03 * Double(index)) : .spring(), value: isThemeSelecting)
+//												.mask {
+//													Rectangle()
+//														.frame(width: 50, height: 50)
+//														.offset(x: -18)
+//														.rotationEffect(.degrees(isThemeSelecting ? 45 : 0))
+//														.animation(isThemeSelecting ? .spring().delay(0.03 * Double(index)) : .spring(), value: isThemeSelecting)
+//												}
+//										}
+										
+										LinearGradient(colors: [themeManager.allThemes()[index].accent,
+																themeManager.allThemes()[index].main,
+																themeManager.allThemes()[index].main],
+													   startPoint: .topLeading, endPoint: .bottomTrailing)
+											.cornerRadius(16)
+											.frame(width: 32, height: 32)
+											.padding(EdgeInsets(top: 0, leading: index == 0 ? 16 : 0, bottom: 0, trailing: 0))
+											.opacity(isThemeSelecting ? 1 : 0)
+											.animation(isThemeSelecting ? .spring().delay(0.03 * Double(index)) : .spring(), value: isThemeSelecting)
+										
+									}
+									Spacer()
+								}
+								.zIndex(2)
+							}
+						}
+						.opacity(isThemeSelecting ? 1 : 0)
+						.animation(.spring(), value: isThemeSelecting)
+						.padding(EdgeInsets(top: 0, leading: isThemeSelecting ? 0 : 16, bottom: 8, trailing: isThemeSelecting ? 0 : 16))
+						.animation(.spring(), value: isThemeSelecting)
+						
+						GeneralSettingsRow(cellHeight: cellHeight,
+										   cellText: "Оформление",
+										   cellImageName: "swatchpalette",
+										   isOpenable: true,
+										   isOpened: $isThemeSelecting)
+						.offset(y: isThemeSelecting ? offset : 0)
+					}
+					.padding(EdgeInsets(top: 0, leading: 0, bottom: isThemeSelecting ? offset : 0, trailing: 0))
+					.animation(.spring(), value: isThemeSelecting)
+
+//						ZStack {
+//							RoundedRectangle(cornerRadius: 12)
+//								.frame(height: isThemeSelecting ? cellHeight + 10 : 0)
+//								.foregroundColor(Color(asset: Asset.Colors.answer4))
+//							HStack(spacing: 0) {
+//								Text(LocalizedStringKey("cellText"))
+//									.font(.system(size: 16, weight: .regular))
+//									.foregroundColor(.white)
+//								Spacer()
+//							}
+//						}
+//						.opacity(isThemeSelecting ? 1 : 0)
+//						.animation(.spring(), value: isThemeSelecting)
+//						.padding(EdgeInsets(top: -40, leading: 16, bottom: 8, trailing: 16))
+//						.zIndex(2)
 					
 					LogOutRow(cellHeight: cellHeight) {
 						self.presentationMode.wrappedValue.dismiss()
@@ -124,7 +208,56 @@ struct Settings_Previews: PreviewProvider {
     static var previews: some View {
         Settings()
 			.environmentObject(Router())
+			.environmentObject(ThemeManager())
     }
+}
+
+// MARK: - General settings row
+
+struct GeneralSettingsRow: View {
+	
+	let cellHeight: CGFloat
+	let cellText: String
+	let cellImageName: String
+	var isOpenable = false
+	@Binding var isOpened: Bool
+	var didTapOnRow: (() -> Void)?
+	
+	var body: some View {
+		ZStack {
+			RoundedRectangle(cornerRadius: 12)
+				.frame(height: cellHeight)
+				.foregroundColor(Color(asset: Asset.Colors.moduleCardBG))
+			HStack(spacing: 0) {
+				Image(systemName: cellImageName)
+					.foregroundColor(.white)
+					.padding()
+				Text(LocalizedStringKey(cellText))
+					.font(.system(size: 16, weight: .regular))
+					.foregroundColor(.white)
+				Spacer()
+				if isOpenable {
+					Image(systemName: "control")
+//						.scaleEffect(0.3)
+//						.foregroundColor(Color(asset: Asset.Colors.lightPurple))
+						.foregroundColor(.white)
+						.padding()
+						.rotationEffect(.degrees(isOpened ? 0 : 90))
+						.animation(.spring(), value: isOpened)
+				}
+			}
+		}
+		.onTapGesture {
+			if isOpenable {
+				withAnimation {
+					isOpened.toggle()
+				}
+			} else {
+				didTapOnRow?()
+			}
+		}
+		.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
+	}
 }
 
 // MARK: - Edit row

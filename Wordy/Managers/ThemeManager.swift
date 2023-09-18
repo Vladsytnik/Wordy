@@ -19,6 +19,10 @@ class ThemeManager: ObservableObject {
 		Themes.availableThemes.first { $0.id == currentThemeName } ?? Themes.availableThemes.first!
 	}
 	
+	func allThemes() -> [ColorTheme] {
+		Themes.availableThemes
+	}
+	
 	func setNewTheme(with name: String) {
 		UserDefaultsManager.themeName = name
 		currentThemeName = name

@@ -115,6 +115,7 @@
 		01D2F1BE294CE468000330A8 /* View + Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2F1BD294CE468000330A8 /* View + Modifiers.swift */; };
 		01D2F1C1294CEAD5000330A8 /* CategoryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2F1C0294CEAD5000330A8 /* CategoryCard.swift */; };
 		01DC12CA2A153605007BF79E /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DC12C92A153605007BF79E /* Languages.swift */; };
+		01DEA5082AB8C90300A8074D /* Colors2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01DEA5072AB8C90300A8074D /* Colors2.xcassets */; };
 		01E4B759294B119800720BE0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E4B758294B119800720BE0 /* NetworkManager.swift */; };
 		01E984D92A17D1DA009D889F /* OnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E984D82A17D1DA009D889F /* OnboardingPage.swift */; };
 		01F01B6F29F02F8D00742DF3 /* PhraseEditPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F01B6E29F02F8D00742DF3 /* PhraseEditPage.swift */; };
@@ -227,6 +228,7 @@
 		01D2F1BD294CE468000330A8 /* View + Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View + Modifiers.swift"; sourceTree = "<group>"; };
 		01D2F1C0294CEAD5000330A8 /* CategoryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCard.swift; sourceTree = "<group>"; };
 		01DC12C92A153605007BF79E /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
+		01DEA5072AB8C90300A8074D /* Colors2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors2.xcassets; sourceTree = "<group>"; };
 		01E4B758294B119800720BE0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		01E984D82A17D1DA009D889F /* OnboardingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPage.swift; sourceTree = "<group>"; };
 		01F01B6E29F02F8D00742DF3 /* PhraseEditPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseEditPage.swift; sourceTree = "<group>"; };
@@ -577,6 +579,7 @@
 				012D95B529485EEC00165DAF /* Fonts */,
 				0190563C2944A7170058B566 /* Images.xcassets */,
 				019056552944D0DE0058B566 /* Colors.xcassets */,
+				01DEA5072AB8C90300A8074D /* Colors2.xcassets */,
 				0190564B2944AA700058B566 /* .gitignore */,
 				01897C052A17DCC3007F6A2C /* Localizable.strings */,
 			);
@@ -797,6 +800,7 @@
 				012D95D2294867DA00165DAF /* SF-Pro-Display-BlackItalic.otf in Resources */,
 				012D95E3294867DA00165DAF /* SF-Pro-Display-Heavy.otf in Resources */,
 				019AC10F2AB43F3B00B31E8F /* GoogleService-Info.plist in Resources */,
+				01DEA5082AB8C90300A8074D /* Colors2.xcassets in Resources */,
 				012D95DE294867DA00165DAF /* SF-Pro-Display-Light.otf in Resources */,
 				012D95D8294867DA00165DAF /* SF-Pro-Display-BoldItalic.otf in Resources */,
 				01770ECC296AF05200578F81 /* addWordLoader.json in Resources */,
