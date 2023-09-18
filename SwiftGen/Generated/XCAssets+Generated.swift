@@ -42,6 +42,9 @@ internal enum Asset {
     internal static let answer3 = ColorAsset(name: "answer3")
     internal static let answer4 = ColorAsset(name: "answer4")
   }
+  internal enum Colors2 {
+    internal static let testColor = ColorAsset(name: "TestColor")
+  }
   internal enum Images {
     internal static let accentColor = ColorAsset(name: "AccentColor")
     internal static let addModule = ImageAsset(name: "AddModule")

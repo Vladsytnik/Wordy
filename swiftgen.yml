@@ -9,6 +9,7 @@ xcassets:
   inputs:
     - Images.xcassets
     - Colors.xcassets
+    - Colors2.xcassets
   # 3
   outputs:
     # 4
