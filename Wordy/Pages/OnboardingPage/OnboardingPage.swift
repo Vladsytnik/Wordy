@@ -14,7 +14,7 @@ struct OnboardingPage: View {
 	
 	var body: some View {
 		ZStack {
-			Color(asset: Asset.Colors.navBarPurple)
+			Color(asset: Asset.Colors.darkMain)
 				.ignoresSafeArea()
 			PageControl(numberOfPages: 3, currentPage: $currentPageIndex)
 		}

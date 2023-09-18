@@ -116,6 +116,7 @@
 		01D2F1C1294CEAD5000330A8 /* CategoryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2F1C0294CEAD5000330A8 /* CategoryCard.swift */; };
 		01DC12CA2A153605007BF79E /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DC12C92A153605007BF79E /* Languages.swift */; };
 		01DEA5082AB8C90300A8074D /* Colors2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01DEA5072AB8C90300A8074D /* Colors2.xcassets */; };
+		01DEA50A2AB8CF3500A8074D /* Images2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01DEA5092AB8CF3500A8074D /* Images2.xcassets */; };
 		01E4B759294B119800720BE0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E4B758294B119800720BE0 /* NetworkManager.swift */; };
 		01E984D92A17D1DA009D889F /* OnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E984D82A17D1DA009D889F /* OnboardingPage.swift */; };
 		01F01B6F29F02F8D00742DF3 /* PhraseEditPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F01B6E29F02F8D00742DF3 /* PhraseEditPage.swift */; };
@@ -229,6 +230,7 @@
 		01D2F1C0294CEAD5000330A8 /* CategoryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCard.swift; sourceTree = "<group>"; };
 		01DC12C92A153605007BF79E /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
 		01DEA5072AB8C90300A8074D /* Colors2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors2.xcassets; sourceTree = "<group>"; };
+		01DEA5092AB8CF3500A8074D /* Images2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images2.xcassets; sourceTree = "<group>"; };
 		01E4B758294B119800720BE0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		01E984D82A17D1DA009D889F /* OnboardingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPage.swift; sourceTree = "<group>"; };
 		01F01B6E29F02F8D00742DF3 /* PhraseEditPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseEditPage.swift; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 				01978FAF294CBEE600B8EFC3 /* Lottie */,
 				012D95B529485EEC00165DAF /* Fonts */,
 				0190563C2944A7170058B566 /* Images.xcassets */,
+				01DEA5092AB8CF3500A8074D /* Images2.xcassets */,
 				019056552944D0DE0058B566 /* Colors.xcassets */,
 				01DEA5072AB8C90300A8074D /* Colors2.xcassets */,
 				0190564B2944AA700058B566 /* .gitignore */,
@@ -786,6 +789,7 @@
 			files = (
 				012D95D3294867DA00165DAF /* SF-Pro-Display-Medium.otf in Resources */,
 				012D95D6294867DA00165DAF /* SF-Pro-Display-Regular.otf in Resources */,
+				01DEA50A2AB8CF3500A8074D /* Images2.xcassets in Resources */,
 				019056402944A7170058B566 /* Preview Assets.xcassets in Resources */,
 				01978FB7294CC92200B8EFC3 /* loader.json in Resources */,
 				012D95E2294867DA00165DAF /* SF-Pro-Display-SemiboldItalic.otf in Resources */,

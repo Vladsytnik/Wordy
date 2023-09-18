@@ -15,12 +15,18 @@ struct ColorTheme: ThemeProtocol {
 	var id: String
 	let accent: Color
 	let main: Color
+	let darkMain: Color
 	let mainText: Color
 	let findedWordsHighlited: Color
 	let brightForBtnsText: Color
 	let moduleCreatingBtn: Color
 	let mainGray: Color
 	let purchaseBtn: Color
+	
+	let answer1: Color
+	let answer2: Color
+	let answer3: Color
+	let answer4: Color
 	
 	let mainBackgroundImage: Image
 	let carouselCardBackgroundImage: Image

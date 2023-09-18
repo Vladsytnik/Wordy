@@ -575,7 +575,7 @@ struct BlurNavBar: View {
 		GeometryReader { geo in
 			VisualEffectView(effect: UIBlurEffect(style: .systemThinMaterialDark))
 				.frame(height: geo.safeAreaInsets.top)
-				.foregroundColor(Color(asset: Asset.Colors.navBarPurple))
+				.foregroundColor(Color(asset: Asset.Colors.darkMain))
 				.edgesIgnoringSafeArea(.top)
 				.opacity(opacity)
 		}

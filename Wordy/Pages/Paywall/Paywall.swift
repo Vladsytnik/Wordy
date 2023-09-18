@@ -24,7 +24,7 @@ struct Paywall: View {
 	
     var body: some View {
 		ZStack {
-			Color(asset: Asset.Colors.navBarPurple)
+			Color(asset: Asset.Colors.darkMain)
 				.ignoresSafeArea()
 			GeometryReader { geo in
 				ScrollView {

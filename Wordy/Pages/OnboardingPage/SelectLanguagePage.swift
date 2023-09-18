@@ -30,7 +30,7 @@ struct SelectLanguagePage: View {
 //				) {
 //					EmptyView()
 //				}
-				Color(asset: Asset.Colors.navBarPurple)
+				Color(asset: Asset.Colors.darkMain)
 					.ignoresSafeArea()
 					ZStack {
 						ScrollView {

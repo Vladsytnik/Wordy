@@ -40,7 +40,7 @@ struct AddNewPhrase: View {
 	var body: some View {
 		ZStack {
 			ZStack {
-				Color(asset: Asset.Colors.navBarPurple)
+				Color(asset: Asset.Colors.darkMain)
 					.ignoresSafeArea()
 				VStack(spacing: 20) {
 					HStack {

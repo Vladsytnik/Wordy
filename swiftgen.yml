@@ -8,6 +8,7 @@ xcassets:
   # 2
   inputs:
     - Images.xcassets
+    - Images2.xcassets
     - Colors.xcassets
     - Colors2.xcassets
   # 3
