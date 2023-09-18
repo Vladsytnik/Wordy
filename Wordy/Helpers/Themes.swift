@@ -29,19 +29,19 @@ struct Themes {
 				   authBackgroundImage: Image(asset: Asset.Images.authBG),
 				   learnPageBackgroundImage: Image(asset: Asset.Images.learnPageBG)),
 		ColorTheme(id: "RedColor",
-				   accent: Color(asset: Asset.Colors2.accent), //
-				   main: Color(asset: Asset.Colors2.main), //
-				   darkMain: Color(asset: Asset.Colors2.darkMain),
+				   accent: Color(asset: Asset.Colors2.accent2), //
+				   main: Color(asset: Asset.Colors2.main2), //
+				   darkMain: Color(asset: Asset.Colors2.darkMain2),
 				   mainText: .white,
-				   findedWordsHighlited: Color(asset: Asset.Colors2.findedWordHighlite), //
-				   brightForBtnsText: Color(asset: Asset.Colors2.brightBtnText), //
-				   moduleCreatingBtn: Color(asset: Asset.Colors2.addModuleButtonBG), //
-				   mainGray: Color(asset: Asset.Colors2.createModuleButton), //
-				   purchaseBtn: Color(asset: Asset.Colors2.purchaseBtn),
-				   answer1: Color(asset: Asset.Colors2.answer1),
-				   answer2: Color(asset: Asset.Colors2.answer2),
-				   answer3: Color(asset: Asset.Colors2.answer3),
-				   answer4: Color(asset: Asset.Colors2.answer4),
+				   findedWordsHighlited: Color(asset: Asset.Colors2.findedWordHighlite2), //
+				   brightForBtnsText: Color(asset: Asset.Colors2.brightBtnText2), //
+				   moduleCreatingBtn: Color(asset: Asset.Colors2.addModuleButtonBG2), //
+				   mainGray: Color(asset: Asset.Colors2.createModuleButton2), //
+				   purchaseBtn: Color(asset: Asset.Colors2.purchaseBtn2),
+				   answer1: Color(asset: Asset.Colors2.answer12),
+				   answer2: Color(asset: Asset.Colors2.answer22),
+				   answer3: Color(asset: Asset.Colors2.answer32),
+				   answer4: Color(asset: Asset.Colors2.answer42),
 				   mainBackgroundImage: Image(asset: Asset.Images.gradientBG),
 				   carouselCardBackgroundImage: Image(asset: Asset.Images.carouselBG),
 				   authBackgroundImage: Image(asset: Asset.Images.authBG),
