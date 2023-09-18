@@ -20,7 +20,13 @@ struct Settings: View {
 	@State var isPro = false
 	
 	@State var isThemeSelecting = false
-	var offset: Double = 76
+	
+	let offset: Double = 76
+	let themeCirclesWidth: Double = 45
+	let themeStrokeWidth: Double = 44
+	
+	@State var currentThemeIndex = 0
+	private var generator2: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
 	
 	private let rowsTitles = [
 		"Редактирование групп",
@@ -82,11 +88,24 @@ struct Settings: View {
 																themeManager.allThemes()[index].main,
 																themeManager.allThemes()[index].main],
 													   startPoint: .topLeading, endPoint: .bottomTrailing)
-											.cornerRadius(16)
-											.frame(width: 32, height: 32)
-											.padding(EdgeInsets(top: 0, leading: index == 0 ? 16 : 0, bottom: 0, trailing: 0))
-											.opacity(isThemeSelecting ? 1 : 0)
-											.animation(isThemeSelecting ? .spring().delay(0.03 * Double(index)) : .spring(), value: isThemeSelecting)
+										.cornerRadius(themeCirclesWidth / 2)
+										.frame(width: themeCirclesWidth,
+											   height: themeCirclesWidth)
+										.overlay {
+											RoundedRectangle(cornerRadius: themeCirclesWidth / 2)
+												.stroke(lineWidth: currentThemeIndex == index ? 0.5 : 0)
+												.frame(width: themeStrokeWidth, height:themeStrokeWidth)
+												.foregroundColor(.white)
+												.animation(.easeIn(duration: 0.2), value: currentThemeIndex)
+										}
+										.padding(EdgeInsets(top: 0, leading: index == 0 ? 16 : 0, bottom: 0, trailing: 0))
+										.opacity(isThemeSelecting ? 1 : 0)
+										.animation(isThemeSelecting ? .spring().delay(0.03 * Double(index)) : .spring(), value: isThemeSelecting)
+										.onTapGesture {
+											generator2?.impactOccurred()
+											currentThemeIndex = index
+											themeManager.setNewTheme(with: index)
+										}
 										
 									}
 									Spacer()
@@ -169,6 +188,7 @@ struct Settings: View {
 		.navigationBarTitle(LocalizedStringKey("Настройки"))
 		.onAppear{
 			isPro = UserDefaultsManager.userHasSubscription
+			currentThemeIndex = themeManager.getCurrentThemeIndex()
 		}
 		.onChange(of: isPro) { newValue in
 			UserDefaultsManager.userHasSubscription = newValue
