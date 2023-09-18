@@ -103,6 +103,15 @@ class UserDefaultsManager {
 			UserDefaults().setValue(newValue, forKey: "isFirstLaunchOfModulesPage")
 		}
 	}
+	
+	static var themeName: String? {
+		get {
+			UserDefaults().string(forKey: "themeName")
+		}
+		set {
+			UserDefaults().setValue(newValue, forKey: "themeName")
+		}
+	}
 }
 
 

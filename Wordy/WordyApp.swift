@@ -12,6 +12,7 @@ import Firebase
 struct WordyApp: App {
 	
 	@StateObject var router = Router()
+	@StateObject var themeManager = ThemeManager()
 	
 	init() {
 		FirebaseApp.configure()
@@ -21,6 +22,7 @@ struct WordyApp: App {
 		WindowGroup {
 			StartView()
 				.environmentObject(router)
+				.environmentObject(themeManager)
 		}
 	}
 }

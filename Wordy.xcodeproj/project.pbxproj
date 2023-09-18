@@ -24,6 +24,9 @@
 		0103FF52294C86F5004C2EA6 /* ErrorCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF51294C86F5004C2EA6 /* ErrorCodeManager.swift */; };
 		0103FF56294C9E75004C2EA6 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0103FF55294C9E75004C2EA6 /* Router.swift */; };
 		0109D19A2AB6E91800714E55 /* ApphudSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0109D1992AB6E91800714E55 /* ApphudSDK */; };
+		0109D19C2AB8886600714E55 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0109D19B2AB8886600714E55 /* ColorTheme.swift */; };
+		0109D19E2AB88F0C00714E55 /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0109D19D2AB88F0C00714E55 /* Themes.swift */; };
+		0109D1A02AB8948100714E55 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0109D19F2AB8948100714E55 /* ThemeManager.swift */; };
 		010C7E9129AE7EA900133179 /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 010C7E9029AE7EA900133179 /* MCEmojiPicker */; };
 		0110F711297EECD2007F26BC /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0110F710297EECD2007F26BC /* NavigationView.swift */; };
 		0113F9592A96799800566EAC /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = 0113F9582A96799800566EAC /* SwiftUITooltip */; };
@@ -140,6 +143,9 @@
 		0103FF51294C86F5004C2EA6 /* ErrorCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCodeManager.swift; sourceTree = "<group>"; };
 		0103FF55294C9E75004C2EA6 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		0109D1972AB5D7FC00714E55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		0109D19B2AB8886600714E55 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
+		0109D19D2AB88F0C00714E55 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
+		0109D19F2AB8948100714E55 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		0110F710297EECD2007F26BC /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		011B138B29FBB81B00D4CCBF /* GroupsEditingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsEditingPage.swift; sourceTree = "<group>"; };
 		011B138D2A00176B00D4CCBF /* SignInWithApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithApple.swift; sourceTree = "<group>"; };
@@ -339,6 +345,7 @@
 				0135E24E295B645300B1C8A0 /* Module.swift */,
 				017642442972EB920042DB86 /* Phrase.swift */,
 				019160BD29D2D0360094F36D /* Group.swift */,
+				0109D19B2AB8886600714E55 /* ColorTheme.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -436,6 +443,7 @@
 		017642482972FCB30042DB86 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				0109D19D2AB88F0C00714E55 /* Themes.swift */,
 				017642492972FCC10042DB86 /* Constants.swift */,
 				01DC12C92A153605007BF79E /* Languages.swift */,
 			);
@@ -652,6 +660,7 @@
 				0103FF51294C86F5004C2EA6 /* ErrorCodeManager.swift */,
 				0101B8A82AA0CB060055DEFB /* MockDataManager.swift */,
 				0101B8B72AA0DD890055DEFB /* OnboardingManager.swift */,
+				0109D19F2AB8948100714E55 /* ThemeManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -878,6 +887,7 @@
 				019056492944A85E0058B566 /* Modules.swift in Sources */,
 				0103FF52294C86F5004C2EA6 /* ErrorCodeManager.swift in Sources */,
 				0103FF56294C9E75004C2EA6 /* Router.swift in Sources */,
+				0109D19E2AB88F0C00714E55 /* Themes.swift in Sources */,
 				01780D2C294A110A004F11AC /* ReverseMask.swift in Sources */,
 				0185B55F2949F26D00934373 /* ObservableScrollView.swift in Sources */,
 				01DC12CA2A153605007BF79E /* Languages.swift in Sources */,
@@ -907,12 +917,14 @@
 				013E64AE2950B281002A85E2 /* CreateModuleButton.swift in Sources */,
 				01468115295602290080732C /* InputRoundedTextArea.swift in Sources */,
 				0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */,
+				0109D19C2AB8886600714E55 /* ColorTheme.swift in Sources */,
 				014B767D29E038D10044DF87 /* LearnSelectionPage.swift in Sources */,
 				0101B8B22AA0D54C0055DEFB /* MyArrowShape.swift in Sources */,
 				016817FF2969B0B400F30E39 /* Alert.swift in Sources */,
 				011B13912A001DB300D4CCBF /* SignInWithAppleDelegates.swift in Sources */,
 				019160BC29D098DD0094F36D /* ModuleSelectPage.swift in Sources */,
 				01F708BB29B6573F00585B2E /* NewCategoryCard.swift in Sources */,
+				0109D1A02AB8948100714E55 /* ThemeManager.swift in Sources */,
 				0176424C29744BC90042DB86 /* DateFormatter.swift in Sources */,
 				01D2F1BE294CE468000330A8 /* View + Modifiers.swift in Sources */,
 				017642452972EB920042DB86 /* Phrase.swift in Sources */,

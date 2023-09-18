@@ -134,6 +134,7 @@ struct CloseBtn: View {
 
 struct PaywallPlanBtn: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	var isSelected = false
 	let isMostPopular: Bool
 	
@@ -164,7 +165,8 @@ struct PaywallPlanBtn: View {
 							.padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
 							.background {
 								RoundedRectangle(cornerRadius: 12)
-									.foregroundColor(Color(asset: Asset.Colors.lightPurple))
+//									.foregroundColor(Color(asset: Asset.Colors.lightPurple))
+									.foregroundColor(themeManager.currentTheme().accent)
 						}
 					}
 					.offset(y: -28)
