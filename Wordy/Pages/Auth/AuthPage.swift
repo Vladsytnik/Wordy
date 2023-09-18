@@ -124,6 +124,7 @@ struct AuthPage_Previews: PreviewProvider {
 
 struct ButtonStack: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	@EnvironmentObject var router: Router
 	@EnvironmentObject var viewModel: AuthViewModel
 	let geometry: GeometryProxy
@@ -139,7 +140,7 @@ struct ButtonStack: View {
 						.fontWeight(.bold)
 						.padding(EdgeInsets(top: 12, leading: 32, bottom: 12, trailing: 32))
 				}
-				.background(Color(asset: Asset.Colors.lightPurple))
+				.background(themeManager.currentTheme().accent)
 				.foregroundColor(.white)
 				.cornerRadius(12)
 				
@@ -179,9 +180,7 @@ struct AuthTextField: View {
 			.focused($textFieldIsFocused)
 			.background {
 				RoundedRectangle(cornerRadius: cornerRadius)
-				//					.stroke(lineWidth: 0.5)
 					.border(width: 0.5, edges: [.bottom], color: .white)
-				//					.foregroundColor(Color(asset: Asset.Colors.lightPurple))
 					.foregroundColor(.clear)
 			}
 			.onChange(of: textFieldIsFocused) { newValue in

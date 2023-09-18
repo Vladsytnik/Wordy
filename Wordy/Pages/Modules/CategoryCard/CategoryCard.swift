@@ -26,6 +26,7 @@ struct CategoryCard: View {
 	
 	@State private var savedModules: [Module] = []
 	@State private var animationState = Animation.spring()
+	@EnvironmentObject var themeManager: ThemeManager
 	
     var body: some View {
 		Text(group.name)
@@ -33,7 +34,7 @@ struct CategoryCard: View {
 			.background {
 				GeometryReader { geo in
 					if isSelected {
-						Color(asset: Asset.Colors.lightPurple)
+						themeManager.currentTheme().accent
 							.cornerRadius(geo.size.height / 2)
 					} else {
 						Color(asset: Asset.Colors.nonActiveCategory)

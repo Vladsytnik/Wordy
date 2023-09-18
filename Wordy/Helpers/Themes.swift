@@ -18,8 +18,7 @@ struct Themes {
 				   brightForBtnsText: Color(asset: Asset.Colors.descrWordOrange), //
 				   moduleCreatingBtn: Color(asset: Asset.Colors.addModuleButtonBG), //
 				   mainGray: Color(asset: Asset.Colors.createModuleButton), //
-				   caruselCard: Color(asset: Asset.Colors.lightPurple),
-				   purchaseBtn: Color(asset: Asset.Colors.lightPurple),
+				   purchaseBtn: Color(asset: Asset.Colors.purchaseBtn),
 				   mainBackgroundImage: Image(asset: Asset.Images.gradientBG),
 				   carouselCardBackgroundImage: Image(asset: Asset.Images.carouselBG),
 				   authBackgroundImage: Image(asset: Asset.Images.authBG),

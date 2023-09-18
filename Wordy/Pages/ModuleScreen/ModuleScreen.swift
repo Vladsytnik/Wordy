@@ -306,6 +306,7 @@ struct AddWordPlusButton: View {
 
 struct LearnModuleButton: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	let action: () -> Void
 	
 	var body: some View {
@@ -319,7 +320,7 @@ struct LearnModuleButton: View {
 					.padding(EdgeInsets(top: 16, leading: 26, bottom: 16, trailing: 26))
 			}
 			.background {
-				Color(asset: Asset.Colors.lightPurple)
+				themeManager.currentTheme().accent
 			}
 			.cornerRadius(22)
 		}

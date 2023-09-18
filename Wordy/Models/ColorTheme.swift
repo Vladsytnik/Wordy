@@ -20,7 +20,6 @@ struct ColorTheme: ThemeProtocol {
 	let brightForBtnsText: Color
 	let moduleCreatingBtn: Color
 	let mainGray: Color
-	let caruselCard: Color
 	let purchaseBtn: Color
 	
 	let mainBackgroundImage: Image

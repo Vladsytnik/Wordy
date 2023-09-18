@@ -21,6 +21,7 @@ struct AddNewPhrase: View {
 	
 	@Environment(\.dismiss) private var dismiss
 	@ObservedObject var viewModel = AddNewPhraseViewModel()
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	init(modules: Binding<[Module]>, searchedText: Binding<String>, filteredModules: Binding<[Module]>, index: Int) {
 		self._modules = modules
@@ -88,7 +89,7 @@ struct AddNewPhrase: View {
 									.padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
 									.background {
 										RoundedRectangle(cornerRadius: 12)
-											.foregroundColor(Color(asset: Asset.Colors.lightPurple))
+											.foregroundColor(themeManager.currentTheme().accent)
 									}
 									.onTapGesture {
 										translatedText = viewModel.automaticTranslatedText

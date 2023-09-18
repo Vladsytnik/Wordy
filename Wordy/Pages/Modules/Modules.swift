@@ -634,7 +634,6 @@ struct RefreshControl: View {
 					ForEach(0..<8) { tick in
 						VStack {
 							Rectangle()
-//								.fill(Color(asset: Asset.Colors.lightPurple))
 								.fill(themeManager.currentTheme().accent)
 								.opacity((Int((geo.frame(in: coordinateSpace).midY)/7) < tick) ? 0 : 1)
 								.frame(width: size / 6.66666667, height: size / 2.85714286)

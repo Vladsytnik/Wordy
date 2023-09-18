@@ -165,7 +165,6 @@ struct PaywallPlanBtn: View {
 							.padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
 							.background {
 								RoundedRectangle(cornerRadius: 12)
-//									.foregroundColor(Color(asset: Asset.Colors.lightPurple))
 									.foregroundColor(themeManager.currentTheme().accent)
 						}
 					}
@@ -177,7 +176,7 @@ struct PaywallPlanBtn: View {
 		.foregroundColor(isSelected ? .white : .black)
 		.background {
 			RoundedRectangle(cornerRadius: 8)
-				.foregroundColor(isSelected ? Color(asset: Asset.Colors.lightPurple) : .white)
+				.foregroundColor(isSelected ? themeManager.currentTheme().accent : .white)
 				.padding(EdgeInsets(top: -16, leading: -16, bottom: -16, trailing: -16))
 		}
 		.padding(EdgeInsets(top: 16, leading: 32, bottom: 32, trailing: 32))

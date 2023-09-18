@@ -12,6 +12,7 @@ struct NewCategoryCard: View {
 	var isSelected = false
 	@State var inputText = ""
 	@FocusState var isFocused
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	var onSubmit: (Bool, String) -> Void
 	
@@ -23,7 +24,7 @@ struct NewCategoryCard: View {
 			.background {
 				GeometryReader { geo in
 					if isSelected {
-						Color(asset: Asset.Colors.lightPurple)
+						themeManager.currentTheme().accent
 							.cornerRadius(geo.size.height / 2)
 					} else {
 						Color(asset: Asset.Colors.nonActiveCategory)

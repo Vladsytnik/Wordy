@@ -35,6 +35,7 @@ internal enum Asset {
     internal static let moduleCardLightGray = ColorAsset(name: "ModuleCardLightGray")
     internal static let navBarPurple = ColorAsset(name: "NavBarPurple")
     internal static let nonActiveCategory = ColorAsset(name: "NonActiveCategory")
+    internal static let purchaseBtn = ColorAsset(name: "PurchaseBtn")
     internal static let searchTFBackground = ColorAsset(name: "SearchTFBackground")
     internal static let answer1 = ColorAsset(name: "answer1")
     internal static let answer2 = ColorAsset(name: "answer2")

@@ -23,6 +23,7 @@ struct CreateModuleView: View {
 	
 	@EnvironmentObject var router: Router
 	@Environment(\.presentationMode) var presentation
+	@EnvironmentObject var themeManager: ThemeManager
 	
     var body: some View {
 		Color.clear
@@ -98,7 +99,7 @@ struct CreateModuleView: View {
 											.foregroundColor(.white)
 											.background {
 												RoundedRectangle(cornerRadius: 15)
-													.foregroundColor(Color(asset: Asset.Colors.lightPurple))
+													.foregroundColor(themeManager.currentTheme().accent)
 											}
 											.opacity(0.95)
 									}

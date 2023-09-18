@@ -13,6 +13,7 @@ struct SearchTextField: View {
 	@Binding var filteredModules: [Module]
 	@Binding var searchText: String
 	let placeholder: String
+	@EnvironmentObject var themeManager: ThemeManager
 	
 //	@State private var initialModules: [Module] = []
 
@@ -30,7 +31,7 @@ struct SearchTextField: View {
 										.padding(.leading)
 									TextField(placeholder, text: $searchText)
 										.foregroundColor(.white)
-										.tint(Color(asset: Asset.Colors.lightPurple))
+										.tint(themeManager.currentTheme().accent)
 										.onChange(of: searchText) { newValue in
 											filterModules(text: newValue)
 										}

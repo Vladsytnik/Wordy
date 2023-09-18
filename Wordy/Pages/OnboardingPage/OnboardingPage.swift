@@ -33,8 +33,10 @@ struct OnboardingPagePage_Previews: PreviewProvider {
 }
 
 struct PageControl: UIViewRepresentable {
+	
 	var numberOfPages: Int
 	@Binding var currentPage: Int
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	func makeCoordinator() -> Coordinator {
 		Coordinator(self)
@@ -44,7 +46,7 @@ struct PageControl: UIViewRepresentable {
 		let control = UIPageControl()
 		control.numberOfPages = numberOfPages
 		control.pageIndicatorTintColor = UIColor.lightGray
-		control.currentPageIndicatorTintColor = UIColor(Color(asset: Asset.Colors.lightPurple))
+		control.currentPageIndicatorTintColor = UIColor(themeManager.currentTheme().accent)
 		control.addTarget(
 			context.coordinator,
 			action: #selector(Coordinator.updateCurrentPage(sender:)),
