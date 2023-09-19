@@ -20,6 +20,8 @@ struct Themes {
 				   moduleCreatingBtn: Color(asset: Asset.Colors.addModuleButtonBG), //
 				   mainGray: Color(asset: Asset.Colors.createModuleButton), //
 				   purchaseBtn: Color(asset: Asset.Colors.purchaseBtn),
+				   learnModuleBtnText: Color(asset: Asset.Colors.learnModuleBtnText),
+				   searchTextFieldBG: Color(asset: Asset.Colors.searchTFBackground),
 				   answer1: Color(asset: Asset.Colors.answer1),
 				   answer2: Color(asset: Asset.Colors.answer2),
 				   answer3: Color(asset: Asset.Colors.answer3),
@@ -39,6 +41,8 @@ struct Themes {
 				   moduleCreatingBtn: Color(asset: Asset.Colors2.addModuleButtonBG2), //
 				   mainGray: Color(asset: Asset.Colors2.createModuleButton2), //
 				   purchaseBtn: Color(asset: Asset.Colors2.purchaseBtn2),
+				   learnModuleBtnText: Color(asset: Asset.Colors2.learnModuleBtnText2),
+				   searchTextFieldBG: Color(asset: Asset.Colors2.searchTFBackground2),
 				   answer1: Color(asset: Asset.Colors2.answer12),
 				   answer2: Color(asset: Asset.Colors2.answer22),
 				   answer3: Color(asset: Asset.Colors2.answer32),

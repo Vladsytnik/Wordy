@@ -24,6 +24,7 @@ struct ModuleScreen: View {
 	@Environment(\.dismiss) private var dismiss
 	
 	@State private var showInfoAlert = false
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	var body: some View {
 		Color.clear
@@ -201,6 +202,7 @@ struct ModuleScreen_Previews: PreviewProvider {
 			filteredModules: .constant([]),
 			index: 0
 		)
+		.environmentObject(ThemeManager())
 	}
 }
 
@@ -292,14 +294,23 @@ struct BackButton: View {
 struct AddWordPlusButton: View {
 	
 	let action: () -> Void
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	var body: some View {
 		Button {
 			action()
 		} label: {
-			Image(asset: Asset.Images.addWordButton)
-				.resizable()
+//			Image(asset: Asset.Images.addWordButton)
+//				.resizable()
+			RoundedRectangle(cornerRadius: 30)
 				.frame(width: 60, height: 60)
+				.foregroundColor(themeManager.currentTheme.main)
+				.overlay {
+					Image(asset: Asset.Images.addWordButton)
+						.resizable()
+						.frame(width: 60, height: 60)
+						.offset(y: -3)
+				}
 		}
 	}
 }
@@ -315,7 +326,7 @@ struct LearnModuleButton: View {
 		} label: {
 			ZStack {
 				Text(LocalizedStringKey("Выучить модуль"))
-					.foregroundColor(themeManager.currentTheme.brightForBtnsText)
+					.foregroundColor(themeManager.currentTheme.learnModuleBtnText)
 					.font(.system(size: 18, weight: .bold))
 					.padding(EdgeInsets(top: 16, leading: 26, bottom: 16, trailing: 26))
 			}

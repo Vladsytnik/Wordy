@@ -24,7 +24,7 @@ struct SearchTextField: View {
 				GeometryReader { geo in
 					ZStack {
 						RoundedRectangle(cornerRadius: 12)
-							.foregroundColor(Color(asset: Asset.Colors.searchTFBackground))
+							.foregroundColor(themeManager.currentTheme.searchTextFieldBG)
 							.overlay {
 								HStack {
 									Image(asset: Asset.Images.searchIcon)

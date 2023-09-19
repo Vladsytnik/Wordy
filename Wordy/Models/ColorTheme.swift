@@ -22,6 +22,8 @@ struct ColorTheme: ThemeProtocol {
 	let moduleCreatingBtn: Color
 	let mainGray: Color
 	let purchaseBtn: Color
+	let learnModuleBtnText: Color
+	let searchTextFieldBG: Color
 	
 	let answer1: Color
 	let answer2: Color
