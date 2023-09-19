@@ -140,6 +140,7 @@ struct CreateModuleView_Previews: PreviewProvider {
     static var previews: some View {
 		CreateModuleView(needUpdateData: .constant(false), showActivity: .constant(false))
 			.environmentObject(Router())
+			.environmentObject(ThemeManager())
     }
 }
 
