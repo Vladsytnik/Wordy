@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CreateModuleCard: View {
     
-	let backgroundColor = Color(asset: Asset.Colors.main)
+	@EnvironmentObject var themeManager: ThemeManager
 	let width: CGFloat
 	
 	@Binding var needAnimate: Bool
@@ -33,7 +33,7 @@ struct CreateModuleCard: View {
 	var body: some View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 35.0)
-				.foregroundColor(backgroundColor)
+				.foregroundColor(themeManager.currentTheme.main)
 				.frame(width: width, height: height)
 				.shadow(color: .black.opacity(0.1), radius: 8, x: 10, y: 10)
 			VStack {

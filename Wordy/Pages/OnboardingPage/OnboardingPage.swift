@@ -9,12 +9,13 @@ import SwiftUI
 
 struct OnboardingPage: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	@EnvironmentObject var router: Router
 	@State var currentPageIndex = 1
 	
 	var body: some View {
 		ZStack {
-			Color(asset: Asset.Colors.darkMain)
+			themeManager.currentTheme.darkMain
 				.ignoresSafeArea()
 			PageControl(numberOfPages: 3, currentPage: $currentPageIndex)
 		}
@@ -46,7 +47,7 @@ struct PageControl: UIViewRepresentable {
 		let control = UIPageControl()
 		control.numberOfPages = numberOfPages
 		control.pageIndicatorTintColor = UIColor.lightGray
-		control.currentPageIndicatorTintColor = UIColor(themeManager.currentTheme().accent)
+		control.currentPageIndicatorTintColor = UIColor(themeManager.currentTheme.accent)
 		control.addTarget(
 			context.coordinator,
 			action: #selector(Coordinator.updateCurrentPage(sender:)),

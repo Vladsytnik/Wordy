@@ -24,7 +24,7 @@ struct NewCategoryCard: View {
 			.background {
 				GeometryReader { geo in
 					if isSelected {
-						themeManager.currentTheme().accent
+						themeManager.currentTheme.accent
 							.cornerRadius(geo.size.height / 2)
 					} else {
 						Color(asset: Asset.Colors.nonActiveCategory)

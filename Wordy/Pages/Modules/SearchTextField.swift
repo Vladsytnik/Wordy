@@ -31,7 +31,7 @@ struct SearchTextField: View {
 										.padding(.leading)
 									TextField(placeholder, text: $searchText)
 										.foregroundColor(.white)
-										.tint(themeManager.currentTheme().accent)
+										.tint(themeManager.currentTheme.accent)
 										.onChange(of: searchText) { newValue in
 											filterModules(text: newValue)
 										}

@@ -30,7 +30,7 @@ struct CreateModuleView: View {
 			.background {
 				GeometryReader { geo in
 					ZStack {
-						Color(asset: Asset.Colors.main)
+						themeManager.currentTheme.main
 							.ignoresSafeArea()
 						VStack(spacing: 40) {
 							Text(LocalizedStringKey("Новый модуль"))
@@ -76,7 +76,7 @@ struct CreateModuleView: View {
 								}
 								.frame(height: 50)
 								.padding(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
-								.background(Color(asset: Asset.Colors.addModuleButtonBG))
+								.background(themeManager.currentTheme.moduleCreatingBtn)
 								.cornerRadius(17)
 								.offset(y: needAnimate ? 0 : 300)
 							}
@@ -99,7 +99,7 @@ struct CreateModuleView: View {
 											.foregroundColor(.white)
 											.background {
 												RoundedRectangle(cornerRadius: 15)
-													.foregroundColor(themeManager.currentTheme().accent)
+													.foregroundColor(themeManager.currentTheme.accent)
 											}
 											.opacity(0.95)
 									}

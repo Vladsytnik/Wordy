@@ -267,6 +267,7 @@ extension View {
 
 struct ShowInputTextPopover: ViewModifier {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	@Binding var show: Bool
 	@State var text = ""
 	
@@ -301,7 +302,7 @@ struct ShowInputTextPopover: ViewModifier {
 					.padding()
 					.background {
 						ZStack {
-							Color(asset: Asset.Colors.main)
+							themeManager.currentTheme.main
 								.padding(EdgeInsets(top: -32, leading: 0, bottom: 0, trailing: 0))
 								.cornerRadius(12, corners: [.topLeft, .topRight])
 								.edgesIgnoringSafeArea(.bottom)

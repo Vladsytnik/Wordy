@@ -259,8 +259,9 @@ struct LearnSelectionPage_Previews: PreviewProvider {
 }
 
 struct LearnBG: View {
+	@EnvironmentObject var themeManager: ThemeManager
 	var body: some View {
-		Image(asset: Asset.Images.learnPageBG)
+		themeManager.currentTheme.learnPageBackgroundImage
 			.resizable()
 			.edgesIgnoringSafeArea(.all)
 	}

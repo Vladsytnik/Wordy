@@ -11,6 +11,7 @@ import AuthenticationServices
 
 struct AuthPage: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	@StateObject private var viewModel = AuthViewModel()
 	@EnvironmentObject var router: Router
 	@State var animate = false
@@ -20,11 +21,11 @@ struct AuthPage: View {
 	var body: some View {
 		GeometryReader { geometry in
 			ZStack {
-				Image(asset: Asset.Images.authBG)
+				themeManager.currentTheme.authBackgroundImage
 					.resizable()
 					.edgesIgnoringSafeArea(.all)
 				
-				Image(asset: Asset.Images.authBG)
+				themeManager.currentTheme.authBackgroundImage
 					.resizable()
 					.offset(y: 10)
 					.edgesIgnoringSafeArea(.top)
@@ -140,7 +141,7 @@ struct ButtonStack: View {
 						.fontWeight(.bold)
 						.padding(EdgeInsets(top: 12, leading: 32, bottom: 12, trailing: 32))
 				}
-				.background(themeManager.currentTheme().accent)
+				.background(themeManager.currentTheme.accent)
 				.foregroundColor(.white)
 				.cornerRadius(12)
 				

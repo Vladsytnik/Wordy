@@ -11,6 +11,7 @@ struct WordCard: View {
 	
 	let width: CGFloat
 	@ObservedObject var viewModel = WordCardViewModel()
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	@Binding var modules: [Module]
 	@FocusState var isFocused: Bool
@@ -50,7 +51,7 @@ struct WordCard: View {
 							.font(.system(size: 24, weight: .bold))
 							.multilineTextAlignment(.leading)
 						Text(viewModel.phrase.translatedText)
-							.foregroundColor(Color(asset: Asset.Colors.brightBtnText))
+							.foregroundColor(themeManager.currentTheme.brightForBtnsText)
 							.font(.system(size: 18, weight: .medium))
 							.multilineTextAlignment(.leading)
 //							.lineLimit(1)
@@ -121,7 +122,7 @@ struct WordCard: View {
 		})
 		.background {
 			RoundedRectangle(cornerRadius: 20)
-				.foregroundColor(Color(asset: Asset.Colors.main))
+				.foregroundColor(themeManager.currentTheme.main)
 //				.frame(width: width)
 		}
 	}
@@ -132,7 +133,7 @@ struct WordCard: View {
 		}
 		let wordRange = string.rangeOfWord(containing: range)
 		let prefix = string.prefix(upTo: wordRange.lowerBound)
-		let highlightedSubstring = Text(string[wordRange]).foregroundColor(Color(asset: Asset.Colors.findedWordHighlite))
+		let highlightedSubstring = Text(string[wordRange]).foregroundColor(themeManager.currentTheme.findedWordsHighlited)
 		let suffix = string.suffix(from: wordRange.upperBound)
 		return Text(prefix) + highlightedSubstring + highlightSubstring(substring, in: String(suffix))
 	}

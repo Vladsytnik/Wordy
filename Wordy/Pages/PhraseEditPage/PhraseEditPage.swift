@@ -17,6 +17,7 @@ struct PhraseEditPage: View {
 	
 	@Environment(\.dismiss) private var dismiss
 	@ObservedObject var viewModel = PhraseEditViewModel()
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	@State var test = ""
 	
@@ -52,7 +53,7 @@ struct PhraseEditPage: View {
 	var body: some View {
 		ZStack {
 			ZStack {
-				Color(asset: Asset.Colors.darkMain)
+				themeManager.currentTheme.darkMain
 					.ignoresSafeArea()
 				VStack(spacing: 20) {
 					HStack {

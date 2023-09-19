@@ -236,6 +236,7 @@ struct Settings_Previews: PreviewProvider {
 
 struct GeneralSettingsRow: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	let cellHeight: CGFloat
 	let cellText: String
 	let cellImageName: String
@@ -247,7 +248,7 @@ struct GeneralSettingsRow: View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 12)
 				.frame(height: cellHeight)
-				.foregroundColor(Color(asset: Asset.Colors.main))
+				.foregroundColor(themeManager.currentTheme.main)
 			HStack(spacing: 0) {
 				Image(systemName: cellImageName)
 					.foregroundColor(.white)
@@ -284,6 +285,7 @@ struct GeneralSettingsRow: View {
 
 struct EditFolderRow: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	let cellHeight: CGFloat
 	let didTapOnRow: (() -> Void)
 	
@@ -291,7 +293,7 @@ struct EditFolderRow: View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 12)
 				.frame(height: cellHeight)
-				.foregroundColor(Color(asset: Asset.Colors.main))
+				.foregroundColor(themeManager.currentTheme.main)
 			HStack(spacing: 0) {
 				Image(systemName: "folder")
 					.foregroundColor(.white)
@@ -310,6 +312,7 @@ struct EditFolderRow: View {
 
 struct LogOutRow: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	let cellHeight: CGFloat
 	let didTapOnRow: (() -> Void)
 	
@@ -320,7 +323,7 @@ struct LogOutRow: View {
 			ZStack {
 				RoundedRectangle(cornerRadius: 12)
 					.frame(height: cellHeight)
-					.foregroundColor(Color(asset: Asset.Colors.main))
+					.foregroundColor(themeManager.currentTheme.main)
 				HStack(spacing: 0) {
 					Image(systemName: "rectangle.portrait.and.arrow.forward")
 						.foregroundColor(.white)

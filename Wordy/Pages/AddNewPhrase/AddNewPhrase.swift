@@ -40,7 +40,7 @@ struct AddNewPhrase: View {
 	var body: some View {
 		ZStack {
 			ZStack {
-				Color(asset: Asset.Colors.darkMain)
+				themeManager.currentTheme.darkMain
 					.ignoresSafeArea()
 				VStack(spacing: 20) {
 					HStack {
@@ -89,7 +89,7 @@ struct AddNewPhrase: View {
 									.padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
 									.background {
 										RoundedRectangle(cornerRadius: 12)
-											.foregroundColor(themeManager.currentTheme().accent)
+											.foregroundColor(themeManager.currentTheme.accent)
 									}
 									.onTapGesture {
 										translatedText = viewModel.automaticTranslatedText
@@ -132,7 +132,7 @@ struct AddNewPhrase: View {
 								}
 							} label: {
 								Text(LocalizedStringKey("Добавить пример"))
-									.foregroundColor(Color(asset: Asset.Colors.brightBtnText))
+									.foregroundColor(themeManager.currentTheme.brightForBtnsText)
 									.font(.system(size: 14, weight: .regular))
 							}
 							.background {
@@ -140,7 +140,7 @@ struct AddNewPhrase: View {
 									Spacer()
 									Rectangle()
 										.frame(height: 1)
-										.foregroundColor(Color(asset: Asset.Colors.brightBtnText))
+										.foregroundColor(themeManager.currentTheme.brightForBtnsText)
 								}
 								.offset(y: 6)
 							}

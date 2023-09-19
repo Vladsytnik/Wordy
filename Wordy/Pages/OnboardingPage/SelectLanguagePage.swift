@@ -12,6 +12,7 @@ struct SelectLanguagePage: View {
 	@StateObject private var viewModel = SelectLanguageViewModel()
 	@EnvironmentObject var router: Router
 	let slideTransition = AnyTransition.move(edge: .leading)
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	private let languages = Language.getAll().sorted(by: { $0.getTitle() < $1.getTitle() })
 	
@@ -30,7 +31,7 @@ struct SelectLanguagePage: View {
 //				) {
 //					EmptyView()
 //				}
-				Color(asset: Asset.Colors.darkMain)
+				themeManager.currentTheme.darkMain
 					.ignoresSafeArea()
 					ZStack {
 						ScrollView {

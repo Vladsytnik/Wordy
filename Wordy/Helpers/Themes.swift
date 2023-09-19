@@ -24,6 +24,7 @@ struct Themes {
 				   answer2: Color(asset: Asset.Colors.answer2),
 				   answer3: Color(asset: Asset.Colors.answer3),
 				   answer4: Color(asset: Asset.Colors.answer4),
+				   
 				   mainBackgroundImage: Image(asset: Asset.Images.gradientBG),
 				   carouselCardBackgroundImage: Image(asset: Asset.Images.carouselBG),
 				   authBackgroundImage: Image(asset: Asset.Images.authBG),
@@ -42,9 +43,10 @@ struct Themes {
 				   answer2: Color(asset: Asset.Colors2.answer22),
 				   answer3: Color(asset: Asset.Colors2.answer32),
 				   answer4: Color(asset: Asset.Colors2.answer42),
-				   mainBackgroundImage: Image(asset: Asset.Images.gradientBG),
-				   carouselCardBackgroundImage: Image(asset: Asset.Images.carouselBG),
-				   authBackgroundImage: Image(asset: Asset.Images.authBG),
-				   learnPageBackgroundImage: Image(asset: Asset.Images.learnPageBG))
+				   
+				   mainBackgroundImage: Image(asset: Asset.Images2.gradientBG2),
+				   carouselCardBackgroundImage: Image(asset: Asset.Images2.carouselBG2),
+				   authBackgroundImage: Image(asset: Asset.Images2.authBG2),
+				   learnPageBackgroundImage: Image(asset: Asset.Images2.learnPageBG2))
 	]
 }

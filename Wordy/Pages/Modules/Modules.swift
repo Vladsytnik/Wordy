@@ -557,8 +557,10 @@ struct Modules: View {
 }
 
 struct BlurNavBar: View {
+	
 	@Binding var show: Bool
 	@Binding var scrollOffset: CGFloat
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	var opacity: Double {
 		switch scrollOffset {
@@ -575,7 +577,7 @@ struct BlurNavBar: View {
 		GeometryReader { geo in
 			VisualEffectView(effect: UIBlurEffect(style: .systemThinMaterialDark))
 				.frame(height: geo.safeAreaInsets.top)
-				.foregroundColor(Color(asset: Asset.Colors.darkMain))
+				.foregroundColor(themeManager.currentTheme.darkMain)
 				.edgesIgnoringSafeArea(.top)
 				.opacity(opacity)
 		}
@@ -583,8 +585,9 @@ struct BlurNavBar: View {
 }
 
 struct BackgroundView: View {
+	@EnvironmentObject var themeManager: ThemeManager
 	var body: some View {
-		Image(asset: Asset.Images.gradientBG)
+		themeManager.currentTheme.mainBackgroundImage
 			.resizable()
 			.edgesIgnoringSafeArea(.all)
 	}
@@ -634,7 +637,7 @@ struct RefreshControl: View {
 					ForEach(0..<8) { tick in
 						VStack {
 							Rectangle()
-								.fill(themeManager.currentTheme().accent)
+								.fill(themeManager.currentTheme.accent)
 								.opacity((Int((geo.frame(in: coordinateSpace).midY)/7) < tick) ? 0 : 1)
 								.frame(width: size / 6.66666667, height: size / 2.85714286)
 								.cornerRadius(size / 6.66666667)

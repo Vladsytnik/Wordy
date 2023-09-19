@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ModuleCard: View {
 	
-	let backgroundColor = Color(asset: Asset.Colors.main)
+	@EnvironmentObject var themeManager: ThemeManager
 	let width: CGFloat
 	
 	var cardName = "Games"
@@ -37,7 +37,7 @@ struct ModuleCard: View {
 							.cornerRadius(35.0)
 					}
 				}
-				.foregroundColor(backgroundColor)
+				.foregroundColor(themeManager.currentTheme.main)
 				.frame(width: width, height: height)
 			VStack {
 				Spacer()

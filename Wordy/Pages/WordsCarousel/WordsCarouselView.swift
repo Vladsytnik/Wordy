@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WordsCarouselView: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	@State private var scrollOffset = CGFloat.zero
 	@ObservedObject var viewModel = WordsCarouselViewModel()
 	@Binding var modules: [Module]
@@ -20,7 +21,7 @@ struct WordsCarouselView: View {
 	
 	var body: some View {
 		ZStack {
-			Image(asset: Asset.Images.gradientBG)
+			themeManager.currentTheme.mainBackgroundImage
 				.resizable()
 				.ignoresSafeArea()
 			VStack {
@@ -136,6 +137,7 @@ struct CarouselCard: View {
 	var phrase: Phrase
 	var onDeletedTap: (() -> Void)
 	@EnvironmentObject var viewModel: WordsCarouselViewModel
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	var body: some View {
 		VStack {
@@ -154,7 +156,7 @@ struct CarouselCard: View {
 			}
 		}
 		.background{
-			Image(asset: Asset.Images.carouselBG)
+			themeManager.currentTheme.carouselCardBackgroundImage
 				.resizable()
 				.padding(EdgeInsets(top: -24, leading: -24, bottom: -24, trailing: -24))
 		}
@@ -200,6 +202,7 @@ fileprivate struct SpeachButton: View {
 
 fileprivate struct MainText: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	var phrase: Phrase
 	
 	var body: some View {
@@ -211,7 +214,7 @@ fileprivate struct MainText: View {
 					.multilineTextAlignment(.center)
 					.minimumScaleFactor(0.5)
 				Text(phrase.translatedText)
-					.foregroundColor(Color(asset: Asset.Colors.brightBtnText))
+					.foregroundColor(themeManager.currentTheme.brightForBtnsText)
 					.font(.system(size: 18, weight: .medium))
 					.multilineTextAlignment(.center)
 					.minimumScaleFactor(0.5)
@@ -239,7 +242,7 @@ fileprivate struct MainText: View {
 		}
 		let wordRange = string.rangeOfWord(containing: range)
 		let prefix = string.prefix(upTo: wordRange.lowerBound)
-		let highlightedSubstring = Text(string[wordRange]).foregroundColor(Color(asset: Asset.Colors.findedWordHighlite))
+		let highlightedSubstring = Text(string[wordRange]).foregroundColor(themeManager.currentTheme.findedWordsHighlited)
 		let suffix = string.suffix(from: wordRange.upperBound)
 		return Text(prefix) + highlightedSubstring + highlightSubstring(substring, in: String(suffix))
 	}

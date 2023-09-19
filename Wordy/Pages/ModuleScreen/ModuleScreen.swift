@@ -315,12 +315,12 @@ struct LearnModuleButton: View {
 		} label: {
 			ZStack {
 				Text(LocalizedStringKey("Выучить модуль"))
-					.foregroundColor(Color(asset: Asset.Colors.brightBtnText))
+					.foregroundColor(themeManager.currentTheme.brightForBtnsText)
 					.font(.system(size: 18, weight: .bold))
 					.padding(EdgeInsets(top: 16, leading: 26, bottom: 16, trailing: 26))
 			}
 			.background {
-				themeManager.currentTheme().accent
+				themeManager.currentTheme.accent
 			}
 			.cornerRadius(22)
 		}
@@ -329,6 +329,7 @@ struct LearnModuleButton: View {
 
 struct AddWordButton: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	let action: () -> Void
 	
 	var body: some View {
@@ -346,7 +347,7 @@ struct AddWordButton: View {
 					}
 				}
 				.foregroundColor (
-					Color(asset: Asset.Colors.main)
+					themeManager.currentTheme.main
 				)
 				.overlay {
 					RoundedRectangle(cornerRadius: 20)

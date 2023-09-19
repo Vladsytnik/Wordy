@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GroupsEditingPage: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	@Environment(\.dismiss) private var dismiss
 	
 	@State var showActivity = false
@@ -35,7 +36,7 @@ struct GroupsEditingPage: View {
 	
 	var body: some View {
 		ZStack {
-			Image(asset: Asset.Images.gradientBG)
+			themeManager.currentTheme.mainBackgroundImage
 				.resizable()
 				.ignoresSafeArea()
 			ScrollView {
@@ -88,7 +89,7 @@ struct GroupsEditingPage: View {
 							.padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
 							.background {
 								RoundedRectangle(cornerRadius: 12)
-									.foregroundColor(Color(asset: Asset.Colors.main))
+									.foregroundColor(themeManager.currentTheme.main)
 							}
 							.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
 							.onTapGesture {

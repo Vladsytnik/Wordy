@@ -83,25 +83,10 @@ internal enum Asset {
     internal static let newGroup = ImageAsset(name: "newGroup")
   }
   internal enum Images2 {
-    internal static let addModule = ImageAsset(name: "AddModule")
-    internal static let addModuleCheckMark = ImageAsset(name: "AddModuleCheckMark")
-    internal static let addWordButton = ImageAsset(name: "AddWordButton")
-    internal static let authBG = ImageAsset(name: "AuthBG")
-    internal static let backButton = ImageAsset(name: "BackButton")
-    internal static let carouselBG = ImageAsset(name: "CarouselBG")
-    internal static let closeBtn = ImageAsset(name: "CloseBtn")
-    internal static let closeEmoji = ImageAsset(name: "CloseEmoji")
-    internal static let gradientBG = ImageAsset(name: "GradientBG")
-    internal static let moduleCardBottomStuff = ImageAsset(name: "ModuleCardBottomStuff")
-    internal static let plusIcon = ImageAsset(name: "PlusIcon")
-    internal static let question = ImageAsset(name: "Question")
-    internal static let searchIcon = ImageAsset(name: "SearchIcon")
-    internal static let settingsIcon = ImageAsset(name: "SettingsIcon")
-    internal static let speach = ImageAsset(name: "Speach")
-    internal static let wordyYellow = ImageAsset(name: "WordyYellow")
-    internal static let advantage = ImageAsset(name: "advantage")
-    internal static let learnPageBG = ImageAsset(name: "learnPageBG")
-    internal static let newGroup = ImageAsset(name: "newGroup")
+    internal static let authBG2 = ImageAsset(name: "AuthBG2")
+    internal static let carouselBG2 = ImageAsset(name: "CarouselBG2")
+    internal static let gradientBG2 = ImageAsset(name: "GradientBG2")
+    internal static let learnPageBG2 = ImageAsset(name: "learnPageBG2")
   }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name
