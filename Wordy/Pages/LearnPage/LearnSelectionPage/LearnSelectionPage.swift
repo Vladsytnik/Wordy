@@ -9,13 +9,14 @@ import SwiftUI
 
 struct LearnSelectionPage: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	@StateObject var viewModel: LearnSelectionPageViewModel
 	@Environment(\.dismiss) private var dismiss
 	
 	@State var spacing: CGFloat = -100
 	
-	private let colors = [
-		Color(asset: Asset.Colors.answer1),
+	private var colors = [
+		Color(asset: Asset.Colors.answer2),
 		Color(asset: Asset.Colors.answer2),
 		Color(asset: Asset.Colors.answer3),
 		Color(asset: Asset.Colors.answer4)
@@ -75,7 +76,7 @@ struct LearnSelectionPage: View {
 							ForEach(0..<viewModel.answersCount, id: \.self) { i in
 								ZStack {
 									RoundedRectangle(cornerRadius: 20)
-										.foregroundColor(colors[i])
+										.foregroundColor(getColor(with: i))
 										.frame(height: 80)
 										.overlay {
 											RoundedRectangle(cornerRadius: 20)
@@ -86,7 +87,7 @@ struct LearnSelectionPage: View {
 										.shadow(color: .black.opacity(0.24), radius: 26)
 									Rectangle()
 										.frame(height: 80)
-										.foregroundColor(colors[i])
+										.foregroundColor(getColor(with: i))
 										.offset(y: i != viewModel.currentAnswers.count - 1 ? 20 : 50)
 									Text(viewModel.currentAnswers[i])
 										.foregroundColor(viewModel.buttonSelected[i] ? viewModel.indexOfCorrectButton == i ? Color.green : Color.red : .white)
@@ -152,6 +153,16 @@ struct LearnSelectionPage: View {
 		.onChange(of: viewModel.needClosePage) { _ in
 			dismiss()
 		}
+	}
+	
+	private func getColor(with index: Int) -> Color {
+		let tempColors = [
+			themeManager.currentTheme.answer1,
+			themeManager.currentTheme.answer2,
+			themeManager.currentTheme.answer3,
+			themeManager.currentTheme.answer4
+		]
+		return tempColors[index]
 	}
 	
 	private func upCountOfFreeLearnMode() {
