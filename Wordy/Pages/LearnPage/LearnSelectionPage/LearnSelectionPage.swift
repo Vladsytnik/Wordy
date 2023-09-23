@@ -197,10 +197,29 @@ struct LearnTextField: View {
 	var body: some View {
 		VStack {
 			ZStack(alignment: .leading) {
-				Text(placeholder)
-					.foregroundColor(.white.opacity(0.3))
-					.font(.system(size: fontSize, weight: .medium))
-					.opacity(text.isEmpty ? 1 : 0)
+				HStack {
+					if text.isEmpty {
+						Text(placeholder)
+							.foregroundColor(.white.opacity(0.3))
+							.font(.system(size: fontSize, weight: .medium))
+							.opacity(text.isEmpty ? 1 : 0)
+					} else {
+						Text(placeholder)
+							.foregroundColor(.white.opacity(0.3))
+							.font(.system(size: fontSize, weight: .medium))
+							.opacity(text.isEmpty ? 1 : 0)
+							.lineLimit(1)
+					}
+					
+					Spacer()
+					
+					if text.count == 0 {
+						Text(LocalizedStringKey("Не знаю"))
+							.foregroundColor(.clear)
+							.font(.system(size: fontSize, weight: .medium))
+					}
+				}
+				.animation(.spring(), value: text)
 				HStack {
 					TextField("", text: $text, onCommit: {
 						onReturn?()
@@ -266,6 +285,7 @@ struct LearnSelectionPage_Previews: PreviewProvider {
 			.init(nativeText: "Вторник", translatedText: "Thusday", id: ""),
 			.init(nativeText: "хорошо ладить с кем то", translatedText: "Get on well with smbd", id: "")
 		]), viewModel: .init())
+		.environmentObject(ThemeManager())
 	}
 }
 

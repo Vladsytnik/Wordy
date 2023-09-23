@@ -40,7 +40,7 @@ class LearnSelectionPageViewModel: ObservableObject {
 	@Published var currentQuestion = ""
 	@Published var currentAnswers = ["", "", "", ""]
 	//	@Published var currentPageType: LearnPageType = .random()
-	@Published var currentPageType: LearnPageType = .selectable
+	@Published var currentPageType: LearnPageType = .inputable
 	
 	@Published var inputText = ""
 	
@@ -67,7 +67,7 @@ class LearnSelectionPageViewModel: ObservableObject {
 	
 	func start() {
 		print("Start")
-		currentPageType = .selectable
+		currentPageType = .inputable
 		buttonSelected = Array(repeating: false, count: 4)
 		currentAnswers = Array(repeating: "nil", count: 4)
 		currentQuestion = "nil"
