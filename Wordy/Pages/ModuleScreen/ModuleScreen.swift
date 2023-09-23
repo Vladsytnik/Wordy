@@ -26,6 +26,11 @@ struct ModuleScreen: View {
 	@State private var showInfoAlert = false
 	@EnvironmentObject var themeManager: ThemeManager
 	
+	@State private var scrollOffset = CGFloat.zero
+	@State private var scrollDirection = CGFloat.zero
+	@State private var prevScrollOffsetValue = CGFloat.zero
+	@State private var createPhraseButtonOpacity = 1.0
+	
 	var body: some View {
 		Color.clear
 			.background(content: {
@@ -46,7 +51,7 @@ struct ModuleScreen: View {
 							}
 							.hidden()
 						}
-						ScrollView {
+						ObservableScrollView(scrollOffset: $scrollOffset) { proxy in
 							VStack {
 								Header(viewModel: viewModel, showAlert: $showInfoAlert, module: viewModel.module)
 								//								Color.clear
@@ -96,11 +101,28 @@ struct ModuleScreen: View {
 									}
 									.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
 								}
-								AddWordButton { didTapAddNewPhrase() }
+//								AddWordButton { didTapAddNewPhrase() }
 								DeleteModuleButton { viewModel.didTapDeleteModule() }
+								
+								Rectangle()
+									.frame(height: 55)
+									.foregroundColor(.clear)
 							}
 						}
 						.frame(width: geo.size.width, height: geo.size.height)
+						.onChange(of: scrollOffset) { newValue in
+							calculateScrollDirection()
+						}
+						
+						VStack {
+							Spacer()
+							AddWordButton { didTapAddNewPhrase() }
+							.opacity(createPhraseButtonOpacity)
+							.transition(AnyTransition.offset() )
+							.offset(y: geo.size.height < 812 ? -16 : 0 )
+							.shadow(color: .white.opacity(0.2), radius: 20)
+						}
+						.ignoresSafeArea(.keyboard)
 					}
 					.onChange(of: viewModel.modules) { newValue in
 						self.modules = newValue
@@ -183,6 +205,20 @@ struct ModuleScreen: View {
 		viewModel.modules = modules.wrappedValue
 		viewModel.filteredModules = filteredModules.wrappedValue
 		viewModel.index = index
+	}
+	
+	private func calculateScrollDirection() {
+		if scrollOffset > 10 {
+			scrollDirection = scrollOffset - prevScrollOffsetValue
+			prevScrollOffsetValue = scrollOffset
+		}
+		withAnimation {
+			if scrollDirection < 0 || scrollOffset < 10 {
+				createPhraseButtonOpacity = 1
+			} else {
+				createPhraseButtonOpacity = 0
+			}
+		}
 	}
 	
 	func didTapAddNewPhrase() {
@@ -359,7 +395,7 @@ struct AddWordButton: View {
 					}
 				}
 				.foregroundColor (
-					themeManager.currentTheme.main
+					themeManager.currentTheme.moduleCreatingBtn
 				)
 				.overlay {
 					RoundedRectangle(cornerRadius: 20)

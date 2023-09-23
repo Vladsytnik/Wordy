@@ -5,7 +5,7 @@
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>
-		<string>NavBarPurple</string>
+		<string>DarkMain</string>
 		<key>UIImageName</key>
 		<string>WordyYellow</string>
 	</dict>

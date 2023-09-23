@@ -69,7 +69,7 @@ struct PhraseEditPage: View {
 					}
 					Spacer()
 					CustomTextField(
-						placeholder: "Яблоко",
+						placeholder: "Фраза",
 						text: $viewModel.nativePhrase,
 						enableFocuse: true,
 						isFirstResponder: $viewModel.textFieldOneIsActive,
@@ -83,7 +83,7 @@ struct PhraseEditPage: View {
 					.offset(x: !viewModel.nativePhraseIsEmpty ? 0 : 10)
 					
 					CustomTextField(
-						placeholder: "Apple",
+						placeholder: "Перевод",
 						text: $viewModel.translatedPhrase,
 						enableFocuse: false,
 						isFirstResponder: $viewModel.textFieldTwoIsActive,
@@ -97,7 +97,7 @@ struct PhraseEditPage: View {
 					.offset(x: !viewModel.translatedPhraseIsEmpty ? 0 : 10)
 					
 					CustomTextField(
-						placeholder: "I like apple",
+						placeholder: "Пример",
 						text: $viewModel.examplePhrase,
 						enableFocuse: false,
 						isFirstResponder: $viewModel.textFieldThreeIsActive,

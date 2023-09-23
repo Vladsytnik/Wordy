@@ -112,7 +112,7 @@ struct AddNewPhrase: View {
 					
 					if viewModel.wasTappedAddExample {
 						CustomTextField(
-							placeholder: "I like apple",
+							placeholder: "Пример",
 							text: $exampleText,
 							enableFocuse: false,
 							isFirstResponder: $viewModel.textFieldThreeIsActive,
