@@ -50,7 +50,7 @@ struct ModuleCard: View {
 							VStack {
 								Image(systemName: "checkmark.circle.fill")
 									.resizable()
-									.foregroundColor(.white)
+									.foregroundColor(themeManager.currentTheme.mainText)
 									.frame(width: 20, height: 20)
 									.opacity(0.9)
 								Spacer()

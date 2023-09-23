@@ -36,12 +36,12 @@ struct LearnSelectionPage: View {
 					Spacer()
 					VStack {
 						Text(LocalizedStringKey("Поздравляем!"))
-							.foregroundColor(.white)
+							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 36, weight: .bold))
 							.multilineTextAlignment(.center)
 							.padding()
 						Text(LocalizedStringKey("Ты прошел еще одну тренировку 🥳"))
-							.foregroundColor(.white)
+							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 28, weight: .medium))
 							.multilineTextAlignment(.center)
 					}
@@ -188,6 +188,7 @@ struct LearnTextField: View {
 	let fontSize: CGFloat = 20
 	
 	@Environment(\.dismiss) var dismiss
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	@FocusState var isFocused: Bool
 	
@@ -224,7 +225,7 @@ struct LearnTextField: View {
 					TextField("", text: $text, onCommit: {
 						onReturn?()
 					})
-					.foregroundColor(.white)
+					.foregroundColor(themeManager.currentTheme.mainText)
 					.tint(.white)
 					.font(.system(size: fontSize, weight: .medium))
 					.focused($isFocused)

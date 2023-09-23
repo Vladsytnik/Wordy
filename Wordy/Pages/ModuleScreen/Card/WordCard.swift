@@ -47,7 +47,7 @@ struct WordCard: View {
 				HStack(alignment: .firstTextBaseline) {
 					VStack(alignment: .leading, spacing: 7) {
 						Text(viewModel.phrase.nativeText)
-							.foregroundColor(.white)
+							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 24, weight: .bold))
 							.multilineTextAlignment(.leading)
 						Text(viewModel.phrase.translatedText)
@@ -76,7 +76,7 @@ struct WordCard: View {
 							Image(systemName: "ellipsis")
 							//								.resizable()
 							//								.frame(width: 30, height: 30)
-								.foregroundColor(.white)
+								.foregroundColor(themeManager.currentTheme.mainText)
 								.rotationEffect(.degrees(90))
 							//								.offset(y: 3)
 								.scaleEffect(1.4)
@@ -91,7 +91,7 @@ struct WordCard: View {
 						viewModel.phrase.nativeText,
 						in: example
 					)
-						.foregroundColor(.white)
+						.foregroundColor(themeManager.currentTheme.mainText)
 						.multilineTextAlignment(.leading)
 				} else {
 					Button {
@@ -105,7 +105,7 @@ struct WordCard: View {
 									VStack {
 										Spacer()
 										Rectangle()
-											.foregroundColor(.white)
+											.foregroundColor(themeManager.currentTheme.mainText)
 											.frame(height: 1)
 									}
 									.offset(y: 5)

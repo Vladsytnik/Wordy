@@ -33,7 +33,7 @@ struct WordsCarouselView: View {
 						Spacer()
 					}
 					Text("\(viewModel.selectedWordIndex + 1)/\(viewModel.phrases.count)")
-						.foregroundColor(.white)
+						.foregroundColor(themeManager.currentTheme.mainText)
 						.font(.system(size: 40, weight: .bold))
 						.padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
 				}
@@ -209,7 +209,7 @@ fileprivate struct MainText: View {
 		VStack(spacing: 32) {
 			VStack(spacing: 10) {
 				Text(phrase.nativeText)
-					.foregroundColor(.white)
+					.foregroundColor(themeManager.currentTheme.mainText)
 					.font(.system(size: 32, weight: .bold))
 					.multilineTextAlignment(.center)
 					.minimumScaleFactor(0.5)
@@ -221,13 +221,13 @@ fileprivate struct MainText: View {
 			}
 			if phrase.example == nil {
 				Text("Here can be your example")
-					.foregroundColor(.white)
+					.foregroundColor(themeManager.currentTheme.mainText)
 					.font(.system(size: 18))
 					.multilineTextAlignment(.center)
 					.minimumScaleFactor(0.6)
 			} else {
 				highlightSubstring(phrase.nativeText, in: phrase.example ?? "")
-					.foregroundColor(.white)
+					.foregroundColor(themeManager.currentTheme.mainText)
 					.font(.system(size: 18))
 					.multilineTextAlignment(.center)
 					.minimumScaleFactor(0.6)

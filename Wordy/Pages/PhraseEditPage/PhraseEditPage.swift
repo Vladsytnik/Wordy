@@ -124,9 +124,9 @@ struct PhraseEditPage: View {
 							HStack {
 								Image(uiImage: UIImage(systemName: "checkmark") ?? UIImage())
 									.renderingMode(.template)
-									.foregroundColor(.white)
+									.foregroundColor(themeManager.currentTheme.mainText)
 								Text(LocalizedStringKey("Сохранить"))
-									.foregroundColor(.white)
+									.foregroundColor(themeManager.currentTheme.mainText)
 									.font(.system(size: 20, weight: .medium))
 							}
 						}

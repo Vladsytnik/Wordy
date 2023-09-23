@@ -208,6 +208,7 @@ struct ModuleScreen_Previews: PreviewProvider {
 
 struct Header: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	@ObservedObject var viewModel: ModuleScreenViewModel
 	@Environment(\.dismiss) var dismiss
 	
@@ -234,7 +235,7 @@ struct Header: View {
 						.opacity(0)
 					Spacer()
 					Text(viewModel.module.name)
-						.foregroundColor(.white)
+						.foregroundColor(themeManager.currentTheme.mainText)
 						.font(.system(size: 36, weight: .bold))
 						.multilineTextAlignment(.center)
 					//						.lineLimit(1)
@@ -251,7 +252,7 @@ struct Header: View {
 			}
 			HStack(spacing: 18) {
 				Text("\(module.phrases.count)  /  15")
-					.foregroundColor(.white)
+					.foregroundColor(themeManager.currentTheme.mainText)
 					.font(.system(size: 13, weight: .medium))
 				Button {
 					withAnimation {
@@ -353,7 +354,7 @@ struct AddWordButton: View {
 					HStack {
 						Image(asset: Asset.Images.plusIcon)
 						Text(LocalizedStringKey("Добавить слово"))
-							.foregroundColor(.white)
+							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 18, weight: .medium))
 					}
 				}
@@ -363,7 +364,7 @@ struct AddWordButton: View {
 				.overlay {
 					RoundedRectangle(cornerRadius: 20)
 						.stroke()
-						.foregroundColor(.white)
+						.foregroundColor(themeManager.currentTheme.mainText)
 				}
 				.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
 		}
@@ -373,13 +374,14 @@ struct AddWordButton: View {
 struct DeleteModuleButton: View {
 	
 	let action: () -> Void
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	var body: some View {
 		Button {
 			action()
 		} label: {
 			Text(LocalizedStringKey("Удалить модуль"))
-				.foregroundColor(.white)
+				.foregroundColor(themeManager.currentTheme.mainText)
 				.font(.system(size: 16, weight: .regular))
 				.frame(width: 300, height: 50)
 				.offset(y: -15)

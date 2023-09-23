@@ -21,6 +21,7 @@ struct RoundedTextArea: View {
 		module.phrases.count
 	}
 	@Binding var module: Module
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	private var width: CGFloat {
 		cardWidth / 1.12592593
@@ -57,7 +58,7 @@ struct RoundedTextArea: View {
 					}
 				}
 			}
-			.foregroundColor(.white)
+			.foregroundColor(themeManager.currentTheme.mainText)
 			.offset(y: -5)
 			.padding()
 		}
@@ -75,8 +76,10 @@ struct RoundedTextArea_Previews: PreviewProvider {
 }
 
 struct Background: View {
+	
 	let width: CGFloat
 	let height: CGFloat
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	var body: some View {
 		Rectangle()
@@ -84,7 +87,7 @@ struct Background: View {
 				width: width,
 				height: height
 			)
-			.foregroundColor(Color(asset: Asset.Colors.moduleCardDarkGray))
+			.foregroundColor(themeManager.currentTheme.moduleCardRoundedAreaColor)
 			.cornerRadius(10, corners: [.topLeft, .topRight])
 			.cornerRadius(30, corners: [.bottomLeft, .bottomRight])
 	}

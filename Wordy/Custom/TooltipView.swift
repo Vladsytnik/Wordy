@@ -15,16 +15,18 @@ struct TooltipView: View {
 	var onNextDidTap: (() -> Void)?
 //	var onSkipDidTap: (() -> Void)?
 	
+	@EnvironmentObject var themeManager: ThemeManager
+	
     var body: some View {
 		VStack(alignment: .trailing, spacing: 24) {
 			Text(text)
-				.foregroundColor(.white)
+				.foregroundColor(themeManager.currentTheme.mainText)
 			HStack {
 //				Button {
 //					onSkipDidTap?()
 //				} label: {
 //					Text("Пропустить")
-//						.foregroundColor(.white)
+//						.foregroundColor(themeManager.currentTheme.mainText)
 //				}
 				Text("\(stepNumber + 1)/\(allStepCount)")
 				Spacer()
@@ -32,7 +34,7 @@ struct TooltipView: View {
 					onNextDidTap?()
 				} label: {
 					Text("Понятно")
-						.foregroundColor(.white)
+						.foregroundColor(themeManager.currentTheme.mainText)
 						.bold()
 				}
 			}

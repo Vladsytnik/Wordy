@@ -42,6 +42,7 @@ struct ModuleSelectPage: View {
 	@Binding var selectedIndexes: [Int]
 	@Binding var isEditMode: Bool
 	var isOnboardingMode = false
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	private var currentGroup: Group {
 		groups.first(where: { $0.id == groupId }) ?? Group()
@@ -83,7 +84,7 @@ struct ModuleSelectPage: View {
 										.foregroundColor(.clear)
 									HStack {
 										Text(currentGroup.name)
-											.foregroundColor(.white)
+											.foregroundColor(themeManager.currentTheme.mainText)
 											.font(.system(size: 36, weight: .bold))
 										Spacer()
 //										Button {
@@ -294,12 +295,13 @@ struct ModuleSelectPage_Previews: PreviewProvider {
 			isEditMode: .constant(false)
 		)
 	}
-}
+} 
 
 
 fileprivate struct SaveButton: View {
 	
 	let action: () -> Void
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	var body: some View {
 		Button {
@@ -311,7 +313,7 @@ fileprivate struct SaveButton: View {
 					.shadow(color: .white.opacity(0.15), radius: 20)
 				HStack {
 					Text(LocalizedStringKey("Сохранить"))
-						.foregroundColor(.white)
+						.foregroundColor(themeManager.currentTheme.mainText)
 						.font(.system(size: 16, weight: .medium))
 				}
 			}

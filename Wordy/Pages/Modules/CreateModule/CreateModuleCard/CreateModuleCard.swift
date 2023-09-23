@@ -89,6 +89,7 @@ struct EmojiView : View {
 	@Binding var show : Bool
 	@Binding var txt : String
 	@Environment(\.dismiss) var dismiss
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	let emojiRanges = [
 		(0x1F601, 0x1F64F),
@@ -148,12 +149,12 @@ struct EmojiView : View {
 				.padding()
 			}.frame(width: UIScreen.main.bounds.width - 64, height: UIScreen.main.bounds.height / 3)
 //				.padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom)
-				.background(Color(asset: Asset.Colors.moduleCardDarkGray))
+				.background(themeManager.currentTheme.moduleCardRoundedAreaColor)
 				.cornerRadius(25)
 //			Button(action: {
 //				self.show.toggle()
 //			}) {
-//				Image(systemName: "xmark").foregroundColor(.white)
+//				Image(systemName: "xmark").foregroundColor(themeManager.currentTheme.mainText)
 //			}.padding()
 		}
 	}

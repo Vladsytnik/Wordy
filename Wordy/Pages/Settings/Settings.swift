@@ -95,7 +95,7 @@ struct Settings: View {
 											RoundedRectangle(cornerRadius: themeCirclesWidth / 2)
 												.stroke(lineWidth: currentThemeIndex == index ? 0.5 : 0)
 												.frame(width: themeStrokeWidth, height:themeStrokeWidth)
-												.foregroundColor(.white)
+												.foregroundColor(themeManager.currentTheme.mainText)
 												.animation(.easeIn(duration: 0.2), value: currentThemeIndex)
 										}
 										.padding(EdgeInsets(top: 0, leading: index == 0 ? 16 : 0, bottom: 0, trailing: 0))
@@ -135,7 +135,7 @@ struct Settings: View {
 //							HStack(spacing: 0) {
 //								Text(LocalizedStringKey("cellText"))
 //									.font(.system(size: 16, weight: .regular))
-//									.foregroundColor(.white)
+//									.foregroundColor(themeManager.currentTheme.mainText)
 //								Spacer()
 //							}
 //						}
@@ -153,7 +153,7 @@ struct Settings: View {
 					
 					Toggle(isOn: $isPro) {
 						Text("PRO Subscription")
-							.foregroundColor(.white)
+							.foregroundColor(themeManager.currentTheme.mainText)
 					}
 					.padding()
 					
@@ -251,17 +251,17 @@ struct GeneralSettingsRow: View {
 				.foregroundColor(themeManager.currentTheme.main)
 			HStack(spacing: 0) {
 				Image(systemName: cellImageName)
-					.foregroundColor(.white)
+					.foregroundColor(themeManager.currentTheme.mainText)
 					.padding()
 				Text(LocalizedStringKey(cellText))
 					.font(.system(size: 16, weight: .regular))
-					.foregroundColor(.white)
+					.foregroundColor(themeManager.currentTheme.mainText)
 				Spacer()
 				if isOpenable {
 					Image(systemName: "control")
 //						.scaleEffect(0.3)
 //						.foregroundColor(Color(asset: Asset.Colors.lightPurple))
-						.foregroundColor(.white)
+						.foregroundColor(themeManager.currentTheme.mainText)
 						.padding()
 						.rotationEffect(.degrees(isOpened ? 0 : 90))
 						.animation(.spring(), value: isOpened)
@@ -296,11 +296,11 @@ struct EditFolderRow: View {
 				.foregroundColor(themeManager.currentTheme.main)
 			HStack(spacing: 0) {
 				Image(systemName: "folder")
-					.foregroundColor(.white)
+					.foregroundColor(themeManager.currentTheme.mainText)
 					.padding()
 				Text(LocalizedStringKey("Редактировать группы"))
 					.font(.system(size: 16, weight: .regular))
-					.foregroundColor(.white)
+					.foregroundColor(themeManager.currentTheme.mainText)
 				Spacer()
 			}
 		}
@@ -326,7 +326,7 @@ struct LogOutRow: View {
 					.foregroundColor(themeManager.currentTheme.main)
 				HStack(spacing: 0) {
 					Image(systemName: "rectangle.portrait.and.arrow.forward")
-						.foregroundColor(.white)
+						.foregroundColor(themeManager.currentTheme.mainText)
 						.padding()
 					Text(LocalizedStringKey("Выйти"))
 						.font(.system(size: 16, weight: .medium))

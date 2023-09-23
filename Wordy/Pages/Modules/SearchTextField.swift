@@ -28,13 +28,25 @@ struct SearchTextField: View {
 							.overlay {
 								HStack {
 									Image(asset: Asset.Images.searchIcon)
+//										.foregroundColor(themeManager.currentTheme.searchTextFieldText)
+										.colorMultiply(themeManager.currentTheme.searchTextFieldText)
 										.padding(.leading)
-									TextField(placeholder, text: $searchText)
-										.foregroundColor(.white)
-										.tint(themeManager.currentTheme.accent)
-										.onChange(of: searchText) { newValue in
-											filterModules(text: newValue)
+									ZStack {
+										TextField("", text: $searchText)
+											.foregroundColor(themeManager.currentTheme.searchTextFieldText)
+											.tint(themeManager.currentTheme.accent)
+											.onChange(of: searchText) { newValue in
+												filterModules(text: newValue)
+											}
+										HStack {
+											Text(placeholder)
+												.fontWeight(.medium)
+												.opacity(searchText.isEmpty ? 0.8 : 0)
+												.foregroundColor(themeManager.currentTheme.searchTextFieldText)
+												.padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 0))
+											Spacer()
 										}
+									}
 								}
 							}
 					}

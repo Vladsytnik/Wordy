@@ -48,7 +48,7 @@ struct AddNewPhrase: View {
 							dismiss()
 						} label: {
 							Text(LocalizedStringKey("Отменить"))
-								.foregroundColor(.white)
+								.foregroundColor(themeManager.currentTheme.mainText)
 								.font(.system(size: 20, weight: .medium))
 						}
 						.padding(EdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0))
@@ -85,7 +85,7 @@ struct AddNewPhrase: View {
 						HStack() {
 							HStack {
 								Text(viewModel.automaticTranslatedText)
-									.foregroundColor(.white)
+									.foregroundColor(themeManager.currentTheme.mainText)
 									.padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
 									.background {
 										RoundedRectangle(cornerRadius: 12)
@@ -164,9 +164,9 @@ struct AddNewPhrase: View {
 							HStack {
 								Image(uiImage: UIImage(systemName: "checkmark") ?? UIImage())
 									.renderingMode(.template)
-									.foregroundColor(.white)
+									.foregroundColor(themeManager.currentTheme.mainText)
 								Text(LocalizedStringKey("Добавить"))
-									.foregroundColor(.white)
+									.foregroundColor(themeManager.currentTheme.mainText)
 									.font(.system(size: 20, weight: .medium))
 							}
 						}
@@ -256,6 +256,7 @@ struct CustomTextField: View {
 	@Binding var closeKeyboard: Bool
 	var language: Language? = .eng
 	var isNotLanguageTextField = false
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	let fontSize: CGFloat = 20
 	
@@ -275,7 +276,7 @@ struct CustomTextField: View {
 						TextField("", text: $text, onCommit: {
 							return
 						})
-						.foregroundColor(.white)
+						.foregroundColor(themeManager.currentTheme.mainText)
 						.tint(.white)
 						.font(.system(size: fontSize, weight: .medium))
 						.focused($isFocused)
@@ -285,7 +286,7 @@ struct CustomTextField: View {
 										  text: $text,
 										  isFirstResponder: _isFocused,
 										  language: language)
-						.foregroundColor(.white)
+						.foregroundColor(themeManager.currentTheme.mainText)
 						.tint(.white)
 						.font(.system(size: fontSize, weight: .medium))
 						.focused($isFocused)

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct InputRoundedTextArea: View {
     
+	@EnvironmentObject var themeManager: ThemeManager
 	@Binding var moduleName: String
 	@FocusState private var moduleNameIsFocused: Bool
 	@Environment(\.presentationMode) var presentation
@@ -56,7 +57,7 @@ struct InputRoundedTextArea: View {
 						.opacity(0.3)
 				}
 			}
-			.foregroundColor(.white)
+			.foregroundColor(themeManager.currentTheme.mainText)
 			.offset(y: -5)
 			.padding()
 		}

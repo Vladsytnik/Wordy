@@ -323,6 +323,7 @@ struct InputTextField: View {
 	@Binding var needOpen: Bool
 	@Binding var isFirstResponder: Bool
 	@Binding var closeKeyboard: Bool
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	let fontSize: CGFloat = 20
 	
@@ -344,7 +345,7 @@ struct InputTextField: View {
 					TextField("", text: $text, onCommit: {
 						onReturn?()
 					})
-					.foregroundColor(.white)
+					.foregroundColor(themeManager.currentTheme.mainText)
 					.tint(.white)
 					.font(.system(size: fontSize, weight: .medium))
 					.focused($isFocused)

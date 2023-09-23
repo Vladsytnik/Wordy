@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CreateModuleButton: View {
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	let action: () -> Void
 	var text: String?
 	
@@ -25,15 +26,15 @@ struct CreateModuleButton: View {
 				HStack {
 					if text == nil {
 						Image(systemName: "plus.circle.fill")
-							.foregroundColor(.white)
+							.foregroundColor(themeManager.currentTheme.mainText)
 					}
 					if text == nil {
 						Text(LocalizedStringKey("Создать модуль"))
-							.foregroundColor(.white)
+							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 16, weight: .medium))
 					} else {
 						Text(LocalizedStringKey(text ?? ""))
-							.foregroundColor(.white)
+							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 16, weight: .medium))
 					}
 				}

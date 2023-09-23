@@ -38,7 +38,7 @@ struct AuthPage: View {
 					Spacer()
 					
 					Text("Wordy.app")
-						.foregroundColor(.white)
+						.foregroundColor(themeManager.currentTheme.mainText)
 						.opacity(animate ? 1 : 0)
 						.font(.system(size: 36, weight: .bold))
 						.multilineTextAlignment(.center)
@@ -73,7 +73,7 @@ struct AuthPage: View {
 							Text(LocalizedStringKey("Войти через AppleID"))
 						}
 						.font(.system(size: 14))
-						.foregroundColor(.white)
+						.foregroundColor(themeManager.currentTheme.mainText)
 						.padding()
 					}
 					
@@ -92,7 +92,7 @@ struct AuthPage: View {
 							Text(LocalizedStringKey("Войти через почту"))
 						}
 						.font(.system(size: 14))
-						.foregroundColor(.white)
+						.foregroundColor(themeManager.currentTheme.mainText)
 						.padding()
 					}
 				}
@@ -142,7 +142,7 @@ struct ButtonStack: View {
 						.padding(EdgeInsets(top: 12, leading: 32, bottom: 12, trailing: 32))
 				}
 				.background(themeManager.currentTheme.accent)
-				.foregroundColor(.white)
+				.foregroundColor(themeManager.currentTheme.mainText)
 				.cornerRadius(12)
 				
 				Button {
@@ -152,7 +152,7 @@ struct ButtonStack: View {
 					Text(LocalizedStringKey("Зарегистрироваться"))
 				}
 				.font(.system(size: 14))
-				.foregroundColor(.white)
+				.foregroundColor(themeManager.currentTheme.mainText)
 				.padding()
 			}
 		}

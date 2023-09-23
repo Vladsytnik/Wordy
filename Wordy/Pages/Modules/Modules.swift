@@ -74,7 +74,7 @@ struct Modules: View {
 	@State var isEditMode = false
 	@State var paywallIsOpened = false
 	
-	private var tooltipConfig = MyDefaultTooltipConfig()
+	@State private var tooltipConfig = MyDefaultTooltipConfig()
 	
 	private var generator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .light)
 	private var generator2: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
@@ -115,9 +115,14 @@ struct Modules: View {
 													}
 												}
 											} label: {
-												Image(asset: Asset.Images.newGroup)
-													.resizable()
+												RoundedRectangle(cornerRadius: 35 / 2)
 													.frame(width: 35, height: 35)
+													.foregroundColor(themeManager.currentTheme.nonActiveCategory)
+													.overlay {
+														Image(asset: Asset.Images.newGroup)
+															.resizable()
+															.frame(width: 19, height: 19)
+													}
 											}
 											.disabled(onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
 											if showCreateGroupSheet {
@@ -382,6 +387,12 @@ struct Modules: View {
 					}
 				}
 			}
+//			.onChange(of: themeManager.currentTheme) { _ in
+//				self.tooltipConfig.backgroundColor = themeManager.currentTheme.moduleCardRoundedAreaColor
+//			}
+			.onAppear {
+				self.tooltipConfig.backgroundColor = themeManager.currentTheme.moduleCardRoundedAreaColor
+			}
 	}
 	
 	init() {
@@ -399,7 +410,7 @@ struct Modules: View {
 		self.tooltipConfig.enableAnimation = true
 		self.tooltipConfig.animationOffset = 10
 		self.tooltipConfig.animationTime = 1
-		self.tooltipConfig.backgroundColor = Color(asset: Asset.Colors.moduleCardDarkGray)
+		self.tooltipConfig.backgroundColor = Color(asset: Asset.Colors.moduleCardRoundedAreaColor)
 		self.tooltipConfig.borderWidth = 0
 		self.tooltipConfig.zIndex = 1000
 		self.tooltipConfig.contentPaddingBottom = 12

@@ -32,7 +32,7 @@ struct Paywall: View {
 					VStack {
 						HStack(alignment: .top) {
 							Text("Try Wordy Pro Subscription")
-								.foregroundColor(.white)
+								.foregroundColor(themeManager.currentTheme.mainText)
 								.font(.system(size: 32, weight: .bold))
 								.padding()
 							Spacer()
@@ -44,7 +44,7 @@ struct Paywall: View {
 								Image(asset: Asset.Images.advantage)
 									.padding(EdgeInsets(top: 0, leading: 16, bottom: text == advantagesText.last ? 48 : 32, trailing: 8))
 								Text(text)
-									.foregroundColor(.white)
+									.foregroundColor(themeManager.currentTheme.mainText)
 								Spacer()
 							}
 							.padding(EdgeInsets(top: text == advantagesText.first ? 16 : 0, leading: 0, bottom: 0, trailing: 0))
@@ -162,7 +162,7 @@ struct PaywallPlanBtn: View {
 						Spacer()
 						Text("most popular")
 							.font(.system(size: 16, weight: .bold))
-							.foregroundColor(.white)
+							.foregroundColor(themeManager.currentTheme.mainText)
 							.padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
 							.background {
 								RoundedRectangle(cornerRadius: 12)

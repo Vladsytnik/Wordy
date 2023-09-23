@@ -16,6 +16,7 @@ struct MyTooltipModifier<TooltipContent: View>: ViewModifier {
 	let appearingDelayValue: Double
 	@State var isAppear: Bool = false
 	
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	// MARK: - Initialisers
 	
@@ -181,7 +182,7 @@ struct MyTooltipModifier<TooltipContent: View>: ViewModifier {
 					.frame(
 						width: self.contentWidth + config.borderWidth * 2,
 						height: self.contentHeight + config.borderWidth * 2)
-					.foregroundColor(.white)
+					.foregroundColor(themeManager.currentTheme.mainText)
 				Rectangle()
 					.frame(
 						width: config.arrowWidth,

@@ -50,7 +50,7 @@ struct GroupsEditingPage: View {
 					
 					HStack {
 						Text(LocalizedStringKey("Группы"))
-							.foregroundColor(.white)
+							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 36, weight: .bold))
 							.multilineTextAlignment(.center)
 							.padding(EdgeInsets(top: 0, leading: 16, bottom: 20, trailing: 0))
@@ -63,10 +63,10 @@ struct GroupsEditingPage: View {
 								HStack(alignment: .top, spacing: 12) {
 									Image(systemName: "folder")
 										.offset(y: 1)
-										.foregroundColor(.white)
+										.foregroundColor(themeManager.currentTheme.mainText)
 									Text(group.name)
 										.font(.system(size: 16, weight: .regular))
-										.foregroundColor(.white)
+										.foregroundColor(themeManager.currentTheme.mainText)
 								}
 								.padding(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
 								

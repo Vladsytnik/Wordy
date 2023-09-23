@@ -96,6 +96,8 @@
 		017A6F742969CF4B001C1855 /* AddNewPhrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017A6F732969CF4B001C1855 /* AddNewPhrase.swift */; };
 		0185B55F2949F26D00934373 /* ObservableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0185B55E2949F26D00934373 /* ObservableScrollView.swift */; };
 		01897C032A17DCC3007F6A2C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01897C052A17DCC3007F6A2C /* Localizable.strings */; };
+		018D01472ABF1793008297CA /* Colors3.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 018D01462ABF1793008297CA /* Colors3.xcassets */; };
+		018D01492ABF179E008297CA /* Images3.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 018D01482ABF179E008297CA /* Images3.xcassets */; };
 		019056392944A7140058B566 /* WordyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019056382944A7140058B566 /* WordyApp.swift */; };
 		0190563D2944A7170058B566 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0190563C2944A7170058B566 /* Images.xcassets */; };
 		019056402944A7170058B566 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0190563F2944A7170058B566 /* Preview Assets.xcassets */; };
@@ -209,6 +211,8 @@
 		0185B55E2949F26D00934373 /* ObservableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableScrollView.swift; sourceTree = "<group>"; };
 		01897C042A17DCC3007F6A2C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		01897C062A17DCD5007F6A2C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		018D01462ABF1793008297CA /* Colors3.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors3.xcassets; sourceTree = "<group>"; };
+		018D01482ABF179E008297CA /* Images3.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images3.xcassets; sourceTree = "<group>"; };
 		019056352944A7140058B566 /* Wordy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wordy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		019056382944A7140058B566 /* WordyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordyApp.swift; sourceTree = "<group>"; };
 		0190563C2944A7170058B566 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -583,6 +587,8 @@
 				01DEA5092AB8CF3500A8074D /* Images2.xcassets */,
 				019056552944D0DE0058B566 /* Colors.xcassets */,
 				01DEA5072AB8C90300A8074D /* Colors2.xcassets */,
+				018D01462ABF1793008297CA /* Colors3.xcassets */,
+				018D01482ABF179E008297CA /* Images3.xcassets */,
 				0190564B2944AA700058B566 /* .gitignore */,
 				01897C052A17DCC3007F6A2C /* Localizable.strings */,
 			);
@@ -792,9 +798,11 @@
 				01DEA50A2AB8CF3500A8074D /* Images2.xcassets in Resources */,
 				019056402944A7170058B566 /* Preview Assets.xcassets in Resources */,
 				01978FB7294CC92200B8EFC3 /* loader.json in Resources */,
+				018D01472ABF1793008297CA /* Colors3.xcassets in Resources */,
 				012D95E2294867DA00165DAF /* SF-Pro-Display-SemiboldItalic.otf in Resources */,
 				01B59DFA2AA24B1B003115E6 /* onboarding.json in Resources */,
 				012D95D5294867DA00165DAF /* SF-Pro-Display-LightItalic.otf in Resources */,
+				018D01492ABF179E008297CA /* Images3.xcassets in Resources */,
 				012D95E0294867DA00165DAF /* SF-Pro-Display-MediumItalic.otf in Resources */,
 				014955A829E855FE000BC30F /* congeralations.json in Resources */,
 				012D95D7294867DA00165DAF /* SF-Pro-Display-ThinItalic.otf in Resources */,

@@ -27,12 +27,12 @@ struct NewCategoryCard: View {
 						themeManager.currentTheme.accent
 							.cornerRadius(geo.size.height / 2)
 					} else {
-						Color(asset: Asset.Colors.nonActiveCategory)
+						themeManager.currentTheme.nonActiveCategory
 							.cornerRadius(geo.size.height / 2)
 					}
 				}
 			}
-			.foregroundColor(.white)
+			.foregroundColor(themeManager.currentTheme.mainText)
 			.font(.system(size: 16, weight: .regular))
 			.onAppear{
 				isFocused = true

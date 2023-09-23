@@ -23,6 +23,7 @@ struct Alert: View {
 	let repeatAction: () -> Void
 	
 	private let buttonsOffset: CGFloat = 30
+	@EnvironmentObject var themeManager: ThemeManager
 	
 //	@Environment(\.dismiss) var dismiss
 	
@@ -34,12 +35,12 @@ struct Alert: View {
 					VStack(spacing: 5) {
 						Text(LocalizedStringKey(title))
 							.multilineTextAlignment(.center)
-							.foregroundColor(.white)
+							.foregroundColor(themeManager.currentTheme.mainText)
 							.padding(EdgeInsets(top: 50, leading: 30, bottom: 0, trailing: 30))
 							.font(.system(size: 28, weight: .bold))
 						Text(LocalizedStringKey(description))
 							.multilineTextAlignment(.center)
-							.foregroundColor(.white)
+							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 20, weight: .regular))
 							.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
 						Rectangle()
@@ -55,7 +56,7 @@ struct Alert: View {
 								.frame(width: 200, height: 55)
 								.overlay {
 									Text(LocalizedStringKey(titleWithoutAction))
-										.foregroundColor(.white)
+										.foregroundColor(themeManager.currentTheme.mainText)
 										.font(.system(size: 16, weight: .medium))
 								}
 						}
@@ -75,7 +76,7 @@ struct Alert: View {
 									.frame(width: 300, height: 55)
 									.overlay {
 										Text(LocalizedStringKey(titleForAction))
-											.foregroundColor(.white)
+											.foregroundColor(themeManager.currentTheme.mainText)
 											.font(.system(size: 16, weight: .medium))
 									}
 							}
@@ -86,7 +87,7 @@ struct Alert: View {
 					}
 					.frame(width: geo.size.width)
 					.padding(EdgeInsets(top: 0, leading: 0, bottom: 100, trailing: 0))
-					.background(Color(asset: Asset.Colors.moduleCardDarkGray))
+					.background(themeManager.currentTheme.moduleCardRoundedAreaColor)
 					.cornerRadius(30, corners: [.topLeft, .topRight])
 				}
 //				.ignoresSafeArea()

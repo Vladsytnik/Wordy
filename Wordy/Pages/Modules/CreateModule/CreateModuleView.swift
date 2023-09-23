@@ -34,7 +34,7 @@ struct CreateModuleView: View {
 							.ignoresSafeArea()
 						VStack(spacing: 40) {
 							Text(LocalizedStringKey("Новый модуль"))
-								.foregroundColor(.white)
+								.foregroundColor(themeManager.currentTheme.mainText)
 								.font(.system(size: 38, weight: .bold))
 								.padding(EdgeInsets(top: 52, leading: 0, bottom: 0, trailing: 0))
 								.offset(y: needAnimate ? 0 : 100)
@@ -70,7 +70,7 @@ struct CreateModuleView: View {
 									Image(asset: Asset.Images.addModuleCheckMark)
 										.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
 									Text(LocalizedStringKey("Добавить"))
-										.foregroundColor(.white)
+										.foregroundColor(themeManager.currentTheme.mainText)
 										.font(.system(size: 18, weight: .bold))
 										.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))
 								}
@@ -96,7 +96,7 @@ struct CreateModuleView: View {
 										Text("Готово")
 											.bold()
 											.padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
-											.foregroundColor(.white)
+											.foregroundColor(themeManager.currentTheme.mainText)
 											.background {
 												RoundedRectangle(cornerRadius: 15)
 													.foregroundColor(themeManager.currentTheme.accent)
