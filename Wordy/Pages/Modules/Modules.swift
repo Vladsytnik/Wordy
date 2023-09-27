@@ -280,19 +280,7 @@ struct Modules: View {
 						}
 						.ignoresSafeArea()
 						if modules.count == 0 || filteredModules.count == 0 {
-								Spacer()
-								VStack(spacing: 16) {
-									Spacer()
-									Text("👀")
-										.font(.system(size: 48))
-									Text("There is nothing\nhere yet...")
-										.multilineTextAlignment(.center)
-										.font(.system(size: 20, weight: .medium))
-										.opacity(0.72)
-									Spacer()
-								}
-								.offset(y: -15)
-								Spacer()
+								EmptyBGView()
 						}
 					}
 					.disabled(showActivity || showAlert)

@@ -59,26 +59,29 @@ struct ModuleScreen: View {
 								Text(viewModel.module.emoji)
 									.font(.system(size: 28))
 								//									.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 24))
-								AddWordPlusButton {
-									didTapAddNewPhrase()
-								}
-									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
-								LearnModuleButton {
-									if viewModel.module.phrases.count >= 4 {
-										viewModel.checkSubscriptionAndAccessability { isAllow in
-											if isAllow {
-												learnPageViewModel.module = viewModel.module
-												showLearnPage.toggle()
-											} else {
-												viewModel.showPaywall()
-											}
-										}
-									} else {
-										viewModel.didTapPhraseCountAlert()
+								if viewModel.module.phrases.count > 0 {
+									AddWordPlusButton {
+										didTapShareModule()
 									}
+									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
+									LearnModuleButton {
+										if viewModel.module.phrases.count >= 4 {
+											viewModel.checkSubscriptionAndAccessability { isAllow in
+												if isAllow {
+													learnPageViewModel.module = viewModel.module
+													showLearnPage.toggle()
+												} else {
+													viewModel.showPaywall()
+												}
+											}
+										} else {
+											viewModel.didTapPhraseCountAlert()
+										}
+									}
+									.frame(height: 45)
+									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
 								}
-								.frame(height: 45)
-								.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
+								
 								ForEach(0..<viewModel.phraseCount, id: \.self) { i in
 									Button {
 										viewModel.didTapWord(with: i)
@@ -102,7 +105,10 @@ struct ModuleScreen: View {
 									.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
 								}
 //								AddWordButton { didTapAddNewPhrase() }
-								DeleteModuleButton { viewModel.didTapDeleteModule() }
+								
+								if viewModel.module.phrases.count > 0 {
+									DeleteModuleButton { viewModel.didTapDeleteModule() }
+								}
 								
 								Rectangle()
 									.frame(height: 55)
@@ -123,6 +129,10 @@ struct ModuleScreen: View {
 							.shadow(color: .white.opacity(0.2), radius: 20)
 						}
 						.ignoresSafeArea(.keyboard)
+						
+						if viewModel.module.phrases.count == 0 {
+							EmptyBGView()
+						}
 					}
 					.onChange(of: viewModel.modules) { newValue in
 						self.modules = newValue
@@ -228,6 +238,10 @@ struct ModuleScreen: View {
 			viewModel.showPaywall()
 		}
 	}
+	
+	func didTapShareModule() {
+		
+	}
 }
 
 struct ModuleScreen_Previews: PreviewProvider {
@@ -235,7 +249,7 @@ struct ModuleScreen_Previews: PreviewProvider {
 		ModuleScreen(
 			modules: .constant( [Module(name: "Test", emoji: "❤️‍🔥")]),
 			searchedText: .constant(""),
-			filteredModules: .constant([]),
+			filteredModules: .constant([Module(name: "Test", emoji: "❤️‍🔥")]),
 			index: 0
 		)
 		.environmentObject(ThemeManager())
@@ -339,14 +353,15 @@ struct AddWordPlusButton: View {
 		} label: {
 //			Image(asset: Asset.Images.addWordButton)
 //				.resizable()
-			RoundedRectangle(cornerRadius: 30)
+			RoundedRectangle(cornerRadius: 26)
 				.frame(width: 60, height: 60)
 				.foregroundColor(themeManager.currentTheme.main)
 				.overlay {
-					Image(asset: Asset.Images.addWordButton)
-						.resizable()
-						.frame(width: 60, height: 60)
-						.offset(y: -3)
+//					Image(asset: Asset.Images.addWordButton)
+					Image(systemName: "square.and.arrow.up")
+						.scaleEffect(1.3)
+						.offset(y: -2)
+						.foregroundColor(themeManager.currentTheme.mainText)
 				}
 		}
 	}
