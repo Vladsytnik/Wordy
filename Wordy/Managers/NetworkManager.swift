@@ -24,7 +24,7 @@ class NetworkManager {
 	
 	static var ref = Database.database(url: "https://wordy-a720d-default-rtdb.europe-west1.firebasedatabase.app/").reference()
 //	static let db = Firestore.firestore()
-	static let currentUserID = Auth.auth().currentUser?.uid
+	static var currentUserID: String? { Auth.auth().currentUser?.uid }
 	
 	static func register(email: String, password: String, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void) {
 		Auth.auth().createUser(withEmail: email, password: password) { authResult, error in

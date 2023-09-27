@@ -112,6 +112,15 @@ class UserDefaultsManager {
 			UserDefaults().setValue(newValue, forKey: "themeName")
 		}
 	}
+	
+	static var userID: String? {
+		get {
+			UserDefaults().string(forKey: "userID")
+		}
+		set {
+			UserDefaults().setValue(newValue, forKey: "userID")
+		}
+	}
 }
 
 

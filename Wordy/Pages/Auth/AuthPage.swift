@@ -56,8 +56,12 @@ struct AuthPage: View {
 						Spacer()
 						
 						VStack {
-							AuthTextField(placeholder: "Логин", text: $viewModel.email, isFocused: $isFocused)
-							AuthTextField(placeholder: "Пароль", text: $viewModel.password, isFocused: $isFocused)
+							AuthTextField(placeholder: "Логин",
+										  text: $viewModel.email,
+										  isFocused: $isFocused)
+							AuthTextField(placeholder: "Пароль",
+										  text: $viewModel.password,
+										  isFocused: $isFocused)
 						}
 						.textFieldStyle(.roundedBorder)
 						.padding()

@@ -30,6 +30,7 @@ struct ModuleScreen: View {
 	@State private var scrollDirection = CGFloat.zero
 	@State private var prevScrollOffsetValue = CGFloat.zero
 	@State private var createPhraseButtonOpacity = 1.0
+	@State var showActivity = false
 	
 	var body: some View {
 		Color.clear
@@ -206,6 +207,12 @@ struct ModuleScreen: View {
 			.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAboutPhraseCount, withoutButtons: true) {
 				
 			}
+			.background {
+				UIKitActivityView(isPresented: $showActivity,
+								  data: [URL(string: "https://wordy.onelink.me/HpCP/s3t4ujfk")!],
+								  subject: nil,
+								  message: nil)
+			}
 	}
 	
 	init(modules: Binding<[Module]>, searchedText: Binding<String>, filteredModules: Binding<[Module]>, index: Int) {
@@ -240,7 +247,7 @@ struct ModuleScreen: View {
 	}
 	
 	func didTapShareModule() {
-		
+		showActivity.toggle()
 	}
 }
 
@@ -363,6 +370,60 @@ struct AddWordPlusButton: View {
 						.offset(y: -2)
 						.foregroundColor(themeManager.currentTheme.mainText)
 				}
+		}
+	}
+}
+
+struct UIKitActivityView: UIViewControllerRepresentable {
+	@Binding var isPresented: Bool
+	
+	let data: [Any]
+	let subject: String?
+	let message: String?
+	
+	func makeUIViewController(context: Context) -> UIViewController {
+		HolderViewController(control: self)
+	}
+	
+	func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+		let activityViewController = UIActivityViewController(
+			activityItems: data,
+			applicationActivities: nil
+		)
+		
+		if isPresented && uiViewController.presentedViewController == nil {
+			uiViewController.present(activityViewController, animated: true)
+		}
+		
+		activityViewController.completionWithItemsHandler = { (_, _, _, _) in
+			isPresented = false
+		}
+	}
+	
+	class HolderViewController: UIViewController, UIActivityItemSource {
+		private let control: UIKitActivityView
+		
+		init(control: UIKitActivityView) {
+			self.control = control
+			super.init(nibName: nil, bundle: nil)
+		}
+		
+		required init?(coder: NSCoder) {
+			fatalError("init(coder:) has not been implemented")
+		}
+		
+		func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+			control.message ?? ""
+		}
+		
+		func activityViewController(_ activityViewController: UIActivityViewController,
+									itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+			control.message
+		}
+		
+		func activityViewController(_ activityViewController: UIActivityViewController,
+									subjectForActivityType activityType: UIActivity.ActivityType?) -> String {
+			control.subject ?? ""
 		}
 	}
 }

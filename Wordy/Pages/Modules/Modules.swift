@@ -533,6 +533,7 @@ struct Modules: View {
 				withAnimation {
 					router.userIsLoggedIn = false
 				}
+				print("USER IS signed out")
 			}
 			print("Current user:", auth.currentUser?.email)
 		}

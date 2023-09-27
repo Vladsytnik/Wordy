@@ -77,7 +77,6 @@ class AuthViewModel: NSObject, ObservableObject {
 
 extension AuthViewModel: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
 	
-	@available(iOS 13, *)
 	func startSignInWithAppleFlow() {
 		let nonce = randomNonceString()
 		currentNonce = nonce
@@ -109,6 +108,10 @@ extension AuthViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
 				print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
 				return
 			}
+			
+			// for logout
+			UserDefaultsManager.userID = idTokenString
+			
 			// Initialize a Firebase credential, including the user's full name.
 			let credential = OAuthProvider.credential(withProviderID: "apple.com",
 													  idToken: idTokenString,
@@ -164,7 +167,6 @@ extension AuthViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
 		return String(nonce)
 	}
 	
-	@available(iOS 13, *)
 	private func sha256(_ input: String) -> String {
 		let inputData = Data(input.utf8)
 		let hashedData = SHA256.hash(data: inputData)

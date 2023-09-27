@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ApphudSDK
 
 struct Paywall: View {
 	
@@ -107,6 +108,11 @@ struct Paywall: View {
 					}
 				}
 			}
+		}
+		.task {
+			let mainPaywall = await Apphud.paywall(ApphudPaywallID.main.rawValue)
+			let apphudProducts = mainPaywall?.products
+			print("Apphud products: ", apphudProducts)
 		}
     }
 }

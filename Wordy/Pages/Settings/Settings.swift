@@ -7,6 +7,10 @@
 
 import SwiftUI
 import Firebase
+import AuthenticationServices
+import CryptoKit
+import FirebaseAuth
+import FirebaseCore
 
 struct Settings: View {
 	
@@ -20,6 +24,8 @@ struct Settings: View {
 	@State var isPro = false
 	
 	@State var isThemeSelecting = false
+	@State var currentNonce: String = ""
+	private let settingsDelegate = SettingsDelegate()
 	
 	let offset: Double = 76
 	let themeCirclesWidth: Double = 45
@@ -198,15 +204,19 @@ struct Settings: View {
 	// MARK: - Helpers
 	
 	private func deleteAccount() {
-		showAcivity = true
-		NetworkManager.deleteAccount { isSuccess in
-			showAcivity = false
-			if isSuccess {
-				showDeleteAccountAlert.toggle()
-				self.logOut()
-			} else {
-				showDeleteAccountError.toggle()
+		Task {
+			NetworkManager.deleteAccount { isSuccess in
+				showAcivity = false
+				if isSuccess {
+					showDeleteAccountAlert.toggle()
+					self.logOut()
+				} else {
+					showDeleteAccountError.toggle()
+				}
 			}
+			router.userIsLoggedIn = false
+			UserDefaultsManager.userID = nil
+//			await deleteCurrentUser()
 		}
 	}
 	
@@ -217,9 +227,76 @@ struct Settings: View {
 	private func logOut() {
 		do {
 			try Auth.auth().signOut()
-			router.userIsLoggedIn = false
+//			Task {
+//				try await Auth.auth().currentUser?.delete()
+//				router.userIsLoggedIn = false
+//			}
 		} catch  {
 			print("Ошибка при выходе из аккаунта")
+		}
+	}
+	
+	private func randomNonceString(length: Int = 32) -> String {
+		precondition(length > 0)
+		var randomBytes = [UInt8](repeating: 0, count: length)
+		let errorCode = SecRandomCopyBytes(kSecRandomDefault, randomBytes.count, &randomBytes)
+		if errorCode != errSecSuccess {
+			fatalError(
+				"Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)"
+			)
+		}
+		
+		let charset: [Character] =
+		Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+		
+		let nonce = randomBytes.map { byte in
+			// Pick a random character from the set, wrapping around if needed.
+			charset[Int(byte) % charset.count]
+		}
+		
+		return String(nonce)
+	}
+	
+	private func sha256(_ input: String) -> String {
+		let inputData = Data(input.utf8)
+		let hashedData = SHA256.hash(data: inputData)
+		let hashString = hashedData.compactMap {
+			String(format: "%02x", $0)
+		}.joined()
+		
+		return hashString
+	}
+	
+	private func deleteCurrentUser() async {
+		do {
+			let nonce = randomNonceString()
+			currentNonce = nonce
+			settingsDelegate.currentNonce = nonce
+			settingsDelegate.isSignedOut = {
+				
+			}
+			let appleIDProvider = ASAuthorizationAppleIDProvider()
+			let request = appleIDProvider.createRequest()
+			request.requestedScopes = [.fullName, .email]
+			request.nonce = sha256(nonce)
+			
+			let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+			authorizationController.delegate = settingsDelegate
+			authorizationController.presentationContextProvider = settingsDelegate
+			authorizationController.performRequests()
+			
+			do {
+				guard let authCodeString = UserDefaultsManager.userID else { return }
+				try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
+				showAcivity = true
+				try await Auth.auth().currentUser?.delete()
+				
+			} catch {
+				print(error)
+			}
+		} catch {
+			// In the unlikely case that nonce generation fails, show error view.
+			print("Error on sign out:", error)
 		}
 	}
 }

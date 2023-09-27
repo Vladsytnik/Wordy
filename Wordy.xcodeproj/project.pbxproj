@@ -107,6 +107,8 @@
 		019160BC29D098DD0094F36D /* ModuleSelectPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019160BB29D098DD0094F36D /* ModuleSelectPage.swift */; };
 		019160BE29D2D0360094F36D /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019160BD29D2D0360094F36D /* Group.swift */; };
 		019229872AC44BB3002648C4 /* EmptyBGView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019229862AC44BB3002648C4 /* EmptyBGView.swift */; };
+		0192298A2AC462FE002648C4 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = 019229892AC462FE002648C4 /* AppsFlyerLib */; };
+		0192298C2AC48E5A002648C4 /* SettingsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0192298B2AC48E5A002648C4 /* SettingsDelegate.swift */; };
 		01978FAB294CBCB600B8EFC3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 01978FAA294CBCB600B8EFC3 /* Lottie */; };
 		01978FB3294CBF6600B8EFC3 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01978FB2294CBF6600B8EFC3 /* LottieView.swift */; };
 		01978FB7294CC92200B8EFC3 /* loader.json in Resources */ = {isa = PBXBuildFile; fileRef = 01978FB6294CC92100B8EFC3 /* loader.json */; };
@@ -225,6 +227,7 @@
 		019160BB29D098DD0094F36D /* ModuleSelectPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleSelectPage.swift; sourceTree = "<group>"; };
 		019160BD29D2D0360094F36D /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		019229862AC44BB3002648C4 /* EmptyBGView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBGView.swift; sourceTree = "<group>"; };
+		0192298B2AC48E5A002648C4 /* SettingsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDelegate.swift; sourceTree = "<group>"; };
 		01978FB2294CBF6600B8EFC3 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		01978FB6294CC92100B8EFC3 /* loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader.json; sourceTree = "<group>"; };
 		019AC10E2AB43F3B00B31E8F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -261,6 +264,7 @@
 				010C7E9129AE7EA900133179 /* MCEmojiPicker in Frameworks */,
 				0113F9592A96799800566EAC /* SwiftUITooltip in Frameworks */,
 				0135E24A2959DFDC00B1C8A0 /* FirebaseStorage in Frameworks */,
+				0192298A2AC462FE002648C4 /* AppsFlyerLib in Frameworks */,
 				0135E2402959DFDC00B1C8A0 /* FirebaseAuth in Frameworks */,
 				54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */,
 				0135E2462959DFDC00B1C8A0 /* FirebaseFirestore in Frameworks */,
@@ -654,6 +658,7 @@
 		01B92B33294F604B00F440EE /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				0192298B2AC48E5A002648C4 /* SettingsDelegate.swift */,
 				01B92B34294F606000F440EE /* Settings.swift */,
 			);
 			path = Settings;
@@ -745,6 +750,7 @@
 				010C7E9029AE7EA900133179 /* MCEmojiPicker */,
 				0113F9582A96799800566EAC /* SwiftUITooltip */,
 				0109D1992AB6E91800714E55 /* ApphudSDK */,
+				019229892AC462FE002648C4 /* AppsFlyerLib */,
 			);
 			productName = Wordy;
 			productReference = 019056352944A7140058B566 /* Wordy.app */;
@@ -781,6 +787,7 @@
 				010C7E8F29AE7EA900133179 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
 				0113F9572A96799800566EAC /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */,
 				0109D1982AB6E91800714E55 /* XCRemoteSwiftPackageReference "ApphudSDK" */,
+				019229882AC462FE002648C4 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
 			);
 			productRefGroup = 019056362944A7140058B566 /* Products */;
 			projectDirPath = "";
@@ -917,6 +924,7 @@
 				019160BE29D2D0360094F36D /* Group.swift in Sources */,
 				0103FF4E294C76CB004C2EA6 /* StartView.swift in Sources */,
 				016AA3AD29477E40002C00CC /* RoundedTextArea.swift in Sources */,
+				0192298C2AC48E5A002648C4 /* SettingsDelegate.swift in Sources */,
 				0101B8AB2AA0D38D0055DEFB /* MyTooltip.swift in Sources */,
 				014681102955FADD0080732C /* CreateModuleView.swift in Sources */,
 				01F57696294A4F2E00F52EB1 /* VisualEffectView.swift in Sources */,
@@ -1026,7 +1034,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1080,7 +1088,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1208,7 +1216,15 @@
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = exactVersion;
-				version = 9.6.0;
+				version = 10.15.0;
+			};
+		};
+		019229882AC462FE002648C4 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppsFlyerSDK/AppsFlyerFramework";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
 			};
 		};
 		01978FA9294CBCB600B8EFC3 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
@@ -1276,6 +1292,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0135E23A2959DFDC00B1C8A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		019229892AC462FE002648C4 /* AppsFlyerLib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 019229882AC462FE002648C4 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */;
+			productName = AppsFlyerLib;
 		};
 		01978FAA294CBCB600B8EFC3 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
