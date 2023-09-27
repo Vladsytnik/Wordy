@@ -52,7 +52,8 @@ struct ModuleScreen: View {
 							}
 							.hidden()
 						}
-						ObservableScrollView(scrollOffset: $scrollOffset) { proxy in
+//						ObservableScrollView(scrollOffset: $scrollOffset) { proxy in
+						ScrollView {
 							VStack {
 								Header(viewModel: viewModel, showAlert: $showInfoAlert, module: viewModel.module)
 								//								Color.clear
@@ -254,9 +255,13 @@ struct ModuleScreen: View {
 struct ModuleScreen_Previews: PreviewProvider {
 	static var previews: some View {
 		ModuleScreen(
-			modules: .constant( [Module(name: "Test", emoji: "❤️‍🔥")]),
+			modules: .constant( [Module(name: "Test", emoji: "❤️‍🔥", phrases: [
+				.init(nativeText: "Test", translatedText: "Test", id: "1")
+			])]),
 			searchedText: .constant(""),
-			filteredModules: .constant([Module(name: "Test", emoji: "❤️‍🔥")]),
+			filteredModules: .constant([Module(name: "Test", emoji: "❤️‍🔥", phrases: [
+				.init(nativeText: "Test", translatedText: "Test", id: "1")
+			])]),
 			index: 0
 		)
 		.environmentObject(ThemeManager())
@@ -366,7 +371,7 @@ struct AddWordPlusButton: View {
 				.overlay {
 //					Image(asset: Asset.Images.addWordButton)
 					Image(systemName: "square.and.arrow.up")
-						.scaleEffect(1.3)
+						.scaleEffect(1.5)
 						.offset(y: -2)
 						.foregroundColor(themeManager.currentTheme.mainText)
 				}

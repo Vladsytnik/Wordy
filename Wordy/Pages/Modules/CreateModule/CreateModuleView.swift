@@ -37,7 +37,7 @@ struct CreateModuleView: View {
 								.foregroundColor(themeManager.currentTheme.mainText)
 								.font(.system(size: 38, weight: .bold))
 								.padding(EdgeInsets(top: 52, leading: 0, bottom: 0, trailing: 0))
-								.offset(y: needAnimate ? 0 : 100)
+//								.offset(y: needAnimate ? 0 : 100)
 							if UIScreen.main.bounds.height < 812 {
 								CreateModuleCard(
 									width: geo.size.width - 100,
@@ -78,7 +78,7 @@ struct CreateModuleView: View {
 								.padding(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
 								.background(themeManager.currentTheme.moduleCreatingBtn)
 								.cornerRadius(17)
-								.offset(y: needAnimate ? 0 : 300)
+//								.offset(y: needAnimate ? 0 : 300)
 							}
 							Spacer()
 						}

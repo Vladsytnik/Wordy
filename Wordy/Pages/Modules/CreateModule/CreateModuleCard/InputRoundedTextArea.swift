@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InputRoundedTextArea: View {
-    
+	
 	@EnvironmentObject var themeManager: ThemeManager
 	@Binding var moduleName: String
 	@FocusState private var moduleNameIsFocused: Bool
@@ -66,7 +66,9 @@ struct InputRoundedTextArea: View {
 			height: height
 		)
 		.onAppear{
-			moduleNameIsFocused = true
+//			DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+				moduleNameIsFocused = true
+//			}
 		}
 	}
 }

@@ -65,7 +65,7 @@ struct CreateModuleCard: View {
 			.frame(width: width, height: height)
 			.offset(y: -7)
 		}
-		.offset(y: needAnimate ? 0 : 200)
+//		.offset(y: needAnimate ? 0 : 200)
 	}
 }
 
