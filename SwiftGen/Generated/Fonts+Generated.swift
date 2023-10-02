@@ -46,7 +46,11 @@ internal enum FontFamily {
     internal static let boldItalic = FontConvertible(name: "SFProText-BoldItalic", family: "SF Pro Text", path: "SF-Pro-Text-BoldItalic.otf")
     internal static let all: [FontConvertible] = [bold, boldItalic]
   }
-  internal static let allCustomFonts: [FontConvertible] = [SFProDisplay.all, SFProText.all].flatMap { $0 }
+  internal enum ShortStack {
+    internal static let regular = FontConvertible(name: "ShortStack", family: "Short Stack", path: "ShortStack-Regular.ttf")
+    internal static let all: [FontConvertible] = [regular]
+  }
+  internal static let allCustomFonts: [FontConvertible] = [SFProDisplay.all, SFProText.all, ShortStack.all].flatMap { $0 }
   internal static func registerAllCustomFonts() {
     allCustomFonts.forEach { $0.register() }
   }

@@ -10,7 +10,8 @@ import SwiftUI
 
 struct Themes {
 	static let availableThemes: [ColorTheme] = [
-		ColorTheme(id: "MainColor",
+		ColorTheme(isDark: true,
+				   id: "MainColor",
 				   accent: Color(asset: Asset.Colors.accent), //
 				   main: Color(asset: Asset.Colors.main), //
 				   darkMain: Color(asset: Asset.Colors.darkMain),
@@ -35,7 +36,8 @@ struct Themes {
 				   authBackgroundImage: Image(asset: Asset.Images.authBG),
 				   learnPageBackgroundImage: Image(asset: Asset.Images.learnPageBG)),
 		
-		ColorTheme(id: "RedColor",
+		ColorTheme(isDark: true,
+				   id: "RedColor",
 				   accent: Color(asset: Asset.Colors2.accent2), //
 				   main: Color(asset: Asset.Colors2.main2), //
 				   darkMain: Color(asset: Asset.Colors2.darkMain2),
@@ -60,7 +62,8 @@ struct Themes {
 				   authBackgroundImage: Image(asset: Asset.Images2.authBG2),
 				   learnPageBackgroundImage: Image(asset: Asset.Images2.learnPageBG2)),
 		
-		ColorTheme(id: "LightPinkColor",
+		ColorTheme(isDark: false,
+				   id: "LightPinkColor",
 				   accent: Color(asset: Asset.Colors3.accent3), //
 				   main: Color(asset: Asset.Colors3.main3), //
 				   darkMain: Color(asset: Asset.Colors3.darkMain3),

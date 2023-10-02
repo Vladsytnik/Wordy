@@ -109,6 +109,8 @@
 		019229872AC44BB3002648C4 /* EmptyBGView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019229862AC44BB3002648C4 /* EmptyBGView.swift */; };
 		0192298A2AC462FE002648C4 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = 019229892AC462FE002648C4 /* AppsFlyerLib */; };
 		0192298C2AC48E5A002648C4 /* SettingsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0192298B2AC48E5A002648C4 /* SettingsDelegate.swift */; };
+		0192298F2AC7055D002648C4 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0192298E2AC7055D002648C4 /* Launch Screen.storyboard */; };
+		019229912AC7095B002648C4 /* ShortStack-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 019229902AC7095B002648C4 /* ShortStack-Regular.ttf */; };
 		01978FAB294CBCB600B8EFC3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 01978FAA294CBCB600B8EFC3 /* Lottie */; };
 		01978FB3294CBF6600B8EFC3 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01978FB2294CBF6600B8EFC3 /* LottieView.swift */; };
 		01978FB7294CC92200B8EFC3 /* loader.json in Resources */ = {isa = PBXBuildFile; fileRef = 01978FB6294CC92100B8EFC3 /* loader.json */; };
@@ -119,6 +121,7 @@
 		01B92B35294F606100F440EE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B92B34294F606000F440EE /* Settings.swift */; };
 		01D2F1BE294CE468000330A8 /* View + Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2F1BD294CE468000330A8 /* View + Modifiers.swift */; };
 		01D2F1C1294CEAD5000330A8 /* CategoryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2F1C0294CEAD5000330A8 /* CategoryCard.swift */; };
+		01D89B1E2AC961390077FD6E /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D89B1D2AC961390077FD6E /* SubscriptionManager.swift */; };
 		01DC12CA2A153605007BF79E /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DC12C92A153605007BF79E /* Languages.swift */; };
 		01DEA5082AB8C90300A8074D /* Colors2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01DEA5072AB8C90300A8074D /* Colors2.xcassets */; };
 		01DEA50A2AB8CF3500A8074D /* Images2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01DEA5092AB8CF3500A8074D /* Images2.xcassets */; };
@@ -228,6 +231,8 @@
 		019160BD29D2D0360094F36D /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		019229862AC44BB3002648C4 /* EmptyBGView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBGView.swift; sourceTree = "<group>"; };
 		0192298B2AC48E5A002648C4 /* SettingsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDelegate.swift; sourceTree = "<group>"; };
+		0192298E2AC7055D002648C4 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		019229902AC7095B002648C4 /* ShortStack-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ShortStack-Regular.ttf"; sourceTree = "<group>"; };
 		01978FB2294CBF6600B8EFC3 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		01978FB6294CC92100B8EFC3 /* loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader.json; sourceTree = "<group>"; };
 		019AC10E2AB43F3B00B31E8F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -237,6 +242,7 @@
 		01B92B34294F606000F440EE /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		01D2F1BD294CE468000330A8 /* View + Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View + Modifiers.swift"; sourceTree = "<group>"; };
 		01D2F1C0294CEAD5000330A8 /* CategoryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCard.swift; sourceTree = "<group>"; };
+		01D89B1D2AC961390077FD6E /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		01DC12C92A153605007BF79E /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
 		01DEA5072AB8C90300A8074D /* Colors2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors2.xcassets; sourceTree = "<group>"; };
 		01DEA5092AB8CF3500A8074D /* Images2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images2.xcassets; sourceTree = "<group>"; };
@@ -328,6 +334,7 @@
 		012D95B529485EEC00165DAF /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				019229902AC7095B002648C4 /* ShortStack-Regular.ttf */,
 				012D95BF29485F2500165DAF /* SF-Pro-Display-Black.otf */,
 				012D95BA29485F2400165DAF /* SF-Pro-Display-BlackItalic.otf */,
 				012D95C629485F2500165DAF /* SF-Pro-Display-Bold.otf */,
@@ -538,6 +545,7 @@
 				01780D2A294A10EF004F11AC /* Extensions */,
 				01E4B757294B114700720BE0 /* Managers */,
 				01978FAC294CBD4500B8EFC3 /* ActivityView */,
+				0192298D2AC7053B002648C4 /* LaunchScreen */,
 				0190564A2944AA5C0058B566 /* Resources */,
 			);
 			path = Wordy;
@@ -627,6 +635,14 @@
 			path = ModuleSelectPage;
 			sourceTree = "<group>";
 		};
+		0192298D2AC7053B002648C4 /* LaunchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				0192298E2AC7055D002648C4 /* Launch Screen.storyboard */,
+			);
+			path = LaunchScreen;
+			sourceTree = "<group>";
+		};
 		01978FAC294CBD4500B8EFC3 /* ActivityView */ = {
 			isa = PBXGroup;
 			children = (
@@ -676,6 +692,7 @@
 			isa = PBXGroup;
 			children = (
 				01E4B758294B119800720BE0 /* NetworkManager.swift */,
+				01D89B1D2AC961390077FD6E /* SubscriptionManager.swift */,
 				0103FF4B294C7471004C2EA6 /* UserDefaultsManager.swift */,
 				0103FF51294C86F5004C2EA6 /* ErrorCodeManager.swift */,
 				0101B8A82AA0CB060055DEFB /* MockDataManager.swift */,
@@ -820,6 +837,7 @@
 				012D95DD294867DA00165DAF /* SF-Pro-Display-Semibold.otf in Resources */,
 				012D95DB294867DA00165DAF /* SF-Pro-Display-Bold.otf in Resources */,
 				012D95D2294867DA00165DAF /* SF-Pro-Display-BlackItalic.otf in Resources */,
+				019229912AC7095B002648C4 /* ShortStack-Regular.ttf in Resources */,
 				012D95E3294867DA00165DAF /* SF-Pro-Display-Heavy.otf in Resources */,
 				019AC10F2AB43F3B00B31E8F /* GoogleService-Info.plist in Resources */,
 				01DEA5082AB8C90300A8074D /* Colors2.xcassets in Resources */,
@@ -833,6 +851,7 @@
 				012D95E1294867DA00165DAF /* SF-Pro-Text-BoldItalic.otf in Resources */,
 				0190564C2944AA710058B566 /* .gitignore in Resources */,
 				012D95DC294867DA00165DAF /* SF-Pro-Display-RegularItalic.otf in Resources */,
+				0192298F2AC7055D002648C4 /* Launch Screen.storyboard in Resources */,
 				01897C032A17DCC3007F6A2C /* Localizable.strings in Resources */,
 				012D95D4294867DA00165DAF /* SF-Pro-Display-HeavyItalic.otf in Resources */,
 				014955A629E84DD8000BC30F /* success.json in Resources */,
@@ -917,6 +936,7 @@
 				0109D19E2AB88F0C00714E55 /* Themes.swift in Sources */,
 				01780D2C294A110A004F11AC /* ReverseMask.swift in Sources */,
 				0185B55F2949F26D00934373 /* ObservableScrollView.swift in Sources */,
+				01D89B1E2AC961390077FD6E /* SubscriptionManager.swift in Sources */,
 				01DC12CA2A153605007BF79E /* Languages.swift in Sources */,
 				01E4B759294B119800720BE0 /* NetworkManager.swift in Sources */,
 				0101B8B82AA0DD890055DEFB /* OnboardingManager.swift in Sources */,
@@ -1115,6 +1135,7 @@
 				INFOPLIST_FILE = Wordy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1147,6 +1168,7 @@
 				INFOPLIST_FILE = Wordy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;

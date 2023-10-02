@@ -21,7 +21,7 @@ struct CreateModuleButton: View {
 		} label: {
 			ZStack {
 				RoundedRectangle(cornerRadius: 20)
-					.foregroundColor(Color(asset: Asset.Colors.createModuleButton))
+					.foregroundColor(themeManager.currentTheme.moduleCreatingBtn)
 					.shadow(color: .white.opacity(0.15), radius: 20)
 				HStack {
 					if text == nil {

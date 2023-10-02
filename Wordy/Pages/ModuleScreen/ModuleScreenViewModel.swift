@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVKit
+import ApphudSDK
 
 let maxCountOfStartingLearnMode = 3
 
@@ -111,7 +112,12 @@ class ModuleScreenViewModel: ObservableObject {
 	
 	func checkSubscriptionAndAccessability(isAllow: ((Bool) -> Void)) {
 		let countOfStartingLearnMode =  UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
-		isAllow(UserDefaultsManager.userHasSubscription
+//		isAllow(UserDefaultsManager.userHasSubscription
+//				|| countOfStartingLearnMode < maxCountOfStartingLearnMode)
+		let subscriptionManager = SubscriptionManager()
+		let test = subscriptionManager.userHasSubscription
+		let test2 = subscriptionManager.hasActiveSubscription
+		isAllow(subscriptionManager.userHasSubscription
 				|| countOfStartingLearnMode < maxCountOfStartingLearnMode)
 	}
 	

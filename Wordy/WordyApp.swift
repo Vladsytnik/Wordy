@@ -15,6 +15,7 @@ struct WordyApp: App {
 	
 	@StateObject var router = Router()
 	@StateObject var themeManager = ThemeManager()
+	@StateObject var subsriptionManager = SubscriptionManager()
 	private let deepLinkDelegate = AppFliyerDelegate()
 	
 	init() {
@@ -29,6 +30,7 @@ struct WordyApp: App {
 			StartView()
 				.environmentObject(router)
 				.environmentObject(themeManager)
+				.environmentObject(subsriptionManager)
 				.onAppear {
 					AppsFlyerLib.shared().start(completionHandler: { (dictionary, error) in
 						if (error != nil){

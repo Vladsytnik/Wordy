@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ModuleScreen: View {
 	
+	@EnvironmentObject var subscriptionManager: SubscriptionManager
+	
 	@Binding var modules: [Module]
 	@Binding var filteredModules: [Module]
 	@Binding var searchText: String
@@ -31,6 +33,8 @@ struct ModuleScreen: View {
 	@State private var prevScrollOffsetValue = CGFloat.zero
 	@State private var createPhraseButtonOpacity = 1.0
 	@State var showActivity = false
+
+	
 	
 	var body: some View {
 		Color.clear
@@ -265,6 +269,7 @@ struct ModuleScreen_Previews: PreviewProvider {
 			index: 0
 		)
 		.environmentObject(ThemeManager())
+		.environmentObject(SubscriptionManager())
 	}
 }
 
@@ -449,7 +454,7 @@ struct LearnModuleButton: View {
 					.padding(EdgeInsets(top: 16, leading: 26, bottom: 16, trailing: 26))
 			}
 			.background {
-				themeManager.currentTheme.accent
+				themeManager.currentTheme.moduleCreatingBtn
 			}
 			.cornerRadius(22)
 		}
@@ -469,10 +474,12 @@ struct AddWordButton: View {
 				.frame(height: 60)
 				.overlay {
 					HStack {
-						Image(asset: Asset.Images.plusIcon)
+//						Image(asset: Asset.Images.plusIcon)
+						Image(systemName: "plus.circle.fill")
+							.foregroundColor(themeManager.currentTheme.mainText)
 						Text(LocalizedStringKey("Добавить слово"))
 							.foregroundColor(themeManager.currentTheme.mainText)
-							.font(.system(size: 18, weight: .medium))
+							.font(.system(size: 16, weight: .medium))
 					}
 				}
 				.foregroundColor (

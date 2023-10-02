@@ -32,6 +32,8 @@ class SelectLanguageViewModel: ObservableObject {
 
 	
 	init() {
+		nativeSelectedLanguage = UserDefaultsManager.nativeLanguage
+		learnSelectedLanguage = UserDefaultsManager.learnLanguage
 		checkNativeLanguageOnRepeat()
 		checkLearnLanguageOnRepeat()
 		checkThatLangWasSelected()

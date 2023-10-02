@@ -128,7 +128,7 @@ struct Settings: View {
 										   cellText: "Оформление",
 										   cellImageName: "swatchpalette",
 										   isOpenable: true,
-										   isOpened: $isThemeSelecting)
+										   isOpened: $isThemeSelecting, didTapOnRow: {})
 						.offset(y: isThemeSelecting ? offset : 0)
 					}
 					.padding(EdgeInsets(top: 0, leading: 0, bottom: isThemeSelecting ? offset : 0, trailing: 0))
@@ -149,6 +149,18 @@ struct Settings: View {
 //						.animation(.spring(), value: isThemeSelecting)
 //						.padding(EdgeInsets(top: -40, leading: 16, bottom: 8, trailing: 16))
 //						.zIndex(2)
+					
+					
+					NavigationLink {
+						SelectLanguagePage(isFromSettings: true)
+							.navigationTitle("Язык")
+					} label: {
+						GeneralSettingsRow(cellHeight: cellHeight,
+										   cellText: "Сменить язык",
+										   cellImageName: "character.bubble",
+										   isOpenable: false,
+										   isOpened: $isThemeSelecting)
+					}
 					
 					LogOutRow(cellHeight: cellHeight) {
 						self.presentationMode.wrappedValue.dismiss()
@@ -322,39 +334,66 @@ struct GeneralSettingsRow: View {
 	var didTapOnRow: (() -> Void)?
 	
 	var body: some View {
-		ZStack {
-			RoundedRectangle(cornerRadius: 12)
-				.frame(height: cellHeight)
-				.foregroundColor(themeManager.currentTheme.main)
-			HStack(spacing: 0) {
-				Image(systemName: cellImageName)
-					.foregroundColor(themeManager.currentTheme.mainText)
-					.padding()
-				Text(LocalizedStringKey(cellText))
-					.font(.system(size: 16, weight: .regular))
-					.foregroundColor(themeManager.currentTheme.mainText)
-				Spacer()
-				if isOpenable {
-					Image(systemName: "control")
-//						.scaleEffect(0.3)
-//						.foregroundColor(Color(asset: Asset.Colors.lightPurple))
+		if didTapOnRow != nil {
+			ZStack {
+				RoundedRectangle(cornerRadius: 12)
+					.frame(height: cellHeight)
+					.foregroundColor(themeManager.currentTheme.main)
+				HStack(spacing: 0) {
+					Image(systemName: cellImageName)
 						.foregroundColor(themeManager.currentTheme.mainText)
 						.padding()
-						.rotationEffect(.degrees(isOpened ? 0 : 90))
-						.animation(.spring(), value: isOpened)
+					Text(LocalizedStringKey(cellText))
+						.font(.system(size: 16, weight: .regular))
+						.foregroundColor(themeManager.currentTheme.mainText)
+					Spacer()
+					if isOpenable {
+						Image(systemName: "control")
+						//						.scaleEffect(0.3)
+						//						.foregroundColor(Color(asset: Asset.Colors.lightPurple))
+							.foregroundColor(themeManager.currentTheme.mainText)
+							.padding()
+							.rotationEffect(.degrees(isOpened ? 0 : 90))
+							.animation(.spring(), value: isOpened)
+					}
 				}
 			}
-		}
-		.onTapGesture {
-			if isOpenable {
-				withAnimation {
-					isOpened.toggle()
+			.onTapGesture {
+				if isOpenable {
+					withAnimation {
+						isOpened.toggle()
+					}
+				} else {
+					didTapOnRow?()
 				}
-			} else {
-				didTapOnRow?()
 			}
+			.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
+		} else {
+			ZStack {
+				RoundedRectangle(cornerRadius: 12)
+					.frame(height: cellHeight)
+					.foregroundColor(themeManager.currentTheme.main)
+				HStack(spacing: 0) {
+					Image(systemName: cellImageName)
+						.foregroundColor(themeManager.currentTheme.mainText)
+						.padding()
+					Text(LocalizedStringKey(cellText))
+						.font(.system(size: 16, weight: .regular))
+						.foregroundColor(themeManager.currentTheme.mainText)
+					Spacer()
+					if isOpenable {
+						Image(systemName: "control")
+						//						.scaleEffect(0.3)
+						//						.foregroundColor(Color(asset: Asset.Colors.lightPurple))
+							.foregroundColor(themeManager.currentTheme.mainText)
+							.padding()
+							.rotationEffect(.degrees(isOpened ? 0 : 90))
+							.animation(.spring(), value: isOpened)
+					}
+				}
+			}
+			.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
 		}
-		.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
 	}
 }
 

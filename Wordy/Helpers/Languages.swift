@@ -77,13 +77,13 @@ enum Language: String, CaseIterable, Codable {
 		case .eng:
 			return "en"
 		case .it:
-			return "it-IT"
+			return "it"
 		case .ro:
-			return "ro-RO"
+			return "ro"
 		case .tur:
-			return "tr-TR"
+			return "tr"
 		case .ispan:
-			return "es-ES"
+			return "es"
 		}
 	}
 }

@@ -364,15 +364,15 @@ class NetworkManager {
 		session.invalidateAndCancel()
 		guard let url = URL(string: "https://translate.api.cloud.yandex.net/translate/v2/translate") else {
 			print("error in url [translate method]")
-			throw fatalError()
+			return ""
 		}
 		guard let learnLang = UserDefaultsManager.learnLanguage else {
 			print("error in url [translate method] - learn lang")
-			throw fatalError()
+			return ""
 		}
 		guard let nativeLang = UserDefaultsManager.nativeLanguage else {
 			print("error in url [translate method] - native lang")
-			throw fatalError()
+			return ""
 		}
 		
 		var request = URLRequest(url: url)
@@ -391,19 +391,22 @@ class NetworkManager {
 		] as [String : Any]
 		
 		guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
-			throw fatalError("Возникла ошибка при сериализации в NetworkManager -> translate")
+			print("Возникла ошибка при сериализации в NetworkManager -> translate")
+			return ""
 		}
 		request.httpBody = httpBody
 		let (data, response) = try await session.data(for: request)
 		
 		guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-			throw fatalError("NetworkManager -> translate status code is not 200: \(response)")
+			print("NetworkManager -> translate status code is not 200: \(response)")
+			return ""
 		}
 		
 		let transaltions = try JSONDecoder().decode(TranslatedResponse.self, from: data)
 		
 		guard let result = transaltions.translations.first?.text else {
-			throw fatalError("Не удалось декодировать ответ в NetworkManager -> translate")
+			print("Не удалось декодировать ответ в NetworkManager -> translate")
+			return ""
 		}
 		
 		print("TRANSLATED: ", transaltions.translations.first!.text)

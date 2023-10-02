@@ -119,6 +119,7 @@ struct ShowActivity: ViewModifier {
 struct ShowAlert: ViewModifier {
 	
 	@Binding var showAlert: Bool
+	@EnvironmentObject var themeManager: ThemeManager
 	let title: String
 	let description: String
 	
@@ -133,7 +134,7 @@ struct ShowAlert: ViewModifier {
 			content
 				.zIndex(0)
 				.disabled(showAlert)
-				.opacity(showAlert ? 0.5 : 1)
+//				.opacity(showAlert ? 0.5 : 1)
 //				.blur(radius: showAlert ? 1 : 0)
 				.onTapGesture {
 					if showAlert {
@@ -143,6 +144,28 @@ struct ShowAlert: ViewModifier {
 					}
 				}
 			if showAlert {
+				if themeManager.currentTheme.isDark {
+					Color.black.opacity(0.5)
+						.ignoresSafeArea()
+						.onTapGesture {
+							if showAlert {
+								withAnimation {
+									showAlert.toggle()
+								}
+							}
+						}
+				} else {
+					Color.white.opacity(0.5)
+						.ignoresSafeArea()
+						.onTapGesture {
+							if showAlert {
+								withAnimation {
+									showAlert.toggle()
+								}
+							}
+						}
+				}
+				
 				Alert(
 					title: title,
 					description: description,

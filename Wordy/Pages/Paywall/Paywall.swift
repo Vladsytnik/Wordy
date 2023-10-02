@@ -13,15 +13,27 @@ struct Paywall: View {
 	@EnvironmentObject var themeManager: ThemeManager
 	@ObservedObject var viewModel = PaywallViewModel()
 	@Binding var isOpened: Bool
+	@State var isOnAppear = false
+	
+	@State var isInProgress = false
+	@State var isPurchasing = false
 	
 	var isNothingSelected: Bool {
 		viewModel.selectedIndex == nil
 	}
 	
+	/*
+	 1. Разблокируйте свой творческий потенциал: бесконечное количество модулей и фраз
+	 2. Погружайтесь в мир обучения без ограничений: неограниченный доступ к обучающему режиму
+	 3. Личность и стиль: стилизация интерфейса на свой вкус
+	 4. Настраивайте время и частоту уведомлений: (описание пока не придумал)
+	 */
+	
 	let advantagesText = [
-		"Создавай неограниченное количество фраз в модуле",
-		"Добавляй неограниченное количество групп",
-		"Запоминай фразы эффективнее на 70%: получи полный доступ к обучающему режиму"
+		"Разблокируйте свой творческий потенциал: бесконечное количество модулей и фраз",
+		"Погружайтесь в мир обучения без ограничений: неограниченный доступ к обучающему режиму",
+		"Личность и стиль: стилизация интерфейса на свой вкус",
+		"Настраивайте время и частоту уведомлений: (описание пока не придумал)"
 	]
 	
     var body: some View {
@@ -39,42 +51,80 @@ struct Paywall: View {
 							Spacer()
 							CloseBtn(isOpened: $isOpened)
 						}
+						.padding(EdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 0))
 						
-						ForEach(advantagesText, id: \.self) { text in
+						ForEach(Array(zip(viewModel.attributedAdvantages.indices, viewModel.attributedAdvantages)), id: \.0) { i, text in
 							HStack(alignment: .top, spacing: 16) {
 								Image(asset: Asset.Images.advantage)
-									.padding(EdgeInsets(top: 0, leading: 16, bottom: text == advantagesText.last ? 48 : 32, trailing: 8))
+									.padding(EdgeInsets(top: 0, leading: 16, bottom: text == viewModel.attributedAdvantages.last ? 80 : 20, trailing: 8))
 								Text(text)
 									.foregroundColor(themeManager.currentTheme.mainText)
 								Spacer()
 							}
-							.padding(EdgeInsets(top: text == advantagesText.first ? 16 : 0, leading: 0, bottom: 0, trailing: 0))
+							.padding(EdgeInsets(top: text == viewModel.attributedAdvantages.first ? 16 : 0, leading: 0, bottom: 0, trailing: 0))
+							.opacity(isOnAppear ? 1 : 0)
+							.animation(.spring().delay(Double(i) * 0.1), value: isOnAppear)
 						}
 						
-						ForEach(0..<viewModel.prices.count, id: \.self) { i in
-							VStack {
-								PaywallPlanBtn(
-									isSelected: viewModel.selectedIndex == i,
-									isMostPopular: i == 0,
-									price: viewModel.prices[i].priceDescription,
-									descriptionTxt: viewModel.prices[i].descriptionText ?? ""
-								) {
-									viewModel.didTapBtn(index: i)
+						if viewModel.products.count > 0 {
+							ForEach(0..<viewModel.products.count, id: \.self) { i in
+								VStack {
+									PaywallPlanBtn(
+										isSelected: viewModel.selectedIndex == i,
+										isMostPopular: i == 1,
+										price: viewModel.getPriceTitleFor(index: i),
+										descriptionTxt: viewModel.products[i].description
+									) {
+										viewModel.didTapBtn(index: i)
+									}
 								}
 							}
+						} else {
+							RoundedRectangle(cornerRadius: 12)
+								.frame(height: 75)
+								.foregroundColor(themeManager.currentTheme.main)
+								.overlay {
+									ProgressView()
+								}
+								.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
+							RoundedRectangle(cornerRadius: 12)
+								.frame(height: 75)
+								.foregroundColor(themeManager.currentTheme.main)
+								.overlay {
+									ProgressView()
+								}
+								.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
 						}
 						
 						Spacer()
 							.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: Alignment.topLeading)
 						
 						Button {
-							
+							if viewModel.selectedIndex < viewModel.products.count {
+								isInProgress = true
+								Task {
+									// productStruct is Product struct model from StoreKit2
+									// $isPurchasing should be used only in SwiftUI apps, otherwise don't use this parameter
+									let result = await Apphud.purchase(viewModel.getSelectedProduct(),
+																	   isPurchasing: $isPurchasing)
+									isInProgress = false
+									print("Subscr print: ", result)
+									if result.success {
+										// handle successful purchase
+										print("Subscr print: success")
+										isOpened = false
+									} else {
+										print("Subscr print: not success")
+									}
+								}
+							}
 						} label: {
 							RoundedRectangle(cornerRadius: 28)
 								.frame(height: 56)
-								.foregroundColor(isNothingSelected ? .blue.opacity(0.6) : .blue)
+//								.foregroundColor(isNothingSelected ? .blue.opacity(0.6) : .blue)
+								.foregroundColor(isNothingSelected ? themeManager.currentTheme.moduleCreatingBtn.opacity(0.6) : themeManager.currentTheme.moduleCreatingBtn)
 								.overlay {
-									Text("CHECKOUT")
+									Text("Try Free and subscribe")
 										.foregroundColor(isNothingSelected ? .white.opacity(0.6) : .white)
 										.font(.system(size: 18, weight: .bold))
 								}
@@ -109,11 +159,8 @@ struct Paywall: View {
 				}
 			}
 		}
-		.task {
-			let mainPaywall = await Apphud.paywall(ApphudPaywallID.main.rawValue)
-			let apphudProducts = mainPaywall?.products
-			print("Apphud products: ", apphudProducts)
-		}
+		.onAppear { isOnAppear = true }
+		.activity($isInProgress)
     }
 }
 
@@ -172,7 +219,7 @@ struct PaywallPlanBtn: View {
 							.padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
 							.background {
 								RoundedRectangle(cornerRadius: 12)
-									.foregroundColor(themeManager.currentTheme.accent)
+									.foregroundColor(themeManager.currentTheme.moduleCreatingBtn)
 						}
 					}
 					.offset(y: -28)
@@ -183,10 +230,10 @@ struct PaywallPlanBtn: View {
 		.foregroundColor(isSelected ? .white : .black)
 		.background {
 			RoundedRectangle(cornerRadius: 8)
-				.foregroundColor(isSelected ? themeManager.currentTheme.accent : .white)
+				.foregroundColor(isSelected ? themeManager.currentTheme.moduleCreatingBtn : .white)
 				.padding(EdgeInsets(top: -16, leading: -16, bottom: -16, trailing: -16))
 		}
-		.padding(EdgeInsets(top: 16, leading: 32, bottom: 32, trailing: 32))
+		.padding(EdgeInsets(top: 8, leading: 32, bottom: 32, trailing: 32))
 		.onTapGesture {
 			onTap?()
 		}

@@ -13,26 +13,18 @@ struct SelectLanguagePage: View {
 	@EnvironmentObject var router: Router
 	let slideTransition = AnyTransition.move(edge: .leading)
 	@EnvironmentObject var themeManager: ThemeManager
+	@Environment(\.dismiss) private var dismiss
+	
+	var isFromSettings = false
 	
 	private let languages = Language.getAll().sorted(by: { $0.getTitle() < $1.getTitle() })
 	
 	var body: some View {
-		NavigationView {
-			ZStack {
-//				NavigationLink(
-//					destination: OnboardingPage(),
-//					isActive: $viewModel.showOnboardingPage
-//				) {
-//					EmptyView()
-//				}
-//				NavigationLink(
-//					destination: Modules(),
-//					isActive: $viewModel.showOnboardingPage
-//				) {
-//					EmptyView()
-//				}
-				themeManager.currentTheme.darkMain
-					.ignoresSafeArea()
+		if !isFromSettings {
+			NavigationView {
+				ZStack {
+					themeManager.currentTheme.darkMain
+						.ignoresSafeArea()
 					ZStack {
 						ScrollView {
 							VStack(spacing: 32) {
@@ -115,15 +107,134 @@ struct SelectLanguagePage: View {
 						
 						Spacer()
 					}
+				}
+				.showAlert(title: viewModel.alert.title,
+						   description: viewModel.alert.description,
+						   isPresented: $viewModel.showAlert,
+						   repeatAction: {})
+				.onChange(of: viewModel.showOnboardingPage) { newValue in
+					withAnimation {
+						router.userIsAlreadyLaunched = true
+					}
+				}
 			}
-			.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showAlert, repeatAction: {})
-//			.onChange(of: viewModel.showOnboardingPage) { newValue in
-//				NavigationLink {
-//					OnboardingPage()
-//				} label: {
-//
-//				}
-//			}
+		} else {
+			ZStack {
+				if themeManager.currentTheme.isDark {
+					themeManager.currentTheme.darkMain
+						.ignoresSafeArea()
+				} else {
+					themeManager.currentTheme.mainBackgroundImage
+						.resizable()
+						.edgesIgnoringSafeArea(.all)
+				}
+				
+				ZStack {
+					ScrollView {
+						VStack(spacing: 16) {
+//							Rectangle()
+//								.frame(height: 32)
+//								.foregroundColor(.clear)
+							
+//							Spacer()
+							
+							HStack {
+								BackButton {
+									dismiss()
+								}
+								Spacer()
+							}
+							
+							HStack {
+								Text(LocalizedStringKey("Язык"))
+									.foregroundColor(themeManager.currentTheme.mainText)
+									.font(.system(size: 36, weight: .bold))
+									.multilineTextAlignment(.center)
+									.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
+								Spacer()
+							}
+							
+							VStack {
+								HStack {
+									Text(LocalizedStringKey("Родной"))
+										.foregroundColor(.init(white: 0.9))
+										.font(.system(size: 24, weight: .bold))
+									Spacer()
+								}
+								.padding()
+								LanguageSelectorView(languages: languages,
+													 selectedLanguage: $viewModel.nativeSelectedLanguage)
+								.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+							}
+							
+							VStack {
+								HStack {
+									Text(LocalizedStringKey("Хочу выучить"))
+										.foregroundColor(.init(white: 0.9))
+										.font(.system(size: 24, weight: .bold))
+									Spacer()
+								}
+								.padding()
+								LanguageSelectorView(languages: languages,
+													 selectedLanguage: $viewModel.learnSelectedLanguage)
+								.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+							}
+							
+							Spacer()
+							
+							Rectangle()
+								.frame(height: 64)
+								.foregroundColor(.clear)
+						}
+					}
+					
+//					VStack {
+//						HStack {
+//							Text(LocalizedStringKey("Выберите язык"))
+//								.foregroundColor(.init(white: 0.9))
+//								.font(.system(size: 32, weight: .bold))
+//							Spacer()
+//						}
+//						.background{
+//							VisualEffectView(effect: UIBlurEffect(style: .systemThinMaterialDark))
+//								.padding(EdgeInsets(top: -300, leading: -100, bottom: -12, trailing: -100))
+//						}
+//						.padding()
+//						Spacer()
+//					}
+					
+					VStack {
+						Spacer()
+						
+						Button {
+							UserDefaultsManager.nativeLanguage = viewModel.nativeSelectedLanguage
+							UserDefaultsManager.learnLanguage = viewModel.learnSelectedLanguage
+							dismiss()
+						} label: {
+							RoundedRectangle(cornerRadius: 20)
+								.frame(width: 250, height: 64)
+								.foregroundColor(viewModel.userCanContinue ? themeManager.currentTheme.answer4 : themeManager.currentTheme.answer1)
+								.shadow(color: .white.opacity(0.1), radius: 8, x: 0, y: 2)
+								.overlay{
+									Text(LocalizedStringKey("СОХРАНИТЬ"))
+										.fontWeight(.medium)
+										.foregroundColor(.init(white: 0.9))
+								}
+								.offset(x: viewModel.shakeContinueBtn ? 10 : 0)
+								.animation(.spring(), value: viewModel.userCanContinue)
+						}
+						.padding()
+						.disabled(!viewModel.userCanContinue)
+					}
+					
+					Spacer()
+				}
+			}
+			.navigationBarHidden(true)
+			.showAlert(title: viewModel.alert.title,
+					   description: viewModel.alert.description,
+					   isPresented: $viewModel.showAlert,
+					   repeatAction: {})
 			.onChange(of: viewModel.showOnboardingPage) { newValue in
 				withAnimation {
 					router.userIsAlreadyLaunched = true
@@ -137,6 +248,7 @@ struct LanguageSelectorView: View {
 	
 	let languages: [Language]
 	let generator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .light)
+	@EnvironmentObject var themeManager: ThemeManager
 	
 	@State var selectedIndex: Int? = nil
 	@State var isClosed = false
@@ -174,7 +286,7 @@ struct LanguageSelectorView: View {
 		.padding(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
 		.background{
 			RoundedRectangle(cornerRadius: 12)
-				.foregroundColor(.init(red: 0.1, green: 0.1, blue: 0.15))
+				.foregroundColor(themeManager.currentTheme.main)
 		}
 		.frame(height: isClosed ? 0 : .none)
 	}
