@@ -13,6 +13,7 @@ import ApphudSDK
 @main
 struct WordyApp: App {
 	
+	@UIApplicationDelegateAdaptor(AppDelegateAdapter.self) var delegate
 	@StateObject var router = Router()
 	@StateObject var themeManager = ThemeManager()
 	@StateObject var subsriptionManager = SubscriptionManager()

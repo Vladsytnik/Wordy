@@ -61,7 +61,8 @@ struct AddNewPhrase: View {
 						enableFocuse: true,
 						isFirstResponder: $viewModel.textFieldOneIsActive,
 						closeKeyboard: $viewModel.closeKeyboards,
-						language: UserDefaultsManager.learnLanguage
+						language: UserDefaultsManager.learnLanguage,
+						additionalLangString: UserDefaultsManager.learnLanguage == nil ? "" : "(\(UserDefaultsManager.learnLanguage!.getTitle()))"
 					)
 					.onTapGesture {
 						viewModel.didTapTextField(index: 0)
@@ -74,7 +75,8 @@ struct AddNewPhrase: View {
 						enableFocuse: false,
 						isFirstResponder: $viewModel.textFieldTwoIsActive,
 						closeKeyboard: $viewModel.closeKeyboards,
-						language: UserDefaultsManager.nativeLanguage
+						language: UserDefaultsManager.nativeLanguage,
+						additionalLangString: UserDefaultsManager.nativeLanguage == nil ? "" : "(\(UserDefaultsManager.nativeLanguage!.getTitle()))"
 					)
 					.onTapGesture {
 						viewModel.didTapTextField(index: 1)
@@ -256,6 +258,7 @@ struct CustomTextField: View {
 	@Binding var closeKeyboard: Bool
 	var language: Language? = .eng
 	var isNotLanguageTextField = false
+	var additionalLangString = ""
 	@EnvironmentObject var themeManager: ThemeManager
 	
 	let fontSize: CGFloat = 20
@@ -267,10 +270,17 @@ struct CustomTextField: View {
 	var body: some View {
 		VStack {
 			ZStack(alignment: .leading) {
-				Text(LocalizedStringKey(placeholder))
-					.foregroundColor(.white.opacity(0.3))
-					.font(.system(size: fontSize, weight: .medium))
-					.opacity(text.isEmpty ? 1 : 0)
+				HStack(spacing: 4) {
+					Text(LocalizedStringKey(placeholder))
+						.foregroundColor(.white.opacity(0.3))
+						.font(.system(size: fontSize, weight: .medium))
+						.opacity(text.isEmpty ? 1 : 0)
+					
+					Text(additionalLangString)
+						.foregroundColor(.white.opacity(0.3))
+						.font(.system(size: fontSize, weight: .medium))
+						.opacity(text.isEmpty ? 1 : 0)
+				}
 				HStack {
 					if isNotLanguageTextField {
 						TextField("", text: $text, onCommit: {

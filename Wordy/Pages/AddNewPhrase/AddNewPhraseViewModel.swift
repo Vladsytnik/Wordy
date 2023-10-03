@@ -52,7 +52,7 @@ class AddNewPhraseViewModel: ObservableObject {
 	init() {
 		$servicedNativeText
 			.removeDuplicates()
-			.debounce(for: 1.5, scheduler: DispatchQueue.main)
+			.debounce(for: 1, scheduler: DispatchQueue.main)
 			.sink { $0.count > 0 ? self.getTranslatedText(from: $0) : nil }
 			.store(in: &cancellable)
 		$automaticTranslatedText
