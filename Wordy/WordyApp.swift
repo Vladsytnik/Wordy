@@ -9,18 +9,19 @@ import SwiftUI
 import Firebase
 import AppsFlyerLib
 import ApphudSDK
+import UserNotifications
 
 @main
 struct WordyApp: App {
 	
-	@UIApplicationDelegateAdaptor(AppDelegateAdapter.self) var delegate
+	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	@StateObject var router = Router()
 	@StateObject var themeManager = ThemeManager()
 	@StateObject var subsriptionManager = SubscriptionManager()
 	private let deepLinkDelegate = AppFliyerDelegate()
 	
 	init() {
-		FirebaseApp.configure()
+//		FirebaseApp.configure()
 		AppsFlyerLib.shared().appsFlyerDevKey = "axfubYMdYCtRH3aW6FZYUc"
 		AppsFlyerLib.shared().appleAppID = "6466481056"
 		Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr")
@@ -48,6 +49,101 @@ struct WordyApp: App {
 		}
 	}
 }
+
+// MARK: - AppDelegate
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+	
+	let gcmMessageIDKey = "gcm.message_id"
+	
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+		FirebaseApp.configure()
+		
+		Messaging.messaging().delegate = self
+		
+		if #available(iOS 10.0, *) {
+			// For iOS 10 display notification (sent via APNS)
+			UNUserNotificationCenter.current().delegate = self
+			
+			let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+			UNUserNotificationCenter.current().requestAuthorization(
+				options: authOptions,
+				completionHandler: {_, _ in })
+		} else {
+			let settings: UIUserNotificationSettings =
+			UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+			application.registerUserNotificationSettings(settings)
+		}
+		
+		application.registerForRemoteNotifications()
+		return true
+	}
+	
+	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+					 fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+		
+		if let messageID = userInfo[gcmMessageIDKey] {
+			print("Message ID: \(messageID)")
+		}
+		
+		print(userInfo)
+		
+		completionHandler(UIBackgroundFetchResult.newData)
+	}
+}
+
+extension AppDelegate: MessagingDelegate {
+	func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+		
+		let deviceToken:[String: String] = ["token": fcmToken ?? ""]
+		print("Device token: ", deviceToken) // This token can be used for testing notifications on FCM
+	}
+}
+
+@available(iOS 10, *)
+extension AppDelegate : UNUserNotificationCenterDelegate {
+	
+	// Receive displayed notifications for iOS 10 devices.
+	func userNotificationCenter(_ center: UNUserNotificationCenter,
+								willPresent notification: UNNotification,
+								withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+		let userInfo = notification.request.content.userInfo
+		
+		if let messageID = userInfo[gcmMessageIDKey] {
+			print("Message ID: \(messageID)")
+		}
+		
+		print(userInfo)
+		
+		// Change this to your preferred presentation option
+		completionHandler([[.banner, .badge, .sound]])
+	}
+	
+	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+		
+	}
+	
+	func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+		
+	}
+	
+	func userNotificationCenter(_ center: UNUserNotificationCenter,
+								didReceive response: UNNotificationResponse,
+								withCompletionHandler completionHandler: @escaping () -> Void) {
+		let userInfo = response.notification.request.content.userInfo
+		
+		if let messageID = userInfo[gcmMessageIDKey] {
+			print("Message ID from userNotificationCenter didReceive: \(messageID)")
+		}
+		
+		print(userInfo)
+		
+		completionHandler()
+	}
+}
+
+
+// MARK: - AppFliyerDelegate
 
 class AppFliyerDelegate: NSObject, DeepLinkDelegate {
 	func didResolveDeepLink(_ result: DeepLinkResult) {

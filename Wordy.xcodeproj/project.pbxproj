@@ -33,7 +33,6 @@
 		011B138C29FBB81B00D4CCBF /* GroupsEditingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B138B29FBB81B00D4CCBF /* GroupsEditingPage.swift */; };
 		011B138E2A00176B00D4CCBF /* SignInWithApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B138D2A00176B00D4CCBF /* SignInWithApple.swift */; };
 		011B13912A001DB300D4CCBF /* SignInWithAppleDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011B13902A001DB300D4CCBF /* SignInWithAppleDelegates.swift */; };
-		012C3E4A2ACC6FCE008945CD /* AppDelegateAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C3E492ACC6FCE008945CD /* AppDelegateAdapter.swift */; };
 		012C3E4D2ACC7364008945CD /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 012C3E4C2ACC7364008945CD /* FirebaseAnalytics */; };
 		012C3E4F2ACC7364008945CD /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 012C3E4E2ACC7364008945CD /* FirebaseAnalyticsSwift */; };
 		012C3E512ACC7364008945CD /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 012C3E502ACC7364008945CD /* FirebaseAuth */; };
@@ -168,7 +167,6 @@
 		011B138B29FBB81B00D4CCBF /* GroupsEditingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsEditingPage.swift; sourceTree = "<group>"; };
 		011B138D2A00176B00D4CCBF /* SignInWithApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithApple.swift; sourceTree = "<group>"; };
 		011B13902A001DB300D4CCBF /* SignInWithAppleDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleDelegates.swift; sourceTree = "<group>"; };
-		012C3E492ACC6FCE008945CD /* AppDelegateAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateAdapter.swift; sourceTree = "<group>"; };
 		012D95B629485F2400165DAF /* SF-Pro-Display-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-MediumItalic.otf"; sourceTree = "<group>"; };
 		012D95B729485F2400165DAF /* SF-Pro-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Medium.otf"; sourceTree = "<group>"; };
 		012D95B829485F2400165DAF /* SF-Pro-Display-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-RegularItalic.otf"; sourceTree = "<group>"; };
@@ -552,7 +550,6 @@
 				0130B01B2A0A57E9001391FC /* Wordy.entitlements */,
 				019056382944A7140058B566 /* WordyApp.swift */,
 				0103FF4D294C76CB004C2EA6 /* StartView.swift */,
-				012C3E492ACC6FCE008945CD /* AppDelegateAdapter.swift */,
 				0103FF55294C9E75004C2EA6 /* Router.swift */,
 				0135E24D295B643E00B1C8A0 /* Models */,
 				019056462944A8450058B566 /* Pages */,
@@ -986,7 +983,6 @@
 				01E984D92A17D1DA009D889F /* OnboardingPage.swift in Sources */,
 				0101B8B42AA0D5680055DEFB /* MyCurveInArrowShape.swift in Sources */,
 				01B59DF82AA23CEC003115E6 /* TooltipView.swift in Sources */,
-				012C3E4A2ACC6FCE008945CD /* AppDelegateAdapter.swift in Sources */,
 				013E64AE2950B281002A85E2 /* CreateModuleButton.swift in Sources */,
 				01468115295602290080732C /* InputRoundedTextArea.swift in Sources */,
 				0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */,
