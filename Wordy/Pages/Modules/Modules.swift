@@ -87,8 +87,8 @@ struct Modules: View {
 	@State var isShowPaywall = false
 	
 	var body: some View {
-		Color.clear
-			.background {
+//		Color.clear
+//			.background {
 				GeometryReader { geometry in
 					ZStack {
 						ObservableScrollView(scrollOffset: $scrollOffset) { proxy in
@@ -307,7 +307,7 @@ struct Modules: View {
 				)
 				.navigationTitle(LocalizedStringKey("Модули"))
 				.onAppear{ router.showActivityView = false }
-			}
+//			}
 			.preferredColorScheme(ColorScheme.init(.dark))
 			.onAppear{
 				isOnAppear = true
