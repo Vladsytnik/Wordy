@@ -69,15 +69,31 @@ class NetworkManager {
 		}
 	}
 	
-	static func createModule(name: String, emoji: String, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void ) {
+	static func createModule(name: String, emoji: String, phrases: [Phrase]? = nil, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void ) {
 		guard let currentUserID = currentUserID else {
 			errorBlock("error in createModule -> currentUserID")
 			return
 		}
 		
 		let date = String().generateCurrentDateMarker()
+		
+		var phrasesDict: [String: [String: String]] = [:]
+		if let phrases {
+			for phrase in phrases {
+				let newPhrase = [
+					Constants.nativeText: phrase.nativeText,
+					Constants.translatedText: phrase.translatedText,
+					Constants.date: String().generateCurrentDateMarker(),
+					Constants.example: phrase.example ?? ""
+				]
+				let url = URL(string: ref.childByAutoId().url)
+				if let lastPathComp = url?.lastPathComponent {
+					phrasesDict[lastPathComp] = newPhrase
+				}
+			}
+		}
 
-		ref.child("users").child(currentUserID).child("modules").childByAutoId().updateChildValues(["name" : name, "emoji" : emoji, "date": date]) { error, ref in
+		ref.child("users").child(currentUserID).child("modules").childByAutoId().updateChildValues(["name" : name, "emoji" : emoji, "date": date, "phrases": phrasesDict]) { error, ref in
 			guard error == nil else {
 				errorBlock("error in createModule -> updateChildValues")
 				return
@@ -114,6 +130,36 @@ class NetworkManager {
 					
 					DispatchQueue.main.async {
 						success(modules.sorted(by: { $0.date ?? Date() > $1.date ?? Date() }))
+					}
+				}
+			}
+		}
+	}
+	
+	static func getModule(with moduleID: String, fromUser userID: String, success: @escaping (Module) -> Void, errorBlock: @escaping (String) -> Void) {
+		let currentUserID = userID
+		
+		let queue = DispatchQueue(label: "sytnik.wordy.getModules")
+		queue.async {
+			ref.child("users").child(currentUserID).child("modules").child(moduleID).getData { error, snap in
+				if let error = error {
+					DispatchQueue.main.async {
+						errorBlock("error in getModule(with moduleID.. -> getData { error, snap in }" + error.localizedDescription)
+						//						errorBlock("")
+					}
+					return
+				}
+				
+				if let snapshot = snap {
+					guard let module = Module.parseSingle(from: snapshot, moduleID: moduleID) else {
+						DispatchQueue.main.async {
+							errorBlock("error in getModule(with moduleID.. -> parse module")
+						}
+						return
+					}
+					
+					DispatchQueue.main.async {
+						success(module)
 					}
 				}
 			}

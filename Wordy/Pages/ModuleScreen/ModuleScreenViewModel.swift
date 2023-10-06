@@ -8,6 +8,7 @@
 import SwiftUI
 import AVKit
 import ApphudSDK
+import FirebaseAuth
 
 let maxCountOfStartingLearnMode = 3
 
@@ -45,6 +46,13 @@ class ModuleScreenViewModel: ObservableObject {
 	
 	var module: Module {
 		filteredModules[index]
+	}
+	
+	func getShareUrl() -> URL {
+		guard let userID = Auth.auth().currentUser?.uid else {
+			return URL(string: "https://4475302.redirect.appmetrica.yandex.com/")!
+		}
+		return URL(string: "https://4475302.redirect.appmetrica.yandex.com/\(userID)/\(module.id)")!
 	}
 	
 	func didTapDeleteModule() {

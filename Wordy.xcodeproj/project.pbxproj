@@ -132,6 +132,8 @@
 		01DC12CA2A153605007BF79E /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01DC12C92A153605007BF79E /* Languages.swift */; };
 		01DEA5082AB8C90300A8074D /* Colors2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01DEA5072AB8C90300A8074D /* Colors2.xcassets */; };
 		01DEA50A2AB8CF3500A8074D /* Images2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01DEA5092AB8CF3500A8074D /* Images2.xcassets */; };
+		01E033172AD0104B00A3DA14 /* DeeplinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E033162AD0104B00A3DA14 /* DeeplinkManager.swift */; };
+		01E0331A2AD016F500A3DA14 /* SharedModulePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E033192AD016F500A3DA14 /* SharedModulePage.swift */; };
 		01E4B759294B119800720BE0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E4B758294B119800720BE0 /* NetworkManager.swift */; };
 		01E984D92A17D1DA009D889F /* OnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E984D82A17D1DA009D889F /* OnboardingPage.swift */; };
 		01F01B6F29F02F8D00742DF3 /* PhraseEditPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F01B6E29F02F8D00742DF3 /* PhraseEditPage.swift */; };
@@ -253,6 +255,8 @@
 		01DC12C92A153605007BF79E /* Languages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
 		01DEA5072AB8C90300A8074D /* Colors2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors2.xcassets; sourceTree = "<group>"; };
 		01DEA5092AB8CF3500A8074D /* Images2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images2.xcassets; sourceTree = "<group>"; };
+		01E033162AD0104B00A3DA14 /* DeeplinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkManager.swift; sourceTree = "<group>"; };
+		01E033192AD016F500A3DA14 /* SharedModulePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedModulePage.swift; sourceTree = "<group>"; };
 		01E4B758294B119800720BE0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		01E984D82A17D1DA009D889F /* OnboardingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPage.swift; sourceTree = "<group>"; };
 		01F01B6E29F02F8D00742DF3 /* PhraseEditPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhraseEditPage.swift; sourceTree = "<group>"; };
@@ -576,6 +580,7 @@
 		019056462944A8450058B566 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				01E033182AD016D800A3DA14 /* SharedModulePage */,
 				013D97752A434A0200F03AF7 /* Paywall */,
 				01F01B6D29F02F7100742DF3 /* PhraseEditPage */,
 				014B767A29E0387D0044DF87 /* LearnPage */,
@@ -702,6 +707,14 @@
 			path = CategoryCard;
 			sourceTree = "<group>";
 		};
+		01E033182AD016D800A3DA14 /* SharedModulePage */ = {
+			isa = PBXGroup;
+			children = (
+				01E033192AD016F500A3DA14 /* SharedModulePage.swift */,
+			);
+			path = SharedModulePage;
+			sourceTree = "<group>";
+		};
 		01E4B757294B114700720BE0 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -712,6 +725,7 @@
 				0101B8A82AA0CB060055DEFB /* MockDataManager.swift */,
 				0101B8B72AA0DD890055DEFB /* OnboardingManager.swift */,
 				0109D19F2AB8948100714E55 /* ThemeManager.swift */,
+				01E033162AD0104B00A3DA14 /* DeeplinkManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -958,6 +972,7 @@
 				01780D2C294A110A004F11AC /* ReverseMask.swift in Sources */,
 				0185B55F2949F26D00934373 /* ObservableScrollView.swift in Sources */,
 				01D89B1E2AC961390077FD6E /* SubscriptionManager.swift in Sources */,
+				01E0331A2AD016F500A3DA14 /* SharedModulePage.swift in Sources */,
 				01DC12CA2A153605007BF79E /* Languages.swift in Sources */,
 				01E4B759294B119800720BE0 /* NetworkManager.swift in Sources */,
 				0101B8B82AA0DD890055DEFB /* OnboardingManager.swift in Sources */,
@@ -998,6 +1013,7 @@
 				01D2F1BE294CE468000330A8 /* View + Modifiers.swift in Sources */,
 				017642452972EB920042DB86 /* Phrase.swift in Sources */,
 				017642472972EEF30042DB86 /* Date.swift in Sources */,
+				01E033172AD0104B00A3DA14 /* DeeplinkManager.swift in Sources */,
 				01D2F1C1294CEAD5000330A8 /* CategoryCard.swift in Sources */,
 				016141D12A0D6847009A9A8F /* SelectLanguagePage.swift in Sources */,
 				0103FF50294C7FFA004C2EA6 /* String.swift in Sources */,

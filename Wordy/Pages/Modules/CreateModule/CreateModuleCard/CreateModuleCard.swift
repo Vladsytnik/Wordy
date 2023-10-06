@@ -24,6 +24,7 @@ struct CreateModuleCard: View {
 		"Map",
 		"Word"
 	]
+	var withoutKeyboard = false
 	let action: () -> Void
 	
 	private var height: CGFloat {
@@ -59,7 +60,8 @@ struct CreateModuleCard: View {
 					moduleName: $moduleName,
 					cardWidth: width,
 					cardName: cardName,
-					words: words
+					words: words,
+					withoutKeyboard: withoutKeyboard
 				) { action() }
 			}
 			.frame(width: width, height: height)

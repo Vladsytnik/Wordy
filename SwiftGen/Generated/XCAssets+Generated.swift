@@ -31,6 +31,7 @@ internal enum Asset {
     internal static let createModuleButton = ColorAsset(name: "CreateModuleButton")
     internal static let darkMain = ColorAsset(name: "DarkMain")
     internal static let findedWordHighlite = ColorAsset(name: "FindedWordHighlite")
+    internal static let launchScreenBG = ColorAsset(name: "LaunchScreenBG")
     internal static let learnModuleBtnText = ColorAsset(name: "LearnModuleBtnText")
     internal static let main = ColorAsset(name: "Main")
     internal static let mainTextColor = ColorAsset(name: "MainTextColor")

@@ -61,7 +61,7 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
-                        <color key="backgroundColor" name="DarkMain"/>
+                        <color key="backgroundColor" name="LaunchScreenBG"/>
                         <constraints>
                             <constraint firstItem="Bcu-3y-fUS" firstAttribute="centerX" secondItem="obG-Y5-kRd" secondAttribute="centerX" id="5cz-MP-9tL"/>
                             <constraint firstItem="EOA-Qw-xum" firstAttribute="centerY" secondItem="g9G-9O-FLq" secondAttribute="centerY" id="Nay-hx-XWJ"/>
@@ -92,7 +92,7 @@
     </scenes>
     <resources>
         <image name="WordyYellow" width="232" height="206"/>
-        <namedColor name="DarkMain">
+        <namedColor name="LaunchScreenBG">
             <color red="0.11400000005960464" green="0.10599999874830246" blue="0.17299999296665192" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">

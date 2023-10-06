@@ -214,7 +214,8 @@ struct ModuleScreen: View {
 			}
 			.background {
 				UIKitActivityView(isPresented: $showActivity,
-								  data: [URL(string: "https://wordy.onelink.me/HpCP/s3t4ujfk")!],
+								  data: [viewModel.getShareUrl()],
+//								  data: [URL(string: "https://wordy.onelink.me/HpCP/s3t4ujfk")!],
 								  subject: nil,
 								  message: nil)
 			}

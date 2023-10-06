@@ -37,6 +37,7 @@ struct Modules: View {
 	
 	@EnvironmentObject var router: Router
 	@EnvironmentObject var themeManager: ThemeManager
+	@EnvironmentObject var deeplinkManager: DeeplinkManager
 	
 	@State var pullToRefresh = false
 	
@@ -284,6 +285,19 @@ struct Modules: View {
 						}
 					}
 					.disabled(showActivity || showAlert)
+					.sheet(isPresented: $deeplinkManager.isOpenModuleType) {
+						if #available(iOS 16.0, *) {
+							SharedModulePage(needUpdateData: $needUpdateData,
+											 showActivity: $showActivity,
+											 screenFullHeight: geometry.size.height
+							)
+							.presentationDetents([.medium, .large])
+						} else {
+							SharedModulePage(needUpdateData: $needUpdateData,
+											 showActivity: $showActivity,
+											 screenFullHeight: geometry.size.height)
+						}
+					}
 				}
 				.background(
 					BackgroundView()
@@ -598,6 +612,8 @@ struct Modules_Previews: PreviewProvider {
 		NavigationView {
 			Modules()
 				.environmentObject(Router())
+				.environmentObject(DeeplinkManager())
+				.environmentObject(ThemeManager())
 		}
 	}
 }

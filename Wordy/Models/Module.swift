@@ -109,6 +109,49 @@ extension Module {
 		return modules
 	}
 	
+	static func parseSingle(from snapshot: DataSnapshot, moduleID: String) -> Module? {
+		newParse(from: snapshot)
+		guard let data = (snapshot.value as? [String: Any]) else {
+			return nil
+		}
+//		guard let dbModuleKeys = (snapshot.value as? [String: Any])?.keys else {
+//			return []
+//		}
+		
+		var module = Module(name: (data["name"] as? String) ?? "nil",
+							emoji: (data["emoji"] as? String) ?? "📄",
+							id: moduleID)
+		
+		let date = Date().generateDate(from: data["date"] as? String)
+		module.date = date
+		
+		if let phrasesData = data["phrases"] as? [String: Any] {
+			for (i, (phraseIdentifier, phrases)) in phrasesData.enumerated() {
+				if let phraseDict = phrases as? [String: Any] {
+					
+					if let nativeTxt = phraseDict[Constants.nativeText] as? String,
+					   let trasnlatedTxt = phraseDict[Constants.translatedText] as? String {
+						
+						var phrase = Phrase(nativeText: nativeTxt,
+											translatedText: trasnlatedTxt,
+											id: phraseIdentifier)
+						if let date = phraseDict[Constants.date] as? String {
+							phrase.date = Date().generateDate(from: date)
+						}
+						if let example = phraseDict[Constants.example] as? String {
+							phrase.example = example
+						}
+						
+						module.phrases.append(phrase)
+					}
+					
+				}
+			}
+		}
+		
+		return module
+	}
+	
 	static func newParse(from snapshot: DataSnapshot) {
 		guard let data = snapshot.value as? Data else { return }
 		do {

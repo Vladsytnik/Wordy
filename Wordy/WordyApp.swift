@@ -18,6 +18,8 @@ struct WordyApp: App {
 	@StateObject var router = Router()
 	@StateObject var themeManager = ThemeManager()
 	@StateObject var subsriptionManager = SubscriptionManager()
+	@StateObject var deeplinkManager = DeeplinkManager()
+	
 	private let deepLinkDelegate = AppFliyerDelegate()
 	
 	init() {
@@ -33,6 +35,7 @@ struct WordyApp: App {
 				.environmentObject(router)
 				.environmentObject(themeManager)
 				.environmentObject(subsriptionManager)
+				.environmentObject(deeplinkManager)
 				.onAppear {
 					AppsFlyerLib.shared().start(completionHandler: { (dictionary, error) in
 						if (error != nil){
@@ -45,6 +48,13 @@ struct WordyApp: App {
 						}
 					})
 					AppsFlyerLib.shared().isDebug = true
+				}
+				.onOpenURL { url in
+					print("DEEPLINK url: ", url)
+					
+					deeplinkManager.wasOpened(url: url)
+					
+					let test = false
 				}
 		}
 	}

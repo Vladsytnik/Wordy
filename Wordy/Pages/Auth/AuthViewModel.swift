@@ -11,6 +11,7 @@ import CryptoKit
 import AuthenticationServices
 import FirebaseAuth
 
+
 class AuthViewModel: NSObject, ObservableObject {
 	
 	@Published var email = ""
@@ -130,6 +131,10 @@ extension AuthViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
 					return
 				}
 				
+				let oAuthToken = (authResult?.credential as? OAuthCredential)?.accessToken
+				print("oAuthToken access: ", oAuthToken)
+				let oAuthToken2 = (authResult?.credential as? OAuthCredential)?.idToken
+				print("oAuthToken ID: ", oAuthToken2)
 				// User is signed in to Firebase with Apple.
 				// ...
 				self.hideActivity()

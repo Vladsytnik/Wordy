@@ -18,6 +18,8 @@ struct InputRoundedTextArea: View {
 	let cardName: String
 	let words: [String?]
 	
+	var withoutKeyboard = false
+	
 	private var width: CGFloat {
 		cardWidth / 1.12592593
 	}
@@ -43,6 +45,7 @@ struct InputRoundedTextArea: View {
 //						NetworkManager.createModule(name: moduleName)
 						action()
 					}
+					.disabled(withoutKeyboard)
 				Spacer()
 				HStack(alignment: .bottom) {
 					VStack(alignment: .leading, spacing: 10) {
@@ -66,9 +69,11 @@ struct InputRoundedTextArea: View {
 			height: height
 		)
 		.onAppear{
-//			DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+			if !withoutKeyboard {
+				//			DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
 				moduleNameIsFocused = true
-//			} 
+				//			}
+			}
 		}
 	}
 }

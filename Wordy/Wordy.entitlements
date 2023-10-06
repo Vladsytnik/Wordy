@@ -11,6 +11,7 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:wordy.onelink.me</string>
+		<string>applinks:4475302.redirect.appmetrica.yandex.com</string>
 	</array>
 </dict>
 </plist>
