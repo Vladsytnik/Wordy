@@ -37,8 +37,8 @@ struct ModuleScreen: View {
 	
 	
 	var body: some View {
-		Color.clear
-			.background(content: {
+//		Color.clear
+//			.background(content: {
 				GeometryReader { geo in
 					ZStack {
 						if viewModel.showEditPhrasePage {
@@ -59,7 +59,10 @@ struct ModuleScreen: View {
 //						ObservableScrollView(scrollOffset: $scrollOffset) { proxy in
 						ScrollView {
 							VStack {
-								Header(viewModel: viewModel, showAlert: $showInfoAlert, module: viewModel.module)
+								Header(viewModel: viewModel, 
+                                       showAlert: $showInfoAlert,
+                                       module: viewModel.module,
+                                       withoutBackButton: true)
 								//								Color.clear
 								//									.frame(height: 30)
 								Text(viewModel.module.emoji)
@@ -150,9 +153,11 @@ struct ModuleScreen: View {
 						AddNewPhrase(modules: $modules, searchedText: $searchText, filteredModules: $filteredModules, index: viewModel.index)
 					}
 				}
-			})
+//			})
 			.background(BackgroundView())
-			.navigationBarBackButtonHidden()
+//			.navigationBarBackButtonHidden()
+//            .navigationTitle("Module name")
+            .navigationBarTitleDisplayMode(.inline)
 			.showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Отменить", titleForAction: "Удалить") {
 				viewModel.nowReallyNeedToDeleteModule()
 			}
@@ -282,6 +287,7 @@ struct Header: View {
 	
 	@Binding var showAlert: Bool
 	let module: Module
+    var withoutBackButton = false
 	//	private var alertText = ""
 	
 	var body: some View {
@@ -293,7 +299,8 @@ struct Header: View {
 				HStack {
 					VStack {
 						BackButton { dismiss() }
-							.offset(y: 7)
+                            .offset(y: 7)
+                            .opacity(withoutBackButton ? 0 : 1)
 						Spacer()
 					}
 					Spacer()

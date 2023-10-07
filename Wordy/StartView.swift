@@ -21,15 +21,24 @@ struct StartView: View {
 			ZStack {
 				if router.userIsLoggedIn {
 					if router.userIsAlreadyLaunched {
+                        
+                        //MARK: – Main Flow
 						NavigationView {
-							Modules()
+//                            if #available(iOS 15.0, *) {
+                                NewModulesScreen()
+//                            } else {
+//                                Modules()
+//                            }
 						}
 						.transition(transition)
+                        
 					} else {
 						SelectLanguagePage()
 							.transition(opacityTransition)
 					}
+                    
 				} else {
+                    //MARK: – Auth Flow
 					AuthPage()
 						.transition(authTransition)
 				}
@@ -43,7 +52,6 @@ struct StartView: View {
 					.ignoresSafeArea()
 				}
 			}
-//			.transition(.slide)
 		.environmentObject(router)
 		.accentColor(.white)
 		.onAppear {
