@@ -34,6 +34,9 @@ struct ModuleScreen: View {
 	@State private var createPhraseButtonOpacity = 1.0
 	@State var showActivity = false
 
+    lazy var currentThemeName: String?  = {
+        UserDefaultsManager.themeName
+    }()
 	
 	
 	var body: some View {
@@ -143,6 +146,17 @@ struct ModuleScreen: View {
 							EmptyBGView()
 						}
 					}
+                    .showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Отменить", titleForAction: "Удалить") {
+                        viewModel.nowReallyNeedToDeleteModule()
+                    }
+                    .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAlert) {
+                        viewModel.nowReallyNeedToDeleteModule()
+                    }
+                    .showAlert(title: "💡 Правило\n пятнадцати слов", description: "\nНаш мозг устроен таким образом, \nчто информация усваивается \nболее эффективно, если она \nразделена на порции. \n\n 15 – это та самая порция, которая \nявляется оптимальной \nдля запоминания слов 🧠", isPresented: $showInfoAlert, titleWithoutAction: "Буду знать!", withoutButtons: true) {
+                        
+                    }
+                    .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAboutPhraseCount, withoutButtons: true) {
+                    }
 					.onChange(of: viewModel.modules) { newValue in
 						self.modules = newValue
 					}
@@ -158,9 +172,6 @@ struct ModuleScreen: View {
 //			.navigationBarBackButtonHidden()
 //            .navigationTitle("Module name")
             .navigationBarTitleDisplayMode(.inline)
-			.showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Отменить", titleForAction: "Удалить") {
-				viewModel.nowReallyNeedToDeleteModule()
-			}
 			.fullScreenCover(isPresented: $viewModel.showWordsCarousel) {
 				WordsCarouselView(
 					modules: $modules,
@@ -208,15 +219,6 @@ struct ModuleScreen: View {
 					dismiss()
 				}
 			}
-			.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAlert) {
-				viewModel.nowReallyNeedToDeleteModule()
-			}
-			.showAlert(title: "💡 Правило\n пятнадцати слов", description: "\nНаш мозг устроен таким образом, \nчто информация усваивается \nболее эффективно, если она \nразделена на порции. \n\n 15 – это та самая порция, которая \nявляется оптимальной \nдля запоминания слов 🧠", isPresented: $showInfoAlert, titleWithoutAction: "Буду знать!", withoutButtons: true) {
-				
-			}
-			.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAboutPhraseCount, withoutButtons: true) {
-				
-			}
 			.background {
 				UIKitActivityView(isPresented: $showActivity,
 								  data: [viewModel.getShareUrl()],
@@ -233,7 +235,17 @@ struct ModuleScreen: View {
 		viewModel.modules = modules.wrappedValue
 		viewModel.filteredModules = filteredModules.wrappedValue
 		viewModel.index = index
-	}
+        
+//        if let currentThemeName {
+//            guard let theme = ThemeManager().allThemes().first(where: { $0.id == currentThemeName })
+//            else { return }
+//            if !theme.isDark {
+//                let navigationBarAppearance = UINavigationBarAppearance()
+//                navigationBarAppearance.backgroundColor = UIColor(theme.main)
+//                UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+//            }
+//        }
+    }
 	
 	private func calculateScrollDirection() {
 		if scrollOffset > 10 {
@@ -288,7 +300,6 @@ struct Header: View {
 	@Binding var showAlert: Bool
 	let module: Module
     var withoutBackButton = false
-	//	private var alertText = ""
 	
 	var body: some View {
 		VStack(spacing: 7) {
@@ -336,7 +347,10 @@ struct Header: View {
 				} label: {
 					Image(asset: Asset.Images.question)
 						.resizable()
-						.frame(width: 19, height: 19)
+                        .renderingMode(.template)
+                        .colorMultiply(themeManager.currentTheme.mainText)
+                        .opacity(themeManager.currentTheme.isDark ? 1 : 0.75)
+						.frame(width: 15, height: 15)
 				}
 				
 			}
@@ -346,23 +360,42 @@ struct Header: View {
 
 struct BackButton: View {
 	
+    @EnvironmentObject var themeManager: ThemeManager
 	let action: () -> Void
 	
 	var body: some View {
 		Button {
 			action()
 		} label: {
-			Image(asset: Asset.Images.backButton)
-				.resizable()
-				.frame(width: 31, height: 31)
-				.padding(
-					EdgeInsets(
-						top: 0,
-						leading: 16,
-						bottom: 0,
-						trailing: 0
-					)
-				)
+            if themeManager.currentTheme.isDark {
+                Image(asset: Asset.Images.backButton)
+                    .resizable()
+                    .frame(width: 31, height: 31)
+                    .padding(
+                        EdgeInsets(
+                            top: 0,
+                            leading: 16,
+                            bottom: 0,
+                            trailing: 0
+                        )
+                    )
+            } else {
+                Image(asset: Asset.Images.backButton)
+                    .resizable()
+                    .renderingMode(.template)
+                    .colorMultiply(themeManager.currentTheme.mainText)
+                    .opacity(themeManager.currentTheme.isDark ? 1 : 0.75)
+                    .frame(width: 31, height: 31)
+                    .padding(
+                        EdgeInsets(
+                            top: 0,
+                            leading: 16,
+                            bottom: 0,
+                            trailing: 0
+                        )
+                    )
+            }
+			
 		}
 	}
 }
@@ -498,7 +531,7 @@ struct AddWordButton: View {
 						.stroke()
 						.foregroundColor(themeManager.currentTheme.mainText)
 				}
-				.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+				.padding(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24))
 		}
 	}
 }

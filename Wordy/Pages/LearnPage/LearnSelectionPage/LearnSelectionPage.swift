@@ -65,7 +65,7 @@ struct LearnSelectionPage: View {
 					LearnBackButton()
 					Spacer()
 					Text(viewModel.currentQuestion)
-						.foregroundColor(viewModel.inputTextAnsweredType == .notSelected ? .white : viewModel.inputTextAnsweredType == .correct ? .green : .red)
+                        .foregroundColor(viewModel.inputTextAnsweredType == .notSelected ? themeManager.currentTheme.mainText : viewModel.inputTextAnsweredType == .correct ? .green : .red)
 						.font(.system(size: 24, weight: .bold))
 						.padding()
 						.multilineTextAlignment(.center)
@@ -90,7 +90,7 @@ struct LearnSelectionPage: View {
 										.foregroundColor(getColor(with: i))
 										.offset(y: i != viewModel.currentAnswers.count - 1 ? 20 : 50)
 									Text(viewModel.currentAnswers[i])
-										.foregroundColor(viewModel.buttonSelected[i] ? viewModel.indexOfCorrectButton == i ? Color.green : Color.red : .white)
+                                        .foregroundColor(viewModel.buttonSelected[i] ? viewModel.indexOfCorrectButton == i ? Color.green : Color.red : themeManager.currentTheme.mainText)
 										.font(.system(size: 18, weight: .medium))
 										.padding()
 										.lineLimit(2)
@@ -201,12 +201,12 @@ struct LearnTextField: View {
 				HStack {
 					if text.isEmpty {
 						Text(placeholder)
-							.foregroundColor(.white.opacity(0.3))
+							.foregroundColor(themeManager.currentTheme.mainText.opacity(0.3))
 							.font(.system(size: fontSize, weight: .medium))
 							.opacity(text.isEmpty ? 1 : 0)
 					} else {
 						Text(placeholder)
-							.foregroundColor(.white.opacity(0.3))
+							.foregroundColor(themeManager.currentTheme.mainText.opacity(0.3))
 							.font(.system(size: fontSize, weight: .medium))
 							.opacity(text.isEmpty ? 1 : 0)
 							.lineLimit(1)
@@ -226,7 +226,7 @@ struct LearnTextField: View {
 						onReturn?()
 					})
 					.foregroundColor(themeManager.currentTheme.mainText)
-					.tint(.white)
+					.tint(themeManager.currentTheme.mainText)
 					.font(.system(size: fontSize, weight: .medium))
 					.focused($isFocused)
 					//					.keyboardType(.twitter)
@@ -234,9 +234,18 @@ struct LearnTextField: View {
 						Button {
 							text = ""
 						} label: {
-							Image(asset: Asset.Images.plusIcon)
-								.rotationEffect(.degrees(45))
-								.opacity(isFocused ? 1 : 0)
+                            if themeManager.currentTheme.isDark {
+                                Image(asset: Asset.Images.plusIcon)
+                                    .rotationEffect(.degrees(45))
+                                    .opacity(isFocused ? 1 : 0)
+                            } else {
+                                Image(asset: Asset.Images.plusIcon)
+                                    .renderingMode(.template)
+                                    .rotationEffect(.degrees(45))
+                                    .colorMultiply(themeManager.currentTheme.mainText)
+                                    .opacity(themeManager.currentTheme.isDark ? 1 : 0.75)
+                                    .opacity(isFocused ? 1 : 0)
+                            }
 						}
 					}
 					if isFocused && text.count == 0 {
@@ -244,7 +253,7 @@ struct LearnTextField: View {
 							onUserDoesntKnow?()
 						} label: {
 							Text(LocalizedStringKey("Не знаю"))
-								.foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(themeManager.currentTheme.mainText.opacity(0.6))
 								.font(.system(size: fontSize, weight: .medium))
 						}
 					}
@@ -269,7 +278,7 @@ struct LearnTextField: View {
 				}
 			}
 			Rectangle()
-				.foregroundColor(isFocused ? .white.opacity(1) : .white.opacity(0.2))
+				.foregroundColor(isFocused ? themeManager.currentTheme.mainText.opacity(1) : themeManager.currentTheme.mainText.opacity(0.2))
 				.frame(height: 1)
 				.animation(.default, value: isFocused)
 		}
@@ -301,6 +310,7 @@ struct LearnBG: View {
 
 struct LearnBackButton: View {
 	
+    @EnvironmentObject var themeManager: ThemeManager
 	@Environment(\.dismiss) private var dismiss
 	
 	var body: some View {
@@ -308,7 +318,14 @@ struct LearnBackButton: View {
 			Button {
 				dismiss()
 			} label: {
-				Image(asset: Asset.Images.backButton)
+                if themeManager.currentTheme.isDark {
+                    Image(asset: Asset.Images.backButton)
+                } else {
+                    Image(asset: Asset.Images.backButton)
+                        .renderingMode(.template)
+                        .colorMultiply(themeManager.currentTheme.mainText)
+                        .opacity(themeManager.currentTheme.isDark ? 1 : 0.75)
+                }
 			}
 			.padding()
 			Spacer()

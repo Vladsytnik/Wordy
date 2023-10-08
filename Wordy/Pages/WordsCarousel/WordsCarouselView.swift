@@ -149,11 +149,11 @@ struct CarouselCard: View {
 			Spacer()
 			Button {
 				onDeletedTap()
-			} label: {
-				Text(LocalizedStringKey("УДАЛИТЬ"))
-					.font(.system(size: 16, weight: .bold))
-					.foregroundColor(.white.opacity(0.82))
-			}
+            } label: {
+                Text(LocalizedStringKey("УДАЛИТЬ"))
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(themeManager.currentTheme.mainText)
+            }
 		}
 		.background{
 			themeManager.currentTheme.carouselCardBackgroundImage
@@ -184,6 +184,7 @@ struct WordsCarouselView_Previews: PreviewProvider {
 
 fileprivate struct SpeachButton: View {
 	
+    @EnvironmentObject var themeManager: ThemeManager
 	var action: (() -> Void)?
 	
 	var body: some View {
@@ -192,9 +193,18 @@ fileprivate struct SpeachButton: View {
 			Button {
 				action?()
 			} label: {
-				Image(asset: Asset.Images.speach)
-					.resizable()
-					.frame(width: 32, height: 32)
+                if themeManager.currentTheme.isDark {
+                    Image(asset: Asset.Images.speach)
+                        .resizable()
+                        .frame(width: 32, height: 32)
+                } else {
+                    Image(asset: Asset.Images.speach)
+                        .resizable()
+                        .renderingMode(.template)
+                        .colorMultiply(themeManager.currentTheme.mainText)
+                        .opacity(themeManager.currentTheme.isDark ? 1 : 0.9)
+                        .frame(width: 32, height: 32)
+                }
 			}
 		}
 	}

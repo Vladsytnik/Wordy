@@ -49,6 +49,7 @@ struct TrailingNavBarItem: ViewModifier {
 	
 	var disabled: Bool
 	var completion: (() -> Void)?
+    @EnvironmentObject var themeManager: ThemeManager
 	
 	func body(content: Content) -> some View {
 		content
@@ -62,6 +63,9 @@ struct TrailingNavBarItem: ViewModifier {
 						} label: {
 							Image(asset: Asset.Images.settingsIcon)
 								.resizable()
+                                .renderingMode(.template)
+                                .colorMultiply(themeManager.currentTheme.mainText)
+                                .opacity(themeManager.currentTheme.isDark ? 1 : 0.8)
 								.frame(width: 32, height: 30)
 						}
 						.disabled(disabled)

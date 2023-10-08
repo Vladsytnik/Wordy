@@ -389,7 +389,14 @@ struct GeneralSettingsRow: View {
 							.padding()
 							.rotationEffect(.degrees(isOpened ? 0 : 90))
 							.animation(.spring(), value: isOpened)
-					}
+                    } else {
+                        Image(systemName: "control")
+                        //                        .scaleEffect(0.3)
+                        //                        .foregroundColor(Color(asset: Asset.Colors.lightPurple))
+                            .foregroundColor(themeManager.currentTheme.mainText)
+                            .padding()
+                            .rotationEffect(.degrees(90))
+                    }
 				}
 			}
 			.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
@@ -418,6 +425,10 @@ struct EditFolderRow: View {
 					.font(.system(size: 16, weight: .regular))
 					.foregroundColor(themeManager.currentTheme.mainText)
 				Spacer()
+                Image(systemName: "control")
+                    .foregroundColor(themeManager.currentTheme.mainText)
+                    .rotationEffect(.degrees(90))
+                    .padding()
 			}
 		}
 		.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))

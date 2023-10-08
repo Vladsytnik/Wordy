@@ -11,6 +11,7 @@ import ApphudSDK
 struct StartView: View {
 	
 	@EnvironmentObject var deeplinkManager: DeeplinkManager
+    @EnvironmentObject var themeManager: ThemeManager
 	@EnvironmentObject var router: Router
 //	let authTransition = AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)).combined(with: .opacity)
 	let authTransition = AnyTransition.opacity
@@ -31,6 +32,7 @@ struct StartView: View {
 //                            }
 						}
 						.transition(transition)
+                        .accentColor(themeManager.currentTheme.mainText)
                         
 					} else {
 						SelectLanguagePage()

@@ -14,6 +14,8 @@ struct SearchTextField: View {
 	@Binding var searchText: String
 	let placeholder: String
 	@EnvironmentObject var themeManager: ThemeManager
+    
+    @FocusState var isFocused: Bool
 	
 //	@State private var initialModules: [Module] = []
 
@@ -31,6 +33,9 @@ struct SearchTextField: View {
 //										.foregroundColor(themeManager.currentTheme.searchTextFieldText)
 										.colorMultiply(themeManager.currentTheme.searchTextFieldText)
 										.padding(.leading)
+                                        .onTapGesture {
+                                            isFocused = true
+                                        }
 									ZStack {
 										TextField("", text: $searchText)
 											.foregroundColor(themeManager.currentTheme.searchTextFieldText)
@@ -38,12 +43,16 @@ struct SearchTextField: View {
 											.onChange(of: searchText) { newValue in
 												filterModules(text: newValue)
 											}
+                                            .focused($isFocused)
 										HStack {
 											Text(placeholder)
 												.fontWeight(.regular)
 												.opacity(searchText.isEmpty ? 0.8 : 0)
 												.foregroundColor(themeManager.currentTheme.searchTextFieldText)
 												.padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 0))
+                                                .onTapGesture {
+                                                    isFocused = true
+                                                }
 											Spacer()
 										}
 									}

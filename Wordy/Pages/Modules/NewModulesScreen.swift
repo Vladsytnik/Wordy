@@ -93,6 +93,12 @@ struct NewModulesScreen: View {
     @State var isShowPaywall = false
     @State var isFirstLaunch = true
     
+    @State var navBarColor: UIColor?
+    
+    lazy var currentTheme: String?  = {
+        UserDefaultsManager.themeName
+    }()
+    
     var body: some View {
                 GeometryReader { geometry in
                     ZStack {
@@ -128,6 +134,9 @@ struct NewModulesScreen: View {
                                                     .overlay {
                                                         Image(asset: Asset.Images.newGroup)
                                                             .resizable()
+                                                            .renderingMode(.template)
+                                                            .colorMultiply(themeManager.currentTheme.mainText)
+                                                            .opacity(themeManager.currentTheme.isDark ? 1 : 0.75)
                                                             .frame(width: 19, height: 19)
                                                     }
                                             }
@@ -320,7 +329,7 @@ struct NewModulesScreen: View {
 //                .navigationTitle(LocalizedStringKey("Модули"))
                 .onAppear{ router.showActivityView = false }
 //            }
-            .preferredColorScheme(ColorScheme.init(.dark))
+                .preferredColorScheme(ColorScheme.init(.dark))
             .onAppear{
                 isOnAppear = true
                 listenUserAuth()
@@ -409,6 +418,7 @@ struct NewModulesScreen: View {
             }
             .navigationBarTitleDisplayMode(.large)
             .navigationTitle(LocalizedStringKey("Модули"))
+            .preferredColorScheme(themeManager.currentTheme.isDark ? .dark : .light)
     }
     
     init() {
@@ -467,9 +477,6 @@ struct NewModulesScreen: View {
     }
     
     private func fetchModules(fromPullDown: Bool = false) {
-//        #if DEBUG
-//        return
-//        #endif
         if onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
             modules = MockDataManager().modules
         } else {
@@ -516,18 +523,19 @@ struct NewModulesScreen: View {
         alert.description = errorText
     }
     
-    private func configNavBarStyle() {
-//        let navigationBarAppearance = UINavigationBarAppearance()
-//        navigationBarAppearance.backgroundColor = UIColor.clear
+    private mutating func configNavBarStyle() {
+        let navigationBarAppearance = UINavigationBarAppearance()
+//        navigationBarAppearance.backgroundColor = UIColor(ThemeManager().currentTheme.main)
+        navigationBarAppearance.backgroundEffect = .init(style: .regular)
 //        navigationBarAppearance.largeTitleTextAttributes = [
 //            .foregroundColor: UIColor.white
 //        ]
 //        navigationBarAppearance.titleTextAttributes = [
-//            .foregroundColor: UIColor.white,
+//            .foregroundColor:  UIColor(ThemeManager().currentTheme.mainText) ,
 //        ]
 //        navigationBarAppearance.configureWithTransparentBackground()
 //        UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-//        UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+        UINavigationBar.appearance().standardAppearance = navigationBarAppearance
     }
     
     private func showOrHideNavBar(value: CGFloat) {

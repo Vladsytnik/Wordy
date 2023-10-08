@@ -138,26 +138,26 @@ struct SelectLanguagePage: View {
 							
 //							Spacer()
 							
-							HStack {
-								BackButton {
-									dismiss()
-								}
-								Spacer()
-							}
+//							HStack {
+//								BackButton {
+//									dismiss()
+//								}
+//								Spacer()
+//							}
 							
-							HStack {
-								Text(LocalizedStringKey("Язык"))
-									.foregroundColor(themeManager.currentTheme.mainText)
-									.font(.system(size: 36, weight: .bold))
-									.multilineTextAlignment(.center)
-									.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
-								Spacer()
-							}
+//							HStack {
+//								Text(LocalizedStringKey("Язык"))
+//									.foregroundColor(themeManager.currentTheme.mainText)
+//									.font(.system(size: 36, weight: .bold))
+//									.multilineTextAlignment(.center)
+//									.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
+//								Spacer()
+//							}
 							
 							VStack {
 								HStack {
 									Text(LocalizedStringKey("Родной"))
-										.foregroundColor(.init(white: 0.9))
+										.foregroundColor(themeManager.currentTheme.mainText)
 										.font(.system(size: 24, weight: .bold))
 									Spacer()
 								}
@@ -170,7 +170,7 @@ struct SelectLanguagePage: View {
 							VStack {
 								HStack {
 									Text(LocalizedStringKey("Хочу выучить"))
-										.foregroundColor(.init(white: 0.9))
+										.foregroundColor(themeManager.currentTheme.mainText)
 										.font(.system(size: 24, weight: .bold))
 									Spacer()
 								}
@@ -217,8 +217,8 @@ struct SelectLanguagePage: View {
 								.shadow(color: .white.opacity(0.1), radius: 8, x: 0, y: 2)
 								.overlay{
 									Text(LocalizedStringKey("СОХРАНИТЬ"))
-										.fontWeight(.medium)
-										.foregroundColor(.init(white: 0.9))
+										.fontWeight(.bold)
+										.foregroundColor(themeManager.currentTheme.mainText)
 								}
 								.offset(x: viewModel.shakeContinueBtn ? 10 : 0)
 								.animation(.spring(), value: viewModel.userCanContinue)
@@ -230,7 +230,9 @@ struct SelectLanguagePage: View {
 					Spacer()
 				}
 			}
-			.navigationBarHidden(true)
+//			.navigationBarHidden(true)
+            .navigationBarTitleDisplayMode(.large)
+            .navigationTitle(LocalizedStringKey("Язык"))
 			.showAlert(title: viewModel.alert.title,
 					   description: viewModel.alert.description,
 					   isPresented: $viewModel.showAlert,
@@ -266,12 +268,12 @@ struct LanguageSelectorView: View {
 						HStack(spacing: 16) {
 							Text(languages[i].getIcon())
 							Text(languages[i].getTitle())
-								.foregroundColor(.white.opacity(0.8))
+								.foregroundColor(themeManager.currentTheme.mainText)
 								.fontWeight(.bold)
 						}
 						if languages[i] == selectedLanguage {
 							Image(systemName: "circle.fill")
-								.foregroundColor(.green)
+                                .foregroundColor(themeManager.currentTheme.mainText)
 								.scaleEffect(0.5)
 						}
 						Spacer()
@@ -299,10 +301,13 @@ struct SelectLanguagePage_Previews: PreviewProvider {
 }
 
 struct MyDivider: View {
+    
+    @EnvironmentObject var themeManager: ThemeManager
+    
 	var body: some View {
 		Rectangle()
 			.frame(height: 1)
-			.foregroundColor(.white.opacity(0.1))
+            .foregroundColor(themeManager.currentTheme.mainText.opacity(0.1))
 			.padding(.leading)
 			.padding(.trailing)
 	}
