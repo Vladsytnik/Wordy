@@ -245,6 +245,7 @@ struct AddNewPhrase_Previews: PreviewProvider {
 			filteredModules: .constant([]),
 			index: 0
 		)
+        .environmentObject(ThemeManager())
 	}
 }
 
@@ -272,12 +273,12 @@ struct CustomTextField: View {
 			ZStack(alignment: .leading) {
 				HStack(spacing: 4) {
 					Text(LocalizedStringKey(placeholder))
-						.foregroundColor(.white.opacity(0.3))
+                        .foregroundColor(themeManager.currentTheme.mainText.opacity(0.3))
 						.font(.system(size: fontSize, weight: .medium))
 						.opacity(text.isEmpty ? 1 : 0)
 					
 					Text(additionalLangString)
-						.foregroundColor(.white.opacity(0.3))
+						.foregroundColor(themeManager.currentTheme.mainText.opacity(0.3))
 						.font(.system(size: fontSize, weight: .medium))
 						.opacity(text.isEmpty ? 1 : 0)
 				}
@@ -287,28 +288,38 @@ struct CustomTextField: View {
 							return
 						})
 						.foregroundColor(themeManager.currentTheme.mainText)
-						.tint(.white)
+						.tint(themeManager.currentTheme.mainText)
 						.font(.system(size: fontSize, weight: .medium))
 						.focused($isFocused)
 						.keyboardType(.twitter)
 					} else {
-						LanguageTextField(placeholder: "",
-										  text: $text,
-										  isFirstResponder: _isFocused,
-										  language: language)
-						.foregroundColor(themeManager.currentTheme.mainText)
-						.tint(.white)
-						.font(.system(size: fontSize, weight: .medium))
-						.focused($isFocused)
-						.keyboardType(.twitter)
+                        ZStack {
+                            LanguageTextField(placeholder: "",
+                                              text: $text,
+                                              isFirstResponder: _isFocused,
+                                              language: language)
+                            .foregroundColor(themeManager.currentTheme.mainText)
+                            .tint(themeManager.currentTheme.mainText)
+                            .font(.system(size: fontSize, weight: .medium))
+                            .focused($isFocused)
+                            .keyboardType(.twitter)
+                        }
 					}
-					if text.count > 0 && isFocused {
+					if text.count > 0 {
 						Button {
 							text = ""
 						} label: {
-							Image(asset: Asset.Images.plusIcon)
-								.rotationEffect(.degrees(45))
-								.opacity(isFocused ? 1 : 0)
+                            if themeManager.currentTheme.isDark {
+                                Image(asset: Asset.Images.plusIcon)
+                                    .rotationEffect(.degrees(45))
+//                                    .opacity(isFocused ? 1 : 0)
+                            } else {
+                                Image(asset: Asset.Images.plusIcon)
+                                    .renderingMode(.template)
+                                    .colorMultiply(themeManager.currentTheme.mainText)
+                                    .rotationEffect(.degrees(45))
+//                                    .opacity(isFocused ? 1 : 0)
+                            }
 						}
 					}
 				}
@@ -328,7 +339,7 @@ struct CustomTextField: View {
 				isFocused = false
 			}
 			Rectangle()
-				.foregroundColor(isFocused ? .white.opacity(1) : .white.opacity(0.2))
+				.foregroundColor(isFocused ? themeManager.currentTheme.mainText.opacity(1) : themeManager.currentTheme.mainText.opacity(0.2))
 				.frame(height: 1)
 				.animation(.default, value: isFocused)
 		}
@@ -341,11 +352,13 @@ struct LanguageTextField: UIViewRepresentable {
 	@Binding var text: String
 	@FocusState var isFirstResponder: Bool
 	var language: Language?
+    @EnvironmentObject var themeManager: ThemeManager
 	
 	func makeUIView(context: Context) -> UILanguageTextField {
 		let langTextField = UILanguageTextField(textLanguage: language)
-		langTextField.textColor = .white
+        langTextField.textColor = UIColor(themeManager.currentTheme.mainText)
 		langTextField.delegate = context.coordinator
+        langTextField.tintColor = UIColor(themeManager.currentTheme.mainText)
 		if isFirstResponder {
 			langTextField.becomeFirstResponder()
 		} else {

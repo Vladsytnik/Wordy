@@ -60,10 +60,19 @@ struct PhraseEditPage: View {
 						Button {
 							dismiss()
 						} label: {
-							Image(asset: Asset.Images.backButton)
-								.resizable()
-								.frame(width: 31, height: 31, alignment: .leading)
-								.offset(x: -1)
+                            if themeManager.currentTheme.isDark {
+                                Image(asset: Asset.Images.backButton)
+                                    .resizable()
+                                    .frame(width: 31, height: 31, alignment: .leading)
+                                    .offset(x: -1)
+                            } else {
+                                Image(asset: Asset.Images.backButton)
+                                    .resizable()
+                                    .renderingMode(.template)
+                                    .colorMultiply(themeManager.currentTheme.mainText)
+                                    .frame(width: 31, height: 31, alignment: .leading)
+                                    .offset(x: -1)
+                            }
 						}
 						Spacer()
 					}
