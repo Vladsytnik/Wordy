@@ -142,6 +142,7 @@
 		01F708BB29B6573F00585B2E /* NewCategoryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F708BA29B6573F00585B2E /* NewCategoryCard.swift */; };
 		01FB3A8029505E5100330DDE /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FB3A7F29505E5100330DDE /* SearchTextField.swift */; };
 		54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */; };
+		CE52764A2ADAD7D9009F30FB /* ExampleCreatingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */; };
 		CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC18A252AD163BB00825749 /* NewModulesScreen.swift */; };
 /* End PBXBuildFile section */
 
@@ -265,6 +266,7 @@
 		01F57695294A4F2E00F52EB1 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		01F708BA29B6573F00585B2E /* NewCategoryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryCard.swift; sourceTree = "<group>"; };
 		01FB3A7F29505E5100330DDE /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
+		CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCreatingResponse.swift; sourceTree = "<group>"; };
 		CEC18A252AD163BB00825749 /* NewModulesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewModulesScreen.swift; sourceTree = "<group>"; };
 		DF01A188026EA0C8921A4D0E /* Pods-Wordy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.release.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.release.xcconfig"; sourceTree = "<group>"; };
 		E8C956E5C5ED6A0A18071179 /* Pods-Wordy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.debug.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -382,7 +384,7 @@
 		0135E24D295B643E00B1C8A0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				019AC1102AB4E5E600B31E8F /* TranslatingResponse */,
+				CE5276482ADAD7BE009F30FB /* NetworkModels */,
 				0135E24E295B645300B1C8A0 /* Module.swift */,
 				017642442972EB920042DB86 /* Phrase.swift */,
 				019160BD29D2D0360094F36D /* Group.swift */,
@@ -767,6 +769,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		CE5276482ADAD7BE009F30FB /* NetworkModels */ = {
+			isa = PBXGroup;
+			children = (
+				019AC1102AB4E5E600B31E8F /* TranslatingResponse */,
+				CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */,
+			);
+			path = NetworkModels;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -976,6 +987,7 @@
 				0185B55F2949F26D00934373 /* ObservableScrollView.swift in Sources */,
 				CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */,
 				01D89B1E2AC961390077FD6E /* SubscriptionManager.swift in Sources */,
+				CE52764A2ADAD7D9009F30FB /* ExampleCreatingResponse.swift in Sources */,
 				01E0331A2AD016F500A3DA14 /* SharedModulePage.swift in Sources */,
 				01DC12CA2A153605007BF79E /* Languages.swift in Sources */,
 				01E4B759294B119800720BE0 /* NetworkManager.swift in Sources */,

@@ -52,9 +52,13 @@ class AddNewPhraseViewModel: ObservableObject {
 	init() {
 		$servicedNativeText
 			.removeDuplicates()
-			.debounce(for: 1, scheduler: DispatchQueue.main)
-			.sink { $0.count > 0 ? self.getTranslatedText(from: $0) : nil }
-			.store(in: &cancellable)
+            .debounce(for: 1, scheduler: DispatchQueue.main)
+            .sink { if $0.count > 0 {
+                self.getTranslatedText(from: $0)
+                self.createExamples()
+                }
+            }
+            .store(in: &cancellable)
 		$automaticTranslatedText
 			.receive(on: DispatchQueue.main)
 			.sink { text in
@@ -64,6 +68,20 @@ class AddNewPhraseViewModel: ObservableObject {
 			}
 			.store(in: &cancellable)
 	}
+    
+    func createExamples() {
+        print("createExamples: method entry")
+        Task {
+            do {
+                if servicedNativeText.count > 1 {
+                    print("createExamples: before request")
+                    let examples = try await NetworkManager.createExamples(with: servicedNativeText)
+                }
+            } catch (let error) {
+                print("Error in AddNewPhraseViewModel -> createExamples: \(error)")
+            }
+        }
+    }
 	
 	// MARK: - Translating logic
 	

@@ -36,8 +36,57 @@ class NetworkManager {
 			)
 		}
 	}
+    
+    static func createExamples(with phrase: String) async throws -> [String] {
+        let session = URLSession.shared
+        
+        guard let url = URL(string: "https://functions.yandexcloud.net/d4esp8oervpdc0ps5pfo?integration=raw") else {
+            print("error in url [createExamples method]")
+            return []
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST";
+        request.allHTTPHeaderFields = [
+            "Content-Type" : "application/json"
+        ]
+        
+        let body = [
+            "queryStringParameters" : [
+                "phrase" : "\(phrase)"
+            ],
+        ] as [String : Any]
+        
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
+            print("Возникла ошибка при сериализации в NetworkManager -> createExamples")
+            return []
+        }
+        
+        request.httpBody = httpBody
+        let (data, response) = try await session.data(for: request)
+        
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            print("NetworkManager -> createExamples status code is not 200: \(response)")
+            return []
+        }
+        
+        let exampleResponse = try JSONDecoder().decode(ExampleCreatingResponse.self, from: data)
+        
+        let examples = exampleResponse.body.examples.map{ $0.source }
+//        else {
+//            print("Не удалось декодировать ответ в NetworkManager -> createExamples")
+//            return []
+//        }
+        
+        print("createExamples: ", examples)
+        
+        
+        return examples
+    }
 	
-	static func signIn(email: String, password: String, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void) {
+	static func signIn(email: String, password: String, 
+                       success: @escaping (String) -> Void,
+                       errorBlock: @escaping (String) -> Void) {
 		Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
 			checkAnswer(
 				authResult: authResult,
@@ -48,7 +97,10 @@ class NetworkManager {
 		}
 	}
 	
-	static func checkAnswer(authResult: AuthDataResult?, error: Error?, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void ) {
+	static func checkAnswer(authResult: AuthDataResult?, 
+                            error: Error?, 
+                            success: @escaping (String) -> Void,
+                            errorBlock: @escaping (String) -> Void ) {
 		guard error == nil else {
 			print("Network error:", error.debugDescription)
 			if error.debugDescription.decodeCode() == -1 {
@@ -69,7 +121,11 @@ class NetworkManager {
 		}
 	}
 	
-	static func createModule(name: String, emoji: String, phrases: [Phrase]? = nil, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void ) {
+	static func createModule(name: String, 
+                             emoji: String,
+                             phrases: [Phrase]? = nil,
+                             success: @escaping (String) -> Void,
+                             errorBlock: @escaping (String) -> Void ) {
 		guard let currentUserID = currentUserID else {
 			errorBlock("error in createModule -> currentUserID")
 			return
