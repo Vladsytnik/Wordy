@@ -37,6 +37,10 @@ class AddNewPhraseViewModel: ObservableObject {
 	@Published var showAutomaticTranslatedView = false
 	@Published var automaticTranslatedText = ""
 	@Published var servicedNativeText = ""
+    
+    @Published var examples: [String] = []
+    @Published var exampleIndex = 0
+    @Published var isShowCreatedExample = false
 	
 	private var cancellable = Set<AnyCancellable>()
 	private var networkTask: Task<(), Never>?
@@ -55,7 +59,6 @@ class AddNewPhraseViewModel: ObservableObject {
             .debounce(for: 1, scheduler: DispatchQueue.main)
             .sink { if $0.count > 0 {
                 self.getTranslatedText(from: $0)
-                self.createExamples()
                 }
             }
             .store(in: &cancellable)
@@ -67,19 +70,48 @@ class AddNewPhraseViewModel: ObservableObject {
 				}
 			}
 			.store(in: &cancellable)
+        $wasTappedAddExample
+            .sink { isShowExample in
+                if isShowExample {
+                    self.createExamples()
+                }
+            }
+            .store(in: &cancellable)
+        
+        #if targetEnvironment(simulator)
+        self.examples = [
+            "Apple gave people what they wanted.",
+            "Clearly Apple engineers have considered this.",
+            "Apple has made various MacOS programs send files to Apple servers without asking permission."
+        ]
+        #else
+          // your real device code
+        #endif
 	}
     
     func createExamples() {
         print("createExamples: method entry")
-        Task {
+        Task { @MainActor in
             do {
                 if servicedNativeText.count > 1 {
                     print("createExamples: before request")
                     let examples = try await NetworkManager.createExamples(with: servicedNativeText)
+                    if examples.count > 0 {
+                        self.examples = examples
+                        isShowCreatedExample = true
+                    }
                 }
             } catch (let error) {
                 print("Error in AddNewPhraseViewModel -> createExamples: \(error)")
             }
+        }
+    }
+    
+    func showNextExampleDidTap() {
+        if exampleIndex < examples.count - 1 {
+            exampleIndex += 1
+        } else {
+            exampleIndex = 0
         }
     }
 	
@@ -90,6 +122,9 @@ class AddNewPhraseViewModel: ObservableObject {
 		networkTask = Task { @MainActor in
 			do {
 				automaticTranslatedText = try await NetworkManager.translate(from: text)
+                if wasTappedAddExample {
+                    self.createExamples()
+                }
 			} catch(let error) {
 				print("Error on translating text api: \(error.localizedDescription)")
 			}

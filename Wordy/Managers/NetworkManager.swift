@@ -51,9 +51,16 @@ class NetworkManager {
             "Content-Type" : "application/json"
         ]
         
+        let sourceLanguage = UserDefaultsManager.learnLanguage?.getLangCodeForGeneratingExamples() ?? "english"
+        let additionalLanguage =  UserDefaultsManager.learnLanguage != .ru ? "russian" : "english"
+        
+        
         let body = [
             "queryStringParameters" : [
-                "phrase" : "\(phrase)"
+                "phrase" : "\(phrase)",
+                "sourceLanguage" : "\(sourceLanguage)",
+                "additionalLanguage" : "\(additionalLanguage)",
+                
             ],
         ] as [String : Any]
         
@@ -463,7 +470,7 @@ class NetworkManager {
 	
 	static func translate(from text: String) async throws -> String {
 		let session = URLSession.shared
-		session.invalidateAndCancel()
+//		session.invalidateAndCancel()
 		guard let url = URL(string: "https://translate.api.cloud.yandex.net/translate/v2/translate") else {
 			print("error in url [translate method]")
 			return ""

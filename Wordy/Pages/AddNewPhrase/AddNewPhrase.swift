@@ -90,8 +90,11 @@ struct AddNewPhrase: View {
 									.foregroundColor(themeManager.currentTheme.mainText)
 									.padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
 									.background {
-										RoundedRectangle(cornerRadius: 12)
-											.foregroundColor(themeManager.currentTheme.accent)
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .foregroundColor(themeManager.currentTheme.accent)
+                                            BadgeBackground(color: themeManager.currentTheme.accent)
+                                        }
 									}
 									.onTapGesture {
 										translatedText = viewModel.automaticTranslatedText
@@ -113,6 +116,9 @@ struct AddNewPhrase: View {
 					}
 					
 					if viewModel.wasTappedAddExample {
+                        
+                        //MARK: - Examples Text Field
+                        
 						CustomTextField(
 							placeholder: "Пример",
 							text: $exampleText,
@@ -125,6 +131,55 @@ struct AddNewPhrase: View {
 							viewModel.didTapTextField(index: 2)
 						}
 						.offset(x: !viewModel.examplePhraseIsEmpty ? 0 : 10)
+                        
+                        //MARK: - Generated Examples section
+                        
+                        if viewModel.isShowCreatedExample {
+                            HStack() {
+                                HStack {
+                                    Text(viewModel.examples[viewModel.exampleIndex])
+                                        .foregroundColor(themeManager.currentTheme.mainText)
+                                        .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                                        .background {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .foregroundColor(themeManager.currentTheme.accent)
+                                                BadgeBackground(color: themeManager.currentTheme.accent)
+                                            }
+                                        }
+                                        .onTapGesture {
+                                            exampleText = viewModel.examples[viewModel.exampleIndex]
+                                            viewModel.isShowCreatedExample = false
+                                        }
+                                    
+                                    Spacer()
+                                    
+                                    VStack {
+                                        Button {
+                                            viewModel.isShowCreatedExample = false
+                                        } label: {
+                                            Image(asset: Asset.Images.plusIcon)
+                                                .rotationEffect(.degrees(45))
+                                        }
+                                        .padding(EdgeInsets(top: 1, leading: 8, bottom: 1, trailing: 0))
+                                        
+                                        if viewModel.examples.count > 1 {
+                                            Button {
+                                                viewModel.showNextExampleDidTap()
+                                            } label: {
+                                                Image(systemName: "arrow.left.arrow.right.circle.fill")
+                                                    .resizable()
+                                                    .frame(width: 21, height: 21)
+                                                    .foregroundColor(themeManager.currentTheme.mainText)
+                                            }
+                                            .padding(EdgeInsets(top: 1, leading: 8, bottom: 1, trailing: 0))
+                                        }
+                                    }
+                                }
+                                Spacer()
+                            }
+//                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+                        }
 					} else {
 						HStack {
 							Button {
@@ -182,6 +237,8 @@ struct AddNewPhrase: View {
 				.padding()
 			}
 			.animation(.spring(), value: viewModel.showAutomaticTranslatedView)
+            .animation(.spring(), value: viewModel.isShowCreatedExample)
+            .animation(.spring(), value: viewModel.wasTappedAddExample)
 			.onChange(of: viewModel.modules, perform: { newValue in
 				self.modules = newValue
 			})
@@ -243,7 +300,7 @@ struct AddNewPhrase_Previews: PreviewProvider {
 			modules: .constant([.init()]),
 			searchedText: .constant(""),
 			filteredModules: .constant([]),
-			index: 0
+            index: 0
 		)
         .environmentObject(ThemeManager())
 	}
@@ -302,23 +359,24 @@ struct CustomTextField: View {
                             .tint(themeManager.currentTheme.mainText)
                             .font(.system(size: fontSize, weight: .medium))
                             .focused($isFocused)
-                            .keyboardType(.twitter)
+//                            .keyboardType(.twitter)
+                            .keyboardType(.default)
                         }
 					}
-					if text.count > 0 {
+					if text.count > 0 && isFocused {
 						Button {
 							text = ""
 						} label: {
                             if themeManager.currentTheme.isDark {
                                 Image(asset: Asset.Images.plusIcon)
                                     .rotationEffect(.degrees(45))
-//                                    .opacity(isFocused ? 1 : 0)
+                                    .opacity(isFocused ? 1 : 0)
                             } else {
                                 Image(asset: Asset.Images.plusIcon)
                                     .renderingMode(.template)
                                     .colorMultiply(themeManager.currentTheme.mainText)
                                     .rotationEffect(.degrees(45))
-//                                    .opacity(isFocused ? 1 : 0)
+                                    .opacity(isFocused ? 1 : 0)
                             }
 						}
 					}
@@ -389,6 +447,10 @@ struct LanguageTextField: UIViewRepresentable {
 		func textFieldDidChangeSelection(_ textField: UITextField) {
 			parent.text = textField.text ?? ""
 		}
+        
+//        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//            textField.resignFirstResponder()
+//        }
 	}
 }
 
