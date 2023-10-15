@@ -89,6 +89,13 @@ class AddNewPhraseViewModel: ObservableObject {
         #endif
 	}
     
+    convenience init(modules: Binding<[Module]>,  searchedText: Binding<String>, filteredModules: Binding<[Module]>, index: Int) {
+        self.init()
+        self.modules = modules.wrappedValue
+        self.filteredModules = filteredModules.wrappedValue
+        self.searchedText = searchedText.wrappedValue
+    }
+    
     func createExamples() {
         print("createExamples: method entry")
         Task { @MainActor in
@@ -176,7 +183,8 @@ class AddNewPhraseViewModel: ObservableObject {
 				
 				NetworkManager.getModules { modules in
 					self.changeActivityState(toProccess: false)
-					self.modules = modules
+                    self.filteredModules = modules
+                    self.modules = modules
 					success()
 				} errorBlock: { errorText in
 					self.changeActivityState(toProccess: false)

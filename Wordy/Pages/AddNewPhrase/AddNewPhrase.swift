@@ -14,28 +14,16 @@ struct AddNewPhrase: View {
 	@Binding var modules: [Module]
 	@Binding var filteredModules: [Module]
 	@Binding var searchText: String
+    
+    var index = 0
 	
 	@State private var nativeText = ""
 	@State private var translatedText = ""
 	@State private var exampleText = ""
 	
 	@Environment(\.dismiss) private var dismiss
-	@ObservedObject var viewModel = AddNewPhraseViewModel()
+    @StateObject var viewModel = AddNewPhraseViewModel()
 	@EnvironmentObject var themeManager: ThemeManager
-	
-	init(modules: Binding<[Module]>, searchedText: Binding<String>, filteredModules: Binding<[Module]>, index: Int) {
-		self._modules = modules
-		self._filteredModules = filteredModules
-		self._searchText = searchedText
-		viewModel.modules = modules.wrappedValue
-		viewModel.searchedText = searchedText.wrappedValue
-		viewModel.filteredModules = filteredModules.wrappedValue
-		viewModel.index = index
-		
-		viewModel.nativePhrase = nativeText
-		viewModel.translatedPhrase = translatedText
-		viewModel.examplePhrase = exampleText
-	}
 	
 	var body: some View {
 		ZStack {
@@ -269,6 +257,19 @@ struct AddNewPhrase: View {
 					.foregroundColor(.white.opacity(0.00001))
 			}
 		}
+        .onTapGesture(perform: {
+            UIApplication.shared.endEditing()
+        })
+        .onAppear {
+            viewModel.modules = modules
+            viewModel.searchedText = searchText
+            viewModel.filteredModules = filteredModules
+            viewModel.index = index
+            
+            viewModel.nativePhrase = nativeText
+            viewModel.translatedPhrase = translatedText
+            viewModel.examplePhrase = exampleText
+        }
 		.onChange(of: viewModel.nativePhrase) { newValue in
 			self.nativeText = newValue
 		}
@@ -298,11 +299,12 @@ struct AddNewPhrase_Previews: PreviewProvider {
 	static var previews: some View {
 		AddNewPhrase(
 			modules: .constant([.init()]),
-			searchedText: .constant(""),
-			filteredModules: .constant([]),
+            filteredModules: .constant([]),
+            searchText: .constant(""),
             index: 0
 		)
         .environmentObject(ThemeManager())
+        .environmentObject(AddNewPhraseViewModel())
 	}
 }
 
@@ -448,9 +450,9 @@ struct LanguageTextField: UIViewRepresentable {
 			parent.text = textField.text ?? ""
 		}
         
-//        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//            textField.resignFirstResponder()
-//        }
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            textField.resignFirstResponder()
+        }
 	}
 }
 

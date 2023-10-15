@@ -191,9 +191,10 @@ struct PhraseEditPage_Previews: PreviewProvider {
 	static var previews: some View {
 		AddNewPhrase(
 			modules: .constant([.init()]),
-			searchedText: .constant(""),
-			filteredModules: .constant([]),
+            filteredModules: .constant([]),
+            searchText: .constant(""),
 			index: 0
 		)
+        .environmentObject(AddNewPhraseViewModel())
 	}
 }

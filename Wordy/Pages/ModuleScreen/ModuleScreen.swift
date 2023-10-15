@@ -18,6 +18,8 @@ struct ModuleScreen: View {
 	@StateObject var learnPageViewModel = LearnSelectionPageViewModel()
 	@State var showLearnPage = false
 	@State var showEditAlert = false
+    
+    var addNewPhraseViewModel = AddNewPhraseViewModel()
 	
 	private let countOfWordsForFree = 15
 	
@@ -164,7 +166,11 @@ struct ModuleScreen: View {
 						self.filteredModules = newValue
 					}
 					.fullScreenCover(isPresented: $viewModel.showActionSheet) {
-						AddNewPhrase(modules: $modules, searchedText: $searchText, filteredModules: $filteredModules, index: viewModel.index)
+						AddNewPhrase(modules: $modules, 
+                                     filteredModules: $filteredModules,
+                                     searchText: $searchText,
+                                     index: viewModel.index)
+                            .environmentObject(addNewPhraseViewModel)
 					}
 				}
 //			})
