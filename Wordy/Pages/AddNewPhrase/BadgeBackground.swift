@@ -51,8 +51,10 @@ struct BadgeBackground: View {
 }
 
 
-#Preview {
-    BadgeBackground(color: .pink, off: 30)
-        .frame(width: 300, height: 100)
-        .background { Color.pink }
+struct BadgeBackground_Previews: PreviewProvider {
+	static var previews: some View {
+		BadgeBackground(color: .pink, off: 30)
+			.frame(width: 300, height: 100)
+			.background { Color.pink }
+	}
 }
