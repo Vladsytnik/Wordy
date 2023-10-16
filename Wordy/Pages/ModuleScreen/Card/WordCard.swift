@@ -65,6 +65,9 @@ struct WordCard: View {
 						} label: {
 							Image(asset: Asset.Images.speach)
 								.resizable()
+                                .renderingMode(.template)
+                                .colorMultiply(themeManager.currentTheme.mainText)
+                                .opacity(themeManager.currentTheme.isDark ? 1 : 0.75)
 								.frame(width: 30, height: 30)
 //								.offset(x: -11, y: 5)
 								.padding(EdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 8))
@@ -99,13 +102,15 @@ struct WordCard: View {
 					} label: {
 						VStack(spacing: 5) {
 							Text(LocalizedStringKey("Добавить пример"))
-								.foregroundColor(.white.opacity(0.9))
+//								.foregroundColor(.white.opacity(0.9))
+                                .foregroundColor(themeManager.currentTheme.mainText)
 								.font(.system(size: 16, weight: .regular))
 								.background {
 									VStack {
 										Spacer()
 										Rectangle()
 											.foregroundColor(themeManager.currentTheme.mainText)
+//                                            .foregroundColor(.white.opacity(0.9))
 											.frame(height: 1)
 									}
 									.offset(y: 5)

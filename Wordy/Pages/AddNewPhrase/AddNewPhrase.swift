@@ -14,28 +14,16 @@ struct AddNewPhrase: View {
 	@Binding var modules: [Module]
 	@Binding var filteredModules: [Module]
 	@Binding var searchText: String
+    
+    var index = 0
 	
 	@State private var nativeText = ""
 	@State private var translatedText = ""
 	@State private var exampleText = ""
 	
 	@Environment(\.dismiss) private var dismiss
-	@ObservedObject var viewModel = AddNewPhraseViewModel()
+    @StateObject var viewModel = AddNewPhraseViewModel()
 	@EnvironmentObject var themeManager: ThemeManager
-	
-	init(modules: Binding<[Module]>, searchedText: Binding<String>, filteredModules: Binding<[Module]>, index: Int) {
-		self._modules = modules
-		self._filteredModules = filteredModules
-		self._searchText = searchedText
-		viewModel.modules = modules.wrappedValue
-		viewModel.searchedText = searchedText.wrappedValue
-		viewModel.filteredModules = filteredModules.wrappedValue
-		viewModel.index = index
-		
-		viewModel.nativePhrase = nativeText
-		viewModel.translatedPhrase = translatedText
-		viewModel.examplePhrase = exampleText
-	}
 	
 	var body: some View {
 		ZStack {
@@ -90,8 +78,11 @@ struct AddNewPhrase: View {
 									.foregroundColor(themeManager.currentTheme.mainText)
 									.padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
 									.background {
-										RoundedRectangle(cornerRadius: 12)
-											.foregroundColor(themeManager.currentTheme.accent)
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .foregroundColor(themeManager.currentTheme.accent)
+                                            BadgeBackground(color: themeManager.currentTheme.accent)
+                                        }
 									}
 									.onTapGesture {
 										translatedText = viewModel.automaticTranslatedText
@@ -113,6 +104,9 @@ struct AddNewPhrase: View {
 					}
 					
 					if viewModel.wasTappedAddExample {
+                        
+                        //MARK: - Examples Text Field
+                        
 						CustomTextField(
 							placeholder: "Пример",
 							text: $exampleText,
@@ -125,6 +119,55 @@ struct AddNewPhrase: View {
 							viewModel.didTapTextField(index: 2)
 						}
 						.offset(x: !viewModel.examplePhraseIsEmpty ? 0 : 10)
+                        
+                        //MARK: - Generated Examples section
+                        
+                        if viewModel.isShowCreatedExample {
+                            HStack() {
+                                HStack {
+                                    Text(viewModel.examples[viewModel.exampleIndex])
+                                        .foregroundColor(themeManager.currentTheme.mainText)
+                                        .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                                        .background {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .foregroundColor(themeManager.currentTheme.accent)
+                                                BadgeBackground(color: themeManager.currentTheme.accent)
+                                            }
+                                        }
+                                        .onTapGesture {
+                                            exampleText = viewModel.examples[viewModel.exampleIndex]
+                                            viewModel.isShowCreatedExample = false
+                                        }
+                                    
+                                    Spacer()
+                                    
+                                    VStack {
+                                        Button {
+                                            viewModel.isShowCreatedExample = false
+                                        } label: {
+                                            Image(asset: Asset.Images.plusIcon)
+                                                .rotationEffect(.degrees(45))
+                                        }
+                                        .padding(EdgeInsets(top: 1, leading: 8, bottom: 1, trailing: 0))
+                                        
+                                        if viewModel.examples.count > 1 {
+                                            Button {
+                                                viewModel.showNextExampleDidTap()
+                                            } label: {
+                                                Image(systemName: "arrow.left.arrow.right.circle.fill")
+                                                    .resizable()
+                                                    .frame(width: 21, height: 21)
+                                                    .foregroundColor(themeManager.currentTheme.mainText)
+                                            }
+                                            .padding(EdgeInsets(top: 1, leading: 8, bottom: 1, trailing: 0))
+                                        }
+                                    }
+                                }
+                                Spacer()
+                            }
+//                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+                        }
 					} else {
 						HStack {
 							Button {
@@ -182,6 +225,8 @@ struct AddNewPhrase: View {
 				.padding()
 			}
 			.animation(.spring(), value: viewModel.showAutomaticTranslatedView)
+            .animation(.spring(), value: viewModel.isShowCreatedExample)
+            .animation(.spring(), value: viewModel.wasTappedAddExample)
 			.onChange(of: viewModel.modules, perform: { newValue in
 				self.modules = newValue
 			})
@@ -212,6 +257,19 @@ struct AddNewPhrase: View {
 					.foregroundColor(.white.opacity(0.00001))
 			}
 		}
+        .onTapGesture(perform: {
+            UIApplication.shared.endEditing()
+        })
+        .onAppear {
+            viewModel.modules = modules
+            viewModel.searchedText = searchText
+            viewModel.filteredModules = filteredModules
+            viewModel.index = index
+            
+            viewModel.nativePhrase = nativeText
+            viewModel.translatedPhrase = translatedText
+            viewModel.examplePhrase = exampleText
+        }
 		.onChange(of: viewModel.nativePhrase) { newValue in
 			self.nativeText = newValue
 		}
@@ -241,10 +299,12 @@ struct AddNewPhrase_Previews: PreviewProvider {
 	static var previews: some View {
 		AddNewPhrase(
 			modules: .constant([.init()]),
-			searchedText: .constant(""),
-			filteredModules: .constant([]),
-			index: 0
+            filteredModules: .constant([]),
+            searchText: .constant(""),
+            index: 0
 		)
+        .environmentObject(ThemeManager())
+        .environmentObject(AddNewPhraseViewModel())
 	}
 }
 
@@ -272,12 +332,12 @@ struct CustomTextField: View {
 			ZStack(alignment: .leading) {
 				HStack(spacing: 4) {
 					Text(LocalizedStringKey(placeholder))
-						.foregroundColor(.white.opacity(0.3))
+                        .foregroundColor(themeManager.currentTheme.mainText.opacity(0.3))
 						.font(.system(size: fontSize, weight: .medium))
 						.opacity(text.isEmpty ? 1 : 0)
 					
 					Text(additionalLangString)
-						.foregroundColor(.white.opacity(0.3))
+						.foregroundColor(themeManager.currentTheme.mainText.opacity(0.3))
 						.font(.system(size: fontSize, weight: .medium))
 						.opacity(text.isEmpty ? 1 : 0)
 				}
@@ -287,28 +347,39 @@ struct CustomTextField: View {
 							return
 						})
 						.foregroundColor(themeManager.currentTheme.mainText)
-						.tint(.white)
+						.tint(themeManager.currentTheme.mainText)
 						.font(.system(size: fontSize, weight: .medium))
 						.focused($isFocused)
 						.keyboardType(.twitter)
 					} else {
-						LanguageTextField(placeholder: "",
-										  text: $text,
-										  isFirstResponder: _isFocused,
-										  language: language)
-						.foregroundColor(themeManager.currentTheme.mainText)
-						.tint(.white)
-						.font(.system(size: fontSize, weight: .medium))
-						.focused($isFocused)
-						.keyboardType(.twitter)
+                        ZStack {
+                            LanguageTextField(placeholder: "",
+                                              text: $text,
+                                              isFirstResponder: _isFocused,
+                                              language: language)
+                            .foregroundColor(themeManager.currentTheme.mainText)
+                            .tint(themeManager.currentTheme.mainText)
+                            .font(.system(size: fontSize, weight: .medium))
+                            .focused($isFocused)
+//                            .keyboardType(.twitter)
+                            .keyboardType(.default)
+                        }
 					}
 					if text.count > 0 && isFocused {
 						Button {
 							text = ""
 						} label: {
-							Image(asset: Asset.Images.plusIcon)
-								.rotationEffect(.degrees(45))
-								.opacity(isFocused ? 1 : 0)
+                            if themeManager.currentTheme.isDark {
+                                Image(asset: Asset.Images.plusIcon)
+                                    .rotationEffect(.degrees(45))
+                                    .opacity(isFocused ? 1 : 0)
+                            } else {
+                                Image(asset: Asset.Images.plusIcon)
+                                    .renderingMode(.template)
+                                    .colorMultiply(themeManager.currentTheme.mainText)
+                                    .rotationEffect(.degrees(45))
+                                    .opacity(isFocused ? 1 : 0)
+                            }
 						}
 					}
 				}
@@ -328,7 +399,7 @@ struct CustomTextField: View {
 				isFocused = false
 			}
 			Rectangle()
-				.foregroundColor(isFocused ? .white.opacity(1) : .white.opacity(0.2))
+				.foregroundColor(isFocused ? themeManager.currentTheme.mainText.opacity(1) : themeManager.currentTheme.mainText.opacity(0.2))
 				.frame(height: 1)
 				.animation(.default, value: isFocused)
 		}
@@ -341,11 +412,13 @@ struct LanguageTextField: UIViewRepresentable {
 	@Binding var text: String
 	@FocusState var isFirstResponder: Bool
 	var language: Language?
+    @EnvironmentObject var themeManager: ThemeManager
 	
 	func makeUIView(context: Context) -> UILanguageTextField {
 		let langTextField = UILanguageTextField(textLanguage: language)
-		langTextField.textColor = .white
+        langTextField.textColor = UIColor(themeManager.currentTheme.mainText)
 		langTextField.delegate = context.coordinator
+        langTextField.tintColor = UIColor(themeManager.currentTheme.mainText)
 		if isFirstResponder {
 			langTextField.becomeFirstResponder()
 		} else {
@@ -376,6 +449,10 @@ struct LanguageTextField: UIViewRepresentable {
 		func textFieldDidChangeSelection(_ textField: UITextField) {
 			parent.text = textField.text ?? ""
 		}
+        
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            textField.resignFirstResponder()
+        }
 	}
 }
 

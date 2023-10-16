@@ -28,7 +28,7 @@ struct Alert: View {
 //	@Environment(\.dismiss) var dismiss
 	
 	var body: some View {
-		GeometryReader { geo in
+//		GeometryReader { geo in
 			ZStack {
 				VStack {
 					Spacer()
@@ -56,7 +56,7 @@ struct Alert: View {
 								.frame(width: 200, height: 55)
 								.overlay {
 									Text(LocalizedStringKey(titleWithoutAction))
-										.foregroundColor(themeManager.currentTheme.mainText)
+                                        .foregroundColor(.white)
 										.font(.system(size: 16, weight: .medium))
 								}
 						}
@@ -85,7 +85,7 @@ struct Alert: View {
 							.padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
 						}
 					}
-					.frame(width: geo.size.width)
+//					.frame(width: geo.size.width)
 					.padding(EdgeInsets(top: 0, leading: 0, bottom: 100, trailing: 0))
 					.background(themeManager.currentTheme.moduleCardRoundedAreaColor)
 					.cornerRadius(30, corners: [.topLeft, .topRight])
@@ -93,7 +93,7 @@ struct Alert: View {
 //				.ignoresSafeArea()
 			}
 			.offset(y: 100 + scrollOffsetValue)
-			.frame(width: geo.size.width, height: geo.size.height)
+//			.frame(width: geo.size.width, height: geo.size.height)
 			.gesture(
 				DragGesture()
 					.onEnded{ value in
@@ -105,7 +105,7 @@ struct Alert: View {
 					}
 					.onChanged{ if $0.translation.height > 0 {  scrollOffsetValue = $0.translation.height }}
 			)
-		}
+//		}
 	}
 }
 

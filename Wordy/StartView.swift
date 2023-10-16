@@ -11,6 +11,7 @@ import ApphudSDK
 struct StartView: View {
 	
 	@EnvironmentObject var deeplinkManager: DeeplinkManager
+    @EnvironmentObject var themeManager: ThemeManager
 	@EnvironmentObject var router: Router
 //	let authTransition = AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)).combined(with: .opacity)
 	let authTransition = AnyTransition.opacity
@@ -21,15 +22,25 @@ struct StartView: View {
 			ZStack {
 				if router.userIsLoggedIn {
 					if router.userIsAlreadyLaunched {
+                        
+                        //MARK: – Main Flow
 						NavigationView {
-							Modules()
+//                            if #available(iOS 15.0, *) {
+                                NewModulesScreen()
+//                            } else {
+//                                Modules()
+//                            }
 						}
 						.transition(transition)
+                        .accentColor(themeManager.currentTheme.mainText)
+                        
 					} else {
 						SelectLanguagePage()
 							.transition(opacityTransition)
 					}
+                    
 				} else {
+                    //MARK: – Auth Flow
 					AuthPage()
 						.transition(authTransition)
 				}
@@ -43,7 +54,6 @@ struct StartView: View {
 					.ignoresSafeArea()
 				}
 			}
-//			.transition(.slide)
 		.environmentObject(router)
 		.accentColor(.white)
 		.onAppear {

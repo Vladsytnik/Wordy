@@ -28,6 +28,22 @@ struct MyTooltipModifier<TooltipContent: View>: ViewModifier {
 	) {
 		self.enabled = enabled
 		self.config = config
+        
+        self.config.enableAnimation = true
+        self.config.animationOffset = 10
+        self.config.animationTime = 1
+        self.config.backgroundColor = Color(asset: Asset.Colors.moduleCardRoundedAreaColor)
+        self.config.borderWidth = 0
+        self.config.zIndex = 1000
+        self.config.contentPaddingBottom = 12
+        self.config.contentPaddingTop = 12
+        self.config.contentPaddingLeft = 16
+        self.config.contentPaddingRight = 16
+        self.config.borderRadius = 18
+        self.config.shadowColor = .black.opacity(0.3)
+        self.config.shadowRadius = 20
+        self.config.shadowOffset = .init(x: 3, y: 20)
+        
 		self.content = content()
 		self.appearingDelayValue = appearingDelayValue
 	}

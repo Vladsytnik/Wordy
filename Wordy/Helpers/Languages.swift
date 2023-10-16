@@ -86,4 +86,17 @@ enum Language: String, CaseIterable, Codable {
 			return "es"
 		}
 	}
+    
+    func getLangCodeForGeneratingExamples() -> String {
+        switch self {
+        case .eng:
+            return "english"
+        case .it:
+            return "italian"
+        case .tur:
+            return "turkish"
+        default:
+            return "english"
+        }
+    }
 }

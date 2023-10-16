@@ -35,8 +35,9 @@ struct SharedModulePage: View {
 			.background {
 				GeometryReader { geo in
 					ZStack {
-						themeManager.currentTheme.main
-							.ignoresSafeArea()
+//						themeManager.currentTheme.main
+//							.ignoresSafeArea()
+                        BackgroundView()
 						VStack(spacing: 40) {
 //							VStack(alignment: .leading) {
 							if (isNeedToShowTitle) {
@@ -106,8 +107,15 @@ struct SharedModulePage: View {
 								createModule()
 							} label: {
 								HStack(spacing: 12) {
-									Image(asset: Asset.Images.addModuleCheckMark)
-										.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
+                                    if themeManager.currentTheme.isDark {
+                                        Image(asset: Asset.Images.addModuleCheckMark)
+                                            .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
+                                    } else {
+                                        Image(asset: Asset.Images.addModuleCheckMark)
+                                            .renderingMode(.template)
+                                            .colorMultiply(themeManager.currentTheme.mainText)
+                                            .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
+                                    }
 									Text(LocalizedStringKey("Принять"))
 										.foregroundColor(themeManager.currentTheme.mainText)
 										.font(.system(size: 18, weight: .bold))

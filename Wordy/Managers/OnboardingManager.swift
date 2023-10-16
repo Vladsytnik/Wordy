@@ -33,7 +33,6 @@ class OnboardingManager: ObservableObject {
 	init(screen: ScreenType, countOfSteps: Int) {
 		self.currentScreen = screen
 		self.countOfSteps = countOfSteps
-		
 //		if !Holder.called {
 //			Holder.called = true
 //			UserDefaultsManager.isFirstLaunchOfModulesPage = true

@@ -188,7 +188,7 @@ struct Modules: View {
 												stepNumber: onboardingManager.currentStepIndex,
 												allStepCount: onboardingManager.countOfSteps) {
 										self.onboardingManager.goToNextStep()
-									}
+                                    }
 								}
 								.mytooltip(isOnboardingStepNumber(2), config: tooltipConfig, appearingDelayValue: 0.5) {
 									TooltipView(text: "Нажмите, чтобы увидеть \nмодули из этой группы",
@@ -264,13 +264,13 @@ struct Modules: View {
 								.transition(AnyTransition.offset() )
 								.offset(y: geometry.size.height < 812 ? -16 : 0 )
 								.disabled(!isOnboardingStepNumber(1) && onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
-								.mytooltip(isOnboardingStepNumber(1), side: .top, config: tooltipConfig, appearingDelayValue: 0.5) {
-									TooltipView(text: "Нажмите, чтобы создать \nновый модуль",
-												stepNumber: onboardingManager.currentStepIndex,
-												allStepCount: onboardingManager.countOfSteps) {
-										self.onboardingManager.goToNextStep()
-									}
-								}
+                                .mytooltip(isOnboardingStepNumber(1), side: .top, config: tooltipConfig, appearingDelayValue: 0.5) {
+                                    TooltipView(text: "Нажмите, чтобы создать \nновый модуль",
+                                                stepNumber: onboardingManager.currentStepIndex,
+                                                allStepCount: onboardingManager.countOfSteps) {
+                                        self.onboardingManager.goToNextStep()
+                                    }
+                                }
 						}
 						.ignoresSafeArea(.keyboard)
 						VStack {
@@ -413,13 +413,13 @@ struct Modules: View {
 		self.tooltipConfig.animationOffset = 10
 		self.tooltipConfig.animationTime = 1
 		self.tooltipConfig.backgroundColor = Color(asset: Asset.Colors.moduleCardRoundedAreaColor)
-		self.tooltipConfig.borderWidth = 0
+        self.tooltipConfig.borderWidth = 0.1
 		self.tooltipConfig.zIndex = 1000
 		self.tooltipConfig.contentPaddingBottom = 12
 		self.tooltipConfig.contentPaddingTop = 12
 		self.tooltipConfig.contentPaddingLeft = 16
 		self.tooltipConfig.contentPaddingRight = 16
-		self.tooltipConfig.borderRadius = 12
+		self.tooltipConfig.borderRadius = 25
 		self.tooltipConfig.shadowColor = .black.opacity(0.3)
 		self.tooltipConfig.shadowRadius = 20
 		self.tooltipConfig.shadowOffset = .init(x: 3, y: 20)

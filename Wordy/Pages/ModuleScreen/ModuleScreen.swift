@@ -18,6 +18,8 @@ struct ModuleScreen: View {
 	@StateObject var learnPageViewModel = LearnSelectionPageViewModel()
 	@State var showLearnPage = false
 	@State var showEditAlert = false
+    
+    var addNewPhraseViewModel = AddNewPhraseViewModel()
 	
 	private let countOfWordsForFree = 15
 	
@@ -34,11 +36,14 @@ struct ModuleScreen: View {
 	@State private var createPhraseButtonOpacity = 1.0
 	@State var showActivity = false
 
+    lazy var currentThemeName: String?  = {
+        UserDefaultsManager.themeName
+    }()
 	
 	
 	var body: some View {
-		Color.clear
-			.background(content: {
+//		Color.clear
+//			.background(content: {
 				GeometryReader { geo in
 					ZStack {
 						if viewModel.showEditPhrasePage {
@@ -59,7 +64,10 @@ struct ModuleScreen: View {
 //						ObservableScrollView(scrollOffset: $scrollOffset) { proxy in
 						ScrollView {
 							VStack {
-								Header(viewModel: viewModel, showAlert: $showInfoAlert, module: viewModel.module)
+								Header(viewModel: viewModel, 
+                                       showAlert: $showInfoAlert,
+                                       module: viewModel.module,
+                                       withoutBackButton: true)
 								//								Color.clear
 								//									.frame(height: 30)
 								Text(viewModel.module.emoji)
@@ -140,6 +148,17 @@ struct ModuleScreen: View {
 							EmptyBGView()
 						}
 					}
+                    .showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Отменить", titleForAction: "Удалить") {
+                        viewModel.nowReallyNeedToDeleteModule()
+                    }
+                    .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAlert) {
+                        viewModel.nowReallyNeedToDeleteModule()
+                    }
+                    .showAlert(title: "💡 Правило\n пятнадцати слов", description: "\nНаш мозг устроен таким образом, \nчто информация усваивается \nболее эффективно, если она \nразделена на порции. \n\n 15 – это та самая порция, которая \nявляется оптимальной \nдля запоминания слов 🧠", isPresented: $showInfoAlert, titleWithoutAction: "Буду знать!", withoutButtons: true) {
+                        
+                    }
+                    .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAboutPhraseCount, withoutButtons: true) {
+                    }
 					.onChange(of: viewModel.modules) { newValue in
 						self.modules = newValue
 					}
@@ -147,15 +166,18 @@ struct ModuleScreen: View {
 						self.filteredModules = newValue
 					}
 					.fullScreenCover(isPresented: $viewModel.showActionSheet) {
-						AddNewPhrase(modules: $modules, searchedText: $searchText, filteredModules: $filteredModules, index: viewModel.index)
+						AddNewPhrase(modules: $modules, 
+                                     filteredModules: $filteredModules,
+                                     searchText: $searchText,
+                                     index: viewModel.index)
+                            .environmentObject(addNewPhraseViewModel)
 					}
 				}
-			})
+//			})
 			.background(BackgroundView())
-			.navigationBarBackButtonHidden()
-			.showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Отменить", titleForAction: "Удалить") {
-				viewModel.nowReallyNeedToDeleteModule()
-			}
+//			.navigationBarBackButtonHidden()
+//            .navigationTitle("Module name")
+            .navigationBarTitleDisplayMode(.inline)
 			.fullScreenCover(isPresented: $viewModel.showWordsCarousel) {
 				WordsCarouselView(
 					modules: $modules,
@@ -203,15 +225,6 @@ struct ModuleScreen: View {
 					dismiss()
 				}
 			}
-			.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAlert) {
-				viewModel.nowReallyNeedToDeleteModule()
-			}
-			.showAlert(title: "💡 Правило\n пятнадцати слов", description: "\nНаш мозг устроен таким образом, \nчто информация усваивается \nболее эффективно, если она \nразделена на порции. \n\n 15 – это та самая порция, которая \nявляется оптимальной \nдля запоминания слов 🧠", isPresented: $showInfoAlert, titleWithoutAction: "Буду знать!", withoutButtons: true) {
-				
-			}
-			.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAboutPhraseCount, withoutButtons: true) {
-				
-			}
 			.background {
 				UIKitActivityView(isPresented: $showActivity,
 								  data: [viewModel.getShareUrl()],
@@ -228,7 +241,17 @@ struct ModuleScreen: View {
 		viewModel.modules = modules.wrappedValue
 		viewModel.filteredModules = filteredModules.wrappedValue
 		viewModel.index = index
-	}
+        
+//        if let currentThemeName {
+//            guard let theme = ThemeManager().allThemes().first(where: { $0.id == currentThemeName })
+//            else { return }
+//            if !theme.isDark {
+//                let navigationBarAppearance = UINavigationBarAppearance()
+//                navigationBarAppearance.backgroundColor = UIColor(theme.main)
+//                UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+//            }
+//        }
+    }
 	
 	private func calculateScrollDirection() {
 		if scrollOffset > 10 {
@@ -282,7 +305,7 @@ struct Header: View {
 	
 	@Binding var showAlert: Bool
 	let module: Module
-	//	private var alertText = ""
+    var withoutBackButton = false
 	
 	var body: some View {
 		VStack(spacing: 7) {
@@ -293,7 +316,8 @@ struct Header: View {
 				HStack {
 					VStack {
 						BackButton { dismiss() }
-							.offset(y: 7)
+                            .offset(y: 7)
+                            .opacity(withoutBackButton ? 0 : 1)
 						Spacer()
 					}
 					Spacer()
@@ -329,7 +353,10 @@ struct Header: View {
 				} label: {
 					Image(asset: Asset.Images.question)
 						.resizable()
-						.frame(width: 19, height: 19)
+                        .renderingMode(.template)
+                        .colorMultiply(themeManager.currentTheme.mainText)
+                        .opacity(themeManager.currentTheme.isDark ? 1 : 0.75)
+						.frame(width: 15, height: 15)
 				}
 				
 			}
@@ -339,23 +366,42 @@ struct Header: View {
 
 struct BackButton: View {
 	
+    @EnvironmentObject var themeManager: ThemeManager
 	let action: () -> Void
 	
 	var body: some View {
 		Button {
 			action()
 		} label: {
-			Image(asset: Asset.Images.backButton)
-				.resizable()
-				.frame(width: 31, height: 31)
-				.padding(
-					EdgeInsets(
-						top: 0,
-						leading: 16,
-						bottom: 0,
-						trailing: 0
-					)
-				)
+            if themeManager.currentTheme.isDark {
+                Image(asset: Asset.Images.backButton)
+                    .resizable()
+                    .frame(width: 31, height: 31)
+                    .padding(
+                        EdgeInsets(
+                            top: 0,
+                            leading: 16,
+                            bottom: 0,
+                            trailing: 0
+                        )
+                    )
+            } else {
+                Image(asset: Asset.Images.backButton)
+                    .resizable()
+                    .renderingMode(.template)
+                    .colorMultiply(themeManager.currentTheme.mainText)
+                    .opacity(themeManager.currentTheme.isDark ? 1 : 0.75)
+                    .frame(width: 31, height: 31)
+                    .padding(
+                        EdgeInsets(
+                            top: 0,
+                            leading: 16,
+                            bottom: 0,
+                            trailing: 0
+                        )
+                    )
+            }
+			
 		}
 	}
 }
@@ -491,7 +537,7 @@ struct AddWordButton: View {
 						.stroke()
 						.foregroundColor(themeManager.currentTheme.mainText)
 				}
-				.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+				.padding(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24))
 		}
 	}
 }

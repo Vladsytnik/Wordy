@@ -37,6 +37,10 @@ class AddNewPhraseViewModel: ObservableObject {
 	@Published var showAutomaticTranslatedView = false
 	@Published var automaticTranslatedText = ""
 	@Published var servicedNativeText = ""
+    
+    @Published var examples: [String] = []
+    @Published var exampleIndex = 0
+    @Published var isShowCreatedExample = false
 	
 	private var cancellable = Set<AnyCancellable>()
 	private var networkTask: Task<(), Never>?
@@ -52,9 +56,12 @@ class AddNewPhraseViewModel: ObservableObject {
 	init() {
 		$servicedNativeText
 			.removeDuplicates()
-			.debounce(for: 1, scheduler: DispatchQueue.main)
-			.sink { $0.count > 0 ? self.getTranslatedText(from: $0) : nil }
-			.store(in: &cancellable)
+            .debounce(for: 1, scheduler: DispatchQueue.main)
+            .sink { if $0.count > 0 {
+                self.getTranslatedText(from: $0)
+                }
+            }
+            .store(in: &cancellable)
 		$automaticTranslatedText
 			.receive(on: DispatchQueue.main)
 			.sink { text in
@@ -63,7 +70,57 @@ class AddNewPhraseViewModel: ObservableObject {
 				}
 			}
 			.store(in: &cancellable)
+        $wasTappedAddExample
+            .sink { isShowExample in
+                if isShowExample {
+                    self.createExamples()
+                }
+            }
+            .store(in: &cancellable)
+        
+        #if targetEnvironment(simulator)
+        self.examples = [
+            "Apple gave people what they wanted.",
+            "Clearly Apple engineers have considered this.",
+            "Apple has made various MacOS programs send files to Apple servers without asking permission."
+        ]
+        #else
+          // your real device code
+        #endif
 	}
+    
+    convenience init(modules: Binding<[Module]>,  searchedText: Binding<String>, filteredModules: Binding<[Module]>, index: Int) {
+        self.init()
+        self.modules = modules.wrappedValue
+        self.filteredModules = filteredModules.wrappedValue
+        self.searchedText = searchedText.wrappedValue
+    }
+    
+    func createExamples() {
+        print("createExamples: method entry")
+        Task { @MainActor in
+            do {
+                if servicedNativeText.count > 1 {
+                    print("createExamples: before request")
+                    let examples = try await NetworkManager.createExamples(with: servicedNativeText)
+                    if examples.count > 0 {
+                        self.examples = examples
+                        isShowCreatedExample = true
+                    }
+                }
+            } catch (let error) {
+                print("Error in AddNewPhraseViewModel -> createExamples: \(error)")
+            }
+        }
+    }
+    
+    func showNextExampleDidTap() {
+        if exampleIndex < examples.count - 1 {
+            exampleIndex += 1
+        } else {
+            exampleIndex = 0
+        }
+    }
 	
 	// MARK: - Translating logic
 	
@@ -72,6 +129,9 @@ class AddNewPhraseViewModel: ObservableObject {
 		networkTask = Task { @MainActor in
 			do {
 				automaticTranslatedText = try await NetworkManager.translate(from: text)
+                if wasTappedAddExample {
+                    self.createExamples()
+                }
 			} catch(let error) {
 				print("Error on translating text api: \(error.localizedDescription)")
 			}
@@ -123,7 +183,8 @@ class AddNewPhraseViewModel: ObservableObject {
 				
 				NetworkManager.getModules { modules in
 					self.changeActivityState(toProccess: false)
-					self.modules = modules
+                    self.filteredModules = modules
+                    self.modules = modules
 					success()
 				} errorBlock: { errorText in
 					self.changeActivityState(toProccess: false)

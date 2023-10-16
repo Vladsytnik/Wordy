@@ -47,13 +47,13 @@ struct RoundedTextArea: View {
 						.font(.system(size: 9, weight: .medium))
 						Spacer()
 						Text("\(countOfPhrases)/15")
-							.foregroundColor(Color(asset: Asset.Colors.moduleCardLightGray))
+							.foregroundColor(themeManager.currentTheme.mainText)
 							.fixedSize()
 					}
 				} else {
 					HStack() {
 						Text("\(countOfPhrases)/15")
-							.foregroundColor(Color(asset: Asset.Colors.moduleCardLightGray))
+							.foregroundColor(themeManager.currentTheme.mainText)
 						Spacer()
 					}
 				}

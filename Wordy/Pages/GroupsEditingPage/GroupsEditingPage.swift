@@ -41,21 +41,25 @@ struct GroupsEditingPage: View {
 				.ignoresSafeArea()
 			ScrollView {
 				VStack(spacing: 20) {
-					HStack {
-						BackButton {
-							dismiss()
-						}
-						Spacer()
-					}
-					
-					HStack {
-						Text(LocalizedStringKey("Группы"))
-							.foregroundColor(themeManager.currentTheme.mainText)
-							.font(.system(size: 36, weight: .bold))
-							.multilineTextAlignment(.center)
-							.padding(EdgeInsets(top: 0, leading: 16, bottom: 20, trailing: 0))
-						Spacer()
-					}
+//					HStack {
+//						BackButton {
+//							dismiss()
+//						}
+//						Spacer()
+//					}
+//					
+//					HStack {
+//						Text(LocalizedStringKey("Группы"))
+//							.foregroundColor(themeManager.currentTheme.mainText)
+//							.font(.system(size: 36, weight: .bold))
+//							.multilineTextAlignment(.center)
+//							.padding(EdgeInsets(top: 0, leading: 16, bottom: 20, trailing: 0))
+//						Spacer()
+//					}
+                    
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .frame(height: 16)
 					
 					VStack {
 						ForEach(groups, id: \.id) { group in
@@ -108,7 +112,9 @@ struct GroupsEditingPage: View {
 			
 		}
 		.activity($showActivity)
-		.navigationBarHidden(true)
+//		.navigationBarHidden(true)
+        .navigationBarTitleDisplayMode(.large)
+        .navigationTitle(LocalizedStringKey("Группы"))
 		.onAppear {
 			fetchModules()
 			fetchGroups()
