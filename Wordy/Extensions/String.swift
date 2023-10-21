@@ -51,6 +51,37 @@ extension String {
 		return stringDate
 	}
 	
+	func generateCurrentDateMarkerInUTC0() -> String {
+		let utcTimeZone = TimeZone(abbreviation: "UTC")
+		
+		let dateFormatter = DateFormatter().getDateFormatter()
+		dateFormatter.timeZone = utcTimeZone
+		let stringDate = dateFormatter.string(from: Date())
+		return stringDate
+	}
+	
+	func generateDateMarkerInUTC0(withHour hours: Int, and minutes: Int) -> String? {
+		let utcTimeZone = TimeZone(abbreviation: "UTC")
+		let calendar = Calendar.current
+		
+		let hour: Int = hours
+		let minute: Int = minutes
+		
+		var dateComponents = DateComponents()
+		dateComponents.hour = hour
+		dateComponents.minute = minute
+		
+		let date = calendar.date(bySettingHour: hour, minute: minute, second: 0, of: Date())
+		
+		let dateFormatter = DateFormatter().getDateFormatter()
+		dateFormatter.timeZone = utcTimeZone
+		
+		guard let date else { return nil }
+		
+		let stringDate = dateFormatter.string(from: date)
+		return stringDate
+	}
+	
 	func generateDate(from: Date?) -> String {
 		guard let from else { return "" }
 		let dateFormatter = DateFormatter().getDateFormatter()

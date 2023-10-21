@@ -14,6 +14,7 @@ struct LearnSelectionPage: View {
 	@Environment(\.dismiss) private var dismiss
 	
 	@State var spacing: CGFloat = -100
+	@State var textWidth: CGFloat = 500
 	
 	private var colors = [
 		Color(asset: Asset.Colors.answer2),
@@ -31,6 +32,7 @@ struct LearnSelectionPage: View {
 	var body: some View {
 		ZStack {
 			LearnBG()
+			
 			if viewModel.learningIsFinished {
 				VStack {
 					Spacer()
@@ -63,6 +65,7 @@ struct LearnSelectionPage: View {
 				.ignoresSafeArea()
 				VStack {
 					LearnBackButton()
+						.opacity(0)
 					Spacer()
 					Text(viewModel.currentQuestion)
                         .foregroundColor(viewModel.inputTextAnsweredType == .notSelected ? themeManager.currentTheme.mainText : viewModel.inputTextAnsweredType == .correct ? .green : .red)
@@ -138,6 +141,127 @@ struct LearnSelectionPage: View {
 					}
 				}
 			}
+			
+			if viewModel.showDifferenceInFailure {
+				if themeManager.currentTheme.isDark {
+					Color.black
+						.opacity(0.2)
+						.ignoresSafeArea()
+				} else {
+					Color.white
+						.opacity(0.2)
+						.ignoresSafeArea()
+				}
+				
+				VStack {
+						VStack(alignment: .leading, spacing: 12) {
+							VStack(alignment: .leading, spacing: 4) {
+								HStack {
+									Text("Вы ответили: ")
+										.bold()
+										.font(.system(size: 18))
+									Spacer()
+								}
+								
+								HStack {
+									Text(viewModel.answeredAttributedPhrase)
+									Spacer()
+								}
+							}
+							
+							Divider()
+							
+							VStack(alignment: .leading, spacing: 4) {
+								HStack {
+									Text("Правильный ответ: ")
+										.font(.system(size: 18))
+										.bold()
+										.foregroundColor(.green)
+									Spacer()
+								}
+								
+								HStack {
+									Text(viewModel.originalAttributedPhrase)
+									Spacer()
+								}
+							}
+							
+							/*
+							HStack {
+								//							Spacer()
+								HStack(alignment: .top) {
+									VStack(alignment: .leading) {
+										HStack {
+											Text("Вы ответили: ")
+												.multilineTextAlignment(.leading)
+											Spacer()
+										}
+									}
+									Text(viewModel.answeredAttributedPhrase)
+									Spacer()
+								}
+								.foregroundColor(themeManager.currentTheme.mainText)
+								Spacer()
+							}
+							
+							
+							HStack {
+								//							Spacer()
+								HStack(alignment: .top) {
+									HStack {
+										Text("Правильный ответ: ")
+										Spacer()
+									}
+									Text(viewModel.originalAttributedPhrase)
+									//						Text("Some some some long long long long long long long long long long long long long long long long long long long long long long long long long long long")
+									Spacer()
+								}
+								.foregroundColor(themeManager.currentTheme.mainText)
+								Spacer()
+							}
+							 */
+						}
+						.padding()
+						.padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
+					
+					HStack {
+						Button {
+							withAnimation {
+								viewModel.flowCanContinue?()
+							}
+						} label: {
+							HStack {
+								Spacer()
+								HStack {
+									Image(systemName: "checkmark")
+									Text("Done")
+										.bold()
+								}
+								.foregroundColor(themeManager.currentTheme.mainText)
+								Spacer()
+							}
+						}
+					}
+					.padding()
+					.background(themeManager.currentTheme.accent.opacity(0.2))
+
+				}
+				.cornerRadius(24)
+				.background {
+					RoundedRectangle(cornerRadius: 24)
+						.foregroundColor(themeManager.currentTheme.main)
+						.clipped()
+				}
+				.padding()
+//				.frame(maxHeight: 300)
+				.shadow(radius: 30)
+			}
+			
+			VStack {
+				LearnBackButton()
+				Spacer()
+			}
+			.opacity(viewModel.learningIsFinished ? 0 : 1)
 		}
 		.onAppear {
 			withAnimation(Animation.spring()) {
@@ -153,6 +277,7 @@ struct LearnSelectionPage: View {
 		.onChange(of: viewModel.needClosePage) { _ in
 			dismiss()
 		}
+		.animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0), value: viewModel.showDifferenceInFailure)
 	}
 	
 	private func getColor(with index: Int) -> Color {
@@ -301,6 +426,7 @@ struct LearnSelectionPage_Previews: PreviewProvider {
 
 struct LearnBG: View {
 	@EnvironmentObject var themeManager: ThemeManager
+	
 	var body: some View {
 		themeManager.currentTheme.learnPageBackgroundImage
 			.resizable()
@@ -334,3 +460,63 @@ struct LearnBackButton: View {
 }
 
 
+// MARK: - WidthKey
+//
+//extension EqualWidthKey: EnvironmentKey { }
+//
+//struct EqualWidthKey: PreferenceKey {
+//	static var defaultValue: CGFloat? { nil }
+//
+//	static func reduce(value: inout CGFloat?, nextValue: () -> CGFloat?) {
+//		switch (value, nextValue()) {
+//		case (_, nil): break
+//		case (nil, let next): value = next
+//		case (let a?, let b?): value = max(a, b)
+//		}
+//	}
+//}
+//
+//extension EnvironmentValues {
+//	var equalWidth: CGFloat? {
+//		get { self[EqualWidthKey.self] }
+//		set { self[EqualWidthKey.self] = newValue }
+//	}
+//}
+//
+//struct EqualWidthModifier: ViewModifier {
+//	var alignment: Alignment
+//	@Environment(\.equalWidth) var equalWidth
+//
+//	func body(content: Content) -> some View {
+//		return content
+//			.background(
+//				GeometryReader { proxy in
+//					Color.clear
+//						.preference(key: EqualWidthKey.self, value: proxy.size.width)
+//				}
+//			)
+//			.frame(width: equalWidth, alignment: alignment)
+//	}
+//}
+//
+//extension View {
+//	func equalWidth(alignment: Alignment) -> some View {
+//		return self.modifier(EqualWidthModifier(alignment: alignment))
+//	}
+//}
+//
+//struct EqualWidthHost: ViewModifier {
+//	@State var width: CGFloat? = nil
+//
+//	func body(content: Content) -> some View {
+//		return content
+//			.environment(\.equalWidth, width)
+//			.onPreferenceChange(EqualWidthKey.self) { self.width = $0 }
+//	}
+//}
+//
+//extension View {
+//	func equalWidthHost() -> some View {
+//		return self.modifier(EqualWidthHost())
+//	}
+//}

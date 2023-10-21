@@ -425,18 +425,10 @@
 		014B767A29E0387D0044DF87 /* LearnPage */ = {
 			isa = PBXGroup;
 			children = (
-				014B767B29E038AD0044DF87 /* LearnSelectionPage */,
-			);
-			path = LearnPage;
-			sourceTree = "<group>";
-		};
-		014B767B29E038AD0044DF87 /* LearnSelectionPage */ = {
-			isa = PBXGroup;
-			children = (
 				014B767E29E03B750044DF87 /* LearnSelectionPageViewModel.swift */,
 				014B767C29E038D10044DF87 /* LearnSelectionPage.swift */,
 			);
-			path = LearnSelectionPage;
+			path = LearnPage;
 			sourceTree = "<group>";
 		};
 		015713952964604A0022E1FA /* ModuleScreen */ = {
