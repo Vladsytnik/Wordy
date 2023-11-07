@@ -41,7 +41,12 @@ struct ModuleSelectPage: View {
 	
 	@Binding var selectedIndexes: [Int]
 	@Binding var isEditMode: Bool
+    
 	var isOnboardingMode = false
+    var isJustNeedToReturnSelectedModules = false
+    var onReturnSelectedModules: (([Module]) -> Void)?
+    var onReturnSelectedIndexes: (([Int]) -> Void)?
+    
 	@EnvironmentObject var themeManager: ThemeManager
 	
 	private var currentGroup: Group {
@@ -55,9 +60,13 @@ struct ModuleSelectPage: View {
 		 groups: Binding<[Group]>,
 		 isEditMode: Binding<Bool>,
 		 isOnboardingMode: Bool = false,
-		 selectedIndexes: Binding<[Int]>? = nil) {
+		 selectedIndexes: Binding<[Int]>? = nil,
+         isJustNeedToReturnSelectedModules: Bool = false,
+         onReturnSelectedModules: (([Module]) -> Void)? = nil,
+         onReturnSelectedIndexes: (([Int]) -> Void)? = nil) {
 		animations = Array(repeating: false, count: modules.count)
 		
+        self.isJustNeedToReturnSelectedModules = isJustNeedToReturnSelectedModules
 		self._modules = modules
 		self._isOpened = isOpened
 		self._groupId = groupId
@@ -66,6 +75,8 @@ struct ModuleSelectPage: View {
 		self._groups = groups
 		self._isEditMode = isEditMode
 		self.isOnboardingMode = isOnboardingMode
+        self.onReturnSelectedModules = onReturnSelectedModules
+        self.onReturnSelectedIndexes = onReturnSelectedIndexes
 		
 		let stateKeys = modulesStates.keys.map{ Int($0) }
 		stateKeys.forEach{ modulesStates[$0] = false }
@@ -136,6 +147,7 @@ struct ModuleSelectPage: View {
 							calculateScrollDirection()
 						}
 						BlurNavBar(show: $isInlineNavBar, scrollOffset: $scrollOffset)
+                        
 						VStack {
 							Spacer()
 							SaveButton() {
@@ -146,6 +158,7 @@ struct ModuleSelectPage: View {
 							.transition(AnyTransition.offset() )
 						}
 						.ignoresSafeArea(.keyboard)
+                        
 					}
 					.disabled(showActivity || showAlert)
 				}
@@ -186,6 +199,31 @@ struct ModuleSelectPage: View {
 	}
 	
 	func createNewGroupOrChangeExisting() {
+        guard !isJustNeedToReturnSelectedModules else {
+            let newSelectedIndexes = modulesStates
+                .filter{ $0.value == true && $0.key >= 0 }
+                .compactMap { (key, value) in
+                    return  key
+                }
+            
+            var allSelectedIndexes = newSelectedIndexes + self.selectedIndexes
+            
+            for (moduleIndex, isSelected) in modulesStates {
+                if !isSelected && moduleIndex >= 0 {
+                    allSelectedIndexes.removeAll(where: { $0 == moduleIndex })
+                }
+            }
+            
+            let selectedModules = allSelectedIndexes.map { modules[$0] }
+            print("selectedIndexes: \(selectedIndexes)")
+            print("self.selectedIndexes: \(self.selectedIndexes)")
+            
+            onReturnSelectedModules?(selectedModules)
+            onReturnSelectedIndexes?(allSelectedIndexes)
+            isOpened.toggle()
+            return
+        }
+                
 		if isOnboardingMode {
 			isOpened.toggle()
 		} else {

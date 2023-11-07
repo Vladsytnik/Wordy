@@ -82,6 +82,7 @@ class LearnSelectionPageViewModel: ObservableObject {
 		currentAnswers = Array(repeating: "nil", count: 4)
 		currentQuestion = "nil"
 		phrases = module.phrases
+        self.textFieldPLaceholder = "Введите ваш ответ"
 		
 		getRandomQuestion()
 		getAnswers()

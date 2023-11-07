@@ -228,7 +228,7 @@ struct Modules: View {
 						}
 						.coordinateSpace(name: "RefreshControl")
 						.edgesIgnoringSafeArea(.bottom)
-						.setTrailingNavBarItem(disabled: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage, completion: {
+                        .setTrailingNavBarItem(disabled: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage, completion: {
 							print("settings")
 						})
 						.onChange(of: scrollOffset) { newValue in

@@ -142,6 +142,8 @@
 		01F708BB29B6573F00585B2E /* NewCategoryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F708BA29B6573F00585B2E /* NewCategoryCard.swift */; };
 		01FB3A8029505E5100330DDE /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FB3A7F29505E5100330DDE /* SearchTextField.swift */; };
 		54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */; };
+		CE41A7FD2AE3D03C002E9E4A /* TimeIntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41A7FC2AE3D03C002E9E4A /* TimeIntervalView.swift */; };
+		CE41A7FF2AE3D058002E9E4A /* TimeIntervalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */; };
 		CE52764A2ADAD7D9009F30FB /* ExampleCreatingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */; };
 		CE52764C2ADAE80A009F30FB /* BadgeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */; };
 		CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC18A252AD163BB00825749 /* NewModulesScreen.swift */; };
@@ -267,6 +269,8 @@
 		01F57695294A4F2E00F52EB1 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		01F708BA29B6573F00585B2E /* NewCategoryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryCard.swift; sourceTree = "<group>"; };
 		01FB3A7F29505E5100330DDE /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
+		CE41A7FC2AE3D03C002E9E4A /* TimeIntervalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalView.swift; sourceTree = "<group>"; };
+		CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalViewModel.swift; sourceTree = "<group>"; };
 		CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCreatingResponse.swift; sourceTree = "<group>"; };
 		CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBackground.swift; sourceTree = "<group>"; };
 		CEC18A252AD163BB00825749 /* NewModulesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewModulesScreen.swift; sourceTree = "<group>"; };
@@ -695,6 +699,7 @@
 			children = (
 				0192298B2AC48E5A002648C4 /* SettingsDelegate.swift */,
 				01B92B34294F606000F440EE /* Settings.swift */,
+				CE41A7FB2AE3D025002E9E4A /* TimeIntervalView */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -762,6 +767,15 @@
 				DF01A188026EA0C8921A4D0E /* Pods-Wordy.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		CE41A7FB2AE3D025002E9E4A /* TimeIntervalView */ = {
+			isa = PBXGroup;
+			children = (
+				CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */,
+				CE41A7FC2AE3D03C002E9E4A /* TimeIntervalView.swift */,
+			);
+			path = TimeIntervalView;
 			sourceTree = "<group>";
 		};
 		CE5276482ADAD7BE009F30FB /* NetworkModels */ = {
@@ -958,6 +972,7 @@
 				0176424A2972FCC10042DB86 /* Constants.swift in Sources */,
 				013D97792A49BDF100F03AF7 /* PaywallViewModel.swift in Sources */,
 				CE52764C2ADAE80A009F30FB /* BadgeBackground.swift in Sources */,
+				CE41A7FF2AE3D058002E9E4A /* TimeIntervalViewModel.swift in Sources */,
 				013D97772A434A1B00F03AF7 /* Paywall.swift in Sources */,
 				0110F711297EECD2007F26BC /* NavigationView.swift in Sources */,
 				0101B8AE2AA0D4260055DEFB /* MyTooltipConfig.swift in Sources */,
@@ -1009,6 +1024,7 @@
 				014B767F29E03B750044DF87 /* LearnSelectionPageViewModel.swift in Sources */,
 				01E984D92A17D1DA009D889F /* OnboardingPage.swift in Sources */,
 				0101B8B42AA0D5680055DEFB /* MyCurveInArrowShape.swift in Sources */,
+				CE41A7FD2AE3D03C002E9E4A /* TimeIntervalView.swift in Sources */,
 				01B59DF82AA23CEC003115E6 /* TooltipView.swift in Sources */,
 				013E64AE2950B281002A85E2 /* CreateModuleButton.swift in Sources */,
 				01468115295602290080732C /* InputRoundedTextArea.swift in Sources */,

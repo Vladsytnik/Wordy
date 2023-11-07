@@ -24,6 +24,10 @@ class ThemeManager: ObservableObject {
 //			.sink{ self.setNewTheme(with: $0.id) }
 //			.store(in: &cancelable)
 	}
+    
+    init(_ index: Int) {
+        currentTheme = Themes.availableThemes[index]
+    }
 	
 //	func currentTheme() -> ColorTheme {
 //		Themes.availableThemes.first { $0.id == currentThemeName } ?? Themes.availableThemes.first!

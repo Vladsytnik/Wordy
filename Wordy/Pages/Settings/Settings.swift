@@ -25,16 +25,16 @@ struct Settings: View {
 	
 	@State var isThemeSelecting = false
 	@State var currentNonce: String = ""
-	private let settingsDelegate = SettingsDelegate()
+    let settingsDelegate = SettingsDelegate()
 	
 	let offset: Double = 76
 	let themeCirclesWidth: Double = 45
 	let themeStrokeWidth: Double = 44
 	
 	@State var currentThemeIndex = 0
-	private var generator2: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
+    var generator2: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
 	
-	private let rowsTitles = [
+    let rowsTitles = [
 		"Редактирование групп",
 		"Выйти"
 	]
@@ -66,30 +66,6 @@ struct Settings: View {
 							ScrollView(.horizontal, showsIndicators: false) {
 								HStack(spacing: 8) {
 									ForEach(0..<themeManager.allThemes().count) { index in
-										
-//										ZStack {
-//											RoundedRectangle(cornerRadius: 16)
-//												.foregroundColor(themeManager.allThemes()[index].accent)
-//												.frame(width: 32, height: 32)
-//												.padding(EdgeInsets(top: 0, leading: index == 0 ? 16 : 0, bottom: 0, trailing: 0))
-//												.opacity(isThemeSelecting ? 1 : 0)
-//												.animation(isThemeSelecting ? .spring().delay(0.03 * Double(index)) : .spring(), value: isThemeSelecting)
-//
-//											RoundedRectangle(cornerRadius: 16)
-//												.foregroundColor(themeManager.allThemes()[index].main)
-//												.frame(width: 32, height: 32)
-//												.padding(EdgeInsets(top: 0, leading: index == 0 ? 16 : 0, bottom: 0, trailing: 0))
-//												.opacity(isThemeSelecting ? 1 : 0)
-//												.animation(isThemeSelecting ? .spring().delay(0.03 * Double(index)) : .spring(), value: isThemeSelecting)
-//												.mask {
-//													Rectangle()
-//														.frame(width: 50, height: 50)
-//														.offset(x: -18)
-//														.rotationEffect(.degrees(isThemeSelecting ? 45 : 0))
-//														.animation(isThemeSelecting ? .spring().delay(0.03 * Double(index)) : .spring(), value: isThemeSelecting)
-//												}
-//										}
-										
 										LinearGradient(colors: [themeManager.allThemes()[index].accent,
 																themeManager.allThemes()[index].main,
 																themeManager.allThemes()[index].main],
@@ -161,6 +137,16 @@ struct Settings: View {
 										   isOpenable: false,
 										   isOpened: $isThemeSelecting)
 					}
+                    
+                    NavigationLink {
+                        TimeIntervalView()
+                    } label: {
+                        GeneralSettingsRow(cellHeight: cellHeight,
+                                           cellText: "Уведомления",
+                                           cellImageName: "bell",
+                                           isOpenable: false,
+                                           isOpened: .constant(false))
+                    }
 					
 					LogOutRow(cellHeight: cellHeight) {
 						self.presentationMode.wrappedValue.dismiss()

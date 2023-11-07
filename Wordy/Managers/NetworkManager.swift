@@ -36,6 +36,47 @@ class NetworkManager {
 			)
 		}
 	}
+    
+    static func updateNotificationsInfo(notification: Notification) async throws {
+        guard let currentUserID = currentUserID else {
+            print("error in sendToken -> currentUserID")
+            return
+        }
+        
+        let jsonData = try JSONEncoder().encode(notification)
+        if let jsonString = String(data: jsonData, encoding: .utf8) {
+            // Отправляем JSON в Firebase
+            let _ = try await ref.child("users").child(currentUserID).updateChildValues(["notifications": jsonString])
+        } else {
+            print("error in updateNotificationsInfo -> jsonString")
+        }
+        
+    }
+    
+    static func getNotificationsInfo() async throws -> Notification? {
+        guard let currentUserID = currentUserID else {
+            print("error in sendToken -> currentUserID")
+            return nil
+        }
+        
+        // Отправляем JSON в Firebase
+        let snapshot = try await ref.child("users").child(currentUserID).child("notifications").getData()
+        if let jsonString = snapshot.value as? String, 
+            let data = jsonString.data(using: .utf8)
+        {
+            do {
+//                let jsonData = try JSONSerialization.data(withJSONObject: value, options: [.fragmentsAllowed])
+                let notification = try JSONDecoder().decode(Notification.self, from: data)
+                return notification
+            } catch {
+                print("error in getNotificationsInfo -> currentUserID: \(error)")
+            }
+        } else {
+            print("error in getNotificationsInfo -> snapshot.value is not exist or not is needed type")
+        }
+        
+        return nil
+    }
 	
 	static func sendToken(_ token: String) async {
 		guard let currentUserID = currentUserID else {
@@ -49,30 +90,30 @@ class NetworkManager {
 				return
 			}
 			
-			print("error in sendToken -> success")
+			print("sendToken -> success")
 		}
 		
 //		let localDate = String().generateCurrentDateMarker()
 //		let date = String().generateCurrentDateMarkerInUTC0()
-		let dateToUtc0 = String().generateDateMarkerInUTC0(withHour: 21, and: 00)
-		
-		guard let dateToUtc0 else {
-			print("error in sendToken -> dateToUtc0")
-			return
-		}
-		
-		ref.child("users").child(currentUserID).child("notifications").childByAutoId().updateChildValues([
-			"notificationDateTime": dateToUtc0,
-			"title" : "Test Title",
-			"description" : "Test Description"
-		]) { error, ref in
-			guard error == nil else {
-				print("error in sendToken -> updateChildValues (notifications): \(error)")
-				return
-			}
-			
-			print("error in sendToken -> success")
-		}
+//		let dateToUtc0 = String().generateDateMarkerInUTC0(withHour: 21, and: 00)
+//		
+//		guard let dateToUtc0 else {
+//			print("error in sendToken -> dateToUtc0")
+//			return
+//		}
+//		
+//		ref.child("users").child(currentUserID).child("notifications").childByAutoId().updateChildValues([
+//			"notificationDateTime": dateToUtc0,
+//			"title" : "Test Title",
+//			"description" : "Test Description"
+//		]) { error, ref in
+//			guard error == nil else {
+//				print("error in sendToken -> updateChildValues (notifications): \(error)")
+//				return
+//			}
+//			
+//			print("error in sendToken -> success")
+//		}
 	}
     
     static func createExamples(with phrase: String) async throws -> [String] {
