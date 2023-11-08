@@ -15,6 +15,7 @@ import FirebaseCore
 struct Settings: View {
 	
 	@EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
 	@EnvironmentObject var router: Router
 	@Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 	@State private var multiSelection = Set<Int>()
@@ -170,6 +171,18 @@ struct Settings: View {
 							.foregroundColor(.gray)
 					}
 					.padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
+                    
+                    if subscriptionManager.userHasSubscription() {
+                        Text("Wordy Pro")
+                            .bold()
+                            .foregroundColor(themeManager.currentTheme.accent)
+//                            .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+//                            .background {
+//                                RoundedRectangle(cornerRadius: 16)
+//                                    .foregroundColor(themeManager.currentTheme.accent)
+//                            }
+                            .padding()
+                    }
 				}
 			}
 			.showAlert(title: "Wordy.app",
@@ -197,6 +210,9 @@ struct Settings: View {
 		.onChange(of: isPro) { newValue in
 			UserDefaultsManager.userHasSubscription = newValue
 		}
+        .onAppear {
+            subscriptionManager.printSubscriptionInfo()
+        }
 	}
 
 	// MARK: - Helpers
@@ -304,6 +320,7 @@ struct Settings_Previews: PreviewProvider {
         Settings()
 			.environmentObject(Router())
 			.environmentObject(ThemeManager())
+            .environmentObject(SubscriptionManager())
     }
 }
 

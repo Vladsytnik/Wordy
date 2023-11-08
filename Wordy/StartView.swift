@@ -33,6 +33,11 @@ struct StartView: View {
 						}
 						.transition(transition)
                         .accentColor(themeManager.currentTheme.mainText)
+                        .onAppear {
+                            if let userId = UserDefaultsManager.userID  {
+                                Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr", userID: userId)
+                            }
+                        }
                         
 					} else {
 						SelectLanguagePage()
@@ -56,9 +61,6 @@ struct StartView: View {
 			}
 		.environmentObject(router)
 		.accentColor(.white)
-		.onAppear {
-			Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr")
-		}
 	}
 }
 

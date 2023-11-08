@@ -10,11 +10,25 @@ import ApphudSDK
 
 class SubscriptionManager: ObservableObject {
 	
-	var userHasSubscription: Bool {
-		Apphud.hasPremiumAccess()
-	}
+//	lazy var userHasSubscription: Bool = {
+//		Apphud.hasPremiumAccess()
+//	}()
+    
+    func userHasSubscription() -> Bool {
+        if let userId = UserDefaultsManager.userID  {
+            Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr", userID: userId)
+            return Apphud.hasPremiumAccess()
+        } else {
+            return false
+        }
+    }
 	
-	var hasActiveSubscription: Bool {
-		Apphud.hasActiveSubscription()
-	}
+    func printSubscriptionInfo() {
+        let subscriptionObject = Apphud.subscription()
+        if let subscriptionObject {
+            print("Apphud: subscription expired at: \(subscriptionObject.expiresDate)")
+        } else {
+            print("Apphud: subscription object is empty")
+        }
+    }
 }

@@ -26,7 +26,7 @@ struct WordyApp: App {
 //		FirebaseApp.configure()
 		AppsFlyerLib.shared().appsFlyerDevKey = "axfubYMdYCtRH3aW6FZYUc"
 		AppsFlyerLib.shared().appleAppID = "6466481056"
-		Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr")
+//		Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr")
 	}
 	
 	var body: some Scene {

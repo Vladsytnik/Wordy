@@ -38,6 +38,7 @@ class AuthViewModel: NSObject, ObservableObject {
 			self.showNextPage = true
 			self.alertText = resultText
 			self.showAlert.toggle()
+            UserDefaultsManager.userID = email
 		} errorBlock: { [weak self] errorText in
 			guard let self = self else { return }
 			self.hideActivity()

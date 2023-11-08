@@ -102,7 +102,7 @@ struct Paywall: View {
 						Button {
 							if viewModel.selectedIndex < viewModel.products.count {
 								isInProgress = true
-								Task {
+								Task { @MainActor in
 									// productStruct is Product struct model from StoreKit2
 									// $isPurchasing should be used only in SwiftUI apps, otherwise don't use this parameter
 									let result = await Apphud.purchase(viewModel.getSelectedProduct(),

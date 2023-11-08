@@ -81,7 +81,7 @@ class PaywallViewModel: ObservableObject {
 	func userDidBuyProduct(_ product: Product) {
 		if selectedIndex < products.count {
 			isInProgress = true
-			Task {
+			Task { @MainActor in
 				// productStruct is Product struct model from StoreKit2
 				// $isPurchasing should be used only in SwiftUI apps, otherwise don't use this parameter
 				let result = await Apphud.purchase(product, isPurchasing: $isPurchasing)

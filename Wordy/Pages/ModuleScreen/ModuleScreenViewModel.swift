@@ -123,9 +123,9 @@ class ModuleScreenViewModel: ObservableObject {
 //		isAllow(UserDefaultsManager.userHasSubscription
 //				|| countOfStartingLearnMode < maxCountOfStartingLearnMode)
 		let subscriptionManager = SubscriptionManager()
-		let test = subscriptionManager.userHasSubscription
-		let test2 = subscriptionManager.hasActiveSubscription
-		isAllow(subscriptionManager.userHasSubscription
+		let test = subscriptionManager.userHasSubscription()
+//		let test2 = subscriptionManager.hasActiveSubscription
+		isAllow(subscriptionManager.userHasSubscription()
 				|| countOfStartingLearnMode < maxCountOfStartingLearnMode)
 	}
 	

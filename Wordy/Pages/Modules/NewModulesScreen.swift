@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import SwiftUITooltip
+import ApphudSDK
 
 
 struct NewModulesScreen: View {
@@ -29,6 +30,7 @@ struct NewModulesScreen: View {
     @EnvironmentObject var router: Router
     @EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var deeplinkManager: DeeplinkManager
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
     
     @State var pullToRefresh = false
     
@@ -570,6 +572,8 @@ struct NewModulesScreen: View {
                 // No user is signed in.
                 withAnimation {
                     router.userIsLoggedIn = false
+                    UserDefaultsManager.userID = nil
+                    Apphud.logout()
                 }
                 print("USER IS signed out")
             }
@@ -589,7 +593,7 @@ struct NewModulesScreen: View {
     }
     
     private func checkSubscriptionAndCountOfGroups(isAllow: ((Bool) -> Void)) {
-        isAllow(UserDefaultsManager.userHasSubscription
+        isAllow(subscriptionManager.userHasSubscription()
                 || groups.count < macCountOfFreeGroups)
     }
 }
@@ -602,6 +606,7 @@ struct NewModulesScreen_Previews: PreviewProvider {
                 .environmentObject(Router())
                 .environmentObject(DeeplinkManager())
                 .environmentObject(ThemeManager())
+                .environmentObject(SubscriptionManager())
         }
     }
 }
