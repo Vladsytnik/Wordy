@@ -12,15 +12,24 @@ struct TooltipView: View {
 	let text: String
 	let stepNumber: Int
 	let allStepCount: Int
+    var withoutSteps = false
+    var description: String?
+    var onDisappear: (() -> Void)?
 	var onNextDidTap: (() -> Void)?
 //	var onSkipDidTap: (() -> Void)?
 	
 	@EnvironmentObject var themeManager: ThemeManager
 	
     var body: some View {
-		VStack(alignment: .trailing, spacing: 24) {
+		VStack(alignment: .leading, spacing: 24) {
 			Text(text)
-				.foregroundColor(themeManager.currentTheme.mainText)
+                .foregroundColor(.white)
+            
+            if let description {
+                Text(description)
+                    .foregroundColor(.gray)
+            }
+            
 			HStack {
 //				Button {
 //					onSkipDidTap?()
@@ -28,16 +37,23 @@ struct TooltipView: View {
 //					Text("Пропустить")
 //						.foregroundColor(themeManager.currentTheme.mainText)
 //				}
-				Text("\(stepNumber + 1)/\(allStepCount)")
+                if !withoutSteps {
+                    Text("\(stepNumber + 1)/\(allStepCount)")
+                }
+                
 				Spacer()
+                
 				Button {
 					onNextDidTap?()
 				} label: {
 					Text("Понятно")
-						.foregroundColor(themeManager.currentTheme.mainText)
+						.foregroundColor(.white)
 						.bold()
 				}
 			}
 		}
+        .onDisappear {
+            onDisappear?()
+        }
     }
 }

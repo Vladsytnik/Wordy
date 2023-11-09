@@ -53,8 +53,15 @@ struct PhraseEditPage: View {
 	var body: some View {
 		ZStack {
 			ZStack {
-				themeManager.currentTheme.darkMain
-					.ignoresSafeArea()
+                if themeManager.currentTheme.isDark {
+                    themeManager.currentTheme.darkMain
+                        .ignoresSafeArea()
+                } else {
+                    themeManager.currentTheme.mainBackgroundImage
+                        .resizable()
+                        .ignoresSafeArea()
+                }
+                
 				VStack(spacing: 20) {
 					HStack {
 						Button {

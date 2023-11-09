@@ -47,18 +47,21 @@ struct RoundedTextArea: View {
 						.font(.system(size: 9, weight: .medium))
 						Spacer()
 						Text("\(countOfPhrases)/15")
-							.foregroundColor(themeManager.currentTheme.mainText)
+							.foregroundColor(themeManager.currentTheme.moduleCardMainTextColor)
+//                            .foregroundColor(.white)
 							.fixedSize()
 					}
 				} else {
 					HStack() {
 						Text("\(countOfPhrases)/15")
-							.foregroundColor(themeManager.currentTheme.mainText)
+							.foregroundColor(themeManager.currentTheme.moduleCardMainTextColor)
+//                            .foregroundColor(.white)
 						Spacer()
 					}
 				}
 			}
-			.foregroundColor(themeManager.currentTheme.mainText)
+			.foregroundColor(themeManager.currentTheme.moduleCardMainTextColor)
+//            .foregroundColor(.white)
 			.offset(y: -5)
 			.padding()
 		}

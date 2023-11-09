@@ -146,6 +146,7 @@
 		CE41A7FF2AE3D058002E9E4A /* TimeIntervalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */; };
 		CE52764A2ADAD7D9009F30FB /* ExampleCreatingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */; };
 		CE52764C2ADAE80A009F30FB /* BadgeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */; };
+		CE6BD5B02AFBCF4900C4379F /* PrePaywallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */; };
 		CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC18A252AD163BB00825749 /* NewModulesScreen.swift */; };
 /* End PBXBuildFile section */
 
@@ -273,6 +274,7 @@
 		CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalViewModel.swift; sourceTree = "<group>"; };
 		CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCreatingResponse.swift; sourceTree = "<group>"; };
 		CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBackground.swift; sourceTree = "<group>"; };
+		CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrePaywallManager.swift; sourceTree = "<group>"; };
 		CEC18A252AD163BB00825749 /* NewModulesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewModulesScreen.swift; sourceTree = "<group>"; };
 		DF01A188026EA0C8921A4D0E /* Pods-Wordy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.release.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.release.xcconfig"; sourceTree = "<group>"; };
 		E8C956E5C5ED6A0A18071179 /* Pods-Wordy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.debug.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -725,6 +727,7 @@
 			children = (
 				01E4B758294B119800720BE0 /* NetworkManager.swift */,
 				01D89B1D2AC961390077FD6E /* SubscriptionManager.swift */,
+				CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */,
 				0103FF4B294C7471004C2EA6 /* UserDefaultsManager.swift */,
 				0103FF51294C86F5004C2EA6 /* ErrorCodeManager.swift */,
 				0101B8A82AA0CB060055DEFB /* MockDataManager.swift */,
@@ -1049,6 +1052,7 @@
 				01B92B35294F606100F440EE /* Settings.swift in Sources */,
 				01F01B7129F0301F00742DF3 /* PhraseEditViewModel.swift in Sources */,
 				016AA3A62947550D002C00CC /* ModuleCard.swift in Sources */,
+				CE6BD5B02AFBCF4900C4379F /* PrePaywallManager.swift in Sources */,
 				015CB51F2994381B0088A1FC /* WordsCarouselView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

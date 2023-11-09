@@ -34,6 +34,8 @@ struct ColorTheme: ThemeProtocol {
 	let answer2: Color
 	let answer3: Color
 	let answer4: Color
+    
+    let moduleCardMainTextColor: Color
 	
 	let mainBackgroundImage: Image
 	let carouselCardBackgroundImage: Image

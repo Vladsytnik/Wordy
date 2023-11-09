@@ -347,9 +347,6 @@ struct NewModulesScreen: View {
                 CreateModuleView(needUpdateData: $needUpdateData, showActivity: $showActivity, isOnboardingMode: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
                     .environmentObject(router)
             }
-            .fullScreenCover(isPresented: $paywallIsOpened, content: {
-                Paywall(isOpened: $paywallIsOpened)
-            })
             .activity($showActivity)
             .onChange(of: needUpdateData) { _ in
                 fetchModules()
@@ -398,6 +395,9 @@ struct NewModulesScreen: View {
             }
             .sheet(isPresented: $isShowPaywall, content: {
                 Paywall(isOpened: $isShowPaywall)
+            })
+            .fullScreenCover(isPresented: $paywallIsOpened, content: {
+                Paywall(isOpened: $paywallIsOpened)
             })
             .onChange(of: selectedCategoryIndex) { newValue in
                 if newValue == -1 {

@@ -77,7 +77,7 @@ class LearnSelectionPageViewModel: ObservableObject {
 	func start() {
 		print("Start")
 		showDifferenceInFailure = false
-		currentPageType = .inputable
+        currentPageType = .random()
 		buttonSelected = Array(repeating: false, count: 4)
 		currentAnswers = Array(repeating: "nil", count: 4)
 		currentQuestion = "nil"

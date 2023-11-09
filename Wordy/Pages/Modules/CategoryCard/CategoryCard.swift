@@ -42,7 +42,7 @@ struct CategoryCard: View {
 					}
 				}
 			}
-			.foregroundColor(themeManager.currentTheme.mainText)
+            .foregroundColor(isSelected ? .white : themeManager.currentTheme.mainText)
 			.font(.system(size: 16, weight: .regular))
 			.onChange(of: isSelected) { newValue in
 					if newValue {

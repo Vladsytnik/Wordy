@@ -50,12 +50,15 @@ class TimeIntervalViewModel: ObservableObject {
     @Published var modules: [Module] = []
     @Published var needToCloseScreen = false
     @Published var needAnimateChanges = false
+    @Published var showPaywall = false
     
     private var startProgressDefault: Double = 0
     private var startAngleDefault: Double = 0
     private var toAngleDefault: Double = 180
     private var toProgressDefault: Double = 0.5
     private var timeDifferenceDefault = 6
+    
+    private var subscriptionManager = SubscriptionManager()
     
     var cancelations = Set<AnyCancellable>()
     
@@ -143,6 +146,16 @@ class TimeIntervalViewModel: ObservableObject {
                     
                 } else {
                     
+                }
+            }
+            .store(in: &cancelations)
+        $notificationsIsOn
+            .sink { isOn in
+                if isOn && !self.subscriptionManager.userHasSubscription() {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self.notificationsIsOn = false
+                    }
+                    self.showPaywall = true
                 }
             }
             .store(in: &cancelations)
@@ -464,6 +477,10 @@ class TimeIntervalViewModel: ObservableObject {
     }
     
     func save() {
+        guard subscriptionManager.userHasSubscription() else {
+            showPaywall.toggle()
+            return
+        }
         updateNotificationInfo()
     }
     

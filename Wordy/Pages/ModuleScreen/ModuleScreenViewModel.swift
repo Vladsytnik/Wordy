@@ -164,4 +164,8 @@ class ModuleScreenViewModel: ObservableObject {
 	func showPaywall() {
 		isShowPaywall.toggle()
 	}
+    
+    func userDidntSeeLearnBtnYet() -> Bool {
+        !UserDefaultsManager.isUserSawLearnButton
+    }
 }

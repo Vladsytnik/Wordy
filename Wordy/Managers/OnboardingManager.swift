@@ -14,6 +14,7 @@ struct OnboardingStep {
 
 enum ScreenType {
 	case modules
+    case moduleScreen
 }
 
 struct Holder { static var called = false }
@@ -42,9 +43,15 @@ class OnboardingManager: ObservableObject {
 	// MARK: - Methods
 	
 	func goToNextStep() {
-		if UserDefaultsManager.isNotFirstLaunchOfModulesPage {
-			return
-		}
+        switch currentScreen {
+        case .modules:
+            if UserDefaultsManager.isNotFirstLaunchOfModulesPage {
+                return
+            }
+        case .moduleScreen:
+            break;
+        }
+		
 		currentStepIndex += 1
 		if currentStepIndex == countOfSteps {
 			onboardingHasFinished = true

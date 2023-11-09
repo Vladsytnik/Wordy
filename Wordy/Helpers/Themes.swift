@@ -30,6 +30,8 @@ struct Themes {
 				   answer2: Color(asset: Asset.Colors.answer2),
 				   answer3: Color(asset: Asset.Colors.answer3),
 				   answer4: Color(asset: Asset.Colors.answer4),
+                   
+                   moduleCardMainTextColor: Color(asset: Asset.Colors.moduleCardMainTextColor),
 				   
 				   mainBackgroundImage: Image(asset: Asset.Images.gradientBG),
 				   carouselCardBackgroundImage: Image(asset: Asset.Images.carouselBG),
@@ -56,6 +58,8 @@ struct Themes {
 				   answer2: Color(asset: Asset.Colors2.answer22),
 				   answer3: Color(asset: Asset.Colors2.answer32),
 				   answer4: Color(asset: Asset.Colors2.answer42),
+                   
+                   moduleCardMainTextColor: Color(asset: Asset.Colors2.moduleCardMainTextColor2),
 				   
 				   mainBackgroundImage: Image(asset: Asset.Images2.gradientBG2),
 				   carouselCardBackgroundImage: Image(asset: Asset.Images2.carouselBG2),
@@ -81,7 +85,10 @@ struct Themes {
 				   answer1: Color(asset: Asset.Colors3.answer13),
 				   answer2: Color(asset: Asset.Colors3.answer23),
 				   answer3: Color(asset: Asset.Colors3.answer33),
-				   answer4: Color(asset: Asset.Colors3.answer43),
+                   answer4: Color(asset: Asset.Colors3.answer43),
+                   
+                   moduleCardMainTextColor: Color(asset: Asset.Colors3.moduleCardMainTextColor3),
+                   
 				   
 				   mainBackgroundImage: Image(asset: Asset.Images3.gradientBG3),
 				   carouselCardBackgroundImage: Image(asset: Asset.Images3.carouselBG3),

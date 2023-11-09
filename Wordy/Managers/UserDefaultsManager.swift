@@ -121,6 +121,24 @@ class UserDefaultsManager {
 			UserDefaults().setValue(newValue, forKey: "userID")
 		}
 	}
+    
+    static var isUserSawLearnButton: Bool {
+        get {
+            UserDefaults().bool(forKey: "userDidntSeeLearnBtnYet")
+        }
+        set {
+            UserDefaults().setValue(newValue, forKey: "userDidntSeeLearnBtnYet")
+        }
+    }
+    
+    static var isUserSawCreateNewModule: Bool {
+        get {
+            UserDefaults().bool(forKey: "isUserSawCreateNewModule")
+        }
+        set {
+            UserDefaults().setValue(newValue, forKey: "isUserSawCreateNewModule")
+        }
+    }
 }
 
 

@@ -38,8 +38,15 @@ struct Paywall: View {
 	
     var body: some View {
 		ZStack {
-			themeManager.currentTheme.darkMain
-				.ignoresSafeArea()
+            if themeManager.currentTheme.isDark {
+                themeManager.currentTheme.darkMain
+                    .ignoresSafeArea()
+            } else {
+                themeManager.currentTheme.mainBackgroundImage
+                    .resizable()
+                    .ignoresSafeArea()
+            }
+				
 			GeometryReader { geo in
 				ScrollView {
 					VStack {
@@ -55,8 +62,15 @@ struct Paywall: View {
 						
 						ForEach(Array(zip(viewModel.attributedAdvantages.indices, viewModel.attributedAdvantages)), id: \.0) { i, text in
 							HStack(alignment: .top, spacing: 16) {
-								Image(asset: Asset.Images.advantage)
-									.padding(EdgeInsets(top: 0, leading: 16, bottom: text == viewModel.attributedAdvantages.last ? 80 : 20, trailing: 8))
+                                if themeManager.currentTheme.isDark {
+                                    Image(asset: Asset.Images.advantage)
+                                        .padding(EdgeInsets(top: 0, leading: 16, bottom: text == viewModel.attributedAdvantages.last ? 80 : 20, trailing: 8))
+                                } else {
+                                    Image(asset: Asset.Images.advantage)
+                                        .renderingMode(.original)
+                                        .colorMultiply(themeManager.currentTheme.accent)
+                                        .padding(EdgeInsets(top: 0, leading: 16, bottom: text == viewModel.attributedAdvantages.last ? 80 : 20, trailing: 8))
+                                }
 								Text(text)
 									.foregroundColor(themeManager.currentTheme.mainText)
 								Spacer()
@@ -125,7 +139,7 @@ struct Paywall: View {
 								.foregroundColor(isNothingSelected ? themeManager.currentTheme.moduleCreatingBtn.opacity(0.6) : themeManager.currentTheme.moduleCreatingBtn)
 								.overlay {
 									Text("Try Free and subscribe")
-										.foregroundColor(isNothingSelected ? .white.opacity(0.6) : .white)
+                                        .foregroundColor(isNothingSelected ? themeManager.currentTheme.mainText.opacity(0.6) : themeManager.currentTheme.mainText)
 										.font(.system(size: 18, weight: .bold))
 								}
 						}
@@ -152,7 +166,7 @@ struct Paywall: View {
 							}
 						}
 						.font(.system(size: 14))
-						.foregroundColor(.white.opacity(0.8))
+						.foregroundColor(themeManager.currentTheme.mainText.opacity(0.8))
 						.padding()
 						.offset(y: -16)
 					}
@@ -173,12 +187,19 @@ struct Paywall_Previews: PreviewProvider {
 struct CloseBtn: View {
 	
 	@Binding var isOpened: Bool
+    @EnvironmentObject var themeManager: ThemeManager
 	
 	var body: some View {
 		Button {
 			isOpened.toggle()
 		} label: {
-			Image(asset: Asset.Images.closeBtn)
+            if themeManager.currentTheme.isDark {
+                Image(asset: Asset.Images.closeBtn)
+            } else {
+                Image(asset: Asset.Images.closeBtn)
+                    .renderingMode(.original)
+                    .colorMultiply(themeManager.currentTheme.mainText)
+            }
 		}
 		.scaleEffect(1.3)
 		.padding(EdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 24))
@@ -227,7 +248,7 @@ struct PaywallPlanBtn: View {
 				}
 			}
 		}
-		.foregroundColor(isSelected ? .white : .black)
+        .foregroundColor(isSelected ? themeManager.currentTheme.mainText : .black)
 		.background {
 			RoundedRectangle(cornerRadius: 8)
 				.foregroundColor(isSelected ? themeManager.currentTheme.moduleCreatingBtn : .white)

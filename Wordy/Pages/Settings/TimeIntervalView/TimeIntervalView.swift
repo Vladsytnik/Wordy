@@ -303,6 +303,9 @@ struct TimeIntervalView: View {
                         .bold()
                 }
         )
+        .sheet(isPresented: $viewModel.showPaywall, content: {
+            Paywall(isOpened: $viewModel.showPaywall)
+        })
     }
     
     //MARK: – Time Slider
@@ -491,6 +494,7 @@ struct TimeIntervalView_Previews: PreviewProvider {
             TimeIntervalView()
                 .environmentObject(ThemeManager(2))
                 .preferredColorScheme(.dark)
+                .environmentObject(SubscriptionManager())
         }
     }
 }

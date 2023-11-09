@@ -30,6 +30,11 @@ struct CreateModuleCard: View {
 	private var height: CGFloat {
 		width / 0.9268
 	}
+    
+
+    @StateObject private var onboardingManager = OnboardingManager(screen: .moduleScreen,
+                                                                   countOfSteps: 1)
+    @State var screenWidth: CGFloat = 0
 	
 	var body: some View {
 		ZStack {
@@ -40,6 +45,7 @@ struct CreateModuleCard: View {
 			VStack {
 				Spacer()
 				Button {
+                    onboardingManager.goToNextStep()
 					withAnimation(.spring()) {
 						UIApplication.shared.endEditing()
 						showEmojiView = true
@@ -55,7 +61,25 @@ struct CreateModuleCard: View {
 							.opacity(emoji == "📄" ? 1 : 0)
 					}
 				}
+                .mytooltip(onboardingManager.currentStepIndex == 0
+                          && !UserDefaultsManager.isUserSawCreateNewModule,
+                           appearingDelayValue: 0.5) {
+                    let text = "Нажмите для выбора эмодзи"
+                    TooltipView(text: text,
+                                stepNumber: 0,
+                                allStepCount: 1,
+                                withoutSteps: true,
+                                description: nil, 
+                                onDisappear: {
+                        UserDefaultsManager.isUserSawCreateNewModule = true
+                    }) {
+                        onboardingManager.goToNextStep()
+                    }
+                }
+                .zIndex(100)
+                
 				Spacer()
+                
 				InputRoundedTextArea(
 					moduleName: $moduleName,
 					cardWidth: width,
@@ -67,6 +91,14 @@ struct CreateModuleCard: View {
 			.frame(width: width, height: height)
 			.offset(y: -7)
 		}
+        .background {
+            GeometryReader { geo in
+                EmptyView()
+                    .onAppear {
+                        self.screenWidth = geo.size.width
+                    }
+            }
+        }
 //		.offset(y: needAnimate ? 0 : 200)
 	}
 }

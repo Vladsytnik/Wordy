@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUITooltip
 
 struct ModuleScreen: View {
 	
@@ -18,6 +19,9 @@ struct ModuleScreen: View {
 	@StateObject var learnPageViewModel = LearnSelectionPageViewModel()
 	@State var showLearnPage = false
 	@State var showEditAlert = false
+    
+    @StateObject private var onboardingManager = OnboardingManager(screen: .moduleScreen, 
+                                                                   countOfSteps: 1)
     
     var addNewPhraseViewModel = AddNewPhraseViewModel()
 	
@@ -35,6 +39,9 @@ struct ModuleScreen: View {
 	@State private var prevScrollOffsetValue = CGFloat.zero
 	@State private var createPhraseButtonOpacity = 1.0
 	@State var showActivity = false
+    @State private var tooltipConfig = MyDefaultTooltipConfig()
+    
+    @State var screenWidth = 0
 
     lazy var currentThemeName: String?  = {
         UserDefaultsManager.themeName
@@ -79,6 +86,7 @@ struct ModuleScreen: View {
 									}
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
 									LearnModuleButton {
+                                        onboardingManager.goToNextStep()
 										if viewModel.module.phrases.count >= 4 {
 											viewModel.checkSubscriptionAndAccessability { isAllow in
 												if isAllow {
@@ -94,11 +102,32 @@ struct ModuleScreen: View {
 									}
 									.frame(height: 45)
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
+                                    .mytooltip(onboardingManager.currentStepIndex == 0 
+                                               && viewModel.userDidntSeeLearnBtnYet(),
+                                               config: tooltipConfig,
+                                               appearingDelayValue: 0.5) {
+                                        let text = "Используйте обучающий режим, \nчтобы эффективнее запоминать фразы"
+                                        let descr = "Доступен при добавлении в модуль 4 фраз"
+                                        TooltipView(text: text,
+                                                    stepNumber: 0,
+                                                    allStepCount: 1, 
+                                                    withoutSteps: true,
+                                                    description: descr,
+                                                    onDisappear: {
+                                            UserDefaultsManager.isUserSawLearnButton = true
+                                        }) {
+                                            onboardingManager.goToNextStep()
+                                        }
+                                                    .frame(width: geo.size.width - 96)
+
+                                    }
+                                    .zIndex(100)
 								}
 								
 								ForEach(0..<viewModel.phraseCount, id: \.self) { i in
 									Button {
 										viewModel.didTapWord(with: i)
+                                        onboardingManager.goToNextStep()
 									} label: {
 										WordCard(
 											width: geo.size.width - 60,
@@ -136,7 +165,10 @@ struct ModuleScreen: View {
 						
 						VStack {
 							Spacer()
-							AddWordButton { didTapAddNewPhrase() }
+                            AddWordButton {
+                                didTapAddNewPhrase()
+                                onboardingManager.goToNextStep()
+                            }
 							.opacity(createPhraseButtonOpacity)
 							.transition(AnyTransition.offset() )
 							.offset(y: geo.size.height < 812 ? -16 : 0 )
@@ -232,6 +264,22 @@ struct ModuleScreen: View {
 								  subject: nil,
 								  message: nil)
 			}
+            .onAppear {
+                self.tooltipConfig.enableAnimation = true
+                self.tooltipConfig.animationOffset = 10
+                self.tooltipConfig.animationTime = 1
+                self.tooltipConfig.backgroundColor = Color(asset: Asset.Colors.moduleCardRoundedAreaColor)
+                self.tooltipConfig.borderWidth = 0
+                self.tooltipConfig.zIndex = 1000
+                self.tooltipConfig.contentPaddingBottom = 12
+                self.tooltipConfig.contentPaddingTop = 12
+                self.tooltipConfig.contentPaddingLeft = 16
+                self.tooltipConfig.contentPaddingRight = 16
+                self.tooltipConfig.borderRadius = 12
+                self.tooltipConfig.shadowColor = .black.opacity(0.3)
+                self.tooltipConfig.shadowRadius = 20
+                self.tooltipConfig.shadowOffset = .init(x: 3, y: 20)
+            }
 	}
 	
 	init(modules: Binding<[Module]>, searchedText: Binding<String>, filteredModules: Binding<[Module]>, index: Int) {
@@ -487,6 +535,7 @@ struct UIKitActivityView: UIViewControllerRepresentable {
 
 struct LearnModuleButton: View {
 	
+    var customBgColor: Color?
 	@EnvironmentObject var themeManager: ThemeManager
 	let action: () -> Void
 	
@@ -501,7 +550,11 @@ struct LearnModuleButton: View {
 					.padding(EdgeInsets(top: 16, leading: 26, bottom: 16, trailing: 26))
 			}
 			.background {
-				themeManager.currentTheme.moduleCreatingBtn
+                if let customBgColor {
+                    customBgColor
+                } else {
+                    themeManager.currentTheme.moduleCreatingBtn
+                }
 			}
 			.cornerRadius(22)
 		}

@@ -28,8 +28,14 @@ struct AddNewPhrase: View {
 	var body: some View {
 		ZStack {
 			ZStack {
-				themeManager.currentTheme.darkMain
-					.ignoresSafeArea()
+                if themeManager.currentTheme.isDark {
+                    themeManager.currentTheme.darkMain
+                        .ignoresSafeArea()
+                } else {
+                    themeManager.currentTheme.mainBackgroundImage
+                        .resizable()
+                        .ignoresSafeArea()
+                }
 				VStack(spacing: 20) {
 					HStack {
 						Button {
@@ -177,7 +183,7 @@ struct AddNewPhrase: View {
 								}
 							} label: {
 								Text(LocalizedStringKey("Добавить пример"))
-									.foregroundColor(themeManager.currentTheme.brightForBtnsText)
+									.foregroundColor(themeManager.currentTheme.mainText)
 									.font(.system(size: 14, weight: .regular))
 							}
 							.background {
@@ -185,7 +191,7 @@ struct AddNewPhrase: View {
 									Spacer()
 									Rectangle()
 										.frame(height: 1)
-										.foregroundColor(themeManager.currentTheme.brightForBtnsText)
+										.foregroundColor(themeManager.currentTheme.mainText)
 								}
 								.offset(y: 6)
 							}

@@ -125,6 +125,7 @@ class AddNewPhraseViewModel: ObservableObject {
 	// MARK: - Translating logic
 	
 	func getTranslatedText(from text: String) {
+        guard text.count > 1 else { return }
 		networkTask?.cancel()
 		networkTask = Task { @MainActor in
 			do {
