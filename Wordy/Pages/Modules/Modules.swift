@@ -308,7 +308,7 @@ struct Modules: View {
 				.navigationTitle(LocalizedStringKey("Модули"))
 				.onAppear{ router.showActivityView = false }
 //			}
-			.preferredColorScheme(ColorScheme.init(.dark))
+//			.preferredColorScheme(ColorScheme.init(.dark))
 			.onAppear{
 				isOnAppear = true
 				listenUserAuth()

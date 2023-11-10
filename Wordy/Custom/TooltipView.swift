@@ -39,6 +39,7 @@ struct TooltipView: View {
 //				}
                 if !withoutSteps {
                     Text("\(stepNumber + 1)/\(allStepCount)")
+                        .foregroundColor(.white)
                 }
                 
 				Spacer()

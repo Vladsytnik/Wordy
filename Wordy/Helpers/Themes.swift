@@ -32,6 +32,8 @@ struct Themes {
 				   answer4: Color(asset: Asset.Colors.answer4),
                    
                    moduleCardMainTextColor: Color(asset: Asset.Colors.moduleCardMainTextColor),
+                   gradientStart: Color(asset: Asset.Colors.gradientStart),
+                   gradientEnd: Color(asset: Asset.Colors.gradientEnd),
 				   
 				   mainBackgroundImage: Image(asset: Asset.Images.gradientBG),
 				   carouselCardBackgroundImage: Image(asset: Asset.Images.carouselBG),

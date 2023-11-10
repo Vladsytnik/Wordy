@@ -18,6 +18,8 @@ struct SelectLanguagePage: View {
 	var isFromSettings = false
 	
 	private let languages = Language.getAll().sorted(by: { $0.getTitle() < $1.getTitle() })
+    
+    @Environment(\.colorScheme) var colorScheme
 	
 	var body: some View {
 		if !isFromSettings {
@@ -37,7 +39,7 @@ struct SelectLanguagePage: View {
 								VStack {
 									HStack {
 										Text(LocalizedStringKey("Родной"))
-											.foregroundColor(.init(white: 0.9))
+                                            .foregroundColor(themeManager.currentTheme.mainText)
 											.font(.system(size: 24, weight: .bold))
 										Spacer()
 									}
@@ -50,7 +52,8 @@ struct SelectLanguagePage: View {
 								VStack {
 									HStack {
 										Text(LocalizedStringKey("Хочу выучить"))
-											.foregroundColor(.init(white: 0.9))
+//											.foregroundColor(.init(white: 0.9))
+                                            .foregroundColor(themeManager.currentTheme.mainText)
 											.font(.system(size: 24, weight: .bold))
 										Spacer()
 									}
@@ -96,7 +99,8 @@ struct SelectLanguagePage: View {
 									.overlay{
 										Text(LocalizedStringKey("ПРОДОЛЖИТЬ"))
 											.fontWeight(.medium)
-											.foregroundColor(.init(white: 0.9))
+//											.foregroundColor(.init(white: 0.9))
+                                            .foregroundColor( themeManager.currentTheme.mainText)
 									}
 									.offset(x: viewModel.shakeContinueBtn ? 10 : 0)
 									.animation(.spring(), value: viewModel.userCanContinue)

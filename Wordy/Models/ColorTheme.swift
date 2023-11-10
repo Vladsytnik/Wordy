@@ -36,6 +36,9 @@ struct ColorTheme: ThemeProtocol {
 	let answer4: Color
     
     let moduleCardMainTextColor: Color
+    
+    var gradientStart: Color?
+    var gradientEnd: Color?
 	
 	let mainBackgroundImage: Image
 	let carouselCardBackgroundImage: Image

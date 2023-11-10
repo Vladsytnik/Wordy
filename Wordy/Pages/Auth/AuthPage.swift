@@ -17,6 +17,8 @@ struct AuthPage: View {
 	@State var animate = false
 	@State var isFocused = false
 	@State var loginWithEmail = false
+    
+    @Environment(\.colorScheme) var colorScheme
 	
 	var body: some View {
 		GeometryReader { geometry in
@@ -46,7 +48,7 @@ struct AuthPage: View {
 						.padding(EdgeInsets(top: 32, leading: 0, bottom: 8, trailing: 0))
 						.animation(.spring().delay(0.3), value: animate)
 					Text(LocalizedStringKey("Изучай слова с комфортом \nи минималистичным дизайном"))
-						.foregroundColor(.white.opacity(0.9))
+                        .foregroundColor(colorScheme == .dark ? .white.opacity(0.9) : .black.opacity(0.9))
 						.multilineTextAlignment(.center)
 						.opacity(animate ? 1 : 0)
 						.offset(y: animate ? 0 : -20)
@@ -171,6 +173,7 @@ struct ButtonStack: View {
 
 struct AuthTextField: View {
 	
+    @Environment(\.colorScheme) var colorScheme
 	var placeholder: String
 	@Binding var text: String
 	@Binding var isFocused: Bool
@@ -185,7 +188,7 @@ struct AuthTextField: View {
 			.focused($textFieldIsFocused)
 			.background {
 				RoundedRectangle(cornerRadius: cornerRadius)
-					.border(width: 0.5, edges: [.bottom], color: .white)
+					.border(width: 0.5, edges: [.bottom], color: colorScheme == .dark ? .white : .black)
 					.foregroundColor(.clear)
 			}
 			.onChange(of: textFieldIsFocused) { newValue in

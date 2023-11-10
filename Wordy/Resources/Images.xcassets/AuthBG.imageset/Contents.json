@@ -1,16 +1,49 @@
 {
   "images" : [
     {
+      "filename" : "iPhone 14 Pro - 19.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "filename" : "iPhone 14 Pro - 18.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "iPhone 14 Pro - 18@2x 1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "filename" : "iPhone 14 Pro - 18@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "iPhone 14 Pro - 18@3x 1.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "filename" : "iPhone 14 Pro - 18@3x.png",
       "idiom" : "universal",
       "scale" : "3x"

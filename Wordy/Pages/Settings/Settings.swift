@@ -67,19 +67,29 @@ struct Settings: View {
 							ScrollView(.horizontal, showsIndicators: false) {
 								HStack(spacing: 8) {
 									ForEach(0..<themeManager.allThemes().count) { index in
-										LinearGradient(colors: [themeManager.allThemes()[index].accent,
-																themeManager.allThemes()[index].main,
-																themeManager.allThemes()[index].main],
+                                        LinearGradient(colors: [
+                                            themeManager.allThemes()[index].gradientStart ?? themeManager.allThemes()[index].accent,
+                                                                
+                                            themeManager.allThemes()[index].gradientEnd ?? themeManager.allThemes()[index].main,
+                                                                
+                                            themeManager.allThemes()[index].gradientEnd ?? themeManager.allThemes()[index].main
+                                        ],
 													   startPoint: .topLeading, endPoint: .bottomTrailing)
 										.cornerRadius(themeCirclesWidth / 2)
 										.frame(width: themeCirclesWidth,
 											   height: themeCirclesWidth)
 										.overlay {
-											RoundedRectangle(cornerRadius: themeCirclesWidth / 2)
-												.stroke(lineWidth: currentThemeIndex == index ? 0.5 : 0)
-												.frame(width: themeStrokeWidth, height:themeStrokeWidth)
-												.foregroundColor(themeManager.currentTheme.mainText)
-												.animation(.easeIn(duration: 0.2), value: currentThemeIndex)
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: themeCirclesWidth / 2)
+                                                    .stroke(lineWidth: currentThemeIndex == index ? 0.5 : 0)
+                                                    .frame(width: themeStrokeWidth, height:themeStrokeWidth)
+                                                    .foregroundColor(.white)
+                                                    .animation(.easeIn(duration: 0.2), value: currentThemeIndex)
+                                                
+                                                Image(systemName: "checkmark")
+                                                    .foregroundColor(.white)
+                                                    .opacity(currentThemeIndex == index ? 1 : 0)
+                                            }
 										}
 										.padding(EdgeInsets(top: 0, leading: index == 0 ? 16 : 0, bottom: 0, trailing: 0))
 										.opacity(isThemeSelecting ? 1 : 0)

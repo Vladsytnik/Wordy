@@ -107,11 +107,11 @@ struct NewModulesScreen: View {
                         ScrollView {
                             VStack {
 //                                RefreshControl(coordinateSpace: .named("RefreshControl")) { pullDownToRefresh() }
-                                SearchTextField(modules: $modules, filteredModules: $filteredModules, searchText: $searchText, placeholder: "Search")
-                                    .padding(.leading)
-                                    .padding(.trailing)
-                                    .padding(.top)
-                                    .disabled(onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+//                                SearchTextField(modules: $modules, filteredModules: $filteredModules, searchText: $searchText, placeholder: "Search")
+//                                    .padding(.leading)
+//                                    .padding(.trailing)
+//                                    .padding(.top)
+//                                    .disabled(onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
                                 
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     withAnimation {
@@ -243,8 +243,12 @@ struct NewModulesScreen: View {
                                     .foregroundColor(.clear)
                             }
                         }
+                        .searchable(text: $searchText)
                         .refreshable{
                             pullDownToRefresh()
+                        }
+                        .onChange(of: searchText) { _ in
+                            self.filterModules(text: searchText)
                         }
                         .coordinateSpace(name: "RefreshControl")
                         .edgesIgnoringSafeArea(.bottom)
@@ -331,7 +335,7 @@ struct NewModulesScreen: View {
 //                .navigationTitle(LocalizedStringKey("Модули"))
                 .onAppear{ router.showActivityView = false }
 //            }
-                .preferredColorScheme(ColorScheme.init(.dark))
+//                .preferredColorScheme(ColorScheme.init(.dark))
             .onAppear{
                 isOnAppear = true
                 listenUserAuth()
@@ -420,7 +424,7 @@ struct NewModulesScreen: View {
             }
             .navigationBarTitleDisplayMode(.large)
             .navigationTitle(LocalizedStringKey("Модули"))
-            .preferredColorScheme(themeManager.currentTheme.isDark ? .dark : .light)
+            .preferredColorScheme(themeManager.currentTheme.isDark ? (themeManager.currentTheme.id != "MainColor" ? .dark : nil) : .light)
     }
     
     init() {
@@ -432,6 +436,17 @@ struct NewModulesScreen: View {
         onboardingManager.isOnboardingMode
         && onboardingManager.currentStepIndex == value
         && !UserDefaultsManager.isNotFirstLaunchOfModulesPage
+    }
+    
+   private func filterModules(text: String) {
+        print(text, modules.count, filteredModules.count)
+        if text.count > 0 {
+            filteredModules = modules.filter({ module in
+                module.name.contains("\(text)")
+            })
+        } else {
+            filteredModules = modules
+        }
     }
     
     private mutating func configTooltip() {

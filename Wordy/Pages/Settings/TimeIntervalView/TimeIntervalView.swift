@@ -22,8 +22,11 @@ class EvilStateObject: ObservableObject {
     }
 }
 
+
+
 struct TimeIntervalView: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel = TimeIntervalViewModel()
     @EnvironmentObject var themeManager: ThemeManager
     
@@ -97,7 +100,9 @@ struct TimeIntervalView: View {
                 
                 let spaceBetweenButtons: CGFloat = 8
                 let cornerRadius: CGFloat = 18
-                let bgColor = themeManager.currentTheme.isDark ? themeManager.currentTheme.mainGray : themeManager.currentTheme.moduleCardRoundedAreaColor
+                let bgColor = themeManager.currentTheme.isDark ?
+                ((themeManager.currentTheme.id == "MainColor" && colorScheme == .dark) ? themeManager.currentTheme.mainGray : themeManager.currentTheme.moduleCardRoundedAreaColor) :
+                themeManager.currentTheme.moduleCardRoundedAreaColor
                 let blurEffect = VisualEffectView(effect: UIBlurEffect(style: .regular))
                 let bgOpacity: Double = 1
                 

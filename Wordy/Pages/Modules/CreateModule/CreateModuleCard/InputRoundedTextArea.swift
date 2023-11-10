@@ -36,7 +36,7 @@ struct InputRoundedTextArea: View {
 				TextField(LocalizedStringKey("Модуль"), text: $moduleName)
 					.font(.system(size: 28, weight: .bold))
 					.focused($moduleNameIsFocused)
-                    .tint(themeManager.currentTheme.moduleCardMainTextColor)
+                    .tint(themeManager.currentTheme.mainText)
 					.onSubmit {
 						guard !moduleName.isEmpty else {
 							self.presentation.wrappedValue.dismiss()

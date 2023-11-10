@@ -32,7 +32,7 @@ struct MyTooltipModifier<TooltipContent: View>: ViewModifier {
         self.config.enableAnimation = true
         self.config.animationOffset = 10
         self.config.animationTime = 1
-        self.config.backgroundColor = Color(asset: Asset.Colors.moduleCardRoundedAreaColor)
+        self.config.backgroundColor = Color(asset: Asset.Colors.poptipBgColor)
         self.config.borderWidth = 0
         self.config.zIndex = 1000
         self.config.contentPaddingBottom = 12
@@ -40,7 +40,7 @@ struct MyTooltipModifier<TooltipContent: View>: ViewModifier {
         self.config.contentPaddingLeft = 16
         self.config.contentPaddingRight = 16
         self.config.borderRadius = 18
-        self.config.shadowColor = .black.opacity(0.3)
+        self.config.shadowColor = .black.opacity(0.4)
         self.config.shadowRadius = 20
         self.config.shadowOffset = .init(x: 3, y: 20)
         

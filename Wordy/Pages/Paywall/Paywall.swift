@@ -35,12 +35,20 @@ struct Paywall: View {
 		"Личность и стиль: стилизация интерфейса на свой вкус",
 		"Настраивайте время и частоту уведомлений: (описание пока не придумал)"
 	]
+    
+    @Environment(\.colorScheme) var colorScheme
 	
     var body: some View {
 		ZStack {
             if themeManager.currentTheme.isDark {
-                themeManager.currentTheme.darkMain
-                    .ignoresSafeArea()
+                if colorScheme == .dark {
+                    themeManager.currentTheme.darkMain
+                        .ignoresSafeArea()
+                } else if themeManager.currentTheme.id == "MainColor" {
+                    themeManager.currentTheme.mainBackgroundImage
+                        .resizable()
+                        .ignoresSafeArea()
+                }
             } else {
                 themeManager.currentTheme.mainBackgroundImage
                     .resizable()

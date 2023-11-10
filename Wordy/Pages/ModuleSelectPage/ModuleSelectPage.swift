@@ -338,6 +338,7 @@ struct ModuleSelectPage_Previews: PreviewProvider {
 
 fileprivate struct SaveButton: View {
 	
+    @Environment(\.colorScheme) var colorScheme
 	let action: () -> Void
 	@EnvironmentObject var themeManager: ThemeManager
 	
@@ -346,16 +347,24 @@ fileprivate struct SaveButton: View {
 			action()
 		} label: {
 			ZStack {
-				RoundedRectangle(cornerRadius: 20)
-					.foregroundColor(Color(asset: Asset.Colors.createModuleButton))
-					.shadow(color: .white.opacity(0.15), radius: 20)
-				HStack {
-					Text(LocalizedStringKey("Сохранить"))
-						.foregroundColor(themeManager.currentTheme.mainText)
-						.font(.system(size: 16, weight: .medium))
-				}
-			}
-		}
+                if themeManager.currentTheme.id == "MainColor"
+                    && colorScheme == .light
+                {
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundColor(Color(asset: Asset.Colors.main))
+                        .shadow(color: .white.opacity(0.15), radius: 20)
+                } else {
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundColor(Color(asset: Asset.Colors.createModuleButton))
+                        .shadow(color: .white.opacity(0.15), radius: 20)
+                }
+                HStack {
+                    Text(LocalizedStringKey("Сохранить"))
+                        .foregroundColor(themeManager.currentTheme.mainText)
+                        .font(.system(size: 16, weight: .medium))
+                }
+            }
+        }
 		.frame(height: 55)
 	}
 }

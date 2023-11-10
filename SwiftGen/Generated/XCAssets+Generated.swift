@@ -39,6 +39,7 @@ internal enum Asset {
     internal static let moduleCardMainTextColor = ColorAsset(name: "ModuleCardMainTextColor")
     internal static let moduleCardRoundedAreaColor = ColorAsset(name: "ModuleCardRoundedAreaColor")
     internal static let nonActiveCategory = ColorAsset(name: "NonActiveCategory")
+    internal static let poptipBgColor = ColorAsset(name: "PoptipBgColor")
     internal static let purchaseBtn = ColorAsset(name: "PurchaseBtn")
     internal static let searchTFBackground = ColorAsset(name: "SearchTFBackground")
     internal static let searchTextFieldTextColor = ColorAsset(name: "SearchTextFieldTextColor")
@@ -46,6 +47,8 @@ internal enum Asset {
     internal static let answer2 = ColorAsset(name: "answer2")
     internal static let answer3 = ColorAsset(name: "answer3")
     internal static let answer4 = ColorAsset(name: "answer4")
+    internal static let gradientEnd = ColorAsset(name: "gradientEnd")
+    internal static let gradientStart = ColorAsset(name: "gradientStart")
     internal static let paywallCheckmark = ColorAsset(name: "paywallCheckmark")
   }
   internal enum Colors2 {
