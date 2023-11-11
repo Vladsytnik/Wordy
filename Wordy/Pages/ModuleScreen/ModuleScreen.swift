@@ -21,7 +21,7 @@ struct ModuleScreen: View {
 	@State var showEditAlert = false
     
     @StateObject private var onboardingManager = OnboardingManager(screen: .moduleScreen, 
-                                                                   countOfSteps: 1)
+                                                                   countOfSteps: 2)
     
     var addNewPhraseViewModel = AddNewPhraseViewModel()
 	
@@ -173,6 +173,28 @@ struct ModuleScreen: View {
 							.transition(AnyTransition.offset() )
 							.offset(y: geo.size.height < 812 ? -16 : 0 )
 							.shadow(color: .white.opacity(0.2), radius: 20)
+                            .mytooltip(onboardingManager.currentStepIndex == 1
+                                       && viewModel.userDidntSeeCreatePhrase(),
+                                       side: .top,
+                                       offset: 24,
+                                       config: tooltipConfig,
+                                       appearingDelayValue: 0.5) {
+                                let text = "Добавьте свою первую фразу!"
+                                let descr = "ИИ автоматически переведет ее, \nа также покажет примеры \nиспользования в тексте."
+                                TooltipView(text: text,
+                                            stepNumber: 1,
+                                            allStepCount: 2,
+                                            withoutSteps: true,
+                                            description: descr,
+                                            onDisappear: {
+                                    UserDefaultsManager.isUserSawCreateNewPhrase = true
+                                }) {
+                                    onboardingManager.goToNextStep()
+                                }
+                                            .frame(width: geo.size.width - 96)
+
+                            }
+                            .zIndex(100)
 						}
 						.ignoresSafeArea(.keyboard)
 						
@@ -316,7 +338,7 @@ struct ModuleScreen: View {
 	}
 	
 	func didTapAddNewPhrase() {
-		if viewModel.phrases.count < countOfWordsForFree || UserDefaultsManager.userHasSubscription {
+		if viewModel.phrases.count < countOfWordsForFree || SubscriptionManager().userHasSubscription() {
 			viewModel.showActionSheet = true
 		} else {
 			viewModel.showPaywall()

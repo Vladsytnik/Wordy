@@ -87,7 +87,7 @@ struct NewModulesScreen: View {
     
     private var generator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .light)
     private var generator2: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
-    @ObservedObject private var onboardingManager = OnboardingManager(screen: .modules, countOfSteps: 3)
+    @StateObject private var onboardingManager = OnboardingManager(screen: .modules, countOfSteps: 3)
     
     @StateObject var vm = ScrollToModel()
     private let macCountOfFreeGroups = 3
@@ -199,19 +199,35 @@ struct NewModulesScreen: View {
                                     }
                                 }
                                 .padding(.top)
-                                .mytooltip(isOnboardingStepNumber(0), config: tooltipConfig, appearingDelayValue: 0.5) {
-                                    TooltipView(text: "Удерживайте, чтобы добавить \nили удалить модуль из группы",
-                                                stepNumber: onboardingManager.currentStepIndex,
-                                                allStepCount: onboardingManager.countOfSteps) {
-                                        self.onboardingManager.goToNextStep()
-                                    }
+                                .mytooltip(isOnboardingStepNumber(0),
+                                           config: tooltipConfig,
+                                           appearingDelayValue: 0.5)
+                                {
+                                    let text = "Удерживайте, чтобы добавить \nили удалить модуль из группы"
+                                    TooltipView(
+                                        text: text,
+                                        stepNumber: onboardingManager.currentStepIndex,
+                                        allStepCount: onboardingManager.countOfSteps,
+                                        onDisappear: { },
+                                        onNextDidTap: {
+                                            self.onboardingManager.goToNextStep()
+                                        }
+                                    )
                                 }
-                                .mytooltip(isOnboardingStepNumber(2), config: tooltipConfig, appearingDelayValue: 0.5) {
-                                    TooltipView(text: "Нажмите, чтобы увидеть \nмодули из этой группы",
-                                                stepNumber: onboardingManager.currentStepIndex,
-                                                allStepCount: onboardingManager.countOfSteps) {
-                                        self.onboardingManager.goToNextStep()
-                                    }
+                                .mytooltip(isOnboardingStepNumber(2),
+                                           config: tooltipConfig,
+                                           appearingDelayValue: 0.5)
+                                {
+                                    let text = "Нажмите, чтобы увидеть \nмодули из этой группы"
+                                    TooltipView(
+                                        text: text,
+                                        stepNumber: onboardingManager.currentStepIndex,
+                                        allStepCount: onboardingManager.countOfSteps,
+                                        onDisappear: { },
+                                        onNextDidTap: {
+                                            self.onboardingManager.goToNextStep()
+                                        }
+                                    )
                                 }
                                 .zIndex(100)
                                 
@@ -289,12 +305,22 @@ struct NewModulesScreen: View {
                                 .transition(AnyTransition.offset() )
                                 .offset(y: geometry.size.height < 812 ? -16 : 0 )
                                 .disabled(!isOnboardingStepNumber(1) && onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
-                                .mytooltip(isOnboardingStepNumber(1), side: .top, config: tooltipConfig, appearingDelayValue: 0.5) {
-                                    TooltipView(text: "Нажмите, чтобы создать \nновый модуль",
-                                                stepNumber: onboardingManager.currentStepIndex,
-                                                allStepCount: onboardingManager.countOfSteps) {
-                                        self.onboardingManager.goToNextStep()
-                                    }
+                                .mytooltip(isOnboardingStepNumber(1),
+                                           side: .top,
+                                           offset: 24,
+                                           config: tooltipConfig,
+                                           appearingDelayValue: 0.5)
+                                {
+                                    let text = "Нажмите, чтобы создать \nновый модуль"
+                                    TooltipView(
+                                        text: text,
+                                        stepNumber: onboardingManager.currentStepIndex,
+                                        allStepCount: onboardingManager.countOfSteps,
+                                        onDisappear: { },
+                                        onNextDidTap: {
+                                            self.onboardingManager.goToNextStep()
+                                        }
+                                    )
                                 }
                         }
                         .ignoresSafeArea(.keyboard)

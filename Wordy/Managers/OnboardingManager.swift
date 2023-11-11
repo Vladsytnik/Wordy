@@ -70,7 +70,14 @@ class OnboardingManager: ObservableObject {
 		withAnimation {
 			onboardingHasFinished = false
 		}
-		UserDefaultsManager.isNotFirstLaunchOfModulesPage = true
+        
+        switch currentScreen {
+        case .modules:
+            UserDefaultsManager.isNotFirstLaunchOfModulesPage = true
+        case .moduleScreen:
+            break
+        }
+        
 		isShow = false
 		isOnboardingMode = false
 		objectWillChange.send()

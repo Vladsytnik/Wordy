@@ -168,4 +168,8 @@ class ModuleScreenViewModel: ObservableObject {
     func userDidntSeeLearnBtnYet() -> Bool {
         !UserDefaultsManager.isUserSawLearnButton
     }
+    
+    func userDidntSeeCreatePhrase() -> Bool {
+        !UserDefaultsManager.isUserSawCreateNewPhrase
+    }
 }

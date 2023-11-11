@@ -69,7 +69,8 @@ struct SharedModulePage: View {
 									showEmojiView: $showEmojiView,
 									emoji: $emoji,
 									moduleName: $moduleName,
-									withoutKeyboard: true
+                                    isNeedOpenKeyboard: .constant(false),
+                                    withoutKeyboard: true
 								) {
 									createModule()
 								}
@@ -81,6 +82,7 @@ struct SharedModulePage: View {
 									showEmojiView: $showEmojiView,
 									emoji: $emoji,
 									moduleName: $moduleName,
+                                    isNeedOpenKeyboard: .constant(false),
 									withoutKeyboard: true
 								) {
 									createModule()

@@ -148,6 +148,9 @@
 		CE52764C2ADAE80A009F30FB /* BadgeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */; };
 		CE6BD5B02AFBCF4900C4379F /* PrePaywallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */; };
 		CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC18A252AD163BB00825749 /* NewModulesScreen.swift */; };
+		CECE48B72AFF9D82002E5507 /* notificationSound1.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */; };
+		CECE48B92AFF9E9A002E5507 /* notificationSound2.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */; };
+		CECE48BB2AFF9F8F002E5507 /* notificationSound3.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48BA2AFF9F8E002E5507 /* notificationSound3.m4r */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -276,6 +279,9 @@
 		CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBackground.swift; sourceTree = "<group>"; };
 		CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrePaywallManager.swift; sourceTree = "<group>"; };
 		CEC18A252AD163BB00825749 /* NewModulesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewModulesScreen.swift; sourceTree = "<group>"; };
+		CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound1.m4r; sourceTree = "<group>"; };
+		CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound2.m4r; sourceTree = "<group>"; };
+		CECE48BA2AFF9F8E002E5507 /* notificationSound3.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound3.m4r; sourceTree = "<group>"; };
 		DF01A188026EA0C8921A4D0E /* Pods-Wordy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.release.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.release.xcconfig"; sourceTree = "<group>"; };
 		E8C956E5C5ED6A0A18071179 /* Pods-Wordy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.debug.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.debug.xcconfig"; sourceTree = "<group>"; };
 		F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wordy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -534,6 +540,9 @@
 		0190562C2944A7140058B566 = {
 			isa = PBXGroup;
 			children = (
+				CECE48BA2AFF9F8E002E5507 /* notificationSound3.m4r */,
+				CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */,
+				CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */,
 				019AC10E2AB43F3B00B31E8F /* GoogleService-Info.plist */,
 				019056542944C7200058B566 /* swiftgen.yml */,
 				0190564E2944AC1E0058B566 /* SwiftGen */,
@@ -911,10 +920,13 @@
 				012D95DA294867DA00165DAF /* SF-Pro-Text-Bold.otf in Resources */,
 				012D95E1294867DA00165DAF /* SF-Pro-Text-BoldItalic.otf in Resources */,
 				0190564C2944AA710058B566 /* .gitignore in Resources */,
+				CECE48B92AFF9E9A002E5507 /* notificationSound2.m4r in Resources */,
 				012D95DC294867DA00165DAF /* SF-Pro-Display-RegularItalic.otf in Resources */,
 				0192298F2AC7055D002648C4 /* Launch Screen.storyboard in Resources */,
 				01897C032A17DCC3007F6A2C /* Localizable.strings in Resources */,
 				012D95D4294867DA00165DAF /* SF-Pro-Display-HeavyItalic.otf in Resources */,
+				CECE48BB2AFF9F8F002E5507 /* notificationSound3.m4r in Resources */,
+				CECE48B72AFF9D82002E5507 /* notificationSound1.m4r in Resources */,
 				014955A629E84DD8000BC30F /* success.json in Resources */,
 				0190563D2944A7170058B566 /* Images.xcassets in Resources */,
 				012D95DF294867DA00165DAF /* SF-Pro-Display-UltralightItalic.otf in Resources */,

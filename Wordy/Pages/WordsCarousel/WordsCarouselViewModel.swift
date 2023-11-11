@@ -99,7 +99,7 @@ class WordsCarouselViewModel: ObservableObject {
 	
 	func checkSubscriptionAndAccessability(isAllow: ((Bool) -> Void)) {
 		let countOfStartingLearnMode = UserDefaultsManager.countOfStartingLearnModes[thisModule.id] ?? 0
-		isAllow(UserDefaultsManager.userHasSubscription
+		isAllow(SubscriptionManager().userHasSubscription()
 				|| countOfStartingLearnMode < maxCountOfStartingLearnMode)
 	}
 	

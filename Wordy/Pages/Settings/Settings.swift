@@ -22,7 +22,7 @@ struct Settings: View {
 	@State var showDeleteAccountAlert = false
 	@State var showDeleteAccountError = false
 	@State var showAcivity = false
-	@State var isPro = false
+	@State var isTestPro = false
 	
 	@State var isThemeSelecting = false
 	@State var currentNonce: String = ""
@@ -166,8 +166,8 @@ struct Settings: View {
 						}
 					}
 					
-					Toggle(isOn: $isPro) {
-						Text("PRO Subscription")
+					Toggle(isOn: $isTestPro) {
+						Text("Test PRO Subscription")
 							.foregroundColor(themeManager.currentTheme.mainText)
 					}
 					.padding()
@@ -214,11 +214,11 @@ struct Settings: View {
 		}
 		.navigationBarTitle(LocalizedStringKey("Настройки"))
 		.onAppear{
-			isPro = UserDefaultsManager.userHasSubscription
+			isTestPro = UserDefaultsManager.userHasTestSubscription
 			currentThemeIndex = themeManager.getCurrentThemeIndex()
 		}
-		.onChange(of: isPro) { newValue in
-			UserDefaultsManager.userHasSubscription = newValue
+		.onChange(of: isTestPro) { newValue in
+			UserDefaultsManager.userHasTestSubscription = newValue
 		}
         .onAppear {
             subscriptionManager.printSubscriptionInfo()

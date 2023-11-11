@@ -11,6 +11,7 @@ struct InputRoundedTextArea: View {
 	
 	@EnvironmentObject var themeManager: ThemeManager
 	@Binding var moduleName: String
+    @Binding var needOpenKeyboard: Bool
 	@FocusState private var moduleNameIsFocused: Bool
 	@Environment(\.presentationMode) var presentation
 	
@@ -75,12 +76,21 @@ struct InputRoundedTextArea: View {
 				//			}
 			}
 		}
+        .onChange(of: needOpenKeyboard) { val in
+            if val {
+                moduleNameIsFocused = true
+            }
+        }
 	}
 }
 
 struct InputRoundedTextArea_Previews: PreviewProvider {
     static var previews: some View {
-		InputRoundedTextArea(moduleName: .constant(""), cardWidth: 250, cardName: "Games", words: [
+        InputRoundedTextArea(moduleName: .constant(""), 
+                             needOpenKeyboard: .constant(false),
+                             cardWidth: 250,
+                             cardName: "Games",
+                             words: [
 			"Dude",
 			"Get on well well well",
 			"Map",

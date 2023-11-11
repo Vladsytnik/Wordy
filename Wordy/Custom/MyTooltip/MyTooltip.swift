@@ -24,6 +24,7 @@ struct MyTooltipModifier<TooltipContent: View>: ViewModifier {
 		enabled: Bool,
 		config: MyTooltipConfig,
 		@ViewBuilder content: @escaping () -> TooltipContent,
+        offset: CGFloat = 8,
 		appearingDelayValue: Double = 1
 	) {
 		self.enabled = enabled
@@ -43,6 +44,7 @@ struct MyTooltipModifier<TooltipContent: View>: ViewModifier {
         self.config.shadowColor = .black.opacity(0.4)
         self.config.shadowRadius = 20
         self.config.shadowOffset = .init(x: 3, y: 20)
+        self.config.margin = offset
         
 		self.content = content()
 		self.appearingDelayValue = appearingDelayValue
@@ -372,6 +374,7 @@ public extension View {
 	func mytooltip<MyTooltipContent: View>(
 		_ enabled: Bool = true,
 		side: MyTooltipSide,
+        offset: CGFloat = 8,
 		config: MyTooltipConfig,
 		appearingDelayValue: Double = 1,
 		@ViewBuilder content: @escaping () -> MyTooltipContent
@@ -379,7 +382,7 @@ public extension View {
 		var config = config
 		config.side = side
 		
-		return modifier(MyTooltipModifier(enabled: enabled, config: config, content: content, appearingDelayValue: appearingDelayValue))
+        return modifier(MyTooltipModifier(enabled: enabled, config: config, content: content, offset: offset, appearingDelayValue: appearingDelayValue))
 	}
 }
 

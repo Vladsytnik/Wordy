@@ -17,12 +17,12 @@ class UserDefaultsManager {
 		}
 	}
 	
-	static var userHasSubscription: Bool {
+	static var userHasTestSubscription: Bool {
 		get {
-			UserDefaults().bool(forKey: "userHasSubscription")
+			UserDefaults().bool(forKey: "userHasTestSubscription")
 		}
 		set {
-			UserDefaults().setValue(newValue, forKey: "userHasSubscription")
+			UserDefaults().setValue(newValue, forKey: "userHasTestSubscription")
 		}
 	}
 	
@@ -137,6 +137,15 @@ class UserDefaultsManager {
         }
         set {
             UserDefaults().setValue(newValue, forKey: "isUserSawCreateNewModule")
+        }
+    }
+    
+    static var isUserSawCreateNewPhrase: Bool {
+        get {
+            UserDefaults().bool(forKey: "isUserSawCreateNewPhrase")
+        }
+        set {
+            UserDefaults().setValue(newValue, forKey: "isUserSawCreateNewPhrase")
         }
     }
 }

@@ -565,7 +565,7 @@ struct Modules: View {
 	}
 	
 	private func checkSubscriptionAndCountOfGroups(isAllow: ((Bool) -> Void)) {
-		isAllow(UserDefaultsManager.userHasSubscription
+		isAllow(SubscriptionManager().userHasSubscription()
 				|| groups.count < macCountOfFreeGroups)
 	}
 }

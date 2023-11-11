@@ -291,7 +291,7 @@ struct LearnSelectionPage: View {
 	}
 	
 	private func upCountOfFreeLearnMode() {
-		guard !UserDefaultsManager.userHasSubscription else { return }
+		guard !SubscriptionManager().userHasSubscription() else { return }
 		
 		if let value = UserDefaultsManager.countOfStartingLearnModes[self.viewModel.module.id] {
 			UserDefaultsManager.countOfStartingLearnModes[self.viewModel.module.id] = value + 1

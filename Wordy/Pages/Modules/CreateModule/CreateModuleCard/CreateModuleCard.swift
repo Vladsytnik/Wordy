@@ -16,6 +16,7 @@ struct CreateModuleCard: View {
 	@Binding var showEmojiView: Bool
 	@Binding var emoji: String
 	@Binding var moduleName: String
+    @Binding var isNeedOpenKeyboard: Bool
 	
 	let cardName = "Games"
 	let words = [
@@ -45,6 +46,7 @@ struct CreateModuleCard: View {
 			VStack {
 				Spacer()
 				Button {
+                    isNeedOpenKeyboard = false
                     onboardingManager.goToNextStep()
 					withAnimation(.spring()) {
 						UIApplication.shared.endEditing()
@@ -63,7 +65,7 @@ struct CreateModuleCard: View {
 				}
                 .mytooltip(onboardingManager.currentStepIndex == 0
                           && !UserDefaultsManager.isUserSawCreateNewModule,
-                           appearingDelayValue: 0.5) {
+                           appearingDelayValue: 1.5) {
                     let text = "Нажмите для выбора эмодзи"
                     TooltipView(text: text,
                                 stepNumber: 0,
@@ -82,7 +84,8 @@ struct CreateModuleCard: View {
                 
 				InputRoundedTextArea(
 					moduleName: $moduleName,
-					cardWidth: width,
+                    needOpenKeyboard: $isNeedOpenKeyboard,
+                    cardWidth: width,
 					cardName: cardName,
 					words: words,
 					withoutKeyboard: withoutKeyboard
@@ -108,11 +111,12 @@ struct CreateModuleCard_Previews: PreviewProvider {
 		ZStack {
 			Color(asset: Asset.Colors.main).ignoresSafeArea()
 			CreateModuleCard(
-				width: 250,
-				needAnimate: .constant(false),
-				showEmojiView: .constant(false),
-				emoji: .constant("📄"),
-				moduleName: .constant("")
+                width: 250,
+                needAnimate: .constant(false),
+                showEmojiView: .constant(false),
+                emoji: .constant("📄"),
+                moduleName: .constant(""),
+                isNeedOpenKeyboard: .constant(false)
 			) {}
 		}
     }

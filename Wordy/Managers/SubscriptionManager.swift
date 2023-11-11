@@ -17,7 +17,7 @@ class SubscriptionManager: ObservableObject {
     func userHasSubscription() -> Bool {
         if let userId = UserDefaultsManager.userID  {
             Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr", userID: userId)
-            return Apphud.hasPremiumAccess()
+            return Apphud.hasPremiumAccess() || UserDefaultsManager.userHasTestSubscription
         } else {
             return false
         }

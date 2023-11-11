@@ -15,7 +15,8 @@ struct CreateModuleView: View {
 	@State private var needAnimate = false
 	@State var showEmojiView = false
 	@State var moduleName = ""
-	@State var emoji = "📄"
+    
+    @State var emoji = "📄"
 	
 	var isOnboardingMode = false
 	@State var disableClosing = false
@@ -24,6 +25,8 @@ struct CreateModuleView: View {
 	@EnvironmentObject var router: Router
 	@Environment(\.presentationMode) var presentation
 	@EnvironmentObject var themeManager: ThemeManager
+    
+    @State private var isNeedOpenKeyboard = false
 	
     var body: some View {
 //		Color.clear
@@ -44,7 +47,8 @@ struct CreateModuleView: View {
 									needAnimate: $needAnimate,
 									showEmojiView: $showEmojiView,
 									emoji: $emoji,
-									moduleName: $moduleName
+									moduleName: $moduleName,
+                                    isNeedOpenKeyboard: $isNeedOpenKeyboard
 								) {
 									createModule()
 								}
@@ -55,7 +59,8 @@ struct CreateModuleView: View {
 									needAnimate: $needAnimate,
 									showEmojiView: $showEmojiView,
 									emoji: $emoji,
-									moduleName: $moduleName
+									moduleName: $moduleName,
+                                    isNeedOpenKeyboard: $isNeedOpenKeyboard
 								) {
 									createModule()
 								}
@@ -101,6 +106,7 @@ struct CreateModuleView: View {
 										withAnimation {
 											showEmojiView.toggle()
 										}
+                                        isNeedOpenKeyboard = true
 									} label: {
 										Text("Готово")
 											.bold()
@@ -128,6 +134,11 @@ struct CreateModuleView: View {
 //			}
 			.activity($showActivity)
 			.interactiveDismissDisabled(showEmojiView)
+            .onChange(of: emoji) { _ in
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.isNeedOpenKeyboard.toggle()
+//                }
+            }
     }
 	
 	private func createModule() {
