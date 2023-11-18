@@ -10,9 +10,11 @@ xcassets:
     - Images.xcassets
     - Images2.xcassets
     - Images3.xcassets
+    - Images4.xcassets
     - Colors.xcassets
     - Colors2.xcassets
     - Colors3.xcassets
+    - Colors4.xcassets
   # 3
   outputs:
     # 4

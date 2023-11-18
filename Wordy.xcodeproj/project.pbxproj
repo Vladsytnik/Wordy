@@ -142,15 +142,23 @@
 		01F708BB29B6573F00585B2E /* NewCategoryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F708BA29B6573F00585B2E /* NewCategoryCard.swift */; };
 		01FB3A8029505E5100330DDE /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FB3A7F29505E5100330DDE /* SearchTextField.swift */; };
 		54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */; };
+		CE272E1E2B067A6400B2B1E8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE272E1D2B067A6400B2B1E8 /* Notification.swift */; };
 		CE41A7FD2AE3D03C002E9E4A /* TimeIntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41A7FC2AE3D03C002E9E4A /* TimeIntervalView.swift */; };
 		CE41A7FF2AE3D058002E9E4A /* TimeIntervalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */; };
 		CE52764A2ADAD7D9009F30FB /* ExampleCreatingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */; };
 		CE52764C2ADAE80A009F30FB /* BadgeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */; };
 		CE6BD5B02AFBCF4900C4379F /* PrePaywallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */; };
+		CE7C1DA62B08D41E00DEB265 /* Colors5.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7C1DA52B08D41E00DEB265 /* Colors5.xcassets */; };
+		CE7C1DA82B08D42800DEB265 /* Images5.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7C1DA72B08D42800DEB265 /* Images5.xcassets */; };
 		CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC18A252AD163BB00825749 /* NewModulesScreen.swift */; };
 		CECE48B72AFF9D82002E5507 /* notificationSound1.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */; };
 		CECE48B92AFF9E9A002E5507 /* notificationSound2.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */; };
 		CECE48BB2AFF9F8F002E5507 /* notificationSound3.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48BA2AFF9F8E002E5507 /* notificationSound3.m4r */; };
+		CECE48BD2B00EAD8002E5507 /* successFinishedLearning.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48BC2B00EAD7002E5507 /* successFinishedLearning.m4r */; };
+		CECE48C32B00F9E5002E5507 /* successFinishedLearning2.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48C22B00F9E4002E5507 /* successFinishedLearning2.m4r */; };
+		CECE48C52B00FB5F002E5507 /* correctChose.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48C42B00FB5E002E5507 /* correctChose.m4r */; };
+		CECE48C92B010C1B002E5507 /* Colors4.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CECE48C82B010C1B002E5507 /* Colors4.xcassets */; };
+		CECE48CB2B010C3D002E5507 /* Images4.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CECE48CA2B010C3D002E5507 /* Images4.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -273,15 +281,23 @@
 		01F57695294A4F2E00F52EB1 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		01F708BA29B6573F00585B2E /* NewCategoryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryCard.swift; sourceTree = "<group>"; };
 		01FB3A7F29505E5100330DDE /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
+		CE272E1D2B067A6400B2B1E8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		CE41A7FC2AE3D03C002E9E4A /* TimeIntervalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalView.swift; sourceTree = "<group>"; };
 		CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalViewModel.swift; sourceTree = "<group>"; };
 		CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCreatingResponse.swift; sourceTree = "<group>"; };
 		CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBackground.swift; sourceTree = "<group>"; };
 		CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrePaywallManager.swift; sourceTree = "<group>"; };
+		CE7C1DA52B08D41E00DEB265 /* Colors5.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors5.xcassets; sourceTree = "<group>"; };
+		CE7C1DA72B08D42800DEB265 /* Images5.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images5.xcassets; sourceTree = "<group>"; };
 		CEC18A252AD163BB00825749 /* NewModulesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewModulesScreen.swift; sourceTree = "<group>"; };
 		CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound1.m4r; sourceTree = "<group>"; };
 		CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound2.m4r; sourceTree = "<group>"; };
 		CECE48BA2AFF9F8E002E5507 /* notificationSound3.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound3.m4r; sourceTree = "<group>"; };
+		CECE48BC2B00EAD7002E5507 /* successFinishedLearning.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = successFinishedLearning.m4r; sourceTree = "<group>"; };
+		CECE48C22B00F9E4002E5507 /* successFinishedLearning2.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = successFinishedLearning2.m4r; sourceTree = "<group>"; };
+		CECE48C42B00FB5E002E5507 /* correctChose.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = correctChose.m4r; sourceTree = "<group>"; };
+		CECE48C82B010C1B002E5507 /* Colors4.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors4.xcassets; sourceTree = "<group>"; };
+		CECE48CA2B010C3D002E5507 /* Images4.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images4.xcassets; sourceTree = "<group>"; };
 		DF01A188026EA0C8921A4D0E /* Pods-Wordy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.release.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.release.xcconfig"; sourceTree = "<group>"; };
 		E8C956E5C5ED6A0A18071179 /* Pods-Wordy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.debug.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.debug.xcconfig"; sourceTree = "<group>"; };
 		F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wordy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -403,6 +419,7 @@
 				017642442972EB920042DB86 /* Phrase.swift */,
 				019160BD29D2D0360094F36D /* Group.swift */,
 				0109D19B2AB8886600714E55 /* ColorTheme.swift */,
+				CE272E1D2B067A6400B2B1E8 /* Notification.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -543,9 +560,13 @@
 				CECE48BA2AFF9F8E002E5507 /* notificationSound3.m4r */,
 				CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */,
 				CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */,
+				CECE48BC2B00EAD7002E5507 /* successFinishedLearning.m4r */,
+				CECE48C22B00F9E4002E5507 /* successFinishedLearning2.m4r */,
+				CECE48C42B00FB5E002E5507 /* correctChose.m4r */,
 				019AC10E2AB43F3B00B31E8F /* GoogleService-Info.plist */,
 				019056542944C7200058B566 /* swiftgen.yml */,
 				0190564E2944AC1E0058B566 /* SwiftGen */,
+				CECE48C12B00F17F002E5507 /* Sounds */,
 				019056372944A7140058B566 /* Wordy */,
 				019056362944A7140058B566 /* Products */,
 				A4C363FE6EDFA8970F462691 /* Pods */,
@@ -630,6 +651,7 @@
 		0190564A2944AA5C0058B566 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CECE48BE2B00EDE9002E5507 /* Sounds */,
 				01978FAF294CBEE600B8EFC3 /* Lottie */,
 				012D95B529485EEC00165DAF /* Fonts */,
 				0190563C2944A7170058B566 /* Images.xcassets */,
@@ -637,7 +659,11 @@
 				019056552944D0DE0058B566 /* Colors.xcassets */,
 				01DEA5072AB8C90300A8074D /* Colors2.xcassets */,
 				018D01462ABF1793008297CA /* Colors3.xcassets */,
+				CECE48C82B010C1B002E5507 /* Colors4.xcassets */,
+				CE7C1DA52B08D41E00DEB265 /* Colors5.xcassets */,
+				CE7C1DA72B08D42800DEB265 /* Images5.xcassets */,
 				018D01482ABF179E008297CA /* Images3.xcassets */,
+				CECE48CA2B010C3D002E5507 /* Images4.xcassets */,
 				0190564B2944AA700058B566 /* .gitignore */,
 				01897C052A17DCC3007F6A2C /* Localizable.strings */,
 			);
@@ -799,6 +825,20 @@
 			path = NetworkModels;
 			sourceTree = "<group>";
 		};
+		CECE48BE2B00EDE9002E5507 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
+		CECE48C12B00F17F002E5507 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -894,8 +934,10 @@
 				012D95D6294867DA00165DAF /* SF-Pro-Display-Regular.otf in Resources */,
 				01DEA50A2AB8CF3500A8074D /* Images2.xcassets in Resources */,
 				019056402944A7170058B566 /* Preview Assets.xcassets in Resources */,
+				CECE48BD2B00EAD8002E5507 /* successFinishedLearning.m4r in Resources */,
 				01978FB7294CC92200B8EFC3 /* loader.json in Resources */,
 				018D01472ABF1793008297CA /* Colors3.xcassets in Resources */,
+				CE7C1DA62B08D41E00DEB265 /* Colors5.xcassets in Resources */,
 				012D95E2294867DA00165DAF /* SF-Pro-Display-SemiboldItalic.otf in Resources */,
 				01B59DFA2AA24B1B003115E6 /* onboarding.json in Resources */,
 				012D95D5294867DA00165DAF /* SF-Pro-Display-LightItalic.otf in Resources */,
@@ -907,21 +949,26 @@
 				012D95DD294867DA00165DAF /* SF-Pro-Display-Semibold.otf in Resources */,
 				012D95DB294867DA00165DAF /* SF-Pro-Display-Bold.otf in Resources */,
 				012D95D2294867DA00165DAF /* SF-Pro-Display-BlackItalic.otf in Resources */,
+				CECE48CB2B010C3D002E5507 /* Images4.xcassets in Resources */,
 				019229912AC7095B002648C4 /* ShortStack-Regular.ttf in Resources */,
 				012D95E3294867DA00165DAF /* SF-Pro-Display-Heavy.otf in Resources */,
 				019AC10F2AB43F3B00B31E8F /* GoogleService-Info.plist in Resources */,
 				01DEA5082AB8C90300A8074D /* Colors2.xcassets in Resources */,
+				CECE48C92B010C1B002E5507 /* Colors4.xcassets in Resources */,
 				012D95DE294867DA00165DAF /* SF-Pro-Display-Light.otf in Resources */,
+				CECE48C32B00F9E5002E5507 /* successFinishedLearning2.m4r in Resources */,
 				012D95D8294867DA00165DAF /* SF-Pro-Display-BoldItalic.otf in Resources */,
 				01770ECC296AF05200578F81 /* addWordLoader.json in Resources */,
 				012D95D1294867DA00165DAF /* SF-Pro-Display-Thin.otf in Resources */,
 				012D95D9294867DA00165DAF /* SF-Pro-Display-Ultralight.otf in Resources */,
 				012D95D0294867D600165DAF /* SF-Pro-Display-Black.otf in Resources */,
 				012D95DA294867DA00165DAF /* SF-Pro-Text-Bold.otf in Resources */,
+				CE7C1DA82B08D42800DEB265 /* Images5.xcassets in Resources */,
 				012D95E1294867DA00165DAF /* SF-Pro-Text-BoldItalic.otf in Resources */,
 				0190564C2944AA710058B566 /* .gitignore in Resources */,
 				CECE48B92AFF9E9A002E5507 /* notificationSound2.m4r in Resources */,
 				012D95DC294867DA00165DAF /* SF-Pro-Display-RegularItalic.otf in Resources */,
+				CECE48C52B00FB5F002E5507 /* correctChose.m4r in Resources */,
 				0192298F2AC7055D002648C4 /* Launch Screen.storyboard in Resources */,
 				01897C032A17DCC3007F6A2C /* Localizable.strings in Resources */,
 				012D95D4294867DA00165DAF /* SF-Pro-Display-HeavyItalic.otf in Resources */,
@@ -1063,6 +1110,7 @@
 				0135E24F295B645300B1C8A0 /* Module.swift in Sources */,
 				01B92B35294F606100F440EE /* Settings.swift in Sources */,
 				01F01B7129F0301F00742DF3 /* PhraseEditViewModel.swift in Sources */,
+				CE272E1E2B067A6400B2B1E8 /* Notification.swift in Sources */,
 				016AA3A62947550D002C00CC /* ModuleCard.swift in Sources */,
 				CE6BD5B02AFBCF4900C4379F /* PrePaywallManager.swift in Sources */,
 				015CB51F2994381B0088A1FC /* WordsCarouselView.swift in Sources */,

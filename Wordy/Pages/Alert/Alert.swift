@@ -24,6 +24,8 @@ struct Alert: View {
 	
 	private let buttonsOffset: CGFloat = 30
 	@EnvironmentObject var themeManager: ThemeManager
+    
+    @Environment(\.colorScheme) var colorScheme
 	
 //	@Environment(\.dismiss) var dismiss
 	
@@ -87,7 +89,9 @@ struct Alert: View {
 					}
 //					.frame(width: geo.size.width)
 					.padding(EdgeInsets(top: 0, leading: 0, bottom: 100, trailing: 0))
-					.background(themeManager.currentTheme.moduleCardRoundedAreaColor)
+//					.background(themeManager.currentTheme.moduleCardRoundedAreaColor)
+//                    .background(colorScheme == .light || !themeManager.currentTheme.isDark ? .white : Color(asset: Asset.Colors.poptipBgColor))
+                    .background(themeManager.currentTheme.main)
 					.cornerRadius(30, corners: [.topLeft, .topRight])
 				}
 //				.ignoresSafeArea()

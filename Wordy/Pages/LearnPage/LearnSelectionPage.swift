@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct LearnSelectionPage: View {
 	
@@ -24,6 +25,8 @@ struct LearnSelectionPage: View {
 	]
 	
 	@State var isAppear: Bool = false
+    
+    @State private var player: AVAudioPlayer? = AVAudioPlayer()
 	
 	init(module: Module, viewModel: LearnSelectionPageViewModel) {
 		self._viewModel = StateObject(wrappedValue: viewModel)
@@ -47,9 +50,12 @@ struct LearnSelectionPage: View {
 							.font(.system(size: 28, weight: .medium))
 							.multilineTextAlignment(.center)
 					}
-					Spacer()
-					LottieView(fileName: "congeralations")
-					Spacer()
+                    Spacer()
+                    LottieView(fileName: "congeralations")
+                        .onAppear {
+//                            playEndOfLearningSound()
+                        }
+                    Spacer()
 					CreateModuleButton(action: {
 						dismiss()
 					}, text: "Супер!")
@@ -60,7 +66,10 @@ struct LearnSelectionPage: View {
 				VStack {
 					if viewModel.showSuccessAnimation {
 						LottieView(fileName: "success")
-					}
+                            .onAppear {
+//                                playCorrectAnswerSound()
+                            }
+                    }
 				}
 				.ignoresSafeArea()
 				VStack {
@@ -299,6 +308,40 @@ struct LearnSelectionPage: View {
 			UserDefaultsManager.countOfStartingLearnModes[self.viewModel.module.id] = 1
 		}
 	}
+    
+    private func playEndOfLearningSound() {
+        guard let path = Bundle.main.path(forResource: "successFinishedLearning2", ofType : "m4r")
+        else {
+            print("Проблемы в пути к звуку")
+            return
+        }
+        
+        let url = URL(fileURLWithPath : path)
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            player?.play()
+            print("Play")
+        } catch {
+            print ("There is an issue with this code!")
+        }
+    }
+    
+    private func playCorrectAnswerSound() {
+        guard let path = Bundle.main.path(forResource: "correctChose", ofType : "m4r")
+        else {
+            print("Проблемы в пути к звуку")
+            return
+        }
+        
+        let url = URL(fileURLWithPath : path)
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            player?.play()
+            print("Play")
+        } catch {
+            print ("There is an issue with this code!")
+        }
+    }
 }
 
 

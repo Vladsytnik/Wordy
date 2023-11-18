@@ -575,7 +575,7 @@ struct LearnModuleButton: View {
                 if let customBgColor {
                     customBgColor
                 } else {
-                    themeManager.currentTheme.moduleCreatingBtn
+                    themeManager.currentTheme.moduleScreenBtnsColor
                 }
 			}
 			.cornerRadius(22)
@@ -605,7 +605,7 @@ struct AddWordButton: View {
 					}
 				}
 				.foregroundColor (
-					themeManager.currentTheme.moduleCreatingBtn
+					themeManager.currentTheme.moduleScreenBtnsColor
 				)
 				.overlay {
 					RoundedRectangle(cornerRadius: 20)

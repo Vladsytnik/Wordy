@@ -144,7 +144,7 @@ struct Paywall: View {
 							RoundedRectangle(cornerRadius: 28)
 								.frame(height: 56)
 //								.foregroundColor(isNothingSelected ? .blue.opacity(0.6) : .blue)
-								.foregroundColor(isNothingSelected ? themeManager.currentTheme.moduleCreatingBtn.opacity(0.6) : themeManager.currentTheme.moduleCreatingBtn)
+								.foregroundColor(isNothingSelected ? themeManager.currentTheme.paywallBtnsColor.opacity(0.6) : themeManager.currentTheme.paywallBtnsColor)
 								.overlay {
 									Text("Try Free and subscribe")
                                         .foregroundColor(isNothingSelected ? themeManager.currentTheme.mainText.opacity(0.6) : themeManager.currentTheme.mainText)
@@ -248,7 +248,7 @@ struct PaywallPlanBtn: View {
 							.padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
 							.background {
 								RoundedRectangle(cornerRadius: 12)
-									.foregroundColor(themeManager.currentTheme.moduleCreatingBtn)
+									.foregroundColor(themeManager.currentTheme.paywallBtnsColor)
 						}
 					}
 					.offset(y: -28)
@@ -259,7 +259,7 @@ struct PaywallPlanBtn: View {
         .foregroundColor(isSelected ? themeManager.currentTheme.mainText : .black)
 		.background {
 			RoundedRectangle(cornerRadius: 8)
-				.foregroundColor(isSelected ? themeManager.currentTheme.moduleCreatingBtn : .white)
+				.foregroundColor(isSelected ? themeManager.currentTheme.paywallBtnsColor : .white)
 				.padding(EdgeInsets(top: -16, leading: -16, bottom: -16, trailing: -16))
 		}
 		.padding(EdgeInsets(top: 8, leading: 32, bottom: 32, trailing: 32))

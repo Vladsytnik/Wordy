@@ -12,6 +12,7 @@ protocol ThemeProtocol {
 }
 
 struct ColorTheme: ThemeProtocol {
+    let isFree: Bool
 	let isDark: Bool
 	
 	var id: String
@@ -29,6 +30,9 @@ struct ColorTheme: ThemeProtocol {
 	let searchTextFieldText: Color
 	let moduleCardRoundedAreaColor: Color
 	let nonActiveCategory: Color
+    let carouselLearnBtnColor: Color
+    let paywallBtnsColor: Color
+    let moduleScreenBtnsColor: Color
 	
 	let answer1: Color
 	let answer2: Color

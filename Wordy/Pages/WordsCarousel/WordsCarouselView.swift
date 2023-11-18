@@ -59,7 +59,7 @@ struct WordsCarouselView: View {
 				.tabViewStyle(.page(indexDisplayMode: .never))
 				
 				Spacer(minLength: 50)
-                LearnModuleButton {
+                LearnModuleButton(customBgColor: themeManager.currentTheme.carouselLearnBtnColor) {
 					if viewModel.thisModule.phrases.count >= 4 {
 						viewModel.checkSubscriptionAndAccessability { isAllow in
 							if isAllow {

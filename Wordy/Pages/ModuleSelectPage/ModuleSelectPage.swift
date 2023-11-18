@@ -355,7 +355,7 @@ fileprivate struct SaveButton: View {
                         .shadow(color: .white.opacity(0.15), radius: 20)
                 } else {
                     RoundedRectangle(cornerRadius: 20)
-                        .foregroundColor(Color(asset: Asset.Colors.createModuleButton))
+                        .foregroundColor(themeManager.currentTheme.moduleCreatingBtn)
                         .shadow(color: .white.opacity(0.15), radius: 20)
                 }
                 HStack {

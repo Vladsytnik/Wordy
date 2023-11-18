@@ -41,6 +41,7 @@ struct Settings: View {
 	]
 	
 	let cellHeight: CGFloat = 60
+    @State var isShowPaywall = false
 	
 	var body: some View {
 		ZStack {
@@ -67,39 +68,74 @@ struct Settings: View {
 							ScrollView(.horizontal, showsIndicators: false) {
 								HStack(spacing: 8) {
 									ForEach(0..<themeManager.allThemes().count) { index in
-                                        LinearGradient(colors: [
-                                            themeManager.allThemes()[index].gradientStart ?? themeManager.allThemes()[index].accent,
-                                                                
-                                            themeManager.allThemes()[index].gradientEnd ?? themeManager.allThemes()[index].main,
-                                                                
-                                            themeManager.allThemes()[index].gradientEnd ?? themeManager.allThemes()[index].main
-                                        ],
-													   startPoint: .topLeading, endPoint: .bottomTrailing)
-										.cornerRadius(themeCirclesWidth / 2)
-										.frame(width: themeCirclesWidth,
-											   height: themeCirclesWidth)
-										.overlay {
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius: themeCirclesWidth / 2)
-                                                    .stroke(lineWidth: currentThemeIndex == index ? 0.5 : 0)
-                                                    .frame(width: themeStrokeWidth, height:themeStrokeWidth)
-                                                    .foregroundColor(.white)
-                                                    .animation(.easeIn(duration: 0.2), value: currentThemeIndex)
+                                        ZStack {
+                                            LinearGradient(colors: [
+                                                themeManager.allThemes()[index].gradientStart ?? themeManager.allThemes()[index].accent,
                                                 
-                                                Image(systemName: "checkmark")
-                                                    .foregroundColor(.white)
-                                                    .opacity(currentThemeIndex == index ? 1 : 0)
+                                                themeManager.allThemes()[index].gradientEnd ?? themeManager.allThemes()[index].main,
+                                                
+                                                themeManager.allThemes()[index].gradientEnd ?? themeManager.allThemes()[index].main
+                                            ],
+                                                           startPoint: .topLeading, endPoint: .bottomTrailing)
+                                            .cornerRadius(themeCirclesWidth / 2)
+                                            .frame(width: themeCirclesWidth,
+                                                   height: themeCirclesWidth)
+//                                            .opacity(themeManager.allThemes()[index].isFree ? 1 : 0.7)
+                                            .overlay {
+                                                ZStack {
+                                                    RoundedRectangle(cornerRadius: themeCirclesWidth / 2)
+                                                        .stroke(lineWidth: currentThemeIndex == index ? 0.5 : 0)
+                                                        .frame(width: themeStrokeWidth, height:themeStrokeWidth)
+                                                        .foregroundColor(.white)
+                                                        .animation(.easeIn(duration: 0.2), value: currentThemeIndex)
+                                                    
+//                                                    if currentThemeIndex == index {
+//                                                        Rectangle()
+//                                                            .frame(width: 40, height: 2)
+//                                                            .foregroundColor(themeManager.currentTheme.main)
+//                                                            .offset(y: themeCirclesWidth + 8)
+//                                                    }
+                                                    //                                                Image(systemName: "checkmark")
+                                                    //                                                    .foregroundColor(.white)
+                                                    //                                                    .opacity(currentThemeIndex == index ? 1 : 0)
+                                                }
                                             }
-										}
-										.padding(EdgeInsets(top: 0, leading: index == 0 ? 16 : 0, bottom: 0, trailing: 0))
-										.opacity(isThemeSelecting ? 1 : 0)
-										.animation(isThemeSelecting ? .spring().delay(0.03 * Double(index)) : .spring(), value: isThemeSelecting)
-										.onTapGesture {
-											generator2?.impactOccurred()
-											currentThemeIndex = index
-											themeManager.setNewTheme(with: index)
-										}
-										
+                                            .padding(EdgeInsets(top: 0, leading: index == 0 ? 16 : 0, bottom: 0, trailing: 0))
+                                            .opacity(isThemeSelecting ? 1 : 0)
+                                            .animation(isThemeSelecting ? .spring().delay(0.03 * Double(index)) : .spring(), value: isThemeSelecting)
+                                            .animation(.spring(), value: currentThemeIndex)
+                                            .onTapGesture {
+                                                guard themeManager.allThemes()[index].isFree
+                                                        || (!themeManager.allThemes()[index].isFree
+                                                             && subscriptionManager.userHasSubscription())
+                                                else {
+                                                    isShowPaywall = true
+                                                    return
+                                                }
+                                                
+                                                generator2?.impactOccurred()
+                                                currentThemeIndex = index
+                                                themeManager.setNewTheme(with: index)
+                                            }
+                                            
+                                            // Selected Indicator
+                                            
+                                            if currentThemeIndex == index {
+                                                let height: CGFloat = 3
+                                                Circle()
+                                                    .frame(width: height, height: height)
+                                                    .foregroundColor(.white)
+//                                                    .offset(y: (themeCirclesWidth / 2) + 0)
+                                                    .padding(EdgeInsets(top: 0, leading: index == 0 ? 16 : 0, bottom: 0, trailing: 0))
+                                            }
+                                            
+                                            if !themeManager.allThemes()[index].isFree
+                                                && !subscriptionManager.userHasSubscription()
+                                            {
+                                                Image(systemName: "lock.fill")
+                                                    .foregroundColor(.white.opacity(0.9))
+                                            }
+                                        }
 									}
 									Spacer()
 								}
@@ -223,6 +259,9 @@ struct Settings: View {
         .onAppear {
             subscriptionManager.printSubscriptionInfo()
         }
+        .sheet(isPresented: $isShowPaywall, content: {
+            Paywall(isOpened: $isShowPaywall)
+        })
 	}
 
 	// MARK: - Helpers

@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 import SwiftUITooltip
 import ApphudSDK
+import AVFAudio
 
 
 struct NewModulesScreen: View {
@@ -100,6 +101,8 @@ struct NewModulesScreen: View {
     lazy var currentTheme: String?  = {
         UserDefaultsManager.themeName
     }()
+    
+    @State private var player: AVAudioPlayer? = AVAudioPlayer()
     
     var body: some View {
                 GeometryReader { geometry in

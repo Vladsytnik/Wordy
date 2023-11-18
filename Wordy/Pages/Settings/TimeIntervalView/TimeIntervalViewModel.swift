@@ -8,15 +8,6 @@
 import SwiftUI
 import Combine
 
-struct Notification: Codable {
-    let isOn: Bool
-    let isNight: Bool
-    let dates: [Date]
-    let notificationCount: Int
-    let selectedModulesIds: [String]
-    let phrases: [Phrase]
-}
-
 class TimeIntervalViewModel: ObservableObject {
     
     @Published var notificationsIsOn = false
