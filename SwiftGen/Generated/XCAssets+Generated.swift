@@ -129,6 +129,56 @@ internal enum Asset {
     internal static let answer34 = ColorAsset(name: "answer34")
     internal static let answer44 = ColorAsset(name: "answer44")
   }
+  internal enum Colors5 {
+    internal static let accent5 = ColorAsset(name: "Accent5")
+    internal static let addModuleButtonBG5 = ColorAsset(name: "AddModuleButtonBG5")
+    internal static let brightBtnText5 = ColorAsset(name: "BrightBtnText5")
+    internal static let carouselLearnBtnColor5 = ColorAsset(name: "CarouselLearnBtnColor5")
+    internal static let createModuleButton5 = ColorAsset(name: "CreateModuleButton5")
+    internal static let darkMain5 = ColorAsset(name: "DarkMain5")
+    internal static let findedWordHighlite5 = ColorAsset(name: "FindedWordHighlite5")
+    internal static let learnModuleBtnText5 = ColorAsset(name: "LearnModuleBtnText5")
+    internal static let main5 = ColorAsset(name: "Main5")
+    internal static let mainTextColor5 = ColorAsset(name: "MainTextColor5")
+    internal static let moduleCardLightGray5 = ColorAsset(name: "ModuleCardLightGray5")
+    internal static let moduleCardMainTextColor5 = ColorAsset(name: "ModuleCardMainTextColor5")
+    internal static let moduleCardRoundedAreaColor5 = ColorAsset(name: "ModuleCardRoundedAreaColor5")
+    internal static let moduleScreenBtns5 = ColorAsset(name: "ModuleScreenBtns5")
+    internal static let nonActiveCategory5 = ColorAsset(name: "NonActiveCategory5")
+    internal static let paywallBtnsColor5 = ColorAsset(name: "PaywallBtnsColor5")
+    internal static let purchaseBtn5 = ColorAsset(name: "PurchaseBtn5")
+    internal static let searchTFBackground5 = ColorAsset(name: "SearchTFBackground5")
+    internal static let searchTextFieldTextColor5 = ColorAsset(name: "SearchTextFieldTextColor5")
+    internal static let answer15 = ColorAsset(name: "answer15")
+    internal static let answer25 = ColorAsset(name: "answer25")
+    internal static let answer35 = ColorAsset(name: "answer35")
+    internal static let answer45 = ColorAsset(name: "answer45")
+  }
+  internal enum Colors6 {
+    internal static let accent6 = ColorAsset(name: "Accent6")
+    internal static let addModuleButtonBG6 = ColorAsset(name: "AddModuleButtonBG6")
+    internal static let brightBtnText6 = ColorAsset(name: "BrightBtnText6")
+    internal static let carouselLearnBtnColor6 = ColorAsset(name: "CarouselLearnBtnColor6")
+    internal static let createModuleButton6 = ColorAsset(name: "CreateModuleButton6")
+    internal static let darkMain6 = ColorAsset(name: "DarkMain6")
+    internal static let findedWordHighlite6 = ColorAsset(name: "FindedWordHighlite6")
+    internal static let learnModuleBtnText6 = ColorAsset(name: "LearnModuleBtnText6")
+    internal static let main6 = ColorAsset(name: "Main6")
+    internal static let mainTextColor6 = ColorAsset(name: "MainTextColor6")
+    internal static let moduleCardLightGray6 = ColorAsset(name: "ModuleCardLightGray6")
+    internal static let moduleCardMainTextColor6 = ColorAsset(name: "ModuleCardMainTextColor6")
+    internal static let moduleCardRoundedAreaColor6 = ColorAsset(name: "ModuleCardRoundedAreaColor6")
+    internal static let moduleScreenBtns6 = ColorAsset(name: "ModuleScreenBtns6")
+    internal static let nonActiveCategory6 = ColorAsset(name: "NonActiveCategory6")
+    internal static let paywallBtnsColor6 = ColorAsset(name: "PaywallBtnsColor6")
+    internal static let purchaseBtn6 = ColorAsset(name: "PurchaseBtn6")
+    internal static let searchTFBackground6 = ColorAsset(name: "SearchTFBackground6")
+    internal static let searchTextFieldTextColor6 = ColorAsset(name: "SearchTextFieldTextColor6")
+    internal static let answer16 = ColorAsset(name: "answer16")
+    internal static let answer26 = ColorAsset(name: "answer26")
+    internal static let answer36 = ColorAsset(name: "answer36")
+    internal static let answer46 = ColorAsset(name: "answer46")
+  }
   internal enum Images {
     internal static let accentColor = ColorAsset(name: "AccentColor")
     internal static let addModuleCheckMark = ImageAsset(name: "AddModuleCheckMark")
@@ -168,6 +218,18 @@ internal enum Asset {
     internal static let carouselBG4 = ImageAsset(name: "CarouselBG4")
     internal static let gradientBG4 = ImageAsset(name: "GradientBG4")
     internal static let learnPageBG4 = ImageAsset(name: "learnPageBG4")
+  }
+  internal enum Images5 {
+    internal static let authBG5 = ImageAsset(name: "AuthBG5")
+    internal static let carouselBG5 = ImageAsset(name: "CarouselBG5")
+    internal static let gradientBG5 = ImageAsset(name: "GradientBG5")
+    internal static let learnPageBG5 = ImageAsset(name: "learnPageBG5")
+  }
+  internal enum Images6 {
+    internal static let authBG6 = ImageAsset(name: "AuthBG6")
+    internal static let carouselBG6 = ImageAsset(name: "CarouselBG6")
+    internal static let gradientBG6 = ImageAsset(name: "GradientBG6")
+    internal static let learnPageBG6 = ImageAsset(name: "learnPageBG6")
   }
 }
 // swiftlint:enable identifier_name line_length nesting type_body_length type_name

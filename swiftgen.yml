@@ -7,14 +7,19 @@ output_dir: SwiftGen/Generated
 xcassets:
   # 2
   inputs:
-    - Images.xcassets
-    - Images2.xcassets
-    - Images3.xcassets
-    - Images4.xcassets
-    - Colors.xcassets
-    - Colors2.xcassets
-    - Colors3.xcassets
-    - Colors4.xcassets
+    - Images/Images.xcassets
+    - Images/Images2.xcassets
+    - Images/Images3.xcassets
+    - Images/Images4.xcassets
+    - Images/Images5.xcassets
+    - Images/Images6.xcassets
+    
+    - Colors/Colors.xcassets
+    - Colors/Colors2.xcassets
+    - Colors/Colors3.xcassets
+    - Colors/Colors4.xcassets
+    - Colors/Colors5.xcassets
+    - Colors/Colors6.xcassets
   # 3
   outputs:
     # 4
