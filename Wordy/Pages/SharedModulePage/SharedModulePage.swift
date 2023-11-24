@@ -38,7 +38,7 @@ struct SharedModulePage: View {
 //						themeManager.currentTheme.main
 //							.ignoresSafeArea()
                         BackgroundView()
-						VStack(spacing: 40) {
+                        VStack(spacing: geo.size.height < 812 ? 8 : 40) {
 //							VStack(alignment: .leading) {
 							if (isNeedToShowTitle) {
 								Text(LocalizedStringKey("Вам прислали \nновый модуль 👇"))
@@ -64,12 +64,13 @@ struct SharedModulePage: View {
 							
 							if UIScreen.main.bounds.height < 812 {
 								CreateModuleCard(
-									width: geo.size.width - 100,
+									width: geo.size.width - 164,
 									needAnimate: $needAnimate,
 									showEmojiView: $showEmojiView,
 									emoji: $emoji,
 									moduleName: $moduleName,
                                     isNeedOpenKeyboard: .constant(false),
+                                    isDisabledOnboarding: true,
                                     withoutKeyboard: true
 								) {
 									createModule()
@@ -83,6 +84,7 @@ struct SharedModulePage: View {
 									emoji: $emoji,
 									moduleName: $moduleName,
                                     isNeedOpenKeyboard: .constant(false),
+                                    isDisabledOnboarding: true,
 									withoutKeyboard: true
 								) {
 									createModule()

@@ -165,6 +165,10 @@ struct ModuleScreen: View {
 						
 						VStack {
 							Spacer()
+                            if viewModel.module.phrases.count == 0 {
+                                DeleteModuleButton { viewModel.didTapDeleteModule() }
+                            }
+                            
                             AddWordButton {
                                 didTapAddNewPhrase()
                                 onboardingManager.goToNextStep()

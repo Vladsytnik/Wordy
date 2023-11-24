@@ -152,6 +152,8 @@
 		CE7C1DA82B08D42800DEB265 /* Images4.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7C1DA72B08D42800DEB265 /* Images4.xcassets */; };
 		CE7C1DAC2B08E1AA00DEB265 /* Images6.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7C1DAB2B08E1AA00DEB265 /* Images6.xcassets */; };
 		CE7C1DAE2B08E1B900DEB265 /* Colors6.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7C1DAD2B08E1B900DEB265 /* Colors6.xcassets */; };
+		CE92994F2B0FAF9B00E24C7E /* NetworkConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE92994E2B0FAF9B00E24C7E /* NetworkConnectionManager.swift */; };
+		CE9299512B0FB7B900E24C7E /* StartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9299502B0FB7B900E24C7E /* StartViewModel.swift */; };
 		CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC18A252AD163BB00825749 /* NewModulesScreen.swift */; };
 		CECE48B72AFF9D82002E5507 /* notificationSound1.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */; };
 		CECE48B92AFF9E9A002E5507 /* notificationSound2.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */; };
@@ -293,6 +295,8 @@
 		CE7C1DA72B08D42800DEB265 /* Images4.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images4.xcassets; sourceTree = "<group>"; };
 		CE7C1DAB2B08E1AA00DEB265 /* Images6.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images6.xcassets; sourceTree = "<group>"; };
 		CE7C1DAD2B08E1B900DEB265 /* Colors6.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors6.xcassets; sourceTree = "<group>"; };
+		CE92994E2B0FAF9B00E24C7E /* NetworkConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectionManager.swift; sourceTree = "<group>"; };
+		CE9299502B0FB7B900E24C7E /* StartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewModel.swift; sourceTree = "<group>"; };
 		CEC18A252AD163BB00825749 /* NewModulesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewModulesScreen.swift; sourceTree = "<group>"; };
 		CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound1.m4r; sourceTree = "<group>"; };
 		CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound2.m4r; sourceTree = "<group>"; };
@@ -593,6 +597,7 @@
 				0130B01B2A0A57E9001391FC /* Wordy.entitlements */,
 				019056382944A7140058B566 /* WordyApp.swift */,
 				0103FF4D294C76CB004C2EA6 /* StartView.swift */,
+				CE9299502B0FB7B900E24C7E /* StartViewModel.swift */,
 				0103FF55294C9E75004C2EA6 /* Router.swift */,
 				0135E24D295B643E00B1C8A0 /* Models */,
 				019056462944A8450058B566 /* Pages */,
@@ -757,6 +762,7 @@
 			isa = PBXGroup;
 			children = (
 				01E4B758294B119800720BE0 /* NetworkManager.swift */,
+				CE92994E2B0FAF9B00E24C7E /* NetworkConnectionManager.swift */,
 				01D89B1D2AC961390077FD6E /* SubscriptionManager.swift */,
 				CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */,
 				0103FF4B294C7471004C2EA6 /* UserDefaultsManager.swift */,
@@ -1113,6 +1119,7 @@
 				CE41A7FD2AE3D03C002E9E4A /* TimeIntervalView.swift in Sources */,
 				01B59DF82AA23CEC003115E6 /* TooltipView.swift in Sources */,
 				013E64AE2950B281002A85E2 /* CreateModuleButton.swift in Sources */,
+				CE9299512B0FB7B900E24C7E /* StartViewModel.swift in Sources */,
 				01468115295602290080732C /* InputRoundedTextArea.swift in Sources */,
 				0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */,
 				0109D19C2AB8886600714E55 /* ColorTheme.swift in Sources */,
@@ -1121,6 +1128,7 @@
 				016817FF2969B0B400F30E39 /* Alert.swift in Sources */,
 				011B13912A001DB300D4CCBF /* SignInWithAppleDelegates.swift in Sources */,
 				019160BC29D098DD0094F36D /* ModuleSelectPage.swift in Sources */,
+				CE92994F2B0FAF9B00E24C7E /* NetworkConnectionManager.swift in Sources */,
 				01F708BB29B6573F00585B2E /* NewCategoryCard.swift in Sources */,
 				0109D1A02AB8948100714E55 /* ThemeManager.swift in Sources */,
 				0176424C29744BC90042DB86 /* DateFormatter.swift in Sources */,

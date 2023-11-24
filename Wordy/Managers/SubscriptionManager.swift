@@ -31,4 +31,9 @@ class SubscriptionManager: ObservableObject {
             print("Apphud: subscription object is empty")
         }
     }
+    
+    func expiredAt() -> Date? {
+        let subscriptionObject = Apphud.subscription()
+        return subscriptionObject?.expiresDate
+    }
 }

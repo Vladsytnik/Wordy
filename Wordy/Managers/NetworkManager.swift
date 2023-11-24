@@ -12,19 +12,26 @@ import FirebaseFirestoreSwift
 import FirebaseDatabase
 
 
-//enum NetworkError: Error {
+enum NetworkError: Error {
 //	case signIn(text: ErrorText)
 //	
 //	enum ErrorText: String {
 //		case unownError = "К сожалению, при авторизации что-то пошло не так"
 //	}
-//}
+    
+    case turnedOff(String)
+}
+
+protocol NetworkDelegate: AnyObject {
+    func networkError(_ error: NetworkError)
+}
 
 class NetworkManager {
 	
 	static var ref = Database.database(url: "https://wordy-a720d-default-rtdb.europe-west1.firebasedatabase.app/").reference()
 //	static let db = Firestore.firestore()
 	static var currentUserID: String? { Auth.auth().currentUser?.uid }
+    static weak var networkDelegate: NetworkDelegate?
 	
 	static func register(email: String, password: String, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void) {
 		Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
@@ -37,9 +44,46 @@ class NetworkManager {
 		}
 	}
     
+    static func updateSubscriptionInfo(isTestPro: Bool = false) {
+        guard let currentUserID = currentUserID else {
+            print("error in updateSubscriptionInfo -> currentUserID")
+            return
+        }
+        
+        Task {
+            let date = SubscriptionManager().expiredAt()
+            var dateStr = ""
+            
+            if let date {
+                let dateFormatter = DateFormatter().getDateFormatter()
+                dateFormatter.timeZone = TimeZone(identifier: "UTC")
+                dateStr = dateFormatter.string(from: date)
+            }
+            
+            if isTestPro {
+                if let futureDate = Calendar.current.date(byAdding: .year, value: 10, to: Date()) {
+                    let dateFormatter = DateFormatter().getDateFormatter()
+                    dateFormatter.timeZone = TimeZone(identifier: "UTC")
+                    dateStr = dateFormatter.string(from: futureDate)
+                }
+            }
+            
+            // Отправляем JSON в Firebase
+            let _ = try await ref.child("users").child(currentUserID).updateChildValues(["subscriptionExpireDate": dateStr])
+        }
+    }
+    
     static func updateNotificationsInfo(notification: Notification) async throws {
         guard let currentUserID = currentUserID else {
-            print("error in sendToken -> currentUserID")
+            print("error in updateNotificationsInfo -> currentUserID")
+            return
+        }
+        
+        if NetworkConnectionManager.shared.isConnectedToNetwork() {
+            print("Internet connection test: интернет есть")
+        } else {
+            print("Internet connection test: интернета нет")
+            networkDelegate?.networkError(.turnedOff("\nУпс, отсутствует подключение к интернету..."))
             return
         }
         

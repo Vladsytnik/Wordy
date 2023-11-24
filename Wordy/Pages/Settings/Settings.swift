@@ -255,6 +255,7 @@ struct Settings: View {
 		}
 		.onChange(of: isTestPro) { newValue in
 			UserDefaultsManager.userHasTestSubscription = newValue
+            NetworkManager.updateSubscriptionInfo(isTestPro: newValue)
 		}
         .onAppear {
             subscriptionManager.printSubscriptionInfo()

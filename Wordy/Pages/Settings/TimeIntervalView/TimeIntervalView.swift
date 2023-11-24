@@ -37,139 +37,183 @@ struct TimeIntervalView: View {
     var body: some View {
        
         GeometryReader { geo in
-            VStack(alignment: .center) {
-                
-                Spacer()
-                
-                // MARK: – From & To
-                
-                HStack(spacing: 25) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Label(
-                            title: { Text("From") },
-                            icon: { Image(systemName: "bell.fill") }
-                        )
-                        .font(.callout)
-                        
-                        Text("\(viewModel.getStringTime(angle: viewModel.startAngle, isStartSlider: true))")
-                            .font(.title2.bold())
-                    }
-                    .frame(maxWidth: .infinity, alignment: .center)
+            ScrollView {
+                VStack(alignment: .center) {
                     
-                    VStack(alignment: .leading, spacing: 8) {
-                        Label(
-                            title: {  Text("To") },
-                            icon: { Image(systemName: "bell.slash.fill") }
-                        )
-                        .font(.callout)
-                        
-                        Text("\(viewModel.getStringTime(angle: viewModel.toAngle))")
-                            .font(.title2.bold())
-                    }
-                    .frame(maxWidth: .infinity, alignment: .center)
-                }
-                .foregroundColor(themeManager.currentTheme.mainText)
-                .padding()
-                .background(themeManager.currentTheme.mainText.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
-                .padding()
-                
-                Spacer()
-                
-                // MARK: – Clock Slider
-                
-                HStack {
                     Spacer()
-                    ZStack {
-                        Circle()
-                            .fill(themeManager.currentTheme.main.opacity(0.1))
-                            .frame(width: geo.size.width / 1.5,
-                                   height: geo.size.width / 1.5)
-                            .shadow(radius: 40)
+                    
+                    // MARK: – From & To
+                    
+                    HStack(spacing: 25) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Label(
+                                title: { Text("From") },
+                                icon: { Image(systemName: "bell.fill") }
+                            )
+                            .font(.callout)
+                            
+                            Text("\(viewModel.getStringTime(angle: viewModel.startAngle, isStartSlider: true))")
+                                .font(.title2.bold())
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
                         
-                        TimeSlider(diameter: (geo.size.width / 1.5) - Double(40))
-                            .frame(width: geo.size.width / 1.5,
-                                   height: geo.size.width / 1.5)
+                        VStack(alignment: .leading, spacing: 8) {
+                            Label(
+                                title: {  Text("To") },
+                                icon: { Image(systemName: "bell.slash.fill") }
+                            )
+                            .font(.callout)
+                            
+                            Text("\(viewModel.getStringTime(angle: viewModel.toAngle))")
+                                .font(.title2.bold())
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
                     }
+                    .foregroundColor(themeManager.currentTheme.mainText)
+                    .padding()
+                    .background(themeManager.currentTheme.mainText.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
+                    .padding()
+                    
                     Spacer()
-                }
-                .padding()
-                
-                Spacer()
-                
-                // MARK: - Buttons
-                
-                let spaceBetweenButtons: CGFloat = 8
-                let cornerRadius: CGFloat = 18
-                let bgColor = themeManager.currentTheme.isDark ?
-                ((themeManager.currentTheme.id == "MainColor" && colorScheme == .dark) ? themeManager.currentTheme.mainGray : themeManager.currentTheme.moduleCardRoundedAreaColor) :
-                themeManager.currentTheme.moduleCardRoundedAreaColor
-                let blurEffect = VisualEffectView(effect: UIBlurEffect(style: .regular))
-                let bgOpacity: Double = 1
-                
-                //MARK: Status
-                
-                VStack(spacing: 0) {
+                    
+                    // MARK: – Clock Slider
+                    
                     HStack {
-                        Toggle("Notifications",
-                               isOn: $viewModel.notificationsIsOn)
-                        .toggleStyle(.switch)
+                        Spacer()
+                        ZStack {
+                            Circle()
+                                .fill(themeManager.currentTheme.main.opacity(0.1))
+                                .frame(width: geo.size.width / 1.5,
+                                       height: geo.size.width / 1.5)
+                                .shadow(radius: 40)
+                            
+                            TimeSlider(diameter: (geo.size.width / 1.5) - Double(40))
+                                .frame(width: geo.size.width / 1.5,
+                                       height: geo.size.width / 1.5)
+                        }
+                        Spacer()
+                    }
+                    .padding()
+                    
+                    Spacer()
+                    
+                    // MARK: - Buttons
+                    
+                    let spaceBetweenButtons: CGFloat = 8
+                    let cornerRadius: CGFloat = 18
+                    let bgColor = themeManager.currentTheme.isDark ?
+                    ((themeManager.currentTheme.id == "MainColor" && colorScheme == .dark) ? themeManager.currentTheme.mainGray : themeManager.currentTheme.moduleCardRoundedAreaColor) :
+                    themeManager.currentTheme.moduleCardRoundedAreaColor
+                    let blurEffect = VisualEffectView(effect: UIBlurEffect(style: .regular))
+                    let bgOpacity: Double = 1
+                    
+                    //MARK: Status
+                    
+                    VStack(spacing: 0) {
+                        HStack {
+                            Toggle("Notifications",
+                                   isOn: $viewModel.notificationsIsOn)
+                            .toggleStyle(.switch)
+                            .padding(.horizontal)
+                            .padding(EdgeInsets(top: 12, leading: 0, bottom: 6, trailing: 0))
+                            .foregroundColor(themeManager.currentTheme.mainText)
+                        }
+                        .background {
+                            Rectangle().cornerRadius(cornerRadius, corners: [.topLeft, .topRight])
+                                .foregroundColor(bgColor)
+                                .opacity(bgOpacity)
+                        }
                         .padding(.horizontal)
-                        .padding(EdgeInsets(top: 12, leading: 0, bottom: 6, trailing: 0))
-                        .foregroundColor(themeManager.currentTheme.mainText)
-                    }
-                    .background {
-                        Rectangle().cornerRadius(cornerRadius, corners: [.topLeft, .topRight])
-                            .foregroundColor(bgColor)
-                            .opacity(bgOpacity)
-                    }
-                    .padding(.horizontal)
-                    .onTapGesture {
-//                        viewModel.notificationsIsOn.toggle()
-                    }
-                    
-                    //MARK: Count
-                    
-                    VStack {
-                        Divider()
+                        .onTapGesture {
+                            //                        viewModel.notificationsIsOn.toggle()
+                        }
+                        
+                        //MARK: Count
+                        
+                        VStack {
+                            Divider()
+                            HStack {
+                                HStack(spacing: spaceBetweenButtons) {
+                                    Text("Count per day:  ")
+                                        .foregroundColor(themeManager.currentTheme.mainText)
+                                    Text("\(viewModel.countOfNotifications)")
+                                        .offset(x: !viewModel.notificationCountIsWrong ? 0 : 3)
+                                        .font(.title3)
+                                        .foregroundColor(themeManager.currentTheme.mainText)
+                                }
+                                Spacer()
+                                
+                                
+                                
+                                HStack {
+                                    Button {
+                                        //                                    viewModel.countOfNotifications = viewModel.countOfNotifications > 0 ? viewModel.countOfNotifications - 1 : 0
+                                        viewModel.userDidUpdateNotificationCount(viewModel.countOfNotifications - 1)
+                                    } label: {
+                                        Text("–")
+                                            .foregroundColor(themeManager.currentTheme.mainText)
+                                            .bold()
+                                            .padding(.trailing)
+                                            .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 0))
+                                    }
+                                    
+                                    Rectangle()
+                                        .frame(width: 0.5)
+                                        .padding(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
+                                        .foregroundColor(.secondary)
+                                    
+                                    Button {
+                                        //                                    viewModel.countOfNotifications += 1
+                                        viewModel.userDidUpdateNotificationCount(viewModel.countOfNotifications + 1)
+                                    } label: {
+                                        Text("+")
+                                            .foregroundColor(themeManager.currentTheme.mainText)
+                                            .bold()
+                                            .padding(.leading)
+                                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 12))
+                                    }
+                                }
+                                .frame(height: 25)
+                                .padding(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
+                                .background {
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .stroke(lineWidth: 0.4)
+                                        .foregroundColor(.black.opacity(0.2))
+                                        .shadow(radius: 4)
+                                }
+                            }
+                            
+                            Divider()
+                        }
+                        .padding(.horizontal)
+                        .padding(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
+                        .background {
+                            Rectangle().cornerRadius(cornerRadius, corners: [])
+                                .foregroundColor(bgColor)
+                                .opacity(bgOpacity)
+                        }
+                        .padding(.horizontal)
+                        
+                        //MARK: Modules
+                        
                         HStack {
                             HStack(spacing: spaceBetweenButtons) {
-                                Text("Count per day:  ")
-                                    .foregroundColor(themeManager.currentTheme.mainText)
-                                Text("\(viewModel.countOfNotifications)")
-                                    .offset(x: !viewModel.notificationCountIsWrong ? 0 : 3)
+                                Text("Modules: ")
+                                Text("\(viewModel.selectedModulesCount)")
                                     .font(.title3)
-                                    .foregroundColor(themeManager.currentTheme.mainText)
                             }
+                            .padding(.horizontal)
+                            .foregroundColor(themeManager.currentTheme.mainText)
+                            
                             Spacer()
                             
-                            
-                            
-                            HStack {
+                            HStack(spacing: 0) {
                                 Button {
-//                                    viewModel.countOfNotifications = viewModel.countOfNotifications > 0 ? viewModel.countOfNotifications - 1 : 0
-                                    viewModel.userDidUpdateNotificationCount(viewModel.countOfNotifications - 1)
+                                    viewModel.isNeedToOpenModulesSelectPage = true
                                 } label: {
-                                    Text("–")
+                                    Text("SELECT")
                                         .foregroundColor(themeManager.currentTheme.mainText)
-                                        .bold()
-                                        .padding(.trailing)
-                                        .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 0))
-                                }
-                                
-                                Rectangle()
-                                    .frame(width: 0.5)
-                                    .padding(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
-                                    .foregroundColor(.secondary)
-                                
-                                Button {
-//                                    viewModel.countOfNotifications += 1
-                                    viewModel.userDidUpdateNotificationCount(viewModel.countOfNotifications + 1)
-                                } label: {
-                                    Text("+")
-                                        .foregroundColor(themeManager.currentTheme.mainText)
-                                        .bold()
-                                        .padding(.leading)
-                                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 12))
+                                        .padding(.horizontal)
                                 }
                             }
                             .frame(height: 25)
@@ -180,95 +224,53 @@ struct TimeIntervalView: View {
                                     .foregroundColor(.black.opacity(0.2))
                                     .shadow(radius: 4)
                             }
+                            .padding(.trailing)
                         }
-                        
-                        Divider()
-                    }
-                    .padding(.horizontal)
-                    .padding(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
-                    .background {
-                        Rectangle().cornerRadius(cornerRadius, corners: [])
-                            .foregroundColor(bgColor)
-                            .opacity(bgOpacity)
-                    }
-                    .padding(.horizontal)
-                    
-                    //MARK: Modules
-                    
-                    HStack {
-                        HStack(spacing: spaceBetweenButtons) {
-                            Text("Modules: ")
-                            Text("\(viewModel.selectedModulesCount)")
-                                .font(.title3)
+                        .padding(EdgeInsets(top: 6, leading: 0, bottom: 12, trailing: 0))
+                        .background {
+                            Rectangle().cornerRadius(cornerRadius, corners: [.bottomLeft, .bottomRight])
+                                .foregroundColor(bgColor)
+                                .opacity(bgOpacity)
                         }
                         .padding(.horizontal)
-                        .foregroundColor(themeManager.currentTheme.mainText)
+                        .onTapGesture {  }
                         
-                        Spacer()
                         
-                        HStack(spacing: 0) {
-                            Button {
-                                viewModel.isNeedToOpenModulesSelectPage = true
-                            } label: {
-                                Text("SELECT")
-                                    .foregroundColor(themeManager.currentTheme.mainText)
-                                    .padding(.horizontal)
-                            }
-                        }
-                        .frame(height: 25)
-                        .padding(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
-                        .background {
-                            RoundedRectangle(cornerRadius: 6)
-                                .stroke(lineWidth: 0.4)
-                                .foregroundColor(.black.opacity(0.2))
-                                .shadow(radius: 4)
-                        }
-                        .padding(.trailing)
+                        //                    HStack(spacing: 8) {
+                        //                        VStack(alignment: .leading, spacing: 8) {
+                        //                            HStack {
+                        //                                Spacer()
+                        //                                Text("Modules")
+                        //                                    .font(.callout)
+                        //                                Spacer()
+                        //                            }
+                        //
+                        //                            HStack {
+                        //                                Button(action: {
+                        //                                    viewModel.isNeedToOpenModulesSelectPage.toggle()
+                        //                                }, label: {
+                        //                                    HStack {
+                        //                                        Spacer()
+                        //                                        Text("\(viewModel.selectedModulesCount)")
+                        //                                        Spacer()
+                        //                                    }
+                        //                                })
+                        //                                .font(.title2.bold())
+                        //                                Spacer()
+                        //                            }
+                        //                        }
+                        //                        .frame(maxWidth: .infinity, alignment: .center)
+                        //                        .padding()
+                        //                        .background(themeManager.currentTheme.mainText.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
+                        //                        .onTapGesture {
+                        //                            viewModel.isNeedToOpenModulesSelectPage = true
+                        //                        }
+                        //                    }
+                        //                    .foregroundColor(themeManager.currentTheme.mainText)
+                        //                    .padding(.horizontal)
                     }
-                    .padding(EdgeInsets(top: 6, leading: 0, bottom: 12, trailing: 0))
-                    .background {
-                        Rectangle().cornerRadius(cornerRadius, corners: [.bottomLeft, .bottomRight])
-                            .foregroundColor(bgColor)
-                            .opacity(bgOpacity)
-                    }
-                    .padding(.horizontal)
-                    .onTapGesture {  }
-                    
-                    
-//                    HStack(spacing: 8) {
-//                        VStack(alignment: .leading, spacing: 8) {
-//                            HStack {
-//                                Spacer()
-//                                Text("Modules")
-//                                    .font(.callout)
-//                                Spacer()
-//                            }
-//                            
-//                            HStack {
-//                                Button(action: {
-//                                    viewModel.isNeedToOpenModulesSelectPage.toggle()
-//                                }, label: {
-//                                    HStack {
-//                                        Spacer()
-//                                        Text("\(viewModel.selectedModulesCount)")
-//                                        Spacer()
-//                                    }
-//                                })
-//                                .font(.title2.bold())
-//                                Spacer()
-//                            }
-//                        }
-//                        .frame(maxWidth: .infinity, alignment: .center)
-//                        .padding()
-//                        .background(themeManager.currentTheme.mainText.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
-//                        .onTapGesture {
-//                            viewModel.isNeedToOpenModulesSelectPage = true
-//                        }
-//                    }
-//                    .foregroundColor(themeManager.currentTheme.mainText)
-//                    .padding(.horizontal)
+                    Spacer()
                 }
-                Spacer()
             }
         }
         .activity($viewModel.inProgress)
@@ -311,6 +313,7 @@ struct TimeIntervalView: View {
         .sheet(isPresented: $viewModel.showPaywall, content: {
             Paywall(isOpened: $viewModel.showPaywall)
         })
+        .showAlert(title: "Wordy.app", description: viewModel.alertText, isPresented: $viewModel.showAlert, withoutButtons: true, repeatAction: {})
     }
     
     //MARK: – Time Slider

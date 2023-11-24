@@ -35,15 +35,15 @@ struct CreateModuleView: View {
 					ZStack {
                         BackgroundView()
                         
-						VStack(spacing: 40) {
+                        VStack(spacing:  UIScreen.main.bounds.height < 812 ? 16 : 40) {
 							Text(LocalizedStringKey("Новый модуль"))
 								.foregroundColor(themeManager.currentTheme.mainText)
 								.font(.system(size: 38, weight: .bold))
-								.padding(EdgeInsets(top: 52, leading: 0, bottom: 0, trailing: 0))
+                                .padding(EdgeInsets(top: UIScreen.main.bounds.height < 812 ? 16 : 52, leading: 0, bottom: 0, trailing: 0))
 //								.offset(y: needAnimate ? 0 : 100)
 							if UIScreen.main.bounds.height < 812 {
 								CreateModuleCard(
-									width: geo.size.width - 100,
+									width: geo.size.width - 164,
 									needAnimate: $needAnimate,
 									showEmojiView: $showEmojiView,
 									emoji: $emoji,

@@ -58,7 +58,7 @@ struct InputRoundedTextArea: View {
 					Spacer()
 					Text("11/15")
 						.foregroundColor(Color(asset: Asset.Colors.moduleCardLightGray))
-						.opacity(0.3)
+						.opacity(0)
 				}
 			}
 			.foregroundColor(themeManager.currentTheme.mainText)

@@ -150,9 +150,12 @@ struct ModuleSelectPage: View {
                         
 						VStack {
 							Spacer()
+                            
 							SaveButton() {
 								createNewGroupOrChangeExisting()
 							}
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
+                            
 							.frame(width: geometry.size.width - 60)
 							.opacity(createModuleButtonOpacity)
 							.transition(AnyTransition.offset() )

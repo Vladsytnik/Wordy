@@ -17,6 +17,8 @@ struct CreateModuleCard: View {
 	@Binding var emoji: String
 	@Binding var moduleName: String
     @Binding var isNeedOpenKeyboard: Bool
+    
+    var isDisabledOnboarding = false
 	
 	let cardName = "Games"
 	let words = [
@@ -64,7 +66,8 @@ struct CreateModuleCard: View {
 					}
 				}
                 .mytooltip(onboardingManager.currentStepIndex == 0
-                          && !UserDefaultsManager.isUserSawCreateNewModule,
+                          && !UserDefaultsManager.isUserSawCreateNewModule
+                           && !isDisabledOnboarding,
                            appearingDelayValue: 1.5) {
                     let text = "Нажмите для выбора эмодзи"
                     TooltipView(text: text,

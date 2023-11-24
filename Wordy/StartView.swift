@@ -17,6 +17,8 @@ struct StartView: View {
 	let authTransition = AnyTransition.opacity
 	let transition = AnyTransition.opacity
 	let opacityTransition = AnyTransition.opacity
+    
+//    @StateObject var viewModel = StartViewModel()
 	
 	var body: some View {
 			ZStack {
@@ -27,6 +29,10 @@ struct StartView: View {
 						NavigationView {
 //                            if #available(iOS 15.0, *) {
                                 NewModulesScreen()
+//                                .overlay {
+//                                    EmptyView()
+//                                        .showAlert(title: "Wordy.app", description: viewModel.alertText, isPresented: $viewModel.showAlert, withoutButtons: true, repeatAction: {})
+//                                }
 //                            } else {
 //                                Modules()
 //                            }
@@ -37,6 +43,7 @@ struct StartView: View {
                             if let userId = UserDefaultsManager.userID  {
                                 Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr", userID: userId)
                             }
+//                            NetworkManager.updateSubscriptionInfo()
                         }
                         
 					} else {
@@ -61,8 +68,16 @@ struct StartView: View {
 			}
 		.environmentObject(router)
 		.accentColor(.white)
+//        .onAppear {
+//            viewModel.initData()
+//        }
+//        .onChange(of: viewModel.showAlert) { _ in
+//            print("Test init view model - changed")
+//        }
 	}
 }
+
+
 
 struct StartView_Previews: PreviewProvider {
     static var previews: some View {

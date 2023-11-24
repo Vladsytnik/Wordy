@@ -43,6 +43,9 @@ class TimeIntervalViewModel: ObservableObject {
     @Published var needAnimateChanges = false
     @Published var showPaywall = false
     
+    @Published var showAlert = false
+    @Published var alertText = ""
+    
     private var startProgressDefault: Double = 0
     private var startAngleDefault: Double = 0
     private var toAngleDefault: Double = 180
@@ -59,6 +62,7 @@ class TimeIntervalViewModel: ObservableObject {
         !isFromDrag && countOfNotifications == 1
     }
     var needToToggleToSingleNotification = false
+    
     
     func initData() {
         selectedModules = []
@@ -150,6 +154,8 @@ class TimeIntervalViewModel: ObservableObject {
                 }
             }
             .store(in: &cancelations)
+        
+        NetworkManager.networkDelegate = self
     }
     
     private func setStartDate(hour: Int = 12, minutes: Int = 0) {
@@ -546,4 +552,19 @@ class TimeIntervalViewModel: ObservableObject {
     }
 }
 
+// MARK: - NetworkDelegate
+
+extension TimeIntervalViewModel: NetworkDelegate {
+    func networkError(_ error: NetworkError) {
+        switch error {
+        case .turnedOff(let errorText):
+            self.alertText = errorText
+            withAnimation {
+                self.showAlert.toggle()
+            }
+        }
+    }
+}
+
 struct DoOnce { static var called = false }
+
