@@ -51,11 +51,17 @@ class PaywallViewModel: ObservableObject {
 		let theme = ThemeManager().currentTheme
 		
 		for (advantage, coloredPart) in advantagesText {
-			let string = advantage
+            let localizedString = NSLocalizedString(advantage, comment: "advantage")
+            let localizedColoredPart = NSLocalizedString(coloredPart, comment: coloredPart)
+            
+//			let string = advantage
+            let string = String(format: localizedString, advantage)
 			var attributedString = AttributedString(string)
 			//	attributedString.foregroundColor = .pink
+            
+            let colored = String(format: localizedColoredPart, coloredPart)
 			
-			if let range = attributedString.range(of: coloredPart) {
+			if let range = attributedString.range(of: colored) {
 				//	attributedString[range].foregroundColor = theme.accent
 //				attributedString[range].foregroundColor = Color(asset: Asset.Colors.paywallCheckmark)
 //				attributedString[range].underlineStyle = .single

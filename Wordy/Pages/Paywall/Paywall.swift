@@ -29,12 +29,12 @@ struct Paywall: View {
 	 4. Настраивайте время и частоту уведомлений: (описание пока не придумал)
 	 */
 	
-	let advantagesText = [
-		"Разблокируйте свой творческий потенциал: бесконечное количество модулей и фраз",
-		"Погружайтесь в мир обучения без ограничений: неограниченный доступ к обучающему режиму",
-		"Личность и стиль: стилизация интерфейса на свой вкус",
-		"Настраивайте время и частоту уведомлений: (описание пока не придумал)"
-	]
+//	let advantagesText = [
+//		"Разблокируйте свой творческий потенциал: бесконечное количество модулей и фраз",
+//		"Погружайтесь в мир обучения без ограничений: неограниченный доступ к обучающему режиму",
+//		"Личность и стиль: стилизация интерфейса на свой вкус",
+//		"Настраивайте время и частоту уведомлений: (описание пока не придумал)"
+//	]
     
     @Environment(\.colorScheme) var colorScheme
 	
@@ -59,7 +59,7 @@ struct Paywall: View {
 				ScrollView {
 					VStack {
 						HStack(alignment: .top) {
-							Text("Try Wordy Pro Subscription")
+							Text(LocalizedStringKey("Try Wordy Pro Subscription"))
 								.foregroundColor(themeManager.currentTheme.mainText)
 								.font(.system(size: 32, weight: .bold))
 								.padding()
@@ -79,7 +79,7 @@ struct Paywall: View {
                                         .colorMultiply(themeManager.currentTheme.accent)
                                         .padding(EdgeInsets(top: 0, leading: 16, bottom: text == viewModel.attributedAdvantages.last ? 80 : 20, trailing: 8))
                                 }
-								Text(text)
+								Text(text) // локализовано во viewModel
 									.foregroundColor(themeManager.currentTheme.mainText)
 								Spacer()
 							}
@@ -146,7 +146,7 @@ struct Paywall: View {
 //								.foregroundColor(isNothingSelected ? .blue.opacity(0.6) : .blue)
 								.foregroundColor(isNothingSelected ? themeManager.currentTheme.paywallBtnsColor.opacity(0.6) : themeManager.currentTheme.paywallBtnsColor)
 								.overlay {
-									Text("Try Free and subscribe")
+									Text(LocalizedStringKey("Try Free and subscribe"))
                                         .foregroundColor(isNothingSelected ? themeManager.currentTheme.mainText.opacity(0.6) : themeManager.currentTheme.mainText)
 										.font(.system(size: 18, weight: .bold))
 								}
@@ -164,13 +164,13 @@ struct Paywall: View {
 							Button {
 								
 							} label: {
-								Text("PRIVACY POLICY")
+								Text(LocalizedStringKey("PRIVACY POLICY"))
 							}
 							Spacer()
 							Button {
 								
 							} label: {
-								Text("TERMS & CONDITIONS")
+								Text(LocalizedStringKey("TERMS & CONDITIONS"))
 							}
 						}
 						.font(.system(size: 14))
@@ -242,7 +242,7 @@ struct PaywallPlanBtn: View {
 				VStack {
 					HStack {
 						Spacer()
-						Text("most popular")
+						Text(LocalizedStringKey("most popular"))
 							.font(.system(size: 16, weight: .bold))
 							.foregroundColor(themeManager.currentTheme.mainText)
 							.padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))

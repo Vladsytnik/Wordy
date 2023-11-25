@@ -166,7 +166,7 @@ struct LearnSelectionPage: View {
 						VStack(alignment: .leading, spacing: 12) {
 							VStack(alignment: .leading, spacing: 4) {
 								HStack {
-									Text("Вы ответили: ")
+									Text(LocalizedStringKey("Вы ответили: "))
 										.bold()
 										.font(.system(size: 18))
 									Spacer()
@@ -182,7 +182,7 @@ struct LearnSelectionPage: View {
 							
 							VStack(alignment: .leading, spacing: 4) {
 								HStack {
-									Text("Правильный ответ: ")
+									Text(LocalizedStringKey("Правильный ответ: "))
 										.font(.system(size: 18))
 										.bold()
 										.foregroundColor(.green)
@@ -243,7 +243,7 @@ struct LearnSelectionPage: View {
 								Spacer()
 								HStack {
 									Image(systemName: "checkmark")
-									Text("Done")
+									Text(LocalizedStringKey("Готово"))
 										.bold()
 								}
 								.foregroundColor(themeManager.currentTheme.mainText)
