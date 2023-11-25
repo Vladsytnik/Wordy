@@ -158,7 +158,7 @@ class TimeIntervalViewModel: ObservableObject {
         NetworkManager.networkDelegate = self
     }
     
-    private func setStartDate(hour: Int = 12, minutes: Int = 0) {
+    private func setStartDate(hour: Int = 8, minutes: Int = 0) {
         let calendar = Calendar.current
 
         var dateComponents = calendar.dateComponents([.year, .month, .day], from: Date())
@@ -178,7 +178,7 @@ class TimeIntervalViewModel: ObservableObject {
         }
     }
     
-    private func setEndDate(hour: Int = 6, minutes: Int = 0) {
+    private func setEndDate(hour: Int = 10, minutes: Int = 0) {
         let calendar = Calendar.current
 
         var dateComponents = calendar.dateComponents([.year, .month, .day], from: Date())

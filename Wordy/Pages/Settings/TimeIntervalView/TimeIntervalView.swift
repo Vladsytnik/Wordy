@@ -33,11 +33,10 @@ struct TimeIntervalView: View {
     var sucessGenerator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
     
     
-    
     var body: some View {
        
         GeometryReader { geo in
-            ScrollView {
+            if UIScreen.main.bounds.height >= 812 {
                 VStack(alignment: .center) {
                     
                     Spacer()
@@ -234,42 +233,210 @@ struct TimeIntervalView: View {
                         }
                         .padding(.horizontal)
                         .onTapGesture {  }
-                        
-                        
-                        //                    HStack(spacing: 8) {
-                        //                        VStack(alignment: .leading, spacing: 8) {
-                        //                            HStack {
-                        //                                Spacer()
-                        //                                Text("Modules")
-                        //                                    .font(.callout)
-                        //                                Spacer()
-                        //                            }
-                        //
-                        //                            HStack {
-                        //                                Button(action: {
-                        //                                    viewModel.isNeedToOpenModulesSelectPage.toggle()
-                        //                                }, label: {
-                        //                                    HStack {
-                        //                                        Spacer()
-                        //                                        Text("\(viewModel.selectedModulesCount)")
-                        //                                        Spacer()
-                        //                                    }
-                        //                                })
-                        //                                .font(.title2.bold())
-                        //                                Spacer()
-                        //                            }
-                        //                        }
-                        //                        .frame(maxWidth: .infinity, alignment: .center)
-                        //                        .padding()
-                        //                        .background(themeManager.currentTheme.mainText.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
-                        //                        .onTapGesture {
-                        //                            viewModel.isNeedToOpenModulesSelectPage = true
-                        //                        }
-                        //                    }
-                        //                    .foregroundColor(themeManager.currentTheme.mainText)
-                        //                    .padding(.horizontal)
                     }
                     Spacer()
+                }
+            } else {
+                ScrollView {
+                    VStack(alignment: .center) {
+                        
+                        Spacer()
+                        
+                        // MARK: – From & To
+                        
+                        HStack(spacing: 25) {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Label(
+                                    title: { Text("From") },
+                                    icon: { Image(systemName: "bell.fill") }
+                                )
+                                .font(.callout)
+                                
+                                Text("\(viewModel.getStringTime(angle: viewModel.startAngle, isStartSlider: true))")
+                                    .font(.title2.bold())
+                            }
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            
+                            VStack(alignment: .leading, spacing: 8) {
+                                Label(
+                                    title: {  Text("To") },
+                                    icon: { Image(systemName: "bell.slash.fill") }
+                                )
+                                .font(.callout)
+                                
+                                Text("\(viewModel.getStringTime(angle: viewModel.toAngle))")
+                                    .font(.title2.bold())
+                            }
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        }
+                        .foregroundColor(themeManager.currentTheme.mainText)
+                        .padding()
+                        .background(themeManager.currentTheme.mainText.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
+                        .padding()
+                        
+                        Spacer()
+                        
+                        // MARK: – Clock Slider
+                        
+                        HStack {
+                            Spacer()
+                            ZStack {
+                                Circle()
+                                    .fill(themeManager.currentTheme.main.opacity(0.1))
+                                    .frame(width: geo.size.width / 1.5,
+                                           height: geo.size.width / 1.5)
+                                    .shadow(radius: 40)
+                                
+                                TimeSlider(diameter: (geo.size.width / 1.5) - Double(40))
+                                    .frame(width: geo.size.width / 1.5,
+                                           height: geo.size.width / 1.5)
+                            }
+                            Spacer()
+                        }
+                        .padding()
+                        
+                        Spacer()
+                        
+                        // MARK: - Buttons
+                        
+                        let spaceBetweenButtons: CGFloat = 8
+                        let cornerRadius: CGFloat = 18
+                        let bgColor = themeManager.currentTheme.isDark ?
+                        ((themeManager.currentTheme.id == "MainColor" && colorScheme == .dark) ? themeManager.currentTheme.mainGray : themeManager.currentTheme.moduleCardRoundedAreaColor) :
+                        themeManager.currentTheme.moduleCardRoundedAreaColor
+                        let blurEffect = VisualEffectView(effect: UIBlurEffect(style: .regular))
+                        let bgOpacity: Double = 1
+                        
+                        //MARK: Status
+                        
+                        VStack(spacing: 0) {
+                            HStack {
+                                Toggle("Notifications",
+                                       isOn: $viewModel.notificationsIsOn)
+                                .toggleStyle(.switch)
+                                .padding(.horizontal)
+                                .padding(EdgeInsets(top: 12, leading: 0, bottom: 6, trailing: 0))
+                                .foregroundColor(themeManager.currentTheme.mainText)
+                            }
+                            .background {
+                                Rectangle().cornerRadius(cornerRadius, corners: [.topLeft, .topRight])
+                                    .foregroundColor(bgColor)
+                                    .opacity(bgOpacity)
+                            }
+                            .padding(.horizontal)
+                            .onTapGesture {
+                                //                        viewModel.notificationsIsOn.toggle()
+                            }
+                            
+                            //MARK: Count
+                            
+                            VStack {
+                                Divider()
+                                HStack {
+                                    HStack(spacing: spaceBetweenButtons) {
+                                        Text("Count per day:  ")
+                                            .foregroundColor(themeManager.currentTheme.mainText)
+                                        Text("\(viewModel.countOfNotifications)")
+                                            .offset(x: !viewModel.notificationCountIsWrong ? 0 : 3)
+                                            .font(.title3)
+                                            .foregroundColor(themeManager.currentTheme.mainText)
+                                    }
+                                    Spacer()
+                                    
+                                    
+                                    
+                                    HStack {
+                                        Button {
+                                            //                                    viewModel.countOfNotifications = viewModel.countOfNotifications > 0 ? viewModel.countOfNotifications - 1 : 0
+                                            viewModel.userDidUpdateNotificationCount(viewModel.countOfNotifications - 1)
+                                        } label: {
+                                            Text("–")
+                                                .foregroundColor(themeManager.currentTheme.mainText)
+                                                .bold()
+                                                .padding(.trailing)
+                                                .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 0))
+                                        }
+                                        
+                                        Rectangle()
+                                            .frame(width: 0.5)
+                                            .padding(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
+                                            .foregroundColor(.secondary)
+                                        
+                                        Button {
+                                            //                                    viewModel.countOfNotifications += 1
+                                            viewModel.userDidUpdateNotificationCount(viewModel.countOfNotifications + 1)
+                                        } label: {
+                                            Text("+")
+                                                .foregroundColor(themeManager.currentTheme.mainText)
+                                                .bold()
+                                                .padding(.leading)
+                                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 12))
+                                        }
+                                    }
+                                    .frame(height: 25)
+                                    .padding(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
+                                    .background {
+                                        RoundedRectangle(cornerRadius: 6)
+                                            .stroke(lineWidth: 0.4)
+                                            .foregroundColor(.black.opacity(0.2))
+                                            .shadow(radius: 4)
+                                    }
+                                }
+                                
+                                Divider()
+                            }
+                            .padding(.horizontal)
+                            .padding(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
+                            .background {
+                                Rectangle().cornerRadius(cornerRadius, corners: [])
+                                    .foregroundColor(bgColor)
+                                    .opacity(bgOpacity)
+                            }
+                            .padding(.horizontal)
+                            
+                            //MARK: Modules
+                            
+                            HStack {
+                                HStack(spacing: spaceBetweenButtons) {
+                                    Text("Modules: ")
+                                    Text("\(viewModel.selectedModulesCount)")
+                                        .font(.title3)
+                                }
+                                .padding(.horizontal)
+                                .foregroundColor(themeManager.currentTheme.mainText)
+                                
+                                Spacer()
+                                
+                                HStack(spacing: 0) {
+                                    Button {
+                                        viewModel.isNeedToOpenModulesSelectPage = true
+                                    } label: {
+                                        Text("SELECT")
+                                            .foregroundColor(themeManager.currentTheme.mainText)
+                                            .padding(.horizontal)
+                                    }
+                                }
+                                .frame(height: 25)
+                                .padding(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
+                                .background {
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .stroke(lineWidth: 0.4)
+                                        .foregroundColor(.black.opacity(0.2))
+                                        .shadow(radius: 4)
+                                }
+                                .padding(.trailing)
+                            }
+                            .padding(EdgeInsets(top: 6, leading: 0, bottom: 12, trailing: 0))
+                            .background {
+                                Rectangle().cornerRadius(cornerRadius, corners: [.bottomLeft, .bottomRight])
+                                    .foregroundColor(bgColor)
+                                    .opacity(bgOpacity)
+                            }
+                            .padding(.horizontal)
+                            .onTapGesture {  }
+                        }
+                        Spacer()
+                    }
                 }
             }
         }
@@ -363,10 +530,12 @@ struct TimeIntervalView: View {
                         let reverseRotation = (viewModel.startProgress > viewModel.toProgress) ? -Double((1 - viewModel.startProgress) * 360) : 0
                         
                         Circle()
-                            .trim(from: viewModel.startProgress > viewModel.toProgress ? 0 : viewModel.startProgress,
-                                  to: viewModel.toProgress + (-reverseRotation / 360))
+//                            .trim(from: viewModel.startProgress > viewModel.toProgress ? 0 : viewModel.startProgress,
+//                                  to: viewModel.toProgress + (-reverseRotation / 360))
+                            .trim(from: viewModel.startProgress > viewModel.toProgress ? 0 : viewModel.timeDifference >= 12 ? 0 : viewModel.startProgress,
+                                  to: viewModel.timeDifference >= 12 ? 1 : viewModel.toProgress + (-reverseRotation / 360))
                             .stroke(LinearGradient(colors: [
-                                themeManager.currentTheme.accent,
+                                themeManager.currentTheme.accent.opacity(0.8),
                                 themeManager.currentTheme.main.opacity(0.7)
                             ],
                                                    startPoint: .trailing,
@@ -377,7 +546,24 @@ struct TimeIntervalView: View {
                             )
                             .rotationEffect(.degrees(-90))
                             .rotationEffect(.degrees(reverseRotation))
-                            .animation(.spring(), value: viewModel.needAnimateChanges)
+//                            .animation(.spring(), value: viewModel.needAnimateChanges)
+                        
+                        if viewModel.timeDifference >= 12 {
+                            Circle()
+                                .trim(from: viewModel.startProgress,
+                                      to: viewModel.toProgress + (-reverseRotation / 360))
+                                .stroke(LinearGradient(colors: [
+                                    themeManager.currentTheme.accent.opacity(1),
+                                    themeManager.currentTheme.main.opacity(0.7)
+                                ],
+                                                       startPoint: .trailing,
+                                                       endPoint: .leading),
+                                        style: StrokeStyle(lineWidth: 40,
+                                                           lineCap: .round,
+                                                           lineJoin: .round)
+                                )
+                                .rotationEffect(.degrees(-90))
+                        }
                         
                         // Slider buttons
                         
