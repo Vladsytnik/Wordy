@@ -10,6 +10,7 @@ import Firebase
 import AppsFlyerLib
 import ApphudSDK
 import UserNotifications
+import AVFAudio
 
 @main
 struct WordyApp: App {
@@ -68,6 +69,20 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
 		FirebaseApp.configure()
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+        }
+        catch let error as NSError {
+            print("Error: Could not set audio category: \(error), \(error.userInfo)")
+        }
+
+        do {
+            try AVAudioSession.sharedInstance().setActive(true)
+        }
+        catch let error as NSError {
+            print("Error: Could not setActive to true: \(error), \(error.userInfo)")
+        }
         
         // Включаем поддержку кэширования данных
         Database.database().isPersistenceEnabled = true

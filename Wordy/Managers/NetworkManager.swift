@@ -619,7 +619,7 @@ class NetworkManager {
 			"targetLanguageCode" : "\(nativeLang.getLangCodeForYandexApy())",
 			"format" : "PLAIN_TEXT",
 			"texts" : ["\(text)"],
-			"speller" : false,
+			"speller" : true,
 		] as [String : Any]
 		
 		guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {

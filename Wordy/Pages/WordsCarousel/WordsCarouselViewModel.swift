@@ -86,8 +86,7 @@ class WordsCarouselViewModel: ObservableObject {
 	
 	func didTapSpeach(phrase: Phrase) {
 		let wordForSpeach = phrase.getAnswer(answerType: .native)
-		
-		var langForSpeach = UserDefaultsManager.langCodeForLearn ?? "en-US"
+		let langForSpeach = UserDefaultsManager.learnLanguage?.getLangCode() ?? "en-US"
 		
 		synthesizer.stopSpeaking(at: .immediate)
 		

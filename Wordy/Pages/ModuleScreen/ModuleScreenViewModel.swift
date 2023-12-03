@@ -150,13 +150,13 @@ class ModuleScreenViewModel: ObservableObject {
 	func didTapSpeach(index: Int) {
 		let phrase = phrases[index]
 		let wordForSpeach = phrase.getAnswer(answerType: .native)
-
-		var langForSpeach = UserDefaultsManager.langCodeForLearn ?? "en-US"
+        let langForSpeach = UserDefaultsManager.learnLanguage?.getLangCode() ?? "en-US"
 
 		synthesizer.stopSpeaking(at: .immediate)
 		
 		let utterance = AVSpeechUtterance(string: "\(wordForSpeach)")
 		utterance.voice = AVSpeechSynthesisVoice(language: langForSpeach)
+        utterance.rate = 0.4
 		
 		synthesizer.speak(utterance)
 	}

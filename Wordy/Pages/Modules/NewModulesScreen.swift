@@ -84,8 +84,6 @@ struct NewModulesScreen: View {
     @State var isEditMode = false
     @State var paywallIsOpened = false
     
-    @State private var tooltipConfig = MyDefaultTooltipConfig()
-    
     private var generator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .light)
     private var generator2: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
     @StateObject private var onboardingManager = OnboardingManager(screen: .modules, countOfSteps: 3)
@@ -203,7 +201,7 @@ struct NewModulesScreen: View {
                                 }
                                 .padding(.top)
                                 .mytooltip(isOnboardingStepNumber(0),
-                                           config: tooltipConfig,
+                                           config: nil,
                                            appearingDelayValue: 0.5)
                                 {
                                     let text = "Удерживайте, чтобы добавить \nили удалить модуль из группы"
@@ -218,7 +216,7 @@ struct NewModulesScreen: View {
                                     )
                                 }
                                 .mytooltip(isOnboardingStepNumber(2),
-                                           config: tooltipConfig,
+                                           config: nil,
                                            appearingDelayValue: 0.5)
                                 {
                                     let text = "Нажмите, чтобы увидеть \nмодули из этой группы"
@@ -311,7 +309,7 @@ struct NewModulesScreen: View {
                                 .mytooltip(isOnboardingStepNumber(1),
                                            side: .top,
                                            offset: 24,
-                                           config: tooltipConfig,
+                                           config: nil,
                                            appearingDelayValue: 0.5)
                                 {
                                     let text = "Нажмите, чтобы создать \nновый модуль"
@@ -449,7 +447,6 @@ struct NewModulesScreen: View {
                 }
             }
             .onAppear {
-                self.tooltipConfig.backgroundColor = themeManager.currentTheme.moduleCardRoundedAreaColor
             }
             .navigationBarTitleDisplayMode(.large)
             .navigationTitle(LocalizedStringKey("Модули"))
@@ -479,20 +476,7 @@ struct NewModulesScreen: View {
     }
     
     private mutating func configTooltip() {
-        self.tooltipConfig.enableAnimation = true
-        self.tooltipConfig.animationOffset = 10
-        self.tooltipConfig.animationTime = 1
-        self.tooltipConfig.backgroundColor = Color(asset: Asset.Colors.moduleCardRoundedAreaColor)
-        self.tooltipConfig.borderWidth = 0
-        self.tooltipConfig.zIndex = 1000
-        self.tooltipConfig.contentPaddingBottom = 12
-        self.tooltipConfig.contentPaddingTop = 12
-        self.tooltipConfig.contentPaddingLeft = 16
-        self.tooltipConfig.contentPaddingRight = 16
-        self.tooltipConfig.borderRadius = 12
-        self.tooltipConfig.shadowColor = .black.opacity(0.3)
-        self.tooltipConfig.shadowRadius = 20
-        self.tooltipConfig.shadowOffset = .init(x: 3, y: 20)
+        
     }
     
     private func translateUuidies(_ uuidies: [String]) -> [Int] {

@@ -39,7 +39,6 @@ struct ModuleScreen: View {
 	@State private var prevScrollOffsetValue = CGFloat.zero
 	@State private var createPhraseButtonOpacity = 1.0
 	@State var showActivity = false
-    @State private var tooltipConfig = MyDefaultTooltipConfig()
     
     @State var screenWidth = 0
 
@@ -104,7 +103,7 @@ struct ModuleScreen: View {
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
                                     .mytooltip(onboardingManager.currentStepIndex == 0 
                                                && viewModel.userDidntSeeLearnBtnYet(),
-                                               config: tooltipConfig,
+                                               config: nil,
                                                appearingDelayValue: 0.5) {
                                         let text = "Используйте обучающий режим, \nчтобы эффективнее запоминать фразы"
                                         let descr = "Доступен при добавлении в модуль 4 фраз"
@@ -181,7 +180,7 @@ struct ModuleScreen: View {
                                        && viewModel.userDidntSeeCreatePhrase(),
                                        side: .top,
                                        offset: 24,
-                                       config: tooltipConfig,
+                                       config: nil,
                                        appearingDelayValue: 0.5) {
                                 let text = "Добавьте свою первую фразу!"
                                 let descr = "ИИ автоматически переведет ее, \nа также покажет примеры \nиспользования в тексте."
@@ -290,22 +289,7 @@ struct ModuleScreen: View {
 								  subject: nil,
 								  message: nil)
 			}
-            .onAppear {
-                self.tooltipConfig.enableAnimation = true
-                self.tooltipConfig.animationOffset = 10
-                self.tooltipConfig.animationTime = 1
-                self.tooltipConfig.backgroundColor = Color(asset: Asset.Colors.moduleCardRoundedAreaColor)
-                self.tooltipConfig.borderWidth = 0
-                self.tooltipConfig.zIndex = 1000
-                self.tooltipConfig.contentPaddingBottom = 12
-                self.tooltipConfig.contentPaddingTop = 12
-                self.tooltipConfig.contentPaddingLeft = 16
-                self.tooltipConfig.contentPaddingRight = 16
-                self.tooltipConfig.borderRadius = 12
-                self.tooltipConfig.shadowColor = .black.opacity(0.3)
-                self.tooltipConfig.shadowRadius = 20
-                self.tooltipConfig.shadowOffset = .init(x: 3, y: 20)
-            }
+            
 	}
 	
 	init(modules: Binding<[Module]>, searchedText: Binding<String>, filteredModules: Binding<[Module]>, index: Int) {

@@ -22,29 +22,33 @@ struct MyTooltipModifier<TooltipContent: View>: ViewModifier {
 	
 	init(
 		enabled: Bool,
-		config: MyTooltipConfig,
+		config customConfig: MyTooltipConfig?,
 		@ViewBuilder content: @escaping () -> TooltipContent,
         offset: CGFloat = 8,
 		appearingDelayValue: Double = 1
 	) {
 		self.enabled = enabled
-		self.config = config
+        self.config = customConfig ?? MyDefaultTooltipConfig()
         
-        self.config.enableAnimation = true
-        self.config.animationOffset = 10
-        self.config.animationTime = 1
-        self.config.backgroundColor = Color(asset: Asset.Colors.poptipBgColor)
-        self.config.borderWidth = 0
-        self.config.zIndex = 1000
-        self.config.contentPaddingBottom = 12
-        self.config.contentPaddingTop = 12
-        self.config.contentPaddingLeft = 16
-        self.config.contentPaddingRight = 16
-        self.config.borderRadius = 18
-        self.config.shadowColor = .black.opacity(0.4)
-        self.config.shadowRadius = 20
-        self.config.shadowOffset = .init(x: 3, y: 20)
-        self.config.margin = offset
+        if let customConfig {
+            self.config = customConfig
+        } else {
+            self.config.enableAnimation = true
+            self.config.animationOffset = 10
+            self.config.animationTime = 1
+            self.config.backgroundColor = Color(asset: Asset.Colors.poptipBgColor)
+            self.config.borderWidth = 0
+            self.config.zIndex = 1000
+            self.config.contentPaddingBottom = 12
+            self.config.contentPaddingTop = 12
+            self.config.contentPaddingLeft = 16
+            self.config.contentPaddingRight = 16
+            self.config.borderRadius = 18
+            self.config.shadowColor = .black.opacity(0.4)
+            self.config.shadowRadius = 20
+            self.config.shadowOffset = .init(x: 3, y: 20)
+            self.config.margin = offset
+        }
         
 		self.content = content()
 		self.appearingDelayValue = appearingDelayValue
@@ -350,7 +354,7 @@ public extension View {
 	// Only enable and config available
 	func mytooltip<MyTooltipContent: View>(
 		_ enabled: Bool = true,
-		config: MyTooltipConfig,
+		config: MyTooltipConfig?,
 		appearingDelayValue: Double = 1,
 		@ViewBuilder content: @escaping () -> MyTooltipContent
 	) -> some View {
@@ -375,12 +379,13 @@ public extension View {
 		_ enabled: Bool = true,
 		side: MyTooltipSide,
         offset: CGFloat = 8,
-		config: MyTooltipConfig,
+		config: MyTooltipConfig?,
 		appearingDelayValue: Double = 1,
 		@ViewBuilder content: @escaping () -> MyTooltipContent
 	) -> some View {
 		var config = config
-		config.side = side
+		config?.side = side
+        config?.margin = offset
 		
         return modifier(MyTooltipModifier(enabled: enabled, config: config, content: content, offset: offset, appearingDelayValue: appearingDelayValue))
 	}

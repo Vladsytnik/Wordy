@@ -34,6 +34,60 @@ class UserDefaultsManager {
 			UserDefaults().setValue(newValue, forKey: "countOfStartingLearnMode")
 		}
 	}
+    
+    static var countOfTranslatesInModules: [String: Int] {
+        get {
+            (UserDefaults().dictionary(forKey: "countOfTranslatesInModules") as? [String: Int]) ?? [:]
+        }
+        set {
+            UserDefaults().setValue(newValue, forKey: "countOfTranslatesInModules")
+        }
+    }
+    
+    static var countOfGeneratingExamplesInModules: [String: Int] {
+        get {
+            (UserDefaults().dictionary(forKey: "countOfGeneratingExamplesInModules") as? [String: Int]) ?? [:]
+        }
+        set {
+            UserDefaults().setValue(newValue, forKey: "countOfGeneratingExamplesInModules")
+        }
+    }
+    
+    static var isNewPhraseScreenLaunched: Bool {
+        get {
+            UserDefaults().bool(forKey: "isNewPhraseScreenLaunched")
+        }
+        set {
+            UserDefaults().setValue(newValue, forKey: "isNewPhraseScreenLaunched")
+        }
+    }
+    
+    static var userAlreaySawAddExampleBtn: Bool {
+        get {
+            UserDefaults().bool(forKey: "userDidntSeeAddExampleBtn")
+        }
+        set {
+            UserDefaults().setValue(newValue, forKey: "userDidntSeeAddExampleBtn")
+        }
+    }
+    
+    static var userAlreaySawExample: Bool {
+        get {
+            UserDefaults().bool(forKey: "userAlreaySawExample")
+        }
+        set {
+            UserDefaults().setValue(newValue, forKey: "userAlreaySawExample")
+        }
+    }
+    
+    static var userAlreaySawTranslate: Bool {
+        get {
+            UserDefaults().bool(forKey: "userAlreaySawTranslate")
+        }
+        set {
+            UserDefaults().setValue(newValue, forKey: "userAlreaySawTranslate")
+        }
+    }
 	
 	static var langCodeForLearn: String? {
 		get {

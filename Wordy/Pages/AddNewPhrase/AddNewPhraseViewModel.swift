@@ -41,9 +41,18 @@ class AddNewPhraseViewModel: ObservableObject {
     @Published var examples: [String] = []
     @Published var exampleIndex = 0
     @Published var isShowCreatedExample = false
+    
+    @Published var onboardingManager = OnboardingManager(screen: .createNewPhraseScreen, countOfSteps: 3)
+    @Published var tooltipConfig = MyDefaultTooltipConfig()
+    
+    @Published var onboardingIndex = 0
+    
+    let countOfFreeApiUsing = 20
 	
 	private var cancellable = Set<AnyCancellable>()
 	private var networkTask: Task<(), Never>?
+    
+    private var isFirstLaunch = false
 	
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
 	
@@ -54,6 +63,8 @@ class AddNewPhraseViewModel: ObservableObject {
 	@Published var closeKeyboards = false
 	
 	init() {
+        getTooltipConfig()
+        
 		$servicedNativeText
 			.removeDuplicates()
             .debounce(for: 1, scheduler: DispatchQueue.main)
@@ -87,6 +98,28 @@ class AddNewPhraseViewModel: ObservableObject {
         #else
           // your real device code
         #endif
+        
+        if !UserDefaultsManager.isNewPhraseScreenLaunched {
+            isFirstLaunch = true
+//            wasTappedAddExample = true
+        }
+        
+        self.tooltipConfig.enableAnimation = true
+        self.tooltipConfig.animationOffset = 10
+        self.tooltipConfig.animationTime = 2
+        self.tooltipConfig.backgroundColor = Color(asset: Asset.Colors.poptipBgColor)
+        self.tooltipConfig.borderWidth = 0
+        self.tooltipConfig.zIndex = 1000
+        self.tooltipConfig.contentPaddingBottom = 12
+        self.tooltipConfig.contentPaddingTop = 12
+        self.tooltipConfig.contentPaddingLeft = 16
+        self.tooltipConfig.contentPaddingRight = 16
+        self.tooltipConfig.borderRadius = 18
+        self.tooltipConfig.shadowColor = .black.opacity(0.4)
+        self.tooltipConfig.shadowRadius = 20
+        self.tooltipConfig.shadowOffset = .init(x: 3, y: 20)
+        self.tooltipConfig.enableAnimation = true
+        self.tooltipConfig.margin = 0
 	}
     
     convenience init(modules: Binding<[Module]>,  searchedText: Binding<String>, filteredModules: Binding<[Module]>, index: Int) {
@@ -96,6 +129,22 @@ class AddNewPhraseViewModel: ObservableObject {
         self.searchedText = searchedText.wrappedValue
     }
     
+    func zIndex() -> Double {
+        switch onboardingManager.currentStepIndex {
+        case 0:
+            return 200
+        default:
+            return 200
+        }
+    }
+    
+    func getTooltipConfig() {
+        onboardingManager.$currentStepIndex.sink { [weak self] val in
+            self?.onboardingIndex = val
+        }
+        .store(in: &cancellable)
+    }
+    
     func createExamples() {
         print("createExamples: method entry")
         Task { @MainActor in
@@ -103,6 +152,7 @@ class AddNewPhraseViewModel: ObservableObject {
                 if servicedNativeText.count > 1 {
                     print("createExamples: before request")
                     let examples = try await NetworkManager.createExamples(with: servicedNativeText)
+                    updateGeneratingExamplesCount()
                     if examples.count > 0 {
                         self.examples = examples
                         isShowCreatedExample = true
@@ -130,6 +180,7 @@ class AddNewPhraseViewModel: ObservableObject {
 		networkTask = Task { @MainActor in
 			do {
 				automaticTranslatedText = try await NetworkManager.translate(from: text)
+                updateTranslatedCount()
                 if wasTappedAddExample {
                     self.createExamples()
                 }
@@ -138,6 +189,27 @@ class AddNewPhraseViewModel: ObservableObject {
 			}
 		}
 	}
+    
+    func userDidntSeeAddExampleBtn() -> Bool {
+        return !UserDefaultsManager.userAlreaySawAddExampleBtn
+    }
+    
+    private func updateTranslatedCount() {
+        if let count = UserDefaultsManager.countOfTranslatesInModules[self.module.id] {
+            UserDefaultsManager.countOfTranslatesInModules[self.module.id] = count + 1
+        } else {
+            UserDefaultsManager.countOfTranslatesInModules[self.module.id] = 1
+        }
+//        print("Translate test count: for module \(self.module.id) \(UserDefaultsManager.countOfTranslatesInModules[self.module.id])")
+    }
+    
+    private func updateGeneratingExamplesCount() {
+        if let count = UserDefaultsManager.countOfGeneratingExamplesInModules[self.module.id] {
+            UserDefaultsManager.countOfGeneratingExamplesInModules[self.module.id] = count + 1
+        } else {
+            UserDefaultsManager.countOfGeneratingExamplesInModules[self.module.id] = 1
+        }
+    }
 	
 	func userDidWriteNativeText(_ text: String) {
 		servicedNativeText = text

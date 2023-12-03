@@ -15,6 +15,7 @@ struct OnboardingStep {
 enum ScreenType {
 	case modules
     case moduleScreen
+    case createNewPhraseScreen
 }
 
 struct Holder { static var called = false }
@@ -50,10 +51,12 @@ class OnboardingManager: ObservableObject {
             }
         case .moduleScreen:
             break;
+        case .createNewPhraseScreen:
+            break;
         }
 		
 		currentStepIndex += 1
-		if currentStepIndex == countOfSteps {
+		if currentStepIndex >= countOfSteps {
 			onboardingHasFinished = true
 			DispatchQueue.main.asyncAfter(deadline: .now() + animationDuration) {
 				self.finish()
@@ -76,6 +79,8 @@ class OnboardingManager: ObservableObject {
             UserDefaultsManager.isNotFirstLaunchOfModulesPage = true
         case .moduleScreen:
             break
+        case .createNewPhraseScreen:
+            break;
         }
         
 		isShow = false

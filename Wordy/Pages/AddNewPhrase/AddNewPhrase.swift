@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import SwiftUITooltip
 
 struct AddNewPhrase: View {
 	
@@ -24,6 +25,8 @@ struct AddNewPhrase: View {
 	@Environment(\.dismiss) private var dismiss
     @StateObject var viewModel = AddNewPhraseViewModel()
 	@EnvironmentObject var themeManager: ThemeManager
+    
+   
 	
 	var body: some View {
 		ZStack {
@@ -91,9 +94,31 @@ struct AddNewPhrase: View {
                                         }
 									}
 									.onTapGesture {
+                                        viewModel.onboardingManager.goToNextStep()
 										translatedText = viewModel.automaticTranslatedText
 										viewModel.showAutomaticTranslatedView = false
 									}
+                                    .mytooltip(viewModel.onboardingIndex == 0
+                                               && !UserDefaultsManager.userAlreaySawTranslate
+                                               ,
+                                               side: .bottomRight,
+                                               offset: 0,
+                                               config: viewModel.tooltipConfig,
+                                               appearingDelayValue: 0.5) {
+                                        let text = "Нажмите, чтобы применить"
+                                        let descr = "Без подписки доступно \n\(viewModel.countOfFreeApiUsing) переводов"
+                                        TooltipView(text: text,
+                                                    stepNumber: 0,
+                                                    allStepCount: 0,
+                                                    withoutSteps: true,
+                                                    description: descr,
+                                                    onDisappear: {
+                                            UserDefaultsManager.userAlreaySawTranslate = true
+                                        }) {
+                                            viewModel.onboardingManager.goToNextStep()
+                                        }
+                                    }
+                                
 								
 								Button {
 									viewModel.showAutomaticTranslatedView = false
@@ -106,6 +131,7 @@ struct AddNewPhrase: View {
 							Spacer()
 						}
 						.padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+                        .zIndex(200)
 						
 					}
 					
@@ -142,6 +168,7 @@ struct AddNewPhrase: View {
                                             }
                                         }
                                         .onTapGesture {
+                                            viewModel.onboardingManager.goToNextStep()
                                             exampleText = viewModel.examples[viewModel.exampleIndex]
                                             viewModel.isShowCreatedExample = false
                                         }
@@ -172,7 +199,30 @@ struct AddNewPhrase: View {
                                 }
                                 Spacer()
                             }
-//                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+                            .mytooltip((viewModel.onboardingIndex == 1
+                                        || viewModel.onboardingIndex == 2)
+                                       && !UserDefaultsManager.userAlreaySawExample
+                                       ,
+                                       side: .top,
+                                       offset: 0,
+                                       config: viewModel.tooltipConfig,
+                                       appearingDelayValue: 0.5) {
+                                let text = "Нажмите, чтобы применить"
+                                let descr = "Без подписки доступно \n\(viewModel.countOfFreeApiUsing) генераций примеров"
+                                TooltipView(text: text,
+                                            stepNumber: 0,
+                                            allStepCount: 0,
+                                            withoutSteps: true,
+                                            description: descr,
+                                            onDisappear: {
+                                    UserDefaultsManager.userAlreaySawExample = true
+                                    UserDefaultsManager.userAlreaySawAddExampleBtn = true
+                                }) {
+                                    UserDefaultsManager.userAlreaySawExample = true
+                                    viewModel.onboardingManager.goToNextStep()
+                                }
+                            }
+                                       .zIndex(viewModel.onboardingManager.currentStepIndex == 1 || viewModel.onboardingManager.currentStepIndex == 2 ? 300 : 100)
                         }
 					} else {
 						HStack {
@@ -186,6 +236,7 @@ struct AddNewPhrase: View {
 									.foregroundColor(themeManager.currentTheme.mainText)
 									.font(.system(size: 14, weight: .regular))
 							}
+                            .zIndex(100)
 							.background {
 								VStack {
 									Spacer()
@@ -196,10 +247,33 @@ struct AddNewPhrase: View {
 								.offset(y: 6)
 							}
 							.padding(EdgeInsets(top: 0, leading: 0, bottom: viewModel.showAutomaticTranslatedView ? 0 : 30, trailing: 0))
+                            .mytooltip(viewModel.onboardingIndex == 1
+                                       && !UserDefaultsManager.userAlreaySawAddExampleBtn
+                                       ,
+                                       side: .bottomRight,
+                                       offset: 0,
+                                       config: viewModel.tooltipConfig,
+                                       appearingDelayValue: 0.5) {
+                                let text = "Добавьте пример \nиспользования новой фразы"
+                                let descr = "ИИ автоматически сгенерирует контекст и предложит несколько вариантов на выбор"
+                                TooltipView(text: text,
+                                            stepNumber: 0,
+                                            allStepCount: 0,
+                                            withoutSteps: true,
+                                            description: nil,
+                                            onDisappear: {
+                                    UserDefaultsManager.isUserSawCreateNewPhrase = true
+                                }) {
+                                    viewModel.onboardingManager.goToNextStep()
+                                }
+                            }
+
+                            
 							Spacer()
 						}
 						.opacity(0.9)
-					}
+                        .zIndex(viewModel.onboardingManager.currentStepIndex == 0 ? 100 : 300)
+                    }
 					
 					Rectangle()
 						.foregroundColor(.clear)
@@ -211,7 +285,10 @@ struct AddNewPhrase: View {
 							.offset(y: -30)
 							.transition(.scale)
 					} else {
-						Button { addPhraseToModule() } label: {
+                        Button {
+                            viewModel.onboardingManager.goToNextStep()
+                            addPhraseToModule()
+                        } label: {
 							HStack {
 								Image(uiImage: UIImage(systemName: "checkmark") ?? UIImage())
 									.renderingMode(.template)
@@ -221,6 +298,7 @@ struct AddNewPhrase: View {
 									.font(.system(size: 20, weight: .medium))
 							}
 						}
+                        .zIndex(100)
 						.transition(.scale)
 					}
 					Spacer()
@@ -275,6 +353,10 @@ struct AddNewPhrase: View {
             viewModel.nativePhrase = nativeText
             viewModel.translatedPhrase = translatedText
             viewModel.examplePhrase = exampleText
+            
+//            UserDefaultsManager.userAlreaySawExample = false
+//            UserDefaultsManager.userAlreaySawTranslate = false
+//            UserDefaultsManager.userAlreaySawAddExampleBtn = false
         }
 		.onChange(of: viewModel.nativePhrase) { newValue in
 			self.nativeText = newValue
