@@ -41,6 +41,10 @@ struct ModuleScreen: View {
 	@State var showActivity = false
     
     @State var screenWidth = 0
+    
+    @State private var showChangeModuleDataScreen = false
+    @State private var emoji = ""
+    @State private var moduleName = ""
 
     lazy var currentThemeName: String?  = {
         UserDefaultsManager.themeName
@@ -71,14 +75,20 @@ struct ModuleScreen: View {
 						ScrollView {
 							VStack {
 								Header(viewModel: viewModel, 
+                                       showChangeModuleDataScreen: $showChangeModuleDataScreen,
                                        showAlert: $showInfoAlert,
+                                       moduleName: $moduleName,
                                        module: viewModel.module,
                                        withoutBackButton: true)
 								//								Color.clear
 								//									.frame(height: 30)
-								Text(viewModel.module.emoji)
+								Text(emoji)
 									.font(.system(size: 28))
+                                    .onTapGesture {
+                                        showChangeModuleDataScreen.toggle()
+                                    }
 								//									.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 24))
+                                
 								if viewModel.module.phrases.count > 0 {
 									AddWordPlusButton {
 										didTapShareModule()
@@ -102,7 +112,8 @@ struct ModuleScreen: View {
 									.frame(height: 45)
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
                                     .mytooltip(onboardingManager.currentStepIndex == 0 
-                                               && viewModel.userDidntSeeLearnBtnYet(),
+                                               && viewModel.userDidntSeeLearnBtnYet()
+                                               && viewModel.phrases.count >= 4,
                                                config: nil,
                                                appearingDelayValue: 0.5) {
                                         let text = "Используйте обучающий режим, \nчтобы эффективнее запоминать фразы"
@@ -125,8 +136,8 @@ struct ModuleScreen: View {
 								
 								ForEach(0..<viewModel.phraseCount, id: \.self) { i in
 									Button {
-										viewModel.didTapWord(with: i)
-                                        onboardingManager.goToNextStep()
+//										viewModel.didTapWord(with: i)
+//                                        onboardingManager.goToNextStep()
 									} label: {
 										WordCard(
 											width: geo.size.width - 60,
@@ -143,6 +154,14 @@ struct ModuleScreen: View {
 											}, onSpeachTap: { index in
 												viewModel.didTapSpeach(index: index)
 											} )
+                                        .onTapGesture {
+                                            viewModel.didTapWord(with: i)
+                                            onboardingManager.goToNextStep()
+                                        }
+                                        .onLongPressGesture {
+                                            currentEditPhraseIndex = i
+                                            showEditAlert.toggle()
+                                        }
 									}
 									.padding(EdgeInsets(top: 0, leading: 16, bottom: 8, trailing: 16))
 								}
@@ -155,6 +174,10 @@ struct ModuleScreen: View {
 								Rectangle()
 									.frame(height: 55)
 									.foregroundColor(.clear)
+                                
+                                if viewModel.module.phrases.count == 0 {
+                                    EmptyBGView()
+                                }
 							}
 						}
 						.frame(width: geo.size.width, height: geo.size.height)
@@ -201,9 +224,31 @@ struct ModuleScreen: View {
 						}
 						.ignoresSafeArea(.keyboard)
 						
-						if viewModel.module.phrases.count == 0 {
-							EmptyBGView()
-						}
+                        
+//                        if showEmojiView {
+////                            EmojiView(show: $showEmojiView, txt: $emoji)
+//                            ZStack {
+//                                EmojiPopoverView(showEmojiView: $showEmojiView, emoji: $emoji)
+//                                VStack(alignment: .trailing) {
+//                                    Spacer()
+//                                    Button {
+//                                        showEmojiView.toggle()
+//                                    } label: {
+//                                        Text("Готово")
+//                                            .bold()
+//                                            .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
+//                                            .foregroundColor(themeManager.currentTheme.mainText)
+//                                            .background {
+//                                                RoundedRectangle(cornerRadius: 15)
+//                                                    .foregroundColor(themeManager.currentTheme.accent)
+//                                            }
+//                                            .opacity(0.95)
+//                                    }
+//                                }
+//                                .padding()
+//                                .offset(y: -64)
+//                            }
+//                        }
 					}
                     .showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Отменить", titleForAction: "Удалить") {
                         viewModel.nowReallyNeedToDeleteModule()
@@ -289,6 +334,31 @@ struct ModuleScreen: View {
 								  subject: nil,
 								  message: nil)
 			}
+            .onAppear {
+                self.emoji = viewModel.module.emoji
+                self.moduleName = viewModel.module.name
+            }
+            .navigationBarItems(
+                trailing:
+                    Button(action: {
+                        showChangeModuleDataScreen.toggle()
+                    }) {
+                        Image(systemName: "slider.horizontal.3")
+                            .foregroundColor(themeManager.currentTheme.mainText)
+                    }
+            )
+            .sheet(isPresented: $showChangeModuleDataScreen) {
+                if #available(iOS 16.0, *) {
+                    ChangeModulePage(module:viewModel.module,
+                                     moduleName: $moduleName,
+                                     emoji: $emoji)
+                    .presentationDetents([.medium])
+                } else {
+                    ChangeModulePage(module:viewModel.module,
+                                     moduleName: $moduleName,
+                                     emoji: $emoji)
+                }
+            }
             
 	}
 	
@@ -361,7 +431,9 @@ struct Header: View {
 	@ObservedObject var viewModel: ModuleScreenViewModel
 	@Environment(\.dismiss) var dismiss
 	
+    @Binding var showChangeModuleDataScreen: Bool
 	@Binding var showAlert: Bool
+    @Binding var moduleName: String
 	let module: Module
     var withoutBackButton = false
 	
@@ -384,10 +456,13 @@ struct Header: View {
 					BackButton { dismiss() }
 						.opacity(0)
 					Spacer()
-					Text(viewModel.module.name)
+					Text(moduleName)
 						.foregroundColor(themeManager.currentTheme.mainText)
 						.font(.system(size: 36, weight: .bold))
 						.multilineTextAlignment(.center)
+                        .onTapGesture {
+                            showChangeModuleDataScreen.toggle()
+                        }
 					//						.lineLimit(1)
 					//					VStack {
 					//						Spacer()

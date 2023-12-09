@@ -148,6 +148,11 @@ class LearnSelectionPageViewModel: ObservableObject {
 		let tempArray = module.phrases.filter{
 			$0.getAnswer(answerType: answersLanguageType) != currentCorrectAnswer.getAnswer(answerType: answersLanguageType)
 		}
+        
+        guard tempArray.count >= 4 else {
+            return
+        }
+        
 		let answersWithoutCorrect = [
 			tempArray[0],
 			tempArray[1],

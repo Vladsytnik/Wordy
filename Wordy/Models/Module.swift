@@ -15,6 +15,7 @@ struct Module: Equatable, Codable {
 	var date: Date?
 	
 	var phrases: [Phrase] = []
+    var isSharedByTeacher = false
 }
 
 extension Module {

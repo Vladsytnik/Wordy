@@ -142,6 +142,7 @@
 		01F708BB29B6573F00585B2E /* NewCategoryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F708BA29B6573F00585B2E /* NewCategoryCard.swift */; };
 		01FB3A8029505E5100330DDE /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FB3A7F29505E5100330DDE /* SearchTextField.swift */; };
 		54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */; };
+		CE1A63712B1E150F0090850B /* ChangeModulePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1A63702B1E150F0090850B /* ChangeModulePage.swift */; };
 		CE272E1E2B067A6400B2B1E8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE272E1D2B067A6400B2B1E8 /* Notification.swift */; };
 		CE41A7FD2AE3D03C002E9E4A /* TimeIntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41A7FC2AE3D03C002E9E4A /* TimeIntervalView.swift */; };
 		CE41A7FF2AE3D058002E9E4A /* TimeIntervalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */; };
@@ -285,6 +286,7 @@
 		01F57695294A4F2E00F52EB1 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		01F708BA29B6573F00585B2E /* NewCategoryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryCard.swift; sourceTree = "<group>"; };
 		01FB3A7F29505E5100330DDE /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
+		CE1A63702B1E150F0090850B /* ChangeModulePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeModulePage.swift; sourceTree = "<group>"; };
 		CE272E1D2B067A6400B2B1E8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		CE41A7FC2AE3D03C002E9E4A /* TimeIntervalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalView.swift; sourceTree = "<group>"; };
 		CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalViewModel.swift; sourceTree = "<group>"; };
@@ -633,6 +635,7 @@
 				017A6F722969CEF0001C1855 /* AddNewPhrase */,
 				016817FD2969B06E00F30E39 /* Alert */,
 				015713952964604A0022E1FA /* ModuleScreen */,
+				CE1A636F2B1E14E00090850B /* ChangeModulePage */,
 				019056472944A8490058B566 /* Modules */,
 				01B92B33294F604B00F440EE /* Settings */,
 				011B138A29FBB7F200D4CCBF /* GroupsEditingPage */,
@@ -807,6 +810,14 @@
 				DF01A188026EA0C8921A4D0E /* Pods-Wordy.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		CE1A636F2B1E14E00090850B /* ChangeModulePage */ = {
+			isa = PBXGroup;
+			children = (
+				CE1A63702B1E150F0090850B /* ChangeModulePage.swift */,
+			);
+			path = ChangeModulePage;
 			sourceTree = "<group>";
 		};
 		CE41A7FB2AE3D025002E9E4A /* TimeIntervalView */ = {
@@ -1127,6 +1138,7 @@
 				0101B8B22AA0D54C0055DEFB /* MyArrowShape.swift in Sources */,
 				016817FF2969B0B400F30E39 /* Alert.swift in Sources */,
 				011B13912A001DB300D4CCBF /* SignInWithAppleDelegates.swift in Sources */,
+				CE1A63712B1E150F0090850B /* ChangeModulePage.swift in Sources */,
 				019160BC29D098DD0094F36D /* ModuleSelectPage.swift in Sources */,
 				CE92994F2B0FAF9B00E24C7E /* NetworkConnectionManager.swift in Sources */,
 				01F708BB29B6573F00585B2E /* NewCategoryCard.swift in Sources */,

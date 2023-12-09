@@ -83,6 +83,7 @@ struct NewModulesScreen: View {
     @State var selectedIndexes: [Int] = []
     @State var isEditMode = false
     @State var paywallIsOpened = false
+    @State var navigationIsActive = false
     
     private var generator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .light)
     private var generator2: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
@@ -250,6 +251,11 @@ struct NewModulesScreen: View {
                                                 )
                                             })
                                         .disabled(onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+//                                        .onLongPressGesture(minimumDuration: 2) {
+//                                            generator2?.impactOccurred()
+//                                        }
+//                                        .onTapGesture { navigationIsActive.toggle() }
+//                                        .modifier(CategoryLongTapModifier())
                                     }
                                     .listRowBackground(Color.green)
                                     .listStyle(.plain)

@@ -73,6 +73,26 @@ class NetworkManager {
         }
     }
     
+    static func updateModuleWith(id: String, emoji: String, name: String) async throws -> Bool {
+        guard let currentUserID = currentUserID else {
+            print("error in updateNotificationsInfo -> currentUserID")
+            return false
+        }
+        
+        if NetworkConnectionManager.shared.isConnectedToNetwork() {
+            print("Internet connection test: интернет есть")
+        } else {
+            print("Internet connection test: интернета нет")
+            networkDelegate?.networkError(.turnedOff("\nУпс, отсутствует подключение к интернету..."))
+            return false
+        }
+        
+        let _ = try await ref.child("users").child(currentUserID).child("modules").child(id).child("emoji").setValue(emoji)
+        let _ = try await ref.child("users").child(currentUserID).child("modules").child(id).child("name").setValue(name)
+    
+        return true
+    }
+    
     static func updateNotificationsInfo(notification: Notification) async throws {
         guard let currentUserID = currentUserID else {
             print("error in updateNotificationsInfo -> currentUserID")

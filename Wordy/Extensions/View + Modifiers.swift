@@ -238,6 +238,7 @@ struct CategoryLongTapModifier: ViewModifier {
 					withAnimation(.easeInOut(duration: 0.5)) {
 						scaleEffect = 0.95
 					}
+                    
 				} else {
 					scaleEffect = 1
 				}
