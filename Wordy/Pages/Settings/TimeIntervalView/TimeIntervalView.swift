@@ -46,7 +46,7 @@ struct TimeIntervalView: View {
                     HStack(spacing: 25) {
                         VStack(alignment: .leading, spacing: 8) {
                             Label(
-                                title: { Text("From") },
+                                title: { Text("From".localize()) },
                                 icon: { Image(systemName: "bell.fill") }
                             )
                             .font(.callout)
@@ -58,7 +58,7 @@ struct TimeIntervalView: View {
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Label(
-                                title: {  Text("To") },
+                                title: {  Text("To".localize()) },
                                 icon: { Image(systemName: "bell.slash.fill") }
                             )
                             .font(.callout)
@@ -133,7 +133,7 @@ struct TimeIntervalView: View {
                             Divider()
                             HStack {
                                 HStack(spacing: spaceBetweenButtons) {
-                                    Text("Count per day:  ")
+                                    Text("Count per day:  ".localize())
                                         .foregroundColor(themeManager.currentTheme.mainText)
                                     Text("\(viewModel.countOfNotifications)")
                                         .offset(x: !viewModel.notificationCountIsWrong ? 0 : 3)
@@ -197,7 +197,7 @@ struct TimeIntervalView: View {
                         
                         HStack {
                             HStack(spacing: spaceBetweenButtons) {
-                                Text("Modules: ")
+                                Text("Modules: ".localize())
                                 Text("\(viewModel.selectedModulesCount)")
                                     .font(.title3)
                             }
@@ -210,7 +210,7 @@ struct TimeIntervalView: View {
                                 Button {
                                     viewModel.isNeedToOpenModulesSelectPage = true
                                 } label: {
-                                    Text("SELECT")
+                                    Text("SELECT".localize())
                                         .foregroundColor(themeManager.currentTheme.mainText)
                                         .padding(.horizontal)
                                 }
@@ -247,7 +247,7 @@ struct TimeIntervalView: View {
                         HStack(spacing: 25) {
                             VStack(alignment: .leading, spacing: 8) {
                                 Label(
-                                    title: { Text("From") },
+                                    title: { Text("From".localize()) },
                                     icon: { Image(systemName: "bell.fill") }
                                 )
                                 .font(.callout)
@@ -259,7 +259,7 @@ struct TimeIntervalView: View {
                             
                             VStack(alignment: .leading, spacing: 8) {
                                 Label(
-                                    title: {  Text("To") },
+                                    title: {  Text("To".localize()) },
                                     icon: { Image(systemName: "bell.slash.fill") }
                                 )
                                 .font(.callout)
@@ -334,7 +334,7 @@ struct TimeIntervalView: View {
                                 Divider()
                                 HStack {
                                     HStack(spacing: spaceBetweenButtons) {
-                                        Text("Count per day:  ")
+                                        Text("Count per day:  ".localize())
                                             .foregroundColor(themeManager.currentTheme.mainText)
                                         Text("\(viewModel.countOfNotifications)")
                                             .offset(x: !viewModel.notificationCountIsWrong ? 0 : 3)
@@ -398,7 +398,7 @@ struct TimeIntervalView: View {
                             
                             HStack {
                                 HStack(spacing: spaceBetweenButtons) {
-                                    Text("Modules: ")
+                                    Text("Modules: ".localize())
                                     Text("\(viewModel.selectedModulesCount)")
                                         .font(.title3)
                                 }
@@ -411,7 +411,7 @@ struct TimeIntervalView: View {
                                     Button {
                                         viewModel.isNeedToOpenModulesSelectPage = true
                                     } label: {
-                                        Text("SELECT")
+                                        Text("SELECT".localize())
                                             .foregroundColor(themeManager.currentTheme.mainText)
                                             .padding(.horizontal)
                                     }
@@ -471,7 +471,7 @@ struct TimeIntervalView: View {
                 Button(action: {
                     viewModel.save()
                 }) {
-                    Text("Save")
+                    Text("Save".localize())
                         .foregroundColor(themeManager.currentTheme.mainText)
                         .underline()
                         .bold()
@@ -620,7 +620,7 @@ struct TimeIntervalView: View {
                                 Button {
                                     viewModel.reset()
                                 } label: {
-                                    Text("Reset")
+                                    Text("Reset".localize())
                                         .foregroundColor(themeManager.currentTheme.mainText)
                                 }
                             }

@@ -25,7 +25,7 @@ extension StartViewModel: NetworkDelegate {
         DispatchQueue.main.async {
             switch error {
             case .turnedOff:
-                self.alertText = "\nУпс, кажется, нет подключения к интернету"
+                self.alertText = "\nУпс, кажется, нет подключения к интернету".localize()
                 withAnimation {
                     self.showAlert.toggle()
                 }

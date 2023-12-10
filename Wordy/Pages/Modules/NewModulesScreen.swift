@@ -205,7 +205,7 @@ struct NewModulesScreen: View {
                                            config: nil,
                                            appearingDelayValue: 0.5)
                                 {
-                                    let text = "Удерживайте, чтобы добавить \nили удалить модуль из группы"
+                                    let text = "Удерживайте, чтобы добавить \nили удалить модуль из группы".localize()
                                     TooltipView(
                                         text: text,
                                         stepNumber: onboardingManager.currentStepIndex,
@@ -220,7 +220,7 @@ struct NewModulesScreen: View {
                                            config: nil,
                                            appearingDelayValue: 0.5)
                                 {
-                                    let text = "Нажмите, чтобы увидеть \nмодули из этой группы"
+                                    let text = "Нажмите, чтобы увидеть \nмодули из этой группы".localize()
                                     TooltipView(
                                         text: text,
                                         stepNumber: onboardingManager.currentStepIndex,
@@ -293,7 +293,7 @@ struct NewModulesScreen: View {
                                 Button {
                                     onboardingManager.finish()
                                 } label: {
-                                    Text("Пропустить обучение")
+                                    Text("Пропустить обучение".localize())
                                         .bold()
                                 }
                                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 32, trailing: 0))
@@ -318,7 +318,7 @@ struct NewModulesScreen: View {
                                            config: nil,
                                            appearingDelayValue: 0.5)
                                 {
-                                    let text = "Нажмите, чтобы создать \nновый модуль"
+                                    let text = "Нажмите, чтобы создать \nновый модуль".localize()
                                     TooltipView(
                                         text: text,
                                         stepNumber: onboardingManager.currentStepIndex,
@@ -365,7 +365,7 @@ struct NewModulesScreen: View {
                             UIApplication.shared.endEditing()
                         }
                 )
-//                .navigationTitle(LocalizedStringKey("Модули"))
+//                .navigationTitle("Модули".localize())
                 .onAppear{ router.showActivityView = false }
 //            }
 //                .preferredColorScheme(ColorScheme.init(.dark))
@@ -455,7 +455,7 @@ struct NewModulesScreen: View {
             .onAppear {
             }
             .navigationBarTitleDisplayMode(.large)
-            .navigationTitle(LocalizedStringKey("Модули"))
+            .navigationTitle("Модули".localize())
             .preferredColorScheme(themeManager.currentTheme.isDark ? (themeManager.currentTheme.id != "MainColor" ? .dark : nil) : .light)
     }
     
@@ -555,7 +555,7 @@ struct NewModulesScreen: View {
         withAnimation {
             showAlert.toggle()
         }
-        alert.title = "Упс! Произошла ошибка"
+        alert.title = "Упс! Произошла ошибка".localize()
         alert.description = errorText
     }
     

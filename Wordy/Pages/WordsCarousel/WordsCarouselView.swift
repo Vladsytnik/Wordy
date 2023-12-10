@@ -129,8 +129,8 @@ struct WordsCarouselView: View {
             }
 		} else {
 			let wordsCountDifference = 4 - viewModel.thisModule.phrases.count
-			viewModel.alert.title = "Для изучения слов необходимо минимум 4 фразы"
-			viewModel.alert.description = "\nОсталось добавить еще \(viewModel.getCorrectWord(value: wordsCountDifference))!"
+            viewModel.alert.title = "Для изучения слов необходимо минимум 4 фразы".localize()
+            viewModel.alert.description = "\nОсталось добавить еще".localize() + " \(viewModel.getCorrectWord(value: wordsCountDifference))!"
 			withAnimation {
 				self.viewModel.showAlert = true
 			}
@@ -166,7 +166,7 @@ struct CarouselCard: View {
 			Button {
 				onDeletedTap()
             } label: {
-                Text(LocalizedStringKey("УДАЛИТЬ"))
+                Text("УДАЛИТЬ".localize())
                     .font(.system(size: 16, weight: .bold))
                     .foregroundColor(themeManager.currentTheme.mainText)
             }
@@ -246,7 +246,7 @@ fileprivate struct MainText: View {
 					.minimumScaleFactor(0.5)
 			}
 			if phrase.example == nil {
-				Text("Here can be your example")
+                Text("Here can be your example".localize())
 					.foregroundColor(themeManager.currentTheme.mainText)
 					.font(.system(size: 18))
 					.multilineTextAlignment(.center)

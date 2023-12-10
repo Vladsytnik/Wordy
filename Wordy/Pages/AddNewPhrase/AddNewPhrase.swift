@@ -44,7 +44,7 @@ struct AddNewPhrase: View {
 						Button {
 							dismiss()
 						} label: {
-							Text(LocalizedStringKey("Отменить"))
+							Text("Отменить".localize())
 								.foregroundColor(themeManager.currentTheme.mainText)
 								.font(.system(size: 20, weight: .medium))
 						}
@@ -105,8 +105,8 @@ struct AddNewPhrase: View {
                                                offset: 0,
                                                config: viewModel.tooltipConfig,
                                                appearingDelayValue: 0.5) {
-                                        let text = "Нажмите, чтобы применить"
-                                        let descr = "Без подписки доступно \n\(viewModel.countOfFreeApiUsing) переводов"
+                                        let text = "Нажмите, чтобы применить".localize()
+                                        let descr = "Без подписки доступно \n\(viewModel.countOfFreeApiUsing) переводов".localize()
                                         TooltipView(text: text,
                                                     stepNumber: 0,
                                                     allStepCount: 0,
@@ -207,8 +207,8 @@ struct AddNewPhrase: View {
                                        offset: 0,
                                        config: viewModel.tooltipConfig,
                                        appearingDelayValue: 0.5) {
-                                let text = "Нажмите, чтобы применить"
-                                let descr = "Без подписки доступно \n\(viewModel.countOfFreeApiUsing) генераций примеров"
+                                let text = "Нажмите, чтобы применить".localize()
+                                let descr = "Без подписки доступно".localize() + " \n\(viewModel.countOfFreeApiUsing) " + "генераций примеров".localize()
                                 TooltipView(text: text,
                                             stepNumber: 0,
                                             allStepCount: 0,
@@ -232,7 +232,7 @@ struct AddNewPhrase: View {
 									viewModel.didTapTextField(index: 2)
 								}
 							} label: {
-								Text(LocalizedStringKey("Добавить пример"))
+								Text("Добавить пример".localize())
 									.foregroundColor(themeManager.currentTheme.mainText)
 									.font(.system(size: 14, weight: .regular))
 							}
@@ -254,8 +254,8 @@ struct AddNewPhrase: View {
                                        offset: 0,
                                        config: viewModel.tooltipConfig,
                                        appearingDelayValue: 0.5) {
-                                let text = "Добавьте пример \nиспользования новой фразы"
-                                let descr = "ИИ автоматически сгенерирует контекст и предложит несколько вариантов на выбор"
+                                let text = "Добавьте пример \nиспользования новой фразы".localize()
+                                let descr = "ИИ автоматически сгенерирует контекст и предложит несколько вариантов на выбор".localize()
                                 TooltipView(text: text,
                                             stepNumber: 0,
                                             allStepCount: 0,
@@ -293,7 +293,7 @@ struct AddNewPhrase: View {
 								Image(uiImage: UIImage(systemName: "checkmark") ?? UIImage())
 									.renderingMode(.template)
 									.foregroundColor(themeManager.currentTheme.mainText)
-								Text(LocalizedStringKey("Добавить"))
+								Text("Добавить".localize())
 									.foregroundColor(themeManager.currentTheme.mainText)
 									.font(.system(size: 20, weight: .medium))
 							}

@@ -243,7 +243,7 @@ struct Modules: View {
 								Button {
 									onboardingManager.finish()
 								} label: {
-									Text("Пропустить обучение")
+                                    Text("Пропустить обучение".localize())
 										.bold()
 								}
 								.padding(EdgeInsets(top: 0, leading: 0, bottom: 32, trailing: 0))
@@ -303,7 +303,7 @@ struct Modules: View {
 							UIApplication.shared.endEditing()
 						}
 				)
-				.navigationTitle(LocalizedStringKey("Модули"))
+				.navigationTitle("Модули".localize())
 				.onAppear{ router.showActivityView = false }
 //			}
 //			.preferredColorScheme(ColorScheme.init(.dark))
@@ -480,7 +480,7 @@ struct Modules: View {
 		withAnimation {
 			showAlert.toggle()
 		}
-		alert.title = "Упс! Произошла ошибка"
+        alert.title = "Упс! Произошла ошибка".localize()
 		alert.description = errorText
 	}
 	

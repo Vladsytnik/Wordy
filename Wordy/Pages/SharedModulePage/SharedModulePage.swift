@@ -43,7 +43,7 @@ struct SharedModulePage: View {
                         VStack(spacing: geo.size.height < 812 ? 8 : 40) {
 //							VStack(alignment: .leading) {
 							if (isNeedToShowTitle) {
-								Text(LocalizedStringKey("Вам прислали \nновый модуль 👇"))
+								Text("Вам прислали \nновый модуль 👇".localize())
 									.foregroundColor(themeManager.currentTheme.mainText)
 									.font(.system(size: 38, weight: .bold))
 									.padding(EdgeInsets(top: 52, leading: 0, bottom: 0, trailing: 0))
@@ -52,7 +52,7 @@ struct SharedModulePage: View {
 //												 : 0)
 //									.opacity(screenFullHeight / geo.size.height)
 								//								.offset(y: needAnimate ? 0 : 100)
-								//								Text(LocalizedStringKey("\(moduleName)"))
+								//								Text("\(moduleName)".localize())
 								////									.foregroundColor(themeManager.currentTheme.mainText)
 								//									.font(.system(size: 24, weight: .medium))
 								//									.foregroundColor(themeManager.currentTheme.accent)
@@ -122,7 +122,7 @@ struct SharedModulePage: View {
                                             .colorMultiply(themeManager.currentTheme.mainText)
                                             .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
                                     }
-									Text(LocalizedStringKey("Принять"))
+									Text("Принять".localize())
 										.foregroundColor(themeManager.currentTheme.mainText)
 										.font(.system(size: 18, weight: .bold))
 										.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))

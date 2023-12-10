@@ -49,7 +49,7 @@ struct GroupsEditingPage: View {
 //					}
 //					
 //					HStack {
-//						Text(LocalizedStringKey("Группы"))
+//						Text("Группы".localize())
 //							.foregroundColor(themeManager.currentTheme.mainText)
 //							.font(.system(size: 36, weight: .bold))
 //							.multilineTextAlignment(.center)
@@ -114,7 +114,7 @@ struct GroupsEditingPage: View {
 		.activity($showActivity)
 //		.navigationBarHidden(true)
         .navigationBarTitleDisplayMode(.large)
-        .navigationTitle(LocalizedStringKey("Группы"))
+        .navigationTitle("Группы".localize())
 		.onAppear {
 			fetchModules()
 			fetchGroups()
@@ -145,7 +145,7 @@ struct GroupsEditingPage: View {
 			self.showActivity = false
 			needUpdateData.toggle()
 		} errorBlock: { errorText in
-			self.alert.title = "Упс, произошла ошибка..."
+            self.alert.title = "Упс, произошла ошибка...".localize()
 			self.alert.description = errorText
 			self.showActivity = false
 			self.showAlert = true
@@ -194,7 +194,7 @@ struct GroupsEditingPage: View {
 		withAnimation {
 			showAlert.toggle()
 		}
-		alert.title = "Упс! Произошла ошибка"
+        alert.title = "Упс! Произошла ошибка".localize()
 		alert.description = errorText
 	}
 }

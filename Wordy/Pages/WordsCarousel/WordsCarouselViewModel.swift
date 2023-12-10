@@ -37,11 +37,11 @@ class WordsCarouselViewModel: ObservableObject {
 	func didTapShowLearnPage() {
 		if thisModule.phrases.count < 4 {
 			let wordsCountDifference = 4 - thisModule.phrases.count
-			alert.title = "Для изучения слов необходимо минимум \n4 фразы"
+            alert.title = "Для изучения слов необходимо минимум \n4 фразы".localize()
 			if Locale.current.languageCode == Language.ru.getLangCode() {
-				alert.description = "\nОсталось добавить еще \(getCorrectWord(value: wordsCountDifference))!"
+                alert.description = "\nОсталось добавить еще".localize() + " \(getCorrectWord(value: wordsCountDifference))!"
 			} else {
-				alert.description = "\nAdd a few more words"
+                alert.description = "\nAdd a few more words".localize()
 			}
 			withAnimation {
 				self.showAlert = true

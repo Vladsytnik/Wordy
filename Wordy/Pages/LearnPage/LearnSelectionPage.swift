@@ -40,12 +40,12 @@ struct LearnSelectionPage: View {
 				VStack {
 					Spacer()
 					VStack {
-						Text(LocalizedStringKey("Поздравляем!"))
+						Text("Поздравляем!".localize())
 							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 36, weight: .bold))
 							.multilineTextAlignment(.center)
 							.padding()
-						Text(LocalizedStringKey("Ты прошел еще одну тренировку 🥳"))
+						Text("Ты прошел еще одну тренировку 🥳".localize())
 							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 28, weight: .medium))
 							.multilineTextAlignment(.center)
@@ -166,7 +166,7 @@ struct LearnSelectionPage: View {
 						VStack(alignment: .leading, spacing: 12) {
 							VStack(alignment: .leading, spacing: 4) {
 								HStack {
-									Text(LocalizedStringKey("Вы ответили: "))
+									Text("Вы ответили: ".localize())
 										.bold()
 										.font(.system(size: 18))
 									Spacer()
@@ -182,7 +182,7 @@ struct LearnSelectionPage: View {
 							
 							VStack(alignment: .leading, spacing: 4) {
 								HStack {
-									Text(LocalizedStringKey("Правильный ответ: "))
+									Text("Правильный ответ: ".localize())
 										.font(.system(size: 18))
 										.bold()
 										.foregroundColor(.green)
@@ -243,7 +243,7 @@ struct LearnSelectionPage: View {
 								Spacer()
 								HStack {
 									Image(systemName: "checkmark")
-									Text(LocalizedStringKey("Готово"))
+									Text("Готово".localize())
 										.bold()
 								}
 								.foregroundColor(themeManager.currentTheme.mainText)
@@ -383,7 +383,7 @@ struct LearnTextField: View {
 					Spacer()
 					
 					if text.count == 0 {
-						Text(LocalizedStringKey("Не знаю"))
+						Text("Не знаю".localize())
 							.foregroundColor(.clear)
 							.font(.system(size: fontSize, weight: .medium))
 					}
@@ -420,7 +420,7 @@ struct LearnTextField: View {
 						Button {
 							onUserDoesntKnow?()
 						} label: {
-							Text(LocalizedStringKey("Не знаю"))
+							Text("Не знаю".localize())
                                 .foregroundColor(themeManager.currentTheme.mainText.opacity(0.6))
 								.font(.system(size: fontSize, weight: .medium))
 						}

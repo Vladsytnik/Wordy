@@ -61,7 +61,7 @@ class LearnSelectionPageViewModel: ObservableObject {
 	@Published var showSuccessAnimation = false
 	@Published var learningIsFinished = false
 	
-	@Published var textFieldPLaceholder = "Введите ваш ответ"
+    @Published var textFieldPLaceholder = "Введите ваш ответ".localize()
 	
 	@Published var showDifferenceInFailure = false
 	@Published var originalAttributedPhrase: AttributedString = .init(stringLiteral: "Test")
@@ -82,7 +82,7 @@ class LearnSelectionPageViewModel: ObservableObject {
 		currentAnswers = Array(repeating: "nil", count: 4)
 		currentQuestion = "nil"
 		phrases = module.phrases
-        self.textFieldPLaceholder = "Введите ваш ответ"
+        self.textFieldPLaceholder = "Введите ваш ответ".localize()
 		
 		getRandomQuestion()
 		getAnswers()
@@ -199,7 +199,7 @@ class LearnSelectionPageViewModel: ObservableObject {
 		}
 		self.inputText = ""
 		self.indexOfCorrectButton = -1
-		self.textFieldPLaceholder = "Введите ваш ответ"
+        self.textFieldPLaceholder = "Введите ваш ответ".localize()
 		self.currentCorrectAnswer = .init(nativeText: "", translatedText: "", id: "")
 		self.buttonSelected = Array(repeating: false, count: 4)
 		

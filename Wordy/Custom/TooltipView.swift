@@ -47,7 +47,7 @@ struct TooltipView: View {
 				Button {
 					onNextDidTap?()
 				} label: {
-					Text("Понятно")
+                    Text("Понятно".localize())
 						.foregroundColor(.white)
 						.bold()
 				}

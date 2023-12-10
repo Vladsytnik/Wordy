@@ -34,7 +34,7 @@ struct InputRoundedTextArea: View {
 		ZStack {
 			Background(width: width, height: height)
 			VStack(alignment: .leading) {
-				TextField(LocalizedStringKey("Модуль"), text: $moduleName)
+				TextField("Модуль".localize(), text: $moduleName)
 					.font(.system(size: 28, weight: .bold))
 					.focused($moduleNameIsFocused)
                     .tint(themeManager.currentTheme.mainText)

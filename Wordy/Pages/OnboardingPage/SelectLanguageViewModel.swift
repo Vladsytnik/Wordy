@@ -57,8 +57,8 @@ class SelectLanguageViewModel: ObservableObject {
 				break
 			}
 		} else {
-			alert.title = "Вам нужно выбрать два языка"
-			alert.description = "Для продолжения, вам необходимо выбрать ваш родной язык и тот, который вы хотите изучать"
+            alert.title = "Вам нужно выбрать два языка".localize()
+            alert.description = "Для продолжения, вам необходимо выбрать ваш родной язык и тот, который вы хотите изучать".localize()
 			withAnimation {
 				showAlert.toggle()
 			}

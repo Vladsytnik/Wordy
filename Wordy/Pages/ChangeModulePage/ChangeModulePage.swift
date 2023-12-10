@@ -41,7 +41,7 @@ struct ChangeModulePage: View {
                         BackgroundView()
                         
                         VStack(spacing:  UIScreen.main.bounds.height < 812 ? 16 : 40) {
-//                            Text(LocalizedStringKey("Новый модуль"))
+//                            Text("Новый модуль".localize())
 //                                .foregroundColor(themeManager.currentTheme.mainText)
 //                                .font(.system(size: 38, weight: .bold))
 //                                .padding(EdgeInsets(top: UIScreen.main.bounds.height < 812 ? 16 : 52, leading: 0, bottom: 0, trailing: 0))
@@ -105,7 +105,7 @@ struct ChangeModulePage: View {
                                             .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
                                     }
                                     
-                                    Text(LocalizedStringKey("Сохранить"))
+                                    Text("Сохранить".localize())
                                         .foregroundColor(themeManager.currentTheme.mainText)
                                         .font(.system(size: 18, weight: .bold))
                                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16))
@@ -131,7 +131,7 @@ struct ChangeModulePage: View {
 //                                        }
 //                                        isNeedOpenKeyboard = true
                                     } label: {
-                                        Text("Готово")
+                                        Text("Готово".localize())
                                             .bold()
                                             .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
                                             .foregroundColor(themeManager.currentTheme.mainText)

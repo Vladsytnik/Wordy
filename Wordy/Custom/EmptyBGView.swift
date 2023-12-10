@@ -19,7 +19,7 @@ struct EmptyBGView: View {
 					Spacer()
 					Text("👀")
 						.font(.system(size: 48))
-					Text("There is nothing\nhere yet...")
+                    Text("There is nothing\nhere yet...".localize())
 						.multilineTextAlignment(.center)
 						.font(.system(size: 20, weight: .medium))
 						.opacity(0.72)

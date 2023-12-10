@@ -127,7 +127,7 @@ extension AuthViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
 					let errorText = error.localizedDescription
 					print(errorText)
 					self.hideActivity()
-					self.alertText = "Sign in with Apple errored: \(errorText)"
+                    self.alertText = "Sign in with Apple errored:".localize() + " \(errorText)"
 					self.showAlert.toggle()
 					return
 				}
@@ -148,7 +148,7 @@ extension AuthViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
 		// Handle error.
 		print("Sign in with Apple errored: \(error)")
 		self.hideActivity()
-		self.alertText = "Sign in with Apple errored"
+        self.alertText = "Sign in with Apple errored".localize()
 		self.showAlert.toggle()
 	}
 	

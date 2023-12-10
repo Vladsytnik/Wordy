@@ -13,7 +13,7 @@ struct CreateModuleButton: View {
 	let action: () -> Void
 	var text: String?
 	
-	let createModuleText = LocalizedStringKey("Создать модуль")
+	let createModuleText = "Создать модуль".localize()
 	
     var body: some View {
 		Button {
@@ -29,7 +29,7 @@ struct CreateModuleButton: View {
 							.foregroundColor(themeManager.currentTheme.mainText)
 					}
 					if text == nil {
-						Text(LocalizedStringKey("Создать модуль"))
+						Text("Создать модуль".localize())
 							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 16, weight: .medium))
 					} else {

@@ -171,7 +171,7 @@ struct ModuleSelectPage: View {
 							UIApplication.shared.endEditing()
 						}
 				)
-				.navigationTitle(LocalizedStringKey("Модули"))
+				.navigationTitle("Модули".localize())
 			}
 			.activity($showActivity)
 			.showAlert(title: alert.title, description: alert.description, isPresented: $showAlert) {
@@ -249,7 +249,7 @@ struct ModuleSelectPage: View {
 			withAnimation {
 				showAlert.toggle()
 			}
-			alert.title = "Упс! Произошла ошибка"
+            alert.title = "Упс! Произошла ошибка".localize()
 			alert.description = errorText
 		}
 	}
@@ -274,7 +274,7 @@ struct ModuleSelectPage: View {
 			withAnimation {
 				showAlert.toggle()
 			}
-			alert.title = "Упс! Произошла ошибка"
+            alert.title = "Упс! Произошла ошибка".localize()
 			alert.description = errorText
 		}
 	}
@@ -295,7 +295,7 @@ struct ModuleSelectPage: View {
 			withAnimation {
 				showAlert.toggle()
 			}
-			alert.title = "Упс! Произошла ошибка"
+            alert.title = "Упс! Произошла ошибка".localize()
 			alert.description = errorText
 		}
 	}
@@ -362,7 +362,7 @@ fileprivate struct SaveButton: View {
                         .shadow(color: .white.opacity(0.15), radius: 20)
                 }
                 HStack {
-                    Text(LocalizedStringKey("Сохранить"))
+                    Text("Сохранить".localize())
                         .foregroundColor(themeManager.currentTheme.mainText)
                         .font(.system(size: 16, weight: .medium))
                 }

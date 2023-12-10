@@ -38,7 +38,7 @@ struct SelectLanguagePage: View {
 								
 								VStack {
 									HStack {
-										Text(LocalizedStringKey("Родной"))
+										Text("Родной".localize())
                                             .foregroundColor(themeManager.currentTheme.mainText)
 											.font(.system(size: 24, weight: .bold))
 										Spacer()
@@ -51,7 +51,7 @@ struct SelectLanguagePage: View {
 								
 								VStack {
 									HStack {
-										Text(LocalizedStringKey("Хочу выучить"))
+										Text("Хочу выучить".localize())
 //											.foregroundColor(.init(white: 0.9))
                                             .foregroundColor(themeManager.currentTheme.mainText)
 											.font(.system(size: 24, weight: .bold))
@@ -73,7 +73,7 @@ struct SelectLanguagePage: View {
 						
 						VStack {
 							HStack {
-								Text(LocalizedStringKey("Выберите язык"))
+								Text("Выберите язык".localize())
 									.foregroundColor(.init(white: 0.9))
 									.font(.system(size: 32, weight: .bold))
 								Spacer()
@@ -97,7 +97,7 @@ struct SelectLanguagePage: View {
 									.foregroundColor(viewModel.userCanContinue ? Color(asset: Asset.Colors.answer4) : Color(asset: Asset.Colors.answer1))
 									.shadow(color: .white.opacity(0.1), radius: 8, x: 0, y: 2)
 									.overlay{
-										Text(LocalizedStringKey("ПРОДОЛЖИТЬ"))
+										Text("ПРОДОЛЖИТЬ".localize())
 											.fontWeight(.medium)
 //											.foregroundColor(.init(white: 0.9))
                                             .foregroundColor( themeManager.currentTheme.mainText)
@@ -150,7 +150,7 @@ struct SelectLanguagePage: View {
 //							}
 							
 //							HStack {
-//								Text(LocalizedStringKey("Язык"))
+//								Text("Язык".localize())
 //									.foregroundColor(themeManager.currentTheme.mainText)
 //									.font(.system(size: 36, weight: .bold))
 //									.multilineTextAlignment(.center)
@@ -160,7 +160,7 @@ struct SelectLanguagePage: View {
 							
 							VStack {
 								HStack {
-									Text(LocalizedStringKey("Родной"))
+									Text("Родной".localize())
 										.foregroundColor(themeManager.currentTheme.mainText)
 										.font(.system(size: 24, weight: .bold))
 									Spacer()
@@ -173,7 +173,7 @@ struct SelectLanguagePage: View {
 							
 							VStack {
 								HStack {
-									Text(LocalizedStringKey("Хочу выучить"))
+									Text("Хочу выучить".localize())
 										.foregroundColor(themeManager.currentTheme.mainText)
 										.font(.system(size: 24, weight: .bold))
 									Spacer()
@@ -194,7 +194,7 @@ struct SelectLanguagePage: View {
 					
 //					VStack {
 //						HStack {
-//							Text(LocalizedStringKey("Выберите язык"))
+//							Text("Выберите язык".localize())
 //								.foregroundColor(.init(white: 0.9))
 //								.font(.system(size: 32, weight: .bold))
 //							Spacer()
@@ -220,7 +220,7 @@ struct SelectLanguagePage: View {
 								.foregroundColor(viewModel.userCanContinue ? themeManager.currentTheme.answer4 : themeManager.currentTheme.answer1)
 								.shadow(color: .white.opacity(0.1), radius: 8, x: 0, y: 2)
 								.overlay{
-									Text(LocalizedStringKey("СОХРАНИТЬ"))
+									Text("СОХРАНИТЬ".localize())
 										.fontWeight(.bold)
 										.foregroundColor(themeManager.currentTheme.mainText)
 								}
@@ -236,7 +236,7 @@ struct SelectLanguagePage: View {
 			}
 //			.navigationBarHidden(true)
             .navigationBarTitleDisplayMode(.large)
-            .navigationTitle(LocalizedStringKey("Язык"))
+            .navigationTitle("Язык".localize())
 			.showAlert(title: viewModel.alert.title,
 					   description: viewModel.alert.description,
 					   isPresented: $viewModel.showAlert,

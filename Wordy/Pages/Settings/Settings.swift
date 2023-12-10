@@ -162,7 +162,7 @@ struct Settings: View {
 //								.frame(height: isThemeSelecting ? cellHeight + 10 : 0)
 //								.foregroundColor(Color(asset: Asset.Colors.answer4))
 //							HStack(spacing: 0) {
-//								Text(LocalizedStringKey("cellText"))
+//								Text("cellText".localize())
 //									.font(.system(size: 16, weight: .regular))
 //									.foregroundColor(themeManager.currentTheme.mainText)
 //								Spacer()
@@ -203,7 +203,7 @@ struct Settings: View {
 					}
 					
 					Toggle(isOn: $isTestPro) {
-						Text("Test PRO Subscription")
+                        Text("Test PRO Subscription".localize())
 							.foregroundColor(themeManager.currentTheme.mainText)
 					}
 					.padding()
@@ -213,13 +213,13 @@ struct Settings: View {
 							showDeleteAccountAlert.toggle()
 						}
 					} label: {
-						Text("Удалить аккаунт")
+                        Text("Удалить аккаунт".localize())
 							.foregroundColor(.gray)
 					}
 					.padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
                     
                     if subscriptionManager.userHasSubscription() {
-                        Text("Wordy Pro")
+                        Text("Wordy Pro".localize())
                             .bold()
                             .foregroundColor(themeManager.currentTheme.accent)
 //                            .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
@@ -248,7 +248,7 @@ struct Settings: View {
 			}
 			.activity($showAcivity)
 		}
-		.navigationBarTitle(LocalizedStringKey("Настройки"))
+		.navigationBarTitle("Настройки".localize())
 		.onAppear{
 			isTestPro = UserDefaultsManager.userHasTestSubscription
 			currentThemeIndex = themeManager.getCurrentThemeIndex()
@@ -474,7 +474,7 @@ struct EditFolderRow: View {
 				Image(systemName: "folder")
 					.foregroundColor(themeManager.currentTheme.mainText)
 					.padding()
-				Text(LocalizedStringKey("Редактировать группы"))
+				Text("Редактировать группы".localize())
 					.font(.system(size: 16, weight: .regular))
 					.foregroundColor(themeManager.currentTheme.mainText)
 				Spacer()
@@ -508,7 +508,7 @@ struct LogOutRow: View {
 					Image(systemName: "rectangle.portrait.and.arrow.forward")
 						.foregroundColor(themeManager.currentTheme.mainText)
 						.padding()
-					Text(LocalizedStringKey("Выйти"))
+					Text("Выйти".localize())
 						.font(.system(size: 16, weight: .medium))
 						.foregroundColor(.red)
 					Spacer()

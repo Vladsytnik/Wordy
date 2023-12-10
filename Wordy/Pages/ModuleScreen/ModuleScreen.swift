@@ -80,19 +80,19 @@ struct ModuleScreen: View {
                                 if isShared || viewModel.module.isSharedByTeacher {
                                     HStack(spacing: 6) {
                                         Image(systemName: "network")
-                                        Text("Shared")
+                                        Text("Shared".localize())
                                     }
                                     .foregroundColor(themeManager.currentTheme.mainText.opacity(0.6))
                                     .padding(EdgeInsets(top: 8, leading: 0, bottom: -22, trailing: 0))
                                 }
                                 
-                                if viewModel.module.acceptedAsStudent {
-                                    HStack(spacing: 6) {
-                                        Text("Student Mode")
-                                    }
-                                    .foregroundColor(themeManager.currentTheme.mainText.opacity(0.6))
-                                    .padding(EdgeInsets(top: 8, leading: 0, bottom: -22, trailing: 0))
-                                }
+//                                if viewModel.module.acceptedAsStudent {
+//                                    HStack(spacing: 6) {
+//                                        Text("Student Mode".localize())
+//                                    }
+//                                    .foregroundColor(themeManager.currentTheme.mainText.opacity(0.6))
+//                                    .padding(EdgeInsets(top: 8, leading: 0, bottom: -22, trailing: 0))
+//                                }
                                 
 								Header(viewModel: viewModel,
                                        showChangeModuleDataScreen: $showChangeModuleDataScreen,
@@ -139,8 +139,8 @@ struct ModuleScreen: View {
                                                && viewModel.phrases.count >= 4,
                                                config: nil,
                                                appearingDelayValue: 0.5) {
-                                        let text = "Используйте обучающий режим, \nчтобы эффективнее запоминать фразы"
-                                        let descr = "Доступен при добавлении в модуль 4 фраз"
+                                        let text = "Используйте обучающий режим, \nчтобы эффективнее запоминать фразы".localize()
+                                        let descr = "Доступен при добавлении в модуль 4 фраз".localize()
                                         TooltipView(text: text,
                                                     stepNumber: 0,
                                                     allStepCount: 1, 
@@ -231,8 +231,8 @@ struct ModuleScreen: View {
                                        offset: 24,
                                        config: nil,
                                        appearingDelayValue: 0.5) {
-                                let text = "Добавьте свою первую фразу!"
-                                let descr = "ИИ автоматически переведет ее, \nа также покажет примеры \nиспользования в тексте."
+                                let text = "Добавьте свою первую фразу!".localize()
+                                let descr = "ИИ автоматически переведет ее, \nа также покажет примеры \nиспользования в тексте.".localize()
                                 TooltipView(text: text,
                                             stepNumber: 1,
                                             allStepCount: 2,
@@ -333,16 +333,16 @@ struct ModuleScreen: View {
 			.actionSheet(isPresented: $showEditAlert, content: {
 				ActionSheet(
 					title: Text(""),
-					message: Text(LocalizedStringKey("Выберите действие"))
+					message: Text("Выберите действие".localize())
 						.bold(),
 					buttons: [
-						.default(Text(LocalizedStringKey("Изменить")), action: {
+						.default(Text("Изменить".localize()), action: {
 							viewModel.didTapAddExample(index: currentEditPhraseIndex)
 						}),
-						.destructive(Text(LocalizedStringKey("Удалить")), action: {
+						.destructive(Text("Удалить".localize()), action: {
 							viewModel.didTapDeletePhrase(with: currentEditPhraseIndex)
 						}),
-						.cancel(Text(LocalizedStringKey("Отменить")), action: {
+						.cancel(Text("Отменить".localize()), action: {
 							
 						})
 					])
@@ -678,7 +678,7 @@ struct LearnModuleButton: View {
 			action()
 		} label: {
 			ZStack {
-				Text(LocalizedStringKey("Выучить модуль"))
+				Text("Выучить модуль".localize())
 					.foregroundColor(themeManager.currentTheme.learnModuleBtnText)
 					.font(.system(size: 18, weight: .bold))
 					.padding(EdgeInsets(top: 16, leading: 26, bottom: 16, trailing: 26))
@@ -711,7 +711,7 @@ struct AddWordButton: View {
 //						Image(asset: Asset.Images.plusIcon)
 						Image(systemName: "plus.circle.fill")
 							.foregroundColor(themeManager.currentTheme.mainText)
-						Text(LocalizedStringKey("Добавить слово"))
+						Text("Добавить слово".localize())
 							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 16, weight: .medium))
 					}
@@ -738,7 +738,7 @@ struct DeleteModuleButton: View {
 		Button {
 			action()
 		} label: {
-			Text(LocalizedStringKey("Удалить модуль"))
+			Text("Удалить модуль".localize())
 				.foregroundColor(themeManager.currentTheme.mainText)
 				.font(.system(size: 16, weight: .regular))
 				.frame(width: 300, height: 50)

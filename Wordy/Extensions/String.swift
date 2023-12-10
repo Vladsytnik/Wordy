@@ -104,4 +104,34 @@ extension String {
 		}
 		return startOfWord..<endOfWord
 	}
+    
+    static var localizedCounter = 0
+    static var localizedUniqs: [String: Int?] = [:]
+    
+    func localize() -> String {
+        let localizedString = NSLocalizedString(self, comment: "")
+        let string = String(format: localizedString, self)
+        logLocalizedInfo(original: self, localizedString: string)
+        return string
+    }
+    
+    func logLocalizedInfo(original: String, localizedString: String) {
+        // работает корректно только когда айфон не на русском языке
+        // лучше чтобы был не английский, и не русский
+        if String.localizedCounter == 0 {
+            print("lclzd: -- Фразы, проходящие через локализацию: -- ")
+            String.localizedCounter+=1
+        }
+        
+        if String.localizedUniqs[original] == nil {
+            if localizedString == original {
+                // Локализация не найдена
+                print("lclzd: NOT FOUND: \(original)")
+            } else {
+                print("lclzd: \(original)")
+            }
+            
+            String.localizedUniqs[original] = 1
+        }
+    }
 }
