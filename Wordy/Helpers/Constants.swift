@@ -12,4 +12,5 @@ enum Constants {
 	static let translatedText = "translatedPhrase"
 	static let date = "date"
 	static let example = "example"
+    static let acceptedAsStudent = "acceptedAsStudent"
 }

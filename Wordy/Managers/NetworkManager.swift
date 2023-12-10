@@ -33,16 +33,8 @@ class NetworkManager {
 	static var currentUserID: String? { Auth.auth().currentUser?.uid }
     static weak var networkDelegate: NetworkDelegate?
 	
-	static func register(email: String, password: String, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void) {
-		Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-			checkAnswer(
-				authResult: authResult,
-				error: error,
-				success: success,
-				errorBlock: errorBlock
-			)
-		}
-	}
+    
+    // MARK: - Subscription
     
     static func updateSubscriptionInfo(isTestPro: Bool = false) {
         guard let currentUserID = currentUserID else {
@@ -73,25 +65,8 @@ class NetworkManager {
         }
     }
     
-    static func updateModuleWith(id: String, emoji: String, name: String) async throws -> Bool {
-        guard let currentUserID = currentUserID else {
-            print("error in updateNotificationsInfo -> currentUserID")
-            return false
-        }
-        
-        if NetworkConnectionManager.shared.isConnectedToNetwork() {
-            print("Internet connection test: интернет есть")
-        } else {
-            print("Internet connection test: интернета нет")
-            networkDelegate?.networkError(.turnedOff("\nУпс, отсутствует подключение к интернету..."))
-            return false
-        }
-        
-        let _ = try await ref.child("users").child(currentUserID).child("modules").child(id).child("emoji").setValue(emoji)
-        let _ = try await ref.child("users").child(currentUserID).child("modules").child(id).child("name").setValue(name)
     
-        return true
-    }
+    // MARK: - Notifications
     
     static func updateNotificationsInfo(notification: Notification) async throws {
         guard let currentUserID = currentUserID else {
@@ -142,6 +117,7 @@ class NetworkManager {
         return nil
     }
 	
+    // Device token for notifications
 	static func sendToken(_ token: String) async {
 		guard let currentUserID = currentUserID else {
 			print("error in sendToken -> currentUserID")
@@ -180,59 +156,7 @@ class NetworkManager {
 //		}
 	}
     
-    static func createExamples(with phrase: String) async throws -> [String] {
-        let session = URLSession.shared
-        
-        guard let url = URL(string: "https://functions.yandexcloud.net/d4esp8oervpdc0ps5pfo?integration=raw") else {
-            print("error in url [createExamples method]")
-            return []
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST";
-        request.allHTTPHeaderFields = [
-            "Content-Type" : "application/json"
-        ]
-        
-        let sourceLanguage = UserDefaultsManager.learnLanguage?.getLangCodeForGeneratingExamples() ?? "english"
-        let additionalLanguage =  UserDefaultsManager.learnLanguage != .ru ? "russian" : "english"
-        
-        
-        let body = [
-            "queryStringParameters" : [
-                "phrase" : "\(phrase)",
-                "sourceLanguage" : "\(sourceLanguage)",
-                "additionalLanguage" : "\(additionalLanguage)",
-                
-            ],
-        ] as [String : Any]
-        
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
-            print("Возникла ошибка при сериализации в NetworkManager -> createExamples")
-            return []
-        }
-        
-        request.httpBody = httpBody
-        let (data, response) = try await session.data(for: request)
-        
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            print("NetworkManager -> createExamples status code is not 200: \(response)")
-            return []
-        }
-        
-        let exampleResponse = try JSONDecoder().decode(ExampleCreatingResponse.self, from: data)
-        
-        let examples = exampleResponse.body.examples.map{ $0.source }
-//        else {
-//            print("Не удалось декодировать ответ в NetworkManager -> createExamples")
-//            return []
-//        }
-        
-        print("createExamples: ", examples)
-        
-        
-        return examples
-    }
+    // MARK: - Authorization
 	
 	static func signIn(email: String, password: String, 
                        success: @escaping (String) -> Void,
@@ -270,10 +194,64 @@ class NetworkManager {
 			break
 		}
 	}
+    
+    static func register(email: String, password: String, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void) {
+        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            checkAnswer(
+                authResult: authResult,
+                error: error,
+                success: success,
+                errorBlock: errorBlock
+            )
+        }
+    }
+    
+    // MARK: - Modules
+    
+    static func updateModuleWith(id: String, emoji: String, name: String) async throws -> Bool {
+        guard let currentUserID = currentUserID else {
+            print("error in updateNotificationsInfo -> currentUserID")
+            return false
+        }
+        
+        if NetworkConnectionManager.shared.isConnectedToNetwork() {
+            print("Internet connection test: интернет есть")
+        } else {
+            print("Internet connection test: интернета нет")
+            networkDelegate?.networkError(.turnedOff("\nУпс, отсутствует подключение к интернету..."))
+            return false
+        }
+        
+        let _ = try await ref.child("users").child(currentUserID).child("modules").child(id).child("emoji").setValue(emoji)
+        let _ = try await ref.child("users").child(currentUserID).child("modules").child(id).child("name").setValue(name)
+    
+        return true
+    }
+    
+    static func setTeacherModeToModule(id: String) async throws -> Bool {
+        guard let currentUserID = currentUserID else {
+            print("error in updateNotificationsInfo -> currentUserID")
+            return false
+        }
+        
+        if NetworkConnectionManager.shared.isConnectedToNetwork() {
+            print("Internet connection test: интернет есть")
+        } else {
+            print("Internet connection test: интернета нет")
+            networkDelegate?.networkError(.turnedOff("\nУпс, отсутствует подключение к интернету..."))
+            return false
+        }
+        
+        let _ = try await ref.child("users").child(currentUserID).child("modules").child(id).child("isSharedByTeacher").setValue(true)
+    
+        return true
+    }
 	
 	static func createModule(name: String, 
                              emoji: String,
                              phrases: [Phrase]? = nil,
+                             acceptedAsStudent: Bool = false,
+                             isBlockedFreeFeatures: Bool = false,
                              success: @escaping (String) -> Void,
                              errorBlock: @escaping (String) -> Void ) {
 		guard let currentUserID = currentUserID else {
@@ -289,8 +267,7 @@ class NetworkManager {
 				let newPhrase = [
 					Constants.nativeText: phrase.nativeText,
 					Constants.translatedText: phrase.translatedText,
-					Constants.date: String().generateCurrentDateMarker(),
-					Constants.example: phrase.example ?? ""
+					Constants.date: String().generateCurrentDateMarker()
 				]
 				let url = URL(string: ref.childByAutoId().url)
 				if let lastPathComp = url?.lastPathComponent {
@@ -299,7 +276,7 @@ class NetworkManager {
 			}
 		}
 
-		ref.child("users").child(currentUserID).child("modules").childByAutoId().updateChildValues(["name" : name, "emoji" : emoji, "date": date, "phrases": phrasesDict]) { error, ref in
+		ref.child("users").child(currentUserID).child("modules").childByAutoId().updateChildValues(["name" : name, "emoji" : emoji, "acceptedAsStudent" : acceptedAsStudent, "date": date, "phrases": phrasesDict]) { error, ref in
 			guard error == nil else {
 				errorBlock("error in createModule -> updateChildValues")
 				return
@@ -405,49 +382,30 @@ class NetworkManager {
 			}
 		}
 	}
-	
-	static func deletePhrase(with phraseIndex: String, moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
-		guard let currentUserID = currentUserID else {
-			errorBlock("error in getModules -> currentUserID")
-			return
-		}
-		
-		let queue = DispatchQueue(label: "sytnik.wordy.deletePhrase")
-		queue.async {
-			ref.child("users").child(currentUserID).child("modules").child(moduleID).child("phrases").child(phraseIndex).removeValue { error, snap in
-				if let error = error {
-					DispatchQueue.main.async {
-						errorBlock("error in deleteModule -> getData { error, snap in }" + error.localizedDescription)
-						//						errorBlock("")
-					}
-					return
-				}
-				
-				success()
-			}
-		}
-	}
-	
-	static func deleteGroup(with groupIndex: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
-		guard let currentUserID = currentUserID else {
-			errorBlock("error in getModules -> currentUserID")
-			return
-		}
-		
-		let queue = DispatchQueue(label: "sytnik.wordy.deletePhrase")
-		queue.async {
-			ref.child("users").child(currentUserID).child("groups").child(groupIndex).removeValue { error, snap in
-				if let error = error {
-					DispatchQueue.main.async {
-						errorBlock("error in deleteGroup -> getData { error, snap in }" + error.localizedDescription)
-					}
-					return
-				}
-				
-				success()
-			}
-		}
-	}
+    
+    // MARK: - Phrases
+    
+    static func deletePhrase(with phraseIndex: String, moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
+        guard let currentUserID = currentUserID else {
+            errorBlock("error in getModules -> currentUserID")
+            return
+        }
+        
+        let queue = DispatchQueue(label: "sytnik.wordy.deletePhrase")
+        queue.async {
+            ref.child("users").child(currentUserID).child("modules").child(moduleID).child("phrases").child(phraseIndex).removeValue { error, snap in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        errorBlock("error in deleteModule -> getData { error, snap in }" + error.localizedDescription)
+                        //                        errorBlock("")
+                    }
+                    return
+                }
+                
+                success()
+            }
+        }
+    }
 	
 	static func update(phrases: [[String: Any]], from moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
 		guard let currentUserID = currentUserID else {
@@ -501,7 +459,8 @@ class NetworkManager {
 			success()
 		}
 	}
-	
+    
+    // MARK: - Groups
 
 	static func createGroup(name: String, modules: [Module]? = nil, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void ) {
 		guard let currentUserID = currentUserID else {
@@ -595,6 +554,29 @@ class NetworkManager {
 			}
 		}
 	}
+    
+    static func deleteGroup(with groupIndex: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
+        guard let currentUserID = currentUserID else {
+            errorBlock("error in getModules -> currentUserID")
+            return
+        }
+        
+        let queue = DispatchQueue(label: "sytnik.wordy.deletePhrase")
+        queue.async {
+            ref.child("users").child(currentUserID).child("groups").child(groupIndex).removeValue { error, snap in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        errorBlock("error in deleteGroup -> getData { error, snap in }" + error.localizedDescription)
+                    }
+                    return
+                }
+                
+                success()
+            }
+        }
+    }
+    
+    // MARK: - Account
 	
 	static func deleteAccount(callback: @escaping (Bool) -> Void) {
 		guard let currentUserID = currentUserID else {
@@ -610,10 +592,65 @@ class NetworkManager {
 			callback(true)
 		}
 	}
+    
+    // MARK: - External API
+    
+    static func createExamples(with phrase: String) async throws -> [String] {
+        let session = URLSession.shared
+        
+        guard let url = URL(string: "https://functions.yandexcloud.net/d4esp8oervpdc0ps5pfo?integration=raw") else {
+            print("error in url [createExamples method]")
+            return []
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST";
+        request.allHTTPHeaderFields = [
+            "Content-Type" : "application/json"
+        ]
+        
+        let sourceLanguage = UserDefaultsManager.learnLanguage?.getLangCodeForGeneratingExamples() ?? "english"
+        let additionalLanguage =  UserDefaultsManager.learnLanguage != .ru ? "russian" : "english"
+        
+        
+        let body = [
+            "queryStringParameters" : [
+                "phrase" : "\(phrase)",
+                "sourceLanguage" : "\(sourceLanguage)",
+                "additionalLanguage" : "\(additionalLanguage)",
+                
+            ],
+        ] as [String : Any]
+        
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: body, options: []) else {
+            print("Возникла ошибка при сериализации в NetworkManager -> createExamples")
+            return []
+        }
+        
+        request.httpBody = httpBody
+        let (data, response) = try await session.data(for: request)
+        
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            print("NetworkManager -> createExamples status code is not 200: \(response)")
+            return []
+        }
+        
+        let exampleResponse = try JSONDecoder().decode(ExampleCreatingResponse.self, from: data)
+        
+        let examples = exampleResponse.body.examples.map{ $0.source }
+//        else {
+//            print("Не удалось декодировать ответ в NetworkManager -> createExamples")
+//            return []
+//        }
+        
+        print("createExamples: ", examples)
+        
+        
+        return examples
+    }
 	
 	static func translate(from text: String) async throws -> String {
 		let session = URLSession.shared
-//		session.invalidateAndCancel()
 		guard let url = URL(string: "https://translate.api.cloud.yandex.net/translate/v2/translate") else {
 			print("error in url [translate method]")
 			return ""

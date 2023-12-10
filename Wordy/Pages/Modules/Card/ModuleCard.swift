@@ -59,12 +59,29 @@ struct ModuleCard: View {
 						.padding()
 					}
 				}
+                
 				Spacer()
+                
+                
 				RoundedTextArea(
 					cardWidth: width,
 					cardName: cardName,
 					module: $module
 				)
+//                .background {
+//                    if module.isSharedByTeacher {
+//                        VStack {
+//                            HStack {
+//                                Image(systemName: "network")
+//                                    .foregroundColor(themeManager.currentTheme.accent)
+//                                    .scaleEffect(0.7)
+//                                    .offset(x: 8, y: -16)
+//                                Spacer()
+//                            }
+//                            Spacer()
+//                        }
+//                    }
+//                }
 			}
 			.frame(width: width, height: height)
 			.offset(y: -7)

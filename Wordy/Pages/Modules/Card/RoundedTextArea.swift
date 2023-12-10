@@ -32,12 +32,34 @@ struct RoundedTextArea: View {
 	
 	var body: some View {
 		ZStack {
-			Background(width: width, height: height)
-			VStack(alignment: .leading) {
+            Background(width: width, height: height)
+            VStack(alignment: .leading) {
+                if module.isSharedByTeacher {
+                    HStack {
+                        Spacer()
+                        
+                        HStack {
+                            Image(systemName: "network")
+                                .scaleEffect(0.7)
+                                .foregroundColor(themeManager.currentTheme.mainText)
+                        }
+                        .background {
+                            RoundedRectangle(cornerRadius: 12)
+                                .padding(EdgeInsets(top: -2, leading: -2, bottom: -2, trailing: -2))
+                                .foregroundColor(themeManager.currentTheme.moduleCardRoundedAreaColor)
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding(EdgeInsets(top: -12, leading: 0, bottom: -30, trailing: 0))
+                }
+                
 				Text(cardName)
 					.font(.system(size: 18, weight: .bold))
 					.bold()
+                
 				Spacer()
+                
 				if countOfPhrases > 1 {
 					HStack() {
 						VStack(alignment: .leading, spacing: 4) {

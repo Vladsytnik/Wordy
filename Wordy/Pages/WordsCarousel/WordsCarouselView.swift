@@ -120,7 +120,13 @@ struct WordsCarouselView: View {
 	
 	func didTapShowLearnPage() {
 		if viewModel.thisModule.phrases.count >= 4 {
-			showLearnPage.toggle()
+            isUserCanLearnModule { isAllow in
+                if isAllow {
+                    showLearnPage.toggle()
+                } else {
+                    viewModel.showPaywall()
+                }
+            }
 		} else {
 			let wordsCountDifference = 4 - viewModel.thisModule.phrases.count
 			viewModel.alert.title = "Для изучения слов необходимо минимум 4 фразы"
@@ -130,6 +136,16 @@ struct WordsCarouselView: View {
 			}
 		}
 	}
+    
+    func isUserCanLearnModule(isAllow: ((Bool) -> Void)) {
+        let countOfStartingLearnMode =  UserDefaultsManager.countOfStartingLearnModes[viewModel.thisModule.id] ?? 0
+        let subscriptionManager = SubscriptionManager()
+        let test = subscriptionManager.userHasSubscription()
+        isAllow(subscriptionManager.userHasSubscription()
+                || (countOfStartingLearnMode < maxCountOfStartingLearnMode
+                    && !viewModel.thisModule.isBlockedFreeFeatures)
+                || viewModel.thisModule.acceptedAsStudent)
+    }
 }
 
 struct CarouselCard: View {

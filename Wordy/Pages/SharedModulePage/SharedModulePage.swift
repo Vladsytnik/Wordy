@@ -18,6 +18,8 @@ struct SharedModulePage: View {
 	@State var moduleName = ""
 	@State var emoji = "📄"
 	@State var phrases: [Phrase] = []
+    @State var acceptedAsStudent = false
+    @State var isBlockedFreeFeatures = false
 	
 	@State var disableClosing = false
 	@State var onAppear = false
@@ -156,6 +158,12 @@ struct SharedModulePage: View {
 					emoji = module.emoji
 					moduleName = module.name
 					phrases = module.phrases
+                    if module.isSharedByTeacher {
+                        acceptedAsStudent = module.isSharedByTeacher
+                    } else {
+                        isBlockedFreeFeatures = true
+                    }
+                   
 				} errorBlock: { error in
 					showActivity = false
 				}
@@ -174,14 +182,20 @@ struct SharedModulePage: View {
 			.animation(.default, value: isNeedToShowTitle)
 	}
 	
-	private func createModule() {
-		showActivity = true
-		NetworkManager.createModule(name: moduleName, emoji: emoji, phrases: phrases) { successResult in
-			needUpdateData.toggle()
-			self.presentation.wrappedValue.dismiss()
-		} errorBlock: { error in
-
-		}
+    private func createModule() {
+        showActivity = true
+        NetworkManager.createModule(
+            name: moduleName,
+            emoji: emoji,
+            phrases: phrases,
+            acceptedAsStudent: acceptedAsStudent,
+            isBlockedFreeFeatures: isBlockedFreeFeatures
+        ) { successResult in
+            needUpdateData.toggle()
+            self.presentation.wrappedValue.dismiss()
+        } errorBlock: { error in
+            
+        }
 	}
 }
 

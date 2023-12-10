@@ -45,6 +45,9 @@ struct ModuleScreen: View {
     @State private var showChangeModuleDataScreen = false
     @State private var emoji = ""
     @State private var moduleName = ""
+    
+    @State var isShared = false
+    @State var userIsReallyShared = false
 
     lazy var currentThemeName: String?  = {
         UserDefaultsManager.themeName
@@ -73,16 +76,35 @@ struct ModuleScreen: View {
 						}
 //						ObservableScrollView(scrollOffset: $scrollOffset) { proxy in
 						ScrollView {
-							VStack {
-								Header(viewModel: viewModel, 
+                            VStack {
+                                if isShared || viewModel.module.isSharedByTeacher {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "network")
+                                        Text("Shared")
+                                    }
+                                    .foregroundColor(themeManager.currentTheme.mainText.opacity(0.6))
+                                    .padding(EdgeInsets(top: 8, leading: 0, bottom: -22, trailing: 0))
+                                }
+                                
+                                if viewModel.module.acceptedAsStudent {
+                                    HStack(spacing: 6) {
+                                        Text("Student Mode")
+                                    }
+                                    .foregroundColor(themeManager.currentTheme.mainText.opacity(0.6))
+                                    .padding(EdgeInsets(top: 8, leading: 0, bottom: -22, trailing: 0))
+                                }
+                                
+								Header(viewModel: viewModel,
                                        showChangeModuleDataScreen: $showChangeModuleDataScreen,
                                        showAlert: $showInfoAlert,
                                        moduleName: $moduleName,
+                                       isShared: $isShared, 
                                        module: viewModel.module,
                                        withoutBackButton: true)
 								//								Color.clear
 								//									.frame(height: 30)
 								Text(emoji)
+                                    .padding(EdgeInsets(top: 7, leading: 0, bottom: 0, trailing: 0))
 									.font(.system(size: 28))
                                     .onTapGesture {
                                         showChangeModuleDataScreen.toggle()
@@ -94,6 +116,7 @@ struct ModuleScreen: View {
 										didTapShareModule()
 									}
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
+                                    
 									LearnModuleButton {
                                         onboardingManager.goToNextStep()
 										if viewModel.module.phrases.count >= 4 {
@@ -169,6 +192,7 @@ struct ModuleScreen: View {
 								
 								if viewModel.module.phrases.count > 0 {
 									DeleteModuleButton { viewModel.didTapDeleteModule() }
+                                        .padding(.bottom)
 								}
 								
 								Rectangle()
@@ -179,6 +203,7 @@ struct ModuleScreen: View {
                                     EmptyBGView()
                                 }
 							}
+                            .animation(.spring, value: isShared)
 						}
 						.frame(width: geo.size.width, height: geo.size.height)
 						.onChange(of: scrollOffset) { newValue in
@@ -187,6 +212,7 @@ struct ModuleScreen: View {
 						
 						VStack {
 							Spacer()
+                            
                             if viewModel.module.phrases.count == 0 {
                                 DeleteModuleButton { viewModel.didTapDeleteModule() }
                             }
@@ -253,7 +279,10 @@ struct ModuleScreen: View {
                     .showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Отменить", titleForAction: "Удалить") {
                         viewModel.nowReallyNeedToDeleteModule()
                     }
-                    .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAlert) {
+                    .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showDeletingErrorAlert) {
+                        viewModel.nowReallyNeedToDeleteModule()
+                    }
+                    .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showOkAlert, withoutButtons: true) {
                         viewModel.nowReallyNeedToDeleteModule()
                     }
                     .showAlert(title: "💡 Правило\n пятнадцати слов", description: "\nНаш мозг устроен таким образом, \nчто информация усваивается \nболее эффективно, если она \nразделена на порции. \n\n 15 – это та самая порция, которая \nявляется оптимальной \nдля запоминания слов 🧠", isPresented: $showInfoAlert, titleWithoutAction: "Буду знать!", withoutButtons: true) {
@@ -327,8 +356,14 @@ struct ModuleScreen: View {
 					dismiss()
 				}
 			}
+            .onChange(of: userIsReallyShared) { newValue in
+                if newValue {
+                    self.needToUpdateTeacherMode()
+                }
+            }
 			.background {
-				UIKitActivityView(isPresented: $showActivity,
+                UIKitActivityView(isPresented: $showActivity,
+                                  userIsReallyShared: $userIsReallyShared,
 								  data: [viewModel.getShareUrl()],
 //								  data: [URL(string: "https://wordy.onelink.me/HpCP/s3t4ujfk")!],
 								  subject: nil,
@@ -404,8 +439,17 @@ struct ModuleScreen: View {
 	}
 	
 	func didTapShareModule() {
-		showActivity.toggle()
+        showActivity.toggle()
 	}
+    
+    func needToUpdateTeacherMode() {
+        userIsReallyShared = false
+        viewModel.setToModuleTeacherMode {
+            viewModel.setToModuleTeacherMode {
+                isShared = true
+            }
+        }
+    }
 }
 
 struct ModuleScreen_Previews: PreviewProvider {
@@ -434,6 +478,7 @@ struct Header: View {
     @Binding var showChangeModuleDataScreen: Bool
 	@Binding var showAlert: Bool
     @Binding var moduleName: String
+    @Binding var isShared: Bool
 	let module: Module
     var withoutBackButton = false
 	
@@ -566,6 +611,7 @@ struct AddWordPlusButton: View {
 
 struct UIKitActivityView: UIViewControllerRepresentable {
 	@Binding var isPresented: Bool
+    @Binding var userIsReallyShared: Bool
 	
 	let data: [Any]
 	let subject: String?
@@ -585,7 +631,10 @@ struct UIKitActivityView: UIViewControllerRepresentable {
 			uiViewController.present(activityViewController, animated: true)
 		}
 		
-		activityViewController.completionWithItemsHandler = { (_, _, _, _) in
+		activityViewController.completionWithItemsHandler = { (activityType, completed, returnedItems, error) in
+            if completed {
+                userIsReallyShared = true
+            }
 			isPresented = false
 		}
 	}

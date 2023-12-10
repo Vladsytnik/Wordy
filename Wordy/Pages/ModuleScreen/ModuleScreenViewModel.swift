@@ -24,7 +24,8 @@ class ModuleScreenViewModel: ObservableObject {
 	@Published var showWordsCarousel = false
 	@Published var thisModuleSuccessfullyDeleted = false
 	@Published var showActivity = false
-	@Published var showErrorAlert = false
+	@Published var showDeletingErrorAlert = false
+    @Published var showOkAlert = false
 	@Published var showErrorAboutPhraseCount = false
 	@Published var isShowPaywall = false
 	
@@ -60,6 +61,31 @@ class ModuleScreenViewModel: ObservableObject {
 			showAlert.toggle()
 		}
 	}
+    
+    func setToModuleTeacherMode(successCallback: (() -> Void)?) {
+        guard SubscriptionManager().userHasSubscription() else {
+            return
+        }
+        
+        Task { @MainActor in
+            do {
+               let isSuccess = try await NetworkManager.setTeacherModeToModule(id: module.id)
+                if isSuccess {
+                    successCallback?()
+                } 
+//                else {
+//                    alert.description = "Попробуйте еще раз"
+//                    withAnimation {
+//                        self.showOkAlert = true
+//                    }
+//                }
+//                self.showActivity = false
+            } catch (let error) {
+                print("Error in ModuleScreenViewModel -> setToModuleTeacherMode: \(error.localizedDescription)")
+//                self.showActivity = false
+            }
+        }
+    }
 	
 	func didTapWord(with index: Int) {
 		selectedWordIndex = index
@@ -76,7 +102,7 @@ class ModuleScreenViewModel: ObservableObject {
 			guard let self = self else { return }
 			self.alert.description = errorText
 			self.showActivity = false
-			self.showErrorAlert = true
+			self.showDeletingErrorAlert = true
 		}
 
 	}
@@ -94,12 +120,12 @@ class ModuleScreenViewModel: ObservableObject {
 					self.showActivity = false
 					self.alert.description = errorText
 					self.showActivity = false
-					self.showErrorAlert = true
+					self.showDeletingErrorAlert = true
 				}
 			} errorBlock: { errorText in
 				self.alert.description = errorText
 				self.showActivity = false
-				self.showErrorAlert = true
+				self.showDeletingErrorAlert = true
 			}
 	}
 	
@@ -120,13 +146,12 @@ class ModuleScreenViewModel: ObservableObject {
 	
 	func checkSubscriptionAndAccessability(isAllow: ((Bool) -> Void)) {
 		let countOfStartingLearnMode =  UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
-//		isAllow(UserDefaultsManager.userHasSubscription
-//				|| countOfStartingLearnMode < maxCountOfStartingLearnMode)
 		let subscriptionManager = SubscriptionManager()
 		let test = subscriptionManager.userHasSubscription()
-//		let test2 = subscriptionManager.hasActiveSubscription
 		isAllow(subscriptionManager.userHasSubscription()
-				|| countOfStartingLearnMode < maxCountOfStartingLearnMode)
+				|| (countOfStartingLearnMode < maxCountOfStartingLearnMode
+                    && !module.isBlockedFreeFeatures)
+                || module.acceptedAsStudent)
 	}
 	
 	func getCorrectWord(value: Int) -> String {

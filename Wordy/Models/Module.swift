@@ -16,6 +16,8 @@ struct Module: Equatable, Codable {
 	
 	var phrases: [Phrase] = []
     var isSharedByTeacher = false
+    var acceptedAsStudent = false
+    var isBlockedFreeFeatures = false
 }
 
 extension Module {
@@ -52,7 +54,10 @@ extension Module {
 		for moduleID in dbModuleKeys {
 			var module = Module(name: (data[moduleID]?["name"] as? String) ?? "nil",
 								emoji: (data[moduleID]?["emoji"] as? String) ?? "📄",
-								id: moduleID)
+								id: moduleID,
+                                isSharedByTeacher: (data[moduleID]?["isSharedByTeacher"] as? Bool) ?? false,
+                                acceptedAsStudent: (data[moduleID]?["acceptedAsStudent"] as? Bool) ?? false,
+                                isBlockedFreeFeatures: (data[moduleID]?["isBlockedFreeFeatures"] as? Bool) ?? false)
 			
 			let date = Date().generateDate(from: data[moduleID]?["date"] as? String)
 			module.date = date
@@ -80,30 +85,6 @@ extension Module {
 					}
 				}
 			}
-			
-//			if let phrasesData = data[moduleID]?["phrases"] as? [String: Any] {
-//				for (phraseKey, phrases) in phrasesData {
-//					guard let phraseIndex = Int(phraseKey) else { return [] }
-//					if let phraseDict = phrases as? [String: Any] {
-//
-//						if let nativeTxt = phraseDict[Constants.nativeText] as? String,
-//						   let trasnlatedTxt = phraseDict[Constants.translatedText] as? String {
-//
-//							var phrase = Phrase(nativeText: nativeTxt, translatedText: trasnlatedTxt, indexInFirebase: phraseIndex)
-//							if let date = phraseDict[Constants.date] as? String {
-//								phrase.date = Date().generateDate(from: date)
-//							}
-//							if let example = phraseDict[Constants.example] as? String {
-//								phrase.example = example
-//							}
-//
-//							module.phrases.append(phrase)
-//						}
-//
-//					}
-//				}
-//			}
-			
 			modules.append(module)
 		}
 		
@@ -115,13 +96,13 @@ extension Module {
 		guard let data = (snapshot.value as? [String: Any]) else {
 			return nil
 		}
-//		guard let dbModuleKeys = (snapshot.value as? [String: Any])?.keys else {
-//			return []
-//		}
-		
+
 		var module = Module(name: (data["name"] as? String) ?? "nil",
 							emoji: (data["emoji"] as? String) ?? "📄",
-							id: moduleID)
+							id: moduleID,
+                            isSharedByTeacher: (data["isSharedByTeacher"] as? Bool) ?? false,
+                            acceptedAsStudent: (data["acceptedAsStudent"] as? Bool) ?? false,
+                            isBlockedFreeFeatures:  (data["isBlockedFreeFeatures"] as? Bool) ?? false)
 		
 		let date = Date().generateDate(from: data["date"] as? String)
 		module.date = date
