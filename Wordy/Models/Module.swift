@@ -85,6 +85,14 @@ extension Module {
 					}
 				}
 			}
+            
+            print("Testik2: \(module.name)")
+            module.phrases.forEach { phrase in
+                print("Testik2: date = \(phrase.date)")
+            }
+            print("Testik2: --")
+            
+            module.phrases.sort(by: { ($0.date ?? Date()) > ($1.date ?? Date()) })
 			modules.append(module)
 		}
 		

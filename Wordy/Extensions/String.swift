@@ -45,9 +45,13 @@ extension String {
 		}
 	}
 	
-	func generateCurrentDateMarker() -> String {
+    func generateCurrentDateMarker(withSecondOffset: Int? = nil) -> String {
 		let dateFormatter = DateFormatter().getDateFormatter()
-		let stringDate = dateFormatter.string(from: Date())
+        var date = Date()
+        if let second = withSecondOffset {
+            date = Calendar.current.date(byAdding: .second, value: second, to: date) ?? Date()
+        }
+		let stringDate = dateFormatter.string(from: date)
 		return stringDate
 	}
 	

@@ -112,8 +112,10 @@ struct ShowActivity: ViewModifier {
 			if showActivity {
 				VStack {
 					Spacer()
-					LottieView(fileName: "loader")
-						.frame(width: 200, height: 200)
+//					LottieView(fileName: "loader")
+//						.frame(width: 200, height: 200)
+                    LottieView(fileName: "loader2")
+                        .frame(width: 60, height: 60)
 					Spacer()
 				}
 				.ignoresSafeArea()

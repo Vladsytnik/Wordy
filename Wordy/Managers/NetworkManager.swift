@@ -263,11 +263,11 @@ class NetworkManager {
 		
 		var phrasesDict: [String: [String: String]] = [:]
 		if let phrases {
-			for phrase in phrases {
+            for (i, phrase) in phrases.enumerated() {
 				let newPhrase = [
 					Constants.nativeText: phrase.nativeText,
 					Constants.translatedText: phrase.translatedText,
-					Constants.date: String().generateCurrentDateMarker()
+					Constants.date: String().generateCurrentDateMarker(withSecondOffset: i)
 				]
 				let url = URL(string: ref.childByAutoId().url)
 				if let lastPathComp = url?.lastPathComponent {
