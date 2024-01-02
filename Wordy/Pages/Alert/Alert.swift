@@ -110,9 +110,20 @@ struct Alert: View {
 							withAnimation {
 								isShow = false
 							}
-						}
+                        } else {
+                            withAnimation(.easeInOut(duration: 0.1)) {
+                                scrollOffsetValue = 0
+                            }
+                        }
 					}
-					.onChanged{ if $0.translation.height > 0 {  scrollOffsetValue = $0.translation.height }}
+                    .onChanged{
+                        if $0.translation.height > 0 {
+                            let yOffset = min(max($0.translation.height, 0), UIScreen.main.bounds.height) * 0.5
+                            scrollOffsetValue = yOffset
+                        } else {
+                            scrollOffsetValue = $0.translation.height / 10
+                        }
+                    }
 			)
 //		}
 	}

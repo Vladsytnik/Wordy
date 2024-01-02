@@ -218,6 +218,7 @@ class AddNewPhraseViewModel: ObservableObject {
     
      func isTranslationEnable() -> Bool {
          // ИЗ ЗА ЭТОГО МЕТОДА  ПАДАЕТ (хз почему, мб из за UserDefaultsManager)
+         print("Translate test count: for module \(self.module.id) \(countOfTranslatesDict[self.module.id])")
         return (countOfTranslatesDict[self.module.id] ?? 0 < countOfFreeApiUsing
                 && !module.acceptedAsStudent)
         || SubscriptionManager().userHasSubscription()
@@ -229,7 +230,6 @@ class AddNewPhraseViewModel: ObservableObject {
         } else {
             countOfTranslatesDict[self.module.id] = 1
         }
-        print("Translate test count: for module \(self.module.id) \(countOfTranslatesDict[self.module.id])")
     }
     
     private func updateGeneratingExamplesCount() {

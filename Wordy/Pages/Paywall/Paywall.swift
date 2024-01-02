@@ -162,7 +162,8 @@ struct Paywall: View {
                                 .foregroundColor(themeManager.currentTheme.mainText.opacity(0.8))
                                 .underline()
                         })
-                        .padding(EdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 0))
+                        .padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
+                        .font(.system(size: 12))
 						
 						Rectangle()
 							.foregroundColor(.clear)
@@ -181,7 +182,7 @@ struct Paywall: View {
 								Text("TERMS & CONDITIONS".localize())
 							}
 						}
-						.font(.system(size: 14))
+						.font(.system(size: 12))
 						.foregroundColor(themeManager.currentTheme.mainText.opacity(0.8))
 						.padding()
 						.offset(y: -16)

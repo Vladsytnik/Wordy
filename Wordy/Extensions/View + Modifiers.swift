@@ -137,6 +137,7 @@ struct ShowAlert: ViewModifier {
 	
     var okAction: (() -> Void)?
 	let repeatAction: () -> Void
+    
 	
 	func body(content: Content) -> some View {
 		ZStack {
@@ -186,10 +187,14 @@ struct ShowAlert: ViewModifier {
 					repeatAction: repeatAction
 				)
 					.zIndex(1)
-					.transition(.move(edge: .bottom))
+//					.transition(.move(edge: .bottom))
+                    .transition(.move(edge: .bottom).animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0)))
+//                    .offset(y: showAlert ? 0 : 500)
 			}
 		}
+//        .animation(.spring, value: showAlert)
 	}
+
 }
 
 struct CardFlipModifier: ViewModifier {

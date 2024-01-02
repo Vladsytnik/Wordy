@@ -26,8 +26,9 @@ struct AddNewPhrase: View {
     @StateObject var viewModel = AddNewPhraseViewModel()
 	@EnvironmentObject var themeManager: ThemeManager
     
-   
-	
+    @State var isShowLimitAlert = false
+    @State var isShowPaywall = false
+    
 	var body: some View {
 		ZStack {
 			ZStack {
@@ -81,7 +82,11 @@ struct AddNewPhrase: View {
 					.offset(x: !viewModel.translatedPhraseIsEmpty ? 0 : 10)
                     .overlay {
                         if translatedText.count == 0 && !viewModel.isTranslationEnable() {
-                            NonWorkableAiIcon()
+                            NonWorkableAiIcon {
+                                let descr = "\nДля текущего модуля вы достигли лимита по количеству автоматического перевода" + "\n\nЧтобы получить полный доступ ко всем возможностям приложения – оформите подписку"
+                                viewModel.alert = ("Wordy".localize(), descr.localize())
+                                showLimitAlert()
+                            }
                         }
                     }
 					
@@ -158,7 +163,11 @@ struct AddNewPhrase: View {
 						.offset(x: !viewModel.examplePhraseIsEmpty ? 0 : 10)
                         .overlay {
                             if exampleText.count == 0 && !viewModel.isExampleGeneratingEnable() {
-                                NonWorkableAiIcon()
+                                NonWorkableAiIcon {
+                                    let descr = "\nДля текущего модуля вы достигли лимита по количеству автоматических генераций примеров" + "\n\nЧтобы получить полный доступ ко всем возможностям приложения – оформите подписку"
+                                    viewModel.alert = ("Wordy".localize(), descr.localize())
+                                    showLimitAlert()
+                                }
                             }
                         }
                         
@@ -386,7 +395,27 @@ struct AddNewPhrase: View {
 		.onChange(of: nativeText) { newValue in
 			viewModel.userDidWriteNativeText(newValue)
 		}
+        .showAlert(title: viewModel.alert.title,
+                   description: viewModel.alert.description,
+                   isPresented: $isShowLimitAlert,
+                   titleWithoutAction: "Попробовать",
+                   titleForAction: "Понятно",
+                   withoutButtons: false) {
+            isShowLimitAlert = false
+            isShowPaywall.toggle()
+        } repeatAction: {
+//            isShowLimitAlert.toggle()
+        }
+        .sheet(isPresented: $isShowPaywall, content: {
+            Paywall(isOpened: $isShowPaywall)
+        })
 	}
+    
+    private func showLimitAlert() {
+        withAnimation {
+            isShowLimitAlert.toggle()
+        }
+    }
 	
 	private func addPhraseToModule() {
 		viewModel.addWordToCurrentModule(
@@ -399,15 +428,22 @@ struct AddNewPhrase: View {
 	}
     
     @ViewBuilder
-    private func NonWorkableAiIcon() -> some View {
+    private func NonWorkableAiIcon(callback: (() -> Void)?) -> some View {
         HStack {
             Spacer()
-            Image(systemName: "exclamationmark.circle")
-                .foregroundColor(themeManager.currentTheme.mainText)
-                .opacity(0.5)
-                .scaleEffect(1.1)
+            
+            Button {
+                callback?()
+            } label: {
+                Image(systemName: "exclamationmark.circle")
+                    .foregroundColor(themeManager.currentTheme.mainText)
+                    .opacity(0.5)
+                    .scaleEffect(1.1)
+                    .padding()
+            }
         }
         .offset(x: -2, y: -6)
+        .offset(x: 6)
     }
 }
 

@@ -103,12 +103,21 @@ struct ModuleScreen: View {
                                        withoutBackButton: true)
 								//								Color.clear
 								//									.frame(height: 30)
-								Text(emoji)
-                                    .padding(EdgeInsets(top: 7, leading: 0, bottom: 0, trailing: 0))
-									.font(.system(size: 28))
-                                    .onTapGesture {
-                                        showChangeModuleDataScreen.toggle()
-                                    }
+                                
+                                Button {
+                                    showChangeModuleDataScreen.toggle()
+                                } label: {
+                                    Text(emoji)
+                                        .padding(EdgeInsets(top: 7, leading: 0, bottom: 0, trailing: 0))
+                                        .font(.system(size: 28))
+                                }
+
+//								Text(emoji)
+//                                    .padding(EdgeInsets(top: 7, leading: 0, bottom: 0, trailing: 0))
+//									.font(.system(size: 28))
+//                                    .onTapGesture {
+//                                        showChangeModuleDataScreen.toggle()
+//                                    }
 								//									.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 24))
                                 
 								if viewModel.module.phrases.count > 0 {
@@ -501,13 +510,23 @@ struct Header: View {
 					BackButton { dismiss() }
 						.opacity(0)
 					Spacer()
-					Text(moduleName)
-						.foregroundColor(themeManager.currentTheme.mainText)
-						.font(.system(size: 36, weight: .bold))
-						.multilineTextAlignment(.center)
-                        .onTapGesture {
-                            showChangeModuleDataScreen.toggle()
-                        }
+                    
+                    Button {
+                        showChangeModuleDataScreen.toggle()
+                    } label: {
+                        Text(moduleName)
+                            .foregroundColor(themeManager.currentTheme.mainText)
+                            .font(.system(size: 36, weight: .bold))
+                            .multilineTextAlignment(.center)
+                    }
+
+//					Text(moduleName)
+//						.foregroundColor(themeManager.currentTheme.mainText)
+//						.font(.system(size: 36, weight: .bold))
+//						.multilineTextAlignment(.center)
+//                        .onTapGesture {
+//                            showChangeModuleDataScreen.toggle()
+//                        }
 					//						.lineLimit(1)
 					//					VStack {
 					//						Spacer()
@@ -519,26 +538,29 @@ struct Header: View {
 					BackButton { dismiss() }
 						.opacity(0)
 				}
-			}
-			HStack(spacing: 18) {
-				Text("\(module.phrases.count)  /  15")
-					.foregroundColor(themeManager.currentTheme.mainText)
-					.font(.system(size: 13, weight: .medium))
-				Button {
-					withAnimation {
-						showAlert.toggle()
-					}
-				} label: {
-					Image(asset: Asset.Images.question)
-						.resizable()
+            }
+            
+            Button {
+                withAnimation {
+                    showAlert.toggle()
+                }
+            } label: {
+                HStack(spacing: 18) {
+                    Text("\(module.phrases.count)  /  15")
+                        .foregroundColor(themeManager.currentTheme.mainText)
+                        .font(.system(size: 13, weight: .medium))
+                    
+                    Image(asset: Asset.Images.question)
+                        .resizable()
                         .renderingMode(.template)
                         .colorMultiply(themeManager.currentTheme.mainText)
                         .opacity(themeManager.currentTheme.isDark ? 1 : 0.75)
-						.frame(width: 15, height: 15)
-				}
-				
-			}
-		}
+                        .frame(width: 15, height: 15)
+                }
+                .padding()
+            }
+            .padding(EdgeInsets(top: -8, leading: 0, bottom: -8, trailing: 0))
+        }
 	}
 }
 
