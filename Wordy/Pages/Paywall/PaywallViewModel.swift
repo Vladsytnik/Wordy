@@ -24,6 +24,8 @@ class PaywallViewModel: ObservableObject {
 	@State var isPurchasing = false
 	
 	@Published var isInProgress = false
+    @Published var showAlert = false
+    @Published var alertText = ""
 	
 	let advantagesText = [
 		("Разблокируйте свой творческий потенциал: бесконечное количество модулей и фраз", "Разблокируйте свой творческий потенциал:"),
@@ -94,6 +96,8 @@ class PaywallViewModel: ObservableObject {
 				isInProgress = false
 				if result.success {
 					// handle successful purchase
+                    alertText = "Поздравляем! Оплата прошла успешно! \n\nСпасибо, что поддерживаете разработчиков <3. Теперь вам доступны все возможности приложения без ограничений!".localize()
+                    showAlert.toggle()
 				}
 			}
 		}
@@ -102,6 +106,23 @@ class PaywallViewModel: ObservableObject {
 	func getPriceTitleFor(index: Int) -> String {
 		products[index].displayPrice + "  " + products[index].displayName
 	}
+    
+    func restorePurchase() {
+        isInProgress = true
+        Task { @MainActor in
+            let error = await Apphud.restorePurchases()
+            if let error {
+//                alertText = "Упс, что-то пошло не так. \n\nЕсли вы столкнулись с проблемами в работе приложения, пожалуйста, сообщите об этом разрабочикам".localize()
+                alertText = "К сожалению, нам не удалось возобновить покупку".localize()
+                showAlert.toggle()
+                print("Apphud error: restorePurchase: \(error)")
+            } else {
+                alertText = "Все прошло успешно! \n\nТеперь вам доступны все возможности приложения без ограничений!".localize()
+                showAlert.toggle()
+            }
+            isInProgress = false
+        }
+    }
 	
 	func fetchProducts() async {
 		do {

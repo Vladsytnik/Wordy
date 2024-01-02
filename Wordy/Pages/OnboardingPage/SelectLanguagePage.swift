@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+fileprivate enum SectionType {
+    case native
+    case learn
+}
+
 struct SelectLanguagePage: View {
 	
 	@StateObject private var viewModel = SelectLanguageViewModel()
@@ -14,6 +19,8 @@ struct SelectLanguagePage: View {
 	let slideTransition = AnyTransition.move(edge: .leading)
 	@EnvironmentObject var themeManager: ThemeManager
 	@Environment(\.dismiss) private var dismiss
+    @State var isShowInfoPopup = false
+    @State var alertMessage = ""
 	
 	var isFromSettings = false
 	
@@ -28,7 +35,7 @@ struct SelectLanguagePage: View {
 					themeManager.currentTheme.darkMain
 						.ignoresSafeArea()
 					ZStack {
-						ScrollView {
+						ScrollView(showsIndicators: false) {
 							VStack(spacing: 32) {
 								Rectangle()
 									.frame(height: 32)
@@ -37,12 +44,9 @@ struct SelectLanguagePage: View {
 								Spacer()
 								
 								VStack {
-									HStack {
-										Text("Родной".localize())
-                                            .foregroundColor(themeManager.currentTheme.mainText)
-											.font(.system(size: 24, weight: .bold))
-										Spacer()
-									}
+                                    SectionHeader(withText: "Родной", type: .native) { _ in
+                                        
+                                    }
 									.padding()
 									LanguageSelectorView(languages: languages,
 														 selectedLanguage: $viewModel.nativeSelectedLanguage)
@@ -50,13 +54,9 @@ struct SelectLanguagePage: View {
 								}
 								
 								VStack {
-									HStack {
-										Text("Хочу выучить".localize())
-//											.foregroundColor(.init(white: 0.9))
-                                            .foregroundColor(themeManager.currentTheme.mainText)
-											.font(.system(size: 24, weight: .bold))
-										Spacer()
-									}
+                                    SectionHeader(withText: "Хочу выучить", type: .learn) { _ in
+                                        
+                                    }
 									.padding()
 									LanguageSelectorView(languages: languages,
 														 selectedLanguage: $viewModel.learnSelectedLanguage)
@@ -70,6 +70,7 @@ struct SelectLanguagePage: View {
 									.foregroundColor(.clear)
 							}
 						}
+                        
 						
 						VStack {
 							HStack {
@@ -99,7 +100,6 @@ struct SelectLanguagePage: View {
 									.overlay{
 										Text("ПРОДОЛЖИТЬ".localize())
 											.fontWeight(.medium)
-//											.foregroundColor(.init(white: 0.9))
                                             .foregroundColor( themeManager.currentTheme.mainText)
 									}
 									.offset(x: viewModel.shakeContinueBtn ? 10 : 0)
@@ -134,37 +134,12 @@ struct SelectLanguagePage: View {
 				}
 				
 				ZStack {
-					ScrollView {
+                    ScrollView(showsIndicators: false) {
 						VStack(spacing: 16) {
-//							Rectangle()
-//								.frame(height: 32)
-//								.foregroundColor(.clear)
-							
-//							Spacer()
-							
-//							HStack {
-//								BackButton {
-//									dismiss()
-//								}
-//								Spacer()
-//							}
-							
-//							HStack {
-//								Text("Язык".localize())
-//									.foregroundColor(themeManager.currentTheme.mainText)
-//									.font(.system(size: 36, weight: .bold))
-//									.multilineTextAlignment(.center)
-//									.padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
-//								Spacer()
-//							}
-							
 							VStack {
-								HStack {
-									Text("Родной".localize())
-										.foregroundColor(themeManager.currentTheme.mainText)
-										.font(.system(size: 24, weight: .bold))
-									Spacer()
-								}
+                                SectionHeader(withText: "Родной", type: .native) { _ in
+                                    
+                                }
 								.padding()
 								LanguageSelectorView(languages: languages,
 													 selectedLanguage: $viewModel.nativeSelectedLanguage)
@@ -172,12 +147,9 @@ struct SelectLanguagePage: View {
 							}
 							
 							VStack {
-								HStack {
-									Text("Хочу выучить".localize())
-										.foregroundColor(themeManager.currentTheme.mainText)
-										.font(.system(size: 24, weight: .bold))
-									Spacer()
-								}
+                                SectionHeader(withText: "Хочу выучить", type: .learn) { _ in
+                                    
+                                }
 								.padding()
 								LanguageSelectorView(languages: languages,
 													 selectedLanguage: $viewModel.learnSelectedLanguage)
@@ -191,21 +163,6 @@ struct SelectLanguagePage: View {
 								.foregroundColor(.clear)
 						}
 					}
-					
-//					VStack {
-//						HStack {
-//							Text("Выберите язык".localize())
-//								.foregroundColor(.init(white: 0.9))
-//								.font(.system(size: 32, weight: .bold))
-//							Spacer()
-//						}
-//						.background{
-//							VisualEffectView(effect: UIBlurEffect(style: .systemThinMaterialDark))
-//								.padding(EdgeInsets(top: -300, leading: -100, bottom: -12, trailing: -100))
-//						}
-//						.padding()
-//						Spacer()
-//					}
 					
 					VStack {
 						Spacer()
@@ -234,7 +191,6 @@ struct SelectLanguagePage: View {
 					Spacer()
 				}
 			}
-//			.navigationBarHidden(true)
             .navigationBarTitleDisplayMode(.large)
             .navigationTitle("Язык".localize())
 			.showAlert(title: viewModel.alert.title,
@@ -246,8 +202,43 @@ struct SelectLanguagePage: View {
 					router.userIsAlreadyLaunched = true
 				}
 			}
+            .showAlert(title: "Wordy.app".localize(),
+                       description: alertMessage,
+                       isPresented: $isShowInfoPopup,
+                       titleWithoutAction: "ОК".localize(),
+                       titleForAction: "",
+                       withoutButtons: true,
+                       repeatAction: {}
+            )
+
 		}
 	}
+    
+    @ViewBuilder
+    private func SectionHeader(withText title: String, 
+                               type: SectionType,
+                               onTap: @escaping ((SectionType) -> Void)) -> some View {
+        HStack {
+            Text(title.localize())
+                .foregroundColor(themeManager.currentTheme.mainText)
+                .font(.system(size: 24, weight: .bold))
+            Button(action: {
+                switch type {
+                case .native:
+                    alertMessage = "\nВыберите ваш родной язык. \n\nОн будет использоваться для автоматического перевода ваших фраз и других функций.\n\n Не влияет на язык интерфейса.\n".localize()
+                case .learn:
+                    alertMessage = "\nВыберите язык, который вы хотите изучить. \n\nОн будет использоваться для прослушивания правильного произношения и других функций. \n\nНе влияет на язык интерфейса.\n".localize()
+                }
+                withAnimation {
+                    isShowInfoPopup.toggle()
+                }
+            }, label: {
+                Image(systemName: "questionmark.circle")
+            })
+            .offset(y: 1)
+            Spacer()
+        }
+    }
 }
 
 struct LanguageSelectorView: View {

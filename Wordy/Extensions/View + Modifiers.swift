@@ -38,8 +38,8 @@ extension View {
 }
 
 extension View {
-    func showAlert(title: String, description: String, isPresented: Binding<Bool>, titleWithoutAction: String = "ОК".localize(), titleForAction: String = "Попробовать снова".localize(), withoutButtons: Bool = false, repeatAction: @escaping () -> Void) -> some View {
-		return ModifiedContent(content: self, modifier: ShowAlert(showAlert: isPresented, title: title, description: description, titleWithoutAction: titleWithoutAction, titleForAction: titleForAction, withoutButtons: withoutButtons, repeatAction: repeatAction))
+    func showAlert(title: String, description: String, isPresented: Binding<Bool>, titleWithoutAction: String = "ОК".localize(), titleForAction: String = "Попробовать снова".localize(), withoutButtons: Bool = false, okAction: (() -> Void)? = nil, repeatAction: @escaping () -> Void) -> some View {
+        return ModifiedContent(content: self, modifier: ShowAlert(showAlert: isPresented, title: title, description: description, titleWithoutAction: titleWithoutAction, titleForAction: titleForAction, withoutButtons: withoutButtons, okAction: okAction,  repeatAction: repeatAction))
 	}
 }
 
@@ -135,6 +135,7 @@ struct ShowAlert: ViewModifier {
 	let titleForAction: String
 	var withoutButtons = false
 	
+    var okAction: (() -> Void)?
 	let repeatAction: () -> Void
 	
 	func body(content: Content) -> some View {
@@ -181,6 +182,7 @@ struct ShowAlert: ViewModifier {
 					titleWithoutAction: titleWithoutAction,
 					titleForAction: titleForAction,
 					withoutButtons: withoutButtons,
+                    okAction: okAction,
 					repeatAction: repeatAction
 				)
 					.zIndex(1)

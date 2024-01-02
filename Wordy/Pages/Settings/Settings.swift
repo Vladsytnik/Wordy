@@ -11,6 +11,7 @@ import AuthenticationServices
 import CryptoKit
 import FirebaseAuth
 import FirebaseCore
+import Combine
 
 struct Settings: View {
 	
@@ -39,6 +40,8 @@ struct Settings: View {
 		"Редактирование групп",
 		"Выйти"
 	]
+    
+    @State private var cancelable = Set<AnyCancellable>()
 	
 	let cellHeight: CGFloat = 60
     @State var isShowPaywall = false

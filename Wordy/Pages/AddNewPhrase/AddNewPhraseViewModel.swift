@@ -47,7 +47,7 @@ class AddNewPhraseViewModel: ObservableObject {
     
     @Published var onboardingIndex = 0
     
-    let countOfFreeApiUsing = 20
+    let countOfFreeApiUsing = 3
 	
 	private var cancellable = Set<AnyCancellable>()
 	private var networkTask: Task<(), Never>?
@@ -55,9 +55,16 @@ class AddNewPhraseViewModel: ObservableObject {
     private var isFirstLaunch = false
 	
 	var alert = (title: "Упс! Произошла ошибка...", description: "")
+    
+    var countOfGeneratingExamplesDict: [String: Int] = [:]
+    var countOfTranslatesDict: [String: Int] = [:]
 	
 	var module: Module {
-		filteredModules[index]
+        if index < filteredModules.count {
+            return filteredModules[index]
+        } else {
+            return .init()
+        }
 	}
 	
 	@Published var closeKeyboards = false
@@ -146,6 +153,10 @@ class AddNewPhraseViewModel: ObservableObject {
     }
     
     func createExamples() {
+        guard isExampleGeneratingEnable() else {
+            return
+        }
+        
         print("createExamples: method entry")
         Task { @MainActor in
             do {
@@ -176,6 +187,10 @@ class AddNewPhraseViewModel: ObservableObject {
 	
 	func getTranslatedText(from text: String) {
         guard text.count > 1 else { return }
+        guard isTranslationEnable() else {
+            return
+        }
+        
 		networkTask?.cancel()
 		networkTask = Task { @MainActor in
 			do {
@@ -194,20 +209,34 @@ class AddNewPhraseViewModel: ObservableObject {
         return !UserDefaultsManager.userAlreaySawAddExampleBtn
     }
     
+    func isExampleGeneratingEnable() -> Bool {
+        // ИЗ ЗА ЭТОГО МЕТОДА ПАДАЕТ (хз почему, мб из за UserDefaultsManager)
+        return (countOfGeneratingExamplesDict[self.module.id] ?? 0 < countOfFreeApiUsing
+                && !module.acceptedAsStudent)
+        || SubscriptionManager().userHasSubscription()
+    }
+    
+     func isTranslationEnable() -> Bool {
+         // ИЗ ЗА ЭТОГО МЕТОДА  ПАДАЕТ (хз почему, мб из за UserDefaultsManager)
+        return (countOfTranslatesDict[self.module.id] ?? 0 < countOfFreeApiUsing
+                && !module.acceptedAsStudent)
+        || SubscriptionManager().userHasSubscription()
+    }
+    
     private func updateTranslatedCount() {
-        if let count = UserDefaultsManager.countOfTranslatesInModules[self.module.id] {
-            UserDefaultsManager.countOfTranslatesInModules[self.module.id] = count + 1
+        if let count = countOfTranslatesDict[self.module.id] {
+            countOfTranslatesDict[self.module.id] = count + 1
         } else {
-            UserDefaultsManager.countOfTranslatesInModules[self.module.id] = 1
+            countOfTranslatesDict[self.module.id] = 1
         }
-//        print("Translate test count: for module \(self.module.id) \(UserDefaultsManager.countOfTranslatesInModules[self.module.id])")
+        print("Translate test count: for module \(self.module.id) \(countOfTranslatesDict[self.module.id])")
     }
     
     private func updateGeneratingExamplesCount() {
-        if let count = UserDefaultsManager.countOfGeneratingExamplesInModules[self.module.id] {
-            UserDefaultsManager.countOfGeneratingExamplesInModules[self.module.id] = count + 1
+        if let count = countOfGeneratingExamplesDict[self.module.id] {
+            countOfGeneratingExamplesDict[self.module.id] = count + 1
         } else {
-            UserDefaultsManager.countOfGeneratingExamplesInModules[self.module.id] = 1
+            countOfGeneratingExamplesDict[self.module.id] = 1
         }
     }
 	

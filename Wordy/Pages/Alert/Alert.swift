@@ -20,6 +20,7 @@ struct Alert: View {
 	
 	var withoutButtons = false
 	
+    var okAction: (() -> Void)?
 	let repeatAction: () -> Void
 	
 	private let buttonsOffset: CGFloat = 30
@@ -49,9 +50,13 @@ struct Alert: View {
 							.frame(height: 40)
 							.foregroundColor(.clear)
 						Button {
-							withAnimation {
-								isShow = false
-							}
+                            if okAction == nil {
+                                withAnimation {
+                                    isShow = false
+                                }
+                            } else {
+                                okAction?()
+                            }
 						} label: {
 							RoundedRectangle(cornerRadius: 18)
 								.foregroundColor(Color(asset: Asset.Colors.createModuleButton))

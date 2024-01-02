@@ -63,6 +63,9 @@ class TimeIntervalViewModel: ObservableObject {
     }
     var needToToggleToSingleNotification = false
     
+    @Published var isShowAlert = false
+    
+    private var isPrevOn = false
     
     func initData() {
         selectedModules = []
@@ -145,17 +148,50 @@ class TimeIntervalViewModel: ObservableObject {
             }
             .store(in: &cancelations)
         $notificationsIsOn
+            .debounce(for: 0.3, scheduler: DispatchQueue.main)
             .sink { isOn in
+                print("tttttt: \(isOn)")
                 if isOn && !self.subscriptionManager.userHasSubscription() {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self.notificationsIsOn = false
                     }
                     self.showPaywall = true
                 }
+                
+                self.checkNotificationAuthorization { isAllow in
+                    if !isAllow && !self.isShowAlert && isOn && !self.isPrevOn {
+                        self.alertText = "\n Чтобы включить уведомления, необходимо дать к ним доступ в настройках".localize()
+                        withAnimation {
+                            self.isShowAlert = true
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.notificationsIsOn = false
+                        }
+                    }
+                    self.isPrevOn = isOn
+                }
             }
             .store(in: &cancelations)
         
         NetworkManager.networkDelegate = self
+    }
+    
+    func checkNotificationAuthorization(isAllow: ((Bool) -> Void)?) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .authorized:
+                print("Доступ к уведомлениям разрешен")
+                isAllow?(true)
+            case .denied:
+                print("Доступ к уведомлениям запрещен")
+                isAllow?(false)
+            case .notDetermined:
+                print("Доступ к уведомлениям не определен")
+                isAllow?(false)
+            default:
+                break
+            }
+        }
     }
     
     private func setStartDate(hour: Int = 8, minutes: Int = 0) {

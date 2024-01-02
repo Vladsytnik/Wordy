@@ -311,7 +311,7 @@ struct TimeIntervalView: View {
                         
                         VStack(spacing: 0) {
                             HStack {
-                                Toggle("Notifications",
+                                Toggle("Notifications:".localize(),
                                        isOn: $viewModel.notificationsIsOn)
                                 .toggleStyle(.switch)
                                 .padding(.horizontal)
@@ -481,6 +481,14 @@ struct TimeIntervalView: View {
             Paywall(isOpened: $viewModel.showPaywall)
         })
         .showAlert(title: "Wordy.app", description: viewModel.alertText, isPresented: $viewModel.showAlert, withoutButtons: true, repeatAction: {})
+        .showAlert(title: "Wordy.app", description: viewModel.alertText, isPresented: $viewModel.isShowAlert, titleWithoutAction: "Перейти в настройки".localize(), titleForAction: "Отмена".localize(), withoutButtons: false, okAction: {
+            viewModel.isShowAlert.toggle()
+                if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(appSettings)
+                }
+        }, repeatAction: {
+            
+        })
     }
     
     //MARK: – Time Slider

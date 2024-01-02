@@ -8,6 +8,9 @@
 import Foundation
 
 class UserDefaultsManager {
+    
+    private static let userDefaultsQueue = DispatchQueue(label: "com.example.userdefaults")
+
 	static var isLoggedIn: Bool {
 		get {
 			UserDefaults().bool(forKey: "isLoggedIn")
@@ -37,19 +40,27 @@ class UserDefaultsManager {
     
     static var countOfTranslatesInModules: [String: Int] {
         get {
-            (UserDefaults().dictionary(forKey: "countOfTranslatesInModules") as? [String: Int]) ?? [:]
+            userDefaultsQueue.sync {
+                (UserDefaults().dictionary(forKey: "countOfTranslatesInModules") as? [String: Int]) ?? [:]
+            }
         }
         set {
-            UserDefaults().setValue(newValue, forKey: "countOfTranslatesInModules")
+            userDefaultsQueue.sync {
+                UserDefaults().setValue(newValue, forKey: "countOfTranslatesInModules")
+            }
         }
     }
     
     static var countOfGeneratingExamplesInModules: [String: Int] {
         get {
-            (UserDefaults().dictionary(forKey: "countOfGeneratingExamplesInModules") as? [String: Int]) ?? [:]
+            userDefaultsQueue.sync {
+                (UserDefaults().dictionary(forKey: "countOfGeneratingExamplesInModules") as? [String: Int]) ?? [:]
+            }
         }
         set {
-            UserDefaults().setValue(newValue, forKey: "countOfGeneratingExamplesInModules")
+            userDefaultsQueue.sync {
+                UserDefaults().setValue(newValue, forKey: "countOfGeneratingExamplesInModules")
+            }
         }
     }
     

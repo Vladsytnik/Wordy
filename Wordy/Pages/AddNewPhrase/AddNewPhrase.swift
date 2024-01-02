@@ -79,6 +79,11 @@ struct AddNewPhrase: View {
 						viewModel.didTapTextField(index: 1)
 					}
 					.offset(x: !viewModel.translatedPhraseIsEmpty ? 0 : 10)
+                    .overlay {
+                        if translatedText.count == 0 && !viewModel.isTranslationEnable() {
+                            NonWorkableAiIcon()
+                        }
+                    }
 					
 					if viewModel.showAutomaticTranslatedView {
 						HStack() {
@@ -151,6 +156,11 @@ struct AddNewPhrase: View {
 							viewModel.didTapTextField(index: 2)
 						}
 						.offset(x: !viewModel.examplePhraseIsEmpty ? 0 : 10)
+                        .overlay {
+                            if exampleText.count == 0 && !viewModel.isExampleGeneratingEnable() {
+                                NonWorkableAiIcon()
+                            }
+                        }
                         
                         //MARK: - Generated Examples section
                         
@@ -354,10 +364,16 @@ struct AddNewPhrase: View {
             viewModel.translatedPhrase = translatedText
             viewModel.examplePhrase = exampleText
             
+            viewModel.countOfTranslatesDict = UserDefaultsManager.countOfTranslatesInModules
+            viewModel.countOfGeneratingExamplesDict = UserDefaultsManager.countOfGeneratingExamplesInModules
 //            UserDefaultsManager.userAlreaySawExample = false
 //            UserDefaultsManager.userAlreaySawTranslate = false
 //            UserDefaultsManager.userAlreaySawAddExampleBtn = false
         }
+        .onDisappear(perform: {
+            UserDefaultsManager.countOfTranslatesInModules = viewModel.countOfTranslatesDict
+            UserDefaultsManager.countOfGeneratingExamplesInModules = viewModel.countOfGeneratingExamplesDict
+        })
 		.onChange(of: viewModel.nativePhrase) { newValue in
 			self.nativeText = newValue
 		}
@@ -381,6 +397,18 @@ struct AddNewPhrase: View {
 				dismiss()
 			})
 	}
+    
+    @ViewBuilder
+    private func NonWorkableAiIcon() -> some View {
+        HStack {
+            Spacer()
+            Image(systemName: "exclamationmark.circle")
+                .foregroundColor(themeManager.currentTheme.mainText)
+                .opacity(0.5)
+                .scaleEffect(1.1)
+        }
+        .offset(x: -2, y: -6)
+    }
 }
 
 struct AddNewPhrase_Previews: PreviewProvider {

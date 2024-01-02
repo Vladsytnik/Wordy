@@ -340,7 +340,8 @@ struct NewModulesScreen: View {
                         }
                         .ignoresSafeArea()
                         
-                        if modules.count == 0 || filteredModules.count == 0 {
+                        if (modules.count == 0 || filteredModules.count == 0)
+                        && !showActivity {
                                 EmptyBGView()
                         }
                     }

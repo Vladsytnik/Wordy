@@ -15,7 +15,6 @@ struct Paywall: View {
 	@Binding var isOpened: Bool
 	@State var isOnAppear = false
 	
-	@State var isInProgress = false
 	@State var isPurchasing = false
 	
 	var isNothingSelected: Bool {
@@ -120,16 +119,16 @@ struct Paywall: View {
 						
 						Spacer()
 							.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: Alignment.topLeading)
-						
+                        
 						Button {
 							if viewModel.selectedIndex < viewModel.products.count {
-								isInProgress = true
+                                viewModel.isInProgress = true
 								Task { @MainActor in
 									// productStruct is Product struct model from StoreKit2
 									// $isPurchasing should be used only in SwiftUI apps, otherwise don't use this parameter
 									let result = await Apphud.purchase(viewModel.getSelectedProduct(),
 																	   isPurchasing: $isPurchasing)
-									isInProgress = false
+                                    viewModel.isInProgress = false
 									print("Subscr print: ", result)
 									if result.success {
 										// handle successful purchase
@@ -155,6 +154,15 @@ struct Paywall: View {
 						.shadow(color: .white.opacity(0.3), radius: isNothingSelected ? 0 : 12)
 						.padding()
 						.animation(.spring(), value: isNothingSelected)
+                        
+                        Button(action: {
+                            viewModel.restorePurchase()
+                        }, label: {
+                            Text("Возобновить покупку".localize())
+                                .foregroundColor(themeManager.currentTheme.mainText.opacity(0.8))
+                                .underline()
+                        })
+                        .padding(EdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 0))
 						
 						Rectangle()
 							.foregroundColor(.clear)
@@ -182,7 +190,10 @@ struct Paywall: View {
 			}
 		}
 		.onAppear { isOnAppear = true }
-		.activity($isInProgress)
+        .activity($viewModel.isInProgress)
+        .alert(viewModel.alertText, isPresented: $viewModel.showAlert) {
+            Text("ОК".localize())
+        }
     }
 }
 
