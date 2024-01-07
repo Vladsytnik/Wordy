@@ -36,12 +36,12 @@ struct Alert: View {
 				VStack {
 					Spacer()
 					VStack(spacing: 5) {
-						Text(LocalizedStringKey(title))
+                        Text(title.localize())
 							.multilineTextAlignment(.center)
 							.foregroundColor(themeManager.currentTheme.mainText)
 							.padding(EdgeInsets(top: 50, leading: 30, bottom: 0, trailing: 30))
 							.font(.system(size: 28, weight: .bold))
-						Text(LocalizedStringKey(description))
+                        Text(description.localize())
 							.multilineTextAlignment(.center)
 							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 20, weight: .regular))
@@ -62,7 +62,7 @@ struct Alert: View {
 								.foregroundColor(Color(asset: Asset.Colors.createModuleButton))
 								.frame(width: 200, height: 55)
 								.overlay {
-									Text(LocalizedStringKey(titleWithoutAction))
+                                    Text(titleWithoutAction.localize())
                                         .foregroundColor(.white)
 										.font(.system(size: 16, weight: .medium))
 								}
@@ -82,7 +82,7 @@ struct Alert: View {
 									.foregroundColor(.clear)
 									.frame(width: 300, height: 55)
 									.overlay {
-										Text(LocalizedStringKey(titleForAction))
+                                        Text(titleForAction.localize())
 											.foregroundColor(themeManager.currentTheme.mainText)
 											.font(.system(size: 16, weight: .medium))
 									}

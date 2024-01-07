@@ -246,11 +246,11 @@ fileprivate struct MainText: View {
 					.minimumScaleFactor(0.5)
 			}
 			if phrase.example == nil {
-                Text("Here can be your example".localize())
-					.foregroundColor(themeManager.currentTheme.mainText)
-					.font(.system(size: 18))
-					.multilineTextAlignment(.center)
-					.minimumScaleFactor(0.6)
+//                Text("Здесь может быть пример употребления фразы".localize())
+//					.foregroundColor(themeManager.currentTheme.mainText)
+//					.font(.system(size: 18))
+//					.multilineTextAlignment(.center)
+//					.minimumScaleFactor(0.6)
 			} else {
 				highlightSubstring(phrase.nativeText, in: phrase.example ?? "")
 					.foregroundColor(themeManager.currentTheme.mainText)

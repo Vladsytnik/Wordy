@@ -58,10 +58,10 @@ struct AuthPage: View {
 						Spacer()
 						
 						VStack {
-							AuthTextField(placeholder: "Логин",
+                            AuthTextField(placeholder: "Логин",
 										  text: $viewModel.email,
 										  isFocused: $isFocused)
-							AuthTextField(placeholder: "Пароль",
+                            AuthTextField(placeholder: "Пароль",
 										  text: $viewModel.password,
 										  isFocused: $isFocused)
 						}
@@ -181,7 +181,7 @@ struct AuthTextField: View {
 	@FocusState var textFieldIsFocused: Bool
 	
 	var body: some View {
-		TextField(placeholder, text: $text)
+        TextField(placeholder.localize(), text: $text)
 			.offset(x: -16)
 			.textFieldStyle(.plain)
 			.padding()

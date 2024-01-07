@@ -151,7 +151,7 @@ struct Settings: View {
 						.animation(.spring(), value: isThemeSelecting)
 						
 						GeneralSettingsRow(cellHeight: cellHeight,
-										   cellText: "Оформление",
+                                           cellText: "Оформление".localize(),
 										   cellImageName: "swatchpalette",
 										   isOpenable: true,
 										   isOpened: $isThemeSelecting, didTapOnRow: {})
@@ -399,7 +399,7 @@ struct GeneralSettingsRow: View {
 					Image(systemName: cellImageName)
 						.foregroundColor(themeManager.currentTheme.mainText)
 						.padding()
-					Text(LocalizedStringKey(cellText))
+                    Text(cellText.localize())
 						.font(.system(size: 16, weight: .regular))
 						.foregroundColor(themeManager.currentTheme.mainText)
 					Spacer()
@@ -433,7 +433,7 @@ struct GeneralSettingsRow: View {
 					Image(systemName: cellImageName)
 						.foregroundColor(themeManager.currentTheme.mainText)
 						.padding()
-					Text(LocalizedStringKey(cellText))
+                    Text(cellText.localize())
 						.font(.system(size: 16, weight: .regular))
 						.foregroundColor(themeManager.currentTheme.mainText)
 					Spacer()

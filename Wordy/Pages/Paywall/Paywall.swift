@@ -58,7 +58,7 @@ struct Paywall: View {
 				ScrollView {
 					VStack {
 						HStack(alignment: .top) {
-							Text("Try Wordy Pro Subscription".localize())
+							Text("Попробуйте подписку Wordy Pro".localize())
 								.foregroundColor(themeManager.currentTheme.mainText)
 								.font(.system(size: 32, weight: .bold))
 								.padding()
@@ -145,7 +145,7 @@ struct Paywall: View {
 //								.foregroundColor(isNothingSelected ? .blue.opacity(0.6) : .blue)
 								.foregroundColor(isNothingSelected ? themeManager.currentTheme.paywallBtnsColor.opacity(0.6) : themeManager.currentTheme.paywallBtnsColor)
 								.overlay {
-									Text("Try Free and subscribe".localize())
+									Text("Попробуйте бесплатно и подпишитесь".localize())
                                         .foregroundColor(isNothingSelected ? themeManager.currentTheme.mainText.opacity(0.6) : themeManager.currentTheme.mainText)
 										.font(.system(size: 18, weight: .bold))
 								}
@@ -254,7 +254,7 @@ struct PaywallPlanBtn: View {
 				VStack {
 					HStack {
 						Spacer()
-						Text("most popular".localize())
+						Text("популярное".localize())
 							.font(.system(size: 16, weight: .bold))
 							.foregroundColor(themeManager.currentTheme.mainText)
 							.padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))

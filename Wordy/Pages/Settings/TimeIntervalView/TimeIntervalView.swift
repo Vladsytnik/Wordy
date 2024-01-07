@@ -46,7 +46,7 @@ struct TimeIntervalView: View {
                     HStack(spacing: 25) {
                         VStack(alignment: .leading, spacing: 8) {
                             Label(
-                                title: { Text("From".localize()) },
+                                title: { Text("С".localize()) },
                                 icon: { Image(systemName: "bell.fill") }
                             )
                             .font(.callout)
@@ -58,7 +58,7 @@ struct TimeIntervalView: View {
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Label(
-                                title: {  Text("To".localize()) },
+                                title: {  Text("До".localize()) },
                                 icon: { Image(systemName: "bell.slash.fill") }
                             )
                             .font(.callout)
@@ -110,7 +110,7 @@ struct TimeIntervalView: View {
                     
                     VStack(spacing: 0) {
                         HStack {
-                            Toggle("Notifications",
+                            Toggle("Уведомления".localize(),
                                    isOn: $viewModel.notificationsIsOn)
                             .toggleStyle(.switch)
                             .padding(.horizontal)
@@ -133,7 +133,7 @@ struct TimeIntervalView: View {
                             Divider()
                             HStack {
                                 HStack(spacing: spaceBetweenButtons) {
-                                    Text("Count per day:  ".localize())
+                                    Text("Кол-во в день:  ".localize())
                                         .foregroundColor(themeManager.currentTheme.mainText)
                                     Text("\(viewModel.countOfNotifications)")
                                         .offset(x: !viewModel.notificationCountIsWrong ? 0 : 3)
@@ -197,7 +197,7 @@ struct TimeIntervalView: View {
                         
                         HStack {
                             HStack(spacing: spaceBetweenButtons) {
-                                Text("Modules: ".localize())
+                                Text("Модули: ".localize())
                                 Text("\(viewModel.selectedModulesCount)")
                                     .font(.title3)
                             }
@@ -210,7 +210,7 @@ struct TimeIntervalView: View {
                                 Button {
                                     viewModel.isNeedToOpenModulesSelectPage = true
                                 } label: {
-                                    Text("SELECT".localize())
+                                    Text("ВЫБРАТЬ".localize())
                                         .foregroundColor(themeManager.currentTheme.mainText)
                                         .padding(.horizontal)
                                 }
@@ -247,7 +247,7 @@ struct TimeIntervalView: View {
                         HStack(spacing: 25) {
                             VStack(alignment: .leading, spacing: 8) {
                                 Label(
-                                    title: { Text("From".localize()) },
+                                    title: { Text("С".localize()) },
                                     icon: { Image(systemName: "bell.fill") }
                                 )
                                 .font(.callout)
@@ -259,7 +259,7 @@ struct TimeIntervalView: View {
                             
                             VStack(alignment: .leading, spacing: 8) {
                                 Label(
-                                    title: {  Text("To".localize()) },
+                                    title: {  Text("До".localize()) },
                                     icon: { Image(systemName: "bell.slash.fill") }
                                 )
                                 .font(.callout)
@@ -334,7 +334,7 @@ struct TimeIntervalView: View {
                                 Divider()
                                 HStack {
                                     HStack(spacing: spaceBetweenButtons) {
-                                        Text("Count per day:  ".localize())
+                                        Text("Кол-во в день:  ".localize())
                                             .foregroundColor(themeManager.currentTheme.mainText)
                                         Text("\(viewModel.countOfNotifications)")
                                             .offset(x: !viewModel.notificationCountIsWrong ? 0 : 3)
@@ -398,7 +398,7 @@ struct TimeIntervalView: View {
                             
                             HStack {
                                 HStack(spacing: spaceBetweenButtons) {
-                                    Text("Modules: ".localize())
+                                    Text("Модули: ".localize())
                                     Text("\(viewModel.selectedModulesCount)")
                                         .font(.title3)
                                 }
@@ -411,7 +411,7 @@ struct TimeIntervalView: View {
                                     Button {
                                         viewModel.isNeedToOpenModulesSelectPage = true
                                     } label: {
-                                        Text("SELECT".localize())
+                                        Text("ВЫБРАТЬ".localize())
                                             .foregroundColor(themeManager.currentTheme.mainText)
                                             .padding(.horizontal)
                                     }
@@ -448,7 +448,7 @@ struct TimeIntervalView: View {
             BackgroundView()
                 .ignoresSafeArea()
         }
-        .navigationTitle("Notifications")
+        .navigationTitle("Уведомления".localize())
         .onAppear {
             viewModel.initData()
         }
@@ -471,7 +471,7 @@ struct TimeIntervalView: View {
                 Button(action: {
                     viewModel.save()
                 }) {
-                    Text("Save".localize())
+                    Text("Сохранить".localize())
                         .foregroundColor(themeManager.currentTheme.mainText)
                         .underline()
                         .bold()
@@ -628,7 +628,7 @@ struct TimeIntervalView: View {
                                 Button {
                                     viewModel.reset()
                                 } label: {
-                                    Text("Reset".localize())
+                                    Text("Сбросить".localize())
                                         .foregroundColor(themeManager.currentTheme.mainText)
                                 }
                             }

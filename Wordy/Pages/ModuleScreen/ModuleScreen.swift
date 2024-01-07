@@ -80,7 +80,7 @@ struct ModuleScreen: View {
                                 if isShared || viewModel.module.isSharedByTeacher {
                                     HStack(spacing: 6) {
                                         Image(systemName: "network")
-                                        Text("Shared".localize())
+                                        Text("Опубликован".localize())
                                     }
                                     .foregroundColor(themeManager.currentTheme.mainText.opacity(0.6))
                                     .padding(EdgeInsets(top: 8, leading: 0, bottom: -22, trailing: 0))

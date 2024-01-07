@@ -18,6 +18,8 @@ struct CreateModuleCard: View {
 	@Binding var moduleName: String
     @Binding var isNeedOpenKeyboard: Bool
     
+    var isNotAbleToChangeIcon = false
+    
     var isDisabledOnboarding = false
 	
 	let cardName = "Games"
@@ -62,7 +64,7 @@ struct CreateModuleCard: View {
 							.resizable()
 							.frame(width: 30, height: 30)
 							.padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 8))
-							.opacity(emoji == "📄" ? 1 : 0)
+							.opacity(emoji == "📄" && !isNotAbleToChangeIcon ? 1 : 0)
 					}
 				}
                 .mytooltip(onboardingManager.currentStepIndex == 0
@@ -70,7 +72,7 @@ struct CreateModuleCard: View {
                            && !isDisabledOnboarding,
                            config: nil,
                            appearingDelayValue: 1.5) {
-                    let text = "Нажмите для выбора эмодзи"
+                    let text = "Нажмите для выбора эмодзи".localize()
                     TooltipView(text: text,
                                 stepNumber: 0,
                                 allStepCount: 1,

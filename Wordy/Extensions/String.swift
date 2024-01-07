@@ -127,8 +127,15 @@ extension String {
             String.localizedCounter+=1
         }
         
+        let exceptionWords = [
+            "Design",
+            "Test PRO Subscription",
+            "Wordy.app",
+            "OK"
+        ]
+        
         if String.localizedUniqs[original] == nil {
-            if localizedString == original {
+            if localizedString == original && !exceptionWords.contains(where: { $0 == localizedString }) {
                 // Локализация не найдена
                 print("lclzd: NOT FOUND: \(original)")
             } else {

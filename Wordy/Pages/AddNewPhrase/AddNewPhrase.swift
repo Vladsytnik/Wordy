@@ -116,7 +116,7 @@ struct AddNewPhrase: View {
                                                config: viewModel.tooltipConfig,
                                                appearingDelayValue: 0.5) {
                                         let text = "Нажмите, чтобы применить".localize()
-                                        let descr = "Без подписки доступно \n\(viewModel.countOfFreeApiUsing) перевода".localize()
+                                        let descr = "Без подписки доступно \n".localize() + "\(viewModel.countOfFreeApiUsing)" + " перевода".localize()
                                         TooltipView(text: text,
                                                     stepNumber: 0,
                                                     allStepCount: 0,
@@ -227,7 +227,7 @@ struct AddNewPhrase: View {
                                        config: viewModel.tooltipConfig,
                                        appearingDelayValue: 0.5) {
                                 let text = "Нажмите, чтобы применить".localize()
-                                let descr = "Без подписки доступно".localize() + " \n\(viewModel.countOfFreeApiUsing) " + "генерации примеров".localize()
+                                let descr = "Без подписки доступно \n".localize() + "\(viewModel.countOfFreeApiUsing) " + "генерации примеров".localize()
                                 TooltipView(text: text,
                                             stepNumber: 0,
                                             allStepCount: 0,
@@ -483,7 +483,7 @@ struct CustomTextField: View {
 		VStack {
 			ZStack(alignment: .leading) {
 				HStack(spacing: 4) {
-					Text(LocalizedStringKey(placeholder))
+                    Text(placeholder.localize())
                         .foregroundColor(themeManager.currentTheme.mainText.opacity(0.3))
 						.font(.system(size: fontSize, weight: .medium))
 						.opacity(text.isEmpty ? 1 : 0)

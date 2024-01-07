@@ -19,6 +19,8 @@ struct CreateModuleView: View {
     @State var emoji = "📄"
 	
 	var isOnboardingMode = false
+    var isNotAbleToChangeIcon = false
+    
 	@State var disableClosing = false
 //	let action: () -> Void
 	
@@ -48,7 +50,8 @@ struct CreateModuleView: View {
 									showEmojiView: $showEmojiView,
 									emoji: $emoji,
 									moduleName: $moduleName,
-                                    isNeedOpenKeyboard: $isNeedOpenKeyboard
+                                    isNeedOpenKeyboard: $isNeedOpenKeyboard,
+                                    isNotAbleToChangeIcon: isNotAbleToChangeIcon
 								) {
 									createModule()
 								}
@@ -60,7 +63,8 @@ struct CreateModuleView: View {
 									showEmojiView: $showEmojiView,
 									emoji: $emoji,
 									moduleName: $moduleName,
-                                    isNeedOpenKeyboard: $isNeedOpenKeyboard
+                                    isNeedOpenKeyboard: $isNeedOpenKeyboard,
+                                    isNotAbleToChangeIcon: isNotAbleToChangeIcon
 								) {
 									createModule()
 								}

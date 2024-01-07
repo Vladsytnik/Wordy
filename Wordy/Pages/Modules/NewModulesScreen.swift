@@ -369,13 +369,15 @@ struct NewModulesScreen: View {
                         if #available(iOS 16.0, *) {
                             SharedModulePage(needUpdateData: $needUpdateData,
                                              showActivity: $showActivity,
-                                             screenFullHeight: geometry.size.height
+                                             screenFullHeight: geometry.size.height,
+                                             isNotAbleToChangeIcon: true
                             )
                             .presentationDetents([.medium, .large])
                         } else {
                             SharedModulePage(needUpdateData: $needUpdateData,
                                              showActivity: $showActivity,
-                                             screenFullHeight: geometry.size.height)
+                                             screenFullHeight: geometry.size.height,
+                                             isNotAbleToChangeIcon: true)
                         }
                     }
                     .animation(.spring, value: isReviewOpened)

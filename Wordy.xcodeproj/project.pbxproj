@@ -303,6 +303,7 @@
 		CE92994E2B0FAF9B00E24C7E /* NetworkConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectionManager.swift; sourceTree = "<group>"; };
 		CE9299502B0FB7B900E24C7E /* StartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewModel.swift; sourceTree = "<group>"; };
 		CEBE1E732B482E820079A348 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
+		CEBE1E752B4ABCDD0079A348 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEC18A252AD163BB00825749 /* NewModulesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewModulesScreen.swift; sourceTree = "<group>"; };
 		CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound1.m4r; sourceTree = "<group>"; };
 		CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound2.m4r; sourceTree = "<group>"; };
@@ -959,6 +960,7 @@
 				en,
 				Base,
 				ru,
+				it,
 			);
 			mainGroup = 0190562C2944A7140058B566;
 			packageReferences = (
@@ -1185,6 +1187,7 @@
 			children = (
 				01897C042A17DCC3007F6A2C /* en */,
 				01897C062A17DCD5007F6A2C /* ru */,
+				CEBE1E752B4ABCDD0079A348 /* it */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

@@ -25,6 +25,8 @@ struct SharedModulePage: View {
 	@State var onAppear = false
 	@State var didTapOnEmoji = false
 	let screenFullHeight: CGFloat
+    
+    var isNotAbleToChangeIcon = false
 	
 	@EnvironmentObject var router: Router
 	@Environment(\.presentationMode) var presentation
@@ -72,6 +74,7 @@ struct SharedModulePage: View {
 									emoji: $emoji,
 									moduleName: $moduleName,
                                     isNeedOpenKeyboard: .constant(false),
+                                    isNotAbleToChangeIcon: isNotAbleToChangeIcon,
                                     isDisabledOnboarding: true,
                                     withoutKeyboard: true
 								) {
@@ -86,6 +89,7 @@ struct SharedModulePage: View {
 									emoji: $emoji,
 									moduleName: $moduleName,
                                     isNeedOpenKeyboard: .constant(false),
+                                    isNotAbleToChangeIcon: isNotAbleToChangeIcon,
                                     isDisabledOnboarding: true,
 									withoutKeyboard: true
 								) {

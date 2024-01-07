@@ -33,7 +33,7 @@ struct CreateModuleButton: View {
 							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 16, weight: .medium))
 					} else {
-						Text(LocalizedStringKey(text ?? ""))
+                        Text((text ?? "").localize())
 							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 16, weight: .medium))
 					}
