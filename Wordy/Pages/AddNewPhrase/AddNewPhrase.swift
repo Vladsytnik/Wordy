@@ -116,7 +116,7 @@ struct AddNewPhrase: View {
                                                config: viewModel.tooltipConfig,
                                                appearingDelayValue: 0.5) {
                                         let text = "Нажмите, чтобы применить".localize()
-                                        let descr = "Без подписки доступно \n\(viewModel.countOfFreeApiUsing) переводов".localize()
+                                        let descr = "Без подписки доступно \n\(viewModel.countOfFreeApiUsing) перевода".localize()
                                         TooltipView(text: text,
                                                     stepNumber: 0,
                                                     allStepCount: 0,
@@ -227,7 +227,7 @@ struct AddNewPhrase: View {
                                        config: viewModel.tooltipConfig,
                                        appearingDelayValue: 0.5) {
                                 let text = "Нажмите, чтобы применить".localize()
-                                let descr = "Без подписки доступно".localize() + " \n\(viewModel.countOfFreeApiUsing) " + "генераций примеров".localize()
+                                let descr = "Без подписки доступно".localize() + " \n\(viewModel.countOfFreeApiUsing) " + "генерации примеров".localize()
                                 TooltipView(text: text,
                                             stepNumber: 0,
                                             allStepCount: 0,

@@ -12,6 +12,7 @@ struct MyTooltipModifier<TooltipContent: View>: ViewModifier {
 	// MARK: - Uninitialised properties
 	var enabled: Bool
 	var config: MyTooltipConfig
+    var side: MyTooltipSide?
 	var content: TooltipContent
 	let appearingDelayValue: Double
 	@State var isAppear: Bool = false
@@ -23,6 +24,7 @@ struct MyTooltipModifier<TooltipContent: View>: ViewModifier {
 	init(
 		enabled: Bool,
 		config customConfig: MyTooltipConfig?,
+        side: MyTooltipSide? = nil,
 		@ViewBuilder content: @escaping () -> TooltipContent,
         offset: CGFloat = 8,
 		appearingDelayValue: Double = 1
@@ -48,6 +50,10 @@ struct MyTooltipModifier<TooltipContent: View>: ViewModifier {
             self.config.shadowRadius = 20
             self.config.shadowOffset = .init(x: 3, y: 20)
             self.config.margin = offset
+            
+            if let side {
+                self.config.side = side
+            }
         }
         
 		self.content = content()
@@ -387,7 +393,7 @@ public extension View {
 		config?.side = side
         config?.margin = offset
 		
-        return modifier(MyTooltipModifier(enabled: enabled, config: config, content: content, offset: offset, appearingDelayValue: appearingDelayValue))
+        return modifier(MyTooltipModifier(enabled: enabled, config: config, side: side, content: content, offset: offset, appearingDelayValue: appearingDelayValue))
 	}
 }
 

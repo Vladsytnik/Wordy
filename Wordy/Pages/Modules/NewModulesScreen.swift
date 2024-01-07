@@ -272,7 +272,10 @@ struct NewModulesScreen: View {
                                     .foregroundColor(.clear)
                             }
                         }
-                        .searchable(text: $searchText)
+                        .if(!onboardingManager.isOnboardingMode || UserDefaultsManager.isNotFirstLaunchOfModulesPage) { view in
+                            view.searchable(text: $searchText)
+                        }
+//                        .searchable(text: $searchText)
                         .refreshable{
                             pullDownToRefresh()
                         }
@@ -399,7 +402,9 @@ struct NewModulesScreen: View {
                 router.userIsAlreadyLaunched = true
                 
                 if reviewCounter >= reviewCounterLimit && !isReviewDidTap {
-                    isReviewOpened = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        isReviewOpened = true
+                    }
                     reviewCounter = 0
                     reviewCounterLimit = 50
                 } else {

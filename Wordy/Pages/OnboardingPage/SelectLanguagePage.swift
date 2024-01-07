@@ -121,6 +121,14 @@ struct SelectLanguagePage: View {
 						router.userIsAlreadyLaunched = true
 					}
 				}
+                .showAlert(title: "Wordy.app".localize(),
+                           description: alertMessage,
+                           isPresented: $isShowInfoPopup,
+                           titleWithoutAction: "ОК".localize(),
+                           titleForAction: "",
+                           withoutButtons: true,
+                           repeatAction: {}
+                )
 			}
 		} else {
 			ZStack {
@@ -227,13 +235,14 @@ struct SelectLanguagePage: View {
                 case .native:
                     alertMessage = "\nВыберите ваш родной язык. \n\nОн будет использоваться для автоматического перевода ваших фраз и других функций.\n\n Не влияет на язык интерфейса.\n".localize()
                 case .learn:
-                    alertMessage = "\nВыберите язык, который вы хотите изучить. \n\nОн будет использоваться для прослушивания правильного произношения и других функций. \n\nНе влияет на язык интерфейса.\n".localize()
+                    alertMessage = "\nВыберите язык, который вы хотите изучить. \n\nОн будет использоваться для прослушивания правильного произношения ваших фраз и других функций. \n\nНе влияет на язык интерфейса.\n".localize()
                 }
                 withAnimation {
                     isShowInfoPopup.toggle()
                 }
             }, label: {
                 Image(systemName: "questionmark.circle")
+                    .foregroundColor(themeManager.currentTheme.mainText)
             })
             .offset(y: 1)
             Spacer()

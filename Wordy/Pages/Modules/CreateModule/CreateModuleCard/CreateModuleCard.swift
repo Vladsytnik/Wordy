@@ -68,6 +68,7 @@ struct CreateModuleCard: View {
                 .mytooltip(onboardingManager.currentStepIndex == 0
                           && !UserDefaultsManager.isUserSawCreateNewModule
                            && !isDisabledOnboarding,
+                           config: nil,
                            appearingDelayValue: 1.5) {
                     let text = "Нажмите для выбора эмодзи"
                     TooltipView(text: text,
