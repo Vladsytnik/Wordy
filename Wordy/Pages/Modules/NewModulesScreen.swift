@@ -10,6 +10,7 @@ import Firebase
 import SwiftUITooltip
 import ApphudSDK
 import AVFAudio
+import StoreKit
 
 
 struct NewModulesScreen: View {
@@ -102,6 +103,11 @@ struct NewModulesScreen: View {
     }()
     
     @State private var player: AVAudioPlayer? = AVAudioPlayer()
+    
+    @AppStorage("isReviewBtnDidTap") private var isReviewDidTap = false
+    @AppStorage("review.counter") private var reviewCounter = 0
+    @State private var reviewCounterLimit = 10
+    @State private var isReviewOpened = false
     
     var body: some View {
                 GeometryReader { geometry in
@@ -344,6 +350,16 @@ struct NewModulesScreen: View {
                         && !showActivity {
                                 EmptyBGView()
                         }
+                        
+                        if isReviewOpened {
+                            ZStack {
+                                Rectangle()
+                                    .foregroundColor(themeManager.currentTheme.isDark ? Color.black.opacity(0.5) :  Color.white.opacity(0.5))
+                                    .ignoresSafeArea()
+                                ReviewView(isOpened: $isReviewOpened)
+                            }
+                            .zIndex(9999)
+                        }
                     }
                     .disabled(showActivity || showAlert)
                     .sheet(isPresented: $deeplinkManager.isOpenModuleType) {
@@ -359,6 +375,7 @@ struct NewModulesScreen: View {
                                              screenFullHeight: geometry.size.height)
                         }
                     }
+                    .animation(.spring, value: isReviewOpened)
                 }
                 .background(
                     BackgroundView()
@@ -380,6 +397,14 @@ struct NewModulesScreen: View {
                 fetchGroups()
 //                }
                 router.userIsAlreadyLaunched = true
+                
+                if reviewCounter >= reviewCounterLimit && !isReviewDidTap {
+                    isReviewOpened = true
+                    reviewCounter = 0
+                    reviewCounterLimit = 50
+                } else {
+                    reviewCounter += 1
+                }
             }
             .sheet(isPresented: $showCreateModuleSheet) {
                 CreateModuleView(needUpdateData: $needUpdateData, showActivity: $showActivity, isOnboardingMode: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)

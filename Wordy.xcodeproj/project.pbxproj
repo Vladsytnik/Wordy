@@ -156,6 +156,7 @@
 		CE7C1DAE2B08E1B900DEB265 /* Colors6.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7C1DAD2B08E1B900DEB265 /* Colors6.xcassets */; };
 		CE92994F2B0FAF9B00E24C7E /* NetworkConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE92994E2B0FAF9B00E24C7E /* NetworkConnectionManager.swift */; };
 		CE9299512B0FB7B900E24C7E /* StartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9299502B0FB7B900E24C7E /* StartViewModel.swift */; };
+		CEBE1E742B482E820079A348 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE1E732B482E820079A348 /* ReviewView.swift */; };
 		CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC18A252AD163BB00825749 /* NewModulesScreen.swift */; };
 		CECE48B72AFF9D82002E5507 /* notificationSound1.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */; };
 		CECE48B92AFF9E9A002E5507 /* notificationSound2.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */; };
@@ -301,6 +302,7 @@
 		CE7C1DAD2B08E1B900DEB265 /* Colors6.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors6.xcassets; sourceTree = "<group>"; };
 		CE92994E2B0FAF9B00E24C7E /* NetworkConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectionManager.swift; sourceTree = "<group>"; };
 		CE9299502B0FB7B900E24C7E /* StartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewModel.swift; sourceTree = "<group>"; };
+		CEBE1E732B482E820079A348 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		CEC18A252AD163BB00825749 /* NewModulesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewModulesScreen.swift; sourceTree = "<group>"; };
 		CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound1.m4r; sourceTree = "<group>"; };
 		CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound2.m4r; sourceTree = "<group>"; };
@@ -642,6 +644,7 @@
 				01B92B33294F604B00F440EE /* Settings */,
 				011B138A29FBB7F200D4CCBF /* GroupsEditingPage */,
 				0103FF46294C501B004C2EA6 /* Auth */,
+				CEBE1E722B482E4A0079A348 /* ReviewView */,
 				016141CF2A0D681C009A9A8F /* OnboardingPage */,
 			);
 			path = Pages;
@@ -867,6 +870,14 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		CEBE1E722B482E4A0079A348 /* ReviewView */ = {
+			isa = PBXGroup;
+			children = (
+				CEBE1E732B482E820079A348 /* ReviewView.swift */,
+			);
+			path = ReviewView;
+			sourceTree = "<group>";
+		};
 		CECE48BE2B00EDE9002E5507 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -1083,6 +1094,7 @@
 				013D97772A434A1B00F03AF7 /* Paywall.swift in Sources */,
 				0110F711297EECD2007F26BC /* NavigationView.swift in Sources */,
 				0101B8AE2AA0D4260055DEFB /* MyTooltipConfig.swift in Sources */,
+				CEBE1E742B482E820079A348 /* ReviewView.swift in Sources */,
 				0103FF48294C5035004C2EA6 /* AuthPage.swift in Sources */,
 				014681132955FF9C0080732C /* CreateModuleCard.swift in Sources */,
 				014A46522964646300E43508 /* ModuleScreenViewModel.swift in Sources */,
