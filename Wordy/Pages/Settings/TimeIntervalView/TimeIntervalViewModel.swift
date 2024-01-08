@@ -421,7 +421,12 @@ class TimeIntervalViewModel: ObservableObject {
         let date = getTime(angle: angle, isStartSlider: isStartSlider)
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "hh:mm aa"
+//        formatter.dateFormat = "hh:mm aa"
+        
+        formatter.timeStyle = .short
+        let userLocale = Locale.current
+        formatter.locale = userLocale
+        
         return formatter.string(from: date)
     }
     
