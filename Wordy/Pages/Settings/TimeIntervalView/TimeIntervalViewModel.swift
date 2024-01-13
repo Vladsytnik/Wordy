@@ -64,6 +64,8 @@ class TimeIntervalViewModel: ObservableObject {
     var needToToggleToSingleNotification = false
     
     @Published var isShowAlert = false
+    @Published var showSuccessSaved = false
+    @Published var isSaveInfoToServerProgress = false
     
     private var isPrevOn = false
     
@@ -99,7 +101,8 @@ class TimeIntervalViewModel: ObservableObject {
         updateTimeDifference()
         
         $timeDifference
-            .sink { timeDifference in
+            .sink { [weak self] timeDifference in
+                guard let self else { return }
                 if timeDifference < self.countOfNotifications && timeDifference > 0 {
                     self.countOfNotifications = timeDifference + 1
                 }
@@ -111,7 +114,8 @@ class TimeIntervalViewModel: ObservableObject {
             }
             .store(in: &cancelations)
         $countOfNotifications
-            .sink { value in
+            .sink { [weak self] value in
+                guard let self else { return }
                 if (value == 1 && !self.isFromDrag) || self.needToToggleToSingleNotification {
 //                    self.timeDifferenceDefault = self.timeDifference
 //                    self.toAngleDefault = self.toAngle
@@ -149,7 +153,8 @@ class TimeIntervalViewModel: ObservableObject {
             .store(in: &cancelations)
         $notificationsIsOn
             .debounce(for: 0.3, scheduler: DispatchQueue.main)
-            .sink { isOn in
+            .sink { [weak self] isOn in
+                guard let self else { return }
                 print("tttttt: \(isOn)")
                 if isOn && !self.subscriptionManager.userHasSubscription() {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -169,6 +174,25 @@ class TimeIntervalViewModel: ObservableObject {
                         }
                     }
                     self.isPrevOn = isOn
+                }
+            }
+            .store(in: &cancelations)
+        
+        $isSaveInfoToServerProgress
+            .dropFirst(1)
+            .sink { [weak self] val in
+                if !val {
+                    self?.showSuccessSaved.toggle()
+                }
+            }
+            .store(in: &cancelations)
+        
+        $showSuccessSaved
+            .sink { [weak self] val in
+                if val {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        self?.showSuccessSaved.toggle()
+                    }
                 }
             }
             .store(in: &cancelations)
@@ -496,6 +520,7 @@ class TimeIntervalViewModel: ObservableObject {
     private func updateNotificationInfo() {
         Task { @MainActor in
             inProgress = true
+            isSaveInfoToServerProgress = true
             let resultPhrases = generateRandomPhrasesFromSelectedModules()
             let notificationDates = generateNotificationsDates()
             let notification = Notification(isOn: notificationsIsOn,
@@ -506,10 +531,12 @@ class TimeIntervalViewModel: ObservableObject {
                                             phrases: resultPhrases)
             do {
                 try await NetworkManager.updateNotificationsInfo(notification: notification)
+                isSaveInfoToServerProgress = false
                 inProgress = false
             } catch(let error) {
                 print("Error in TimeIntervalViewModel -> updateNotificationInfo: \(error)")
                 inProgress = false
+                isSaveInfoToServerProgress = false
             }
         }
     }

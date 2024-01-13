@@ -32,7 +32,6 @@ struct TimeIntervalView: View {
     
     var sucessGenerator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
     
-    
     var body: some View {
        
         GeometryReader { geo in
@@ -440,6 +439,32 @@ struct TimeIntervalView: View {
                 }
             }
         }
+        .overlay {
+            if viewModel.showSuccessSaved {
+                ZStack {
+                    if themeManager.currentTheme.isDark && colorScheme != .light {
+                        Color.black.opacity(0.5)
+                            .ignoresSafeArea()
+                    } else {
+                        Color.white.opacity(0.5)
+                            .ignoresSafeArea()
+                    }
+                    
+                    HStack {
+                        Image(systemName: "checkmark")
+                        Text("Сохранено".localize())
+                    }
+                    .foregroundColor(themeManager.currentTheme.mainText)
+                    .padding()
+                    .background {
+                        RoundedRectangle(cornerRadius: 12)
+                            .foregroundColor(themeManager.currentTheme.main)
+                    }
+                    .offset(y: -50)
+                }
+            }
+        }
+        .animation(.spring(), value: viewModel.showSuccessSaved)
         .activity($viewModel.inProgress)
         .onDisappear {
             viewModel.userIsClosingView()
