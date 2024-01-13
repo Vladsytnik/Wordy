@@ -27,8 +27,11 @@ struct CreateModuleView: View {
 	@EnvironmentObject var router: Router
 	@Environment(\.presentationMode) var presentation
 	@EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var rewardManager: RewardManager
     
     @State private var isNeedOpenKeyboard = false
+    
+    @AppStorage("isFirstModuleRewardShown") private var isFirstModuleRewardShown = false
 	
     var body: some View {
 //		Color.clear
@@ -143,6 +146,9 @@ struct CreateModuleView: View {
                     self.isNeedOpenKeyboard.toggle()
 //                }
             }
+            .onAppear {
+//                isFirstModuleRewardShown = false
+            }
     }
 	
 	private func createModule() {
@@ -153,6 +159,13 @@ struct CreateModuleView: View {
 			NetworkManager.createModule(name: moduleName, emoji: emoji) { successResult in
 				needUpdateData.toggle()
 				self.presentation.wrappedValue.dismiss()
+                
+                if !isFirstModuleRewardShown {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        rewardManager.showReward.toggle()
+                        isFirstModuleRewardShown = true
+                    }
+                }
 			} errorBlock: { error in
 				
 			}
@@ -165,6 +178,7 @@ struct CreateModuleView_Previews: PreviewProvider {
 		CreateModuleView(needUpdateData: .constant(false), showActivity: .constant(false))
 			.environmentObject(Router())
 			.environmentObject(ThemeManager())
+            .environmentObject(RewardManager())
     }
 }
 

@@ -7,18 +7,26 @@
 
 import SwiftUI
 import ApphudSDK
+import Combine
 
 struct StartView: View {
 	
 	@EnvironmentObject var deeplinkManager: DeeplinkManager
     @EnvironmentObject var themeManager: ThemeManager
 	@EnvironmentObject var router: Router
+    @EnvironmentObject var rewardManager: RewardManager
 //	let authTransition = AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)).combined(with: .opacity)
 	let authTransition = AnyTransition.opacity
 	let transition = AnyTransition.opacity
 	let opacityTransition = AnyTransition.opacity
     
 //    @StateObject var viewModel = StartViewModel()
+    
+    @State private var cancelable = Set<AnyCancellable>()
+    
+    func test() {
+        
+    }
 	
 	var body: some View {
 			ZStack {
@@ -29,6 +37,9 @@ struct StartView: View {
 						NavigationView {
 //                            if #available(iOS 15.0, *) {
                                 NewModulesScreen()
+                                .sheet(isPresented: $rewardManager.showReward, content: {
+                                    Rewards()
+                                })
 //                                .overlay {
 //                                    EmptyView()
 //                                        .showAlert(title: "Wordy.app", description: viewModel.alertText, isPresented: $viewModel.showAlert, withoutButtons: true, repeatAction: {})
@@ -75,6 +86,16 @@ struct StartView: View {
 //            print("Test init view model - changed")
 //        }
 	}
+    
+    private func initNotifications() {
+//        NotificationCenter.default.publisher(for: NSNotification.Name("reward"), object: nil)
+//            .sink { notif in
+//                if let rewardType = notif.object as? RewardType {
+//                    notificationObserver.showReward(ofType: rewardType)
+//                }
+//            }
+//            .store(in: &cancelable)
+    }
 }
 
 

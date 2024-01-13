@@ -20,6 +20,7 @@ struct WordyApp: App {
 	@StateObject var themeManager = ThemeManager()
 	@StateObject var subsriptionManager = SubscriptionManager()
 	@StateObject var deeplinkManager = DeeplinkManager()
+    @StateObject var rewardManager = RewardManager()
 	
 	private let deepLinkDelegate = AppFliyerDelegate()
 	
@@ -37,6 +38,7 @@ struct WordyApp: App {
 				.environmentObject(themeManager)
 				.environmentObject(subsriptionManager)
 				.environmentObject(deeplinkManager)
+                .environmentObject(rewardManager)
 				.onAppear {
 					AppsFlyerLib.shared().start(completionHandler: { (dictionary, error) in
 						if (error != nil){

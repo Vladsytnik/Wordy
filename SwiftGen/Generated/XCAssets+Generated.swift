@@ -200,6 +200,9 @@ internal enum Asset {
     internal static let advantage = ImageAsset(name: "advantage")
     internal static let learnPageBG = ImageAsset(name: "learnPageBG")
     internal static let newGroup = ImageAsset(name: "newGroup")
+    internal static let paper = ImageAsset(name: "paper")
+    internal static let rewardConfetti = ImageAsset(name: "reward_confetti")
+    internal static let rewardFirstModule = ImageAsset(name: "reward_first_module")
   }
   internal enum Images2 {
     internal static let authBG2 = ImageAsset(name: "AuthBG2")

@@ -36,6 +36,8 @@ struct LottieView: UIViewRepresentable {
 	}
     
     func updateColorsForTheme() {
+        guard fileName.contains("loader") else { return }
+        
         let ciColor = CIColor(color: UIColor(themeManager.currentTheme.accent))
         let accent = LottieColor(r: ciColor.red, g: ciColor.green, b: ciColor.blue, a: 0.8)
         let accentColorValueProvider2 = ColorValueProvider(accent)

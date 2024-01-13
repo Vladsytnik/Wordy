@@ -146,6 +146,8 @@
 		CE272E1E2B067A6400B2B1E8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE272E1D2B067A6400B2B1E8 /* Notification.swift */; };
 		CE41A7FD2AE3D03C002E9E4A /* TimeIntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41A7FC2AE3D03C002E9E4A /* TimeIntervalView.swift */; };
 		CE41A7FF2AE3D058002E9E4A /* TimeIntervalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */; };
+		CE4F240C2B51572E00A1A055 /* haptic.ahap in Resources */ = {isa = PBXBuildFile; fileRef = CE4F240B2B51572D00A1A055 /* haptic.ahap */; };
+		CE4F240E2B51670200A1A055 /* reward.json in Resources */ = {isa = PBXBuildFile; fileRef = CE4F240D2B51670200A1A055 /* reward.json */; };
 		CE52764A2ADAD7D9009F30FB /* ExampleCreatingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */; };
 		CE52764C2ADAE80A009F30FB /* BadgeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */; };
 		CE5CACFF2B2D9E1D00009FF8 /* loader2.json in Resources */ = {isa = PBXBuildFile; fileRef = CE5CACFE2B2D9E1C00009FF8 /* loader2.json */; };
@@ -156,6 +158,9 @@
 		CE7C1DAE2B08E1B900DEB265 /* Colors6.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7C1DAD2B08E1B900DEB265 /* Colors6.xcassets */; };
 		CE92994F2B0FAF9B00E24C7E /* NetworkConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE92994E2B0FAF9B00E24C7E /* NetworkConnectionManager.swift */; };
 		CE9299512B0FB7B900E24C7E /* StartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9299502B0FB7B900E24C7E /* StartViewModel.swift */; };
+		CE9425172B4C427400EF7C7C /* Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9425162B4C427400EF7C7C /* Rewards.swift */; };
+		CE9425192B4D990200EF7C7C /* RewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9425182B4D990200EF7C7C /* RewardManager.swift */; };
+		CE94251D2B4DA02600EF7C7C /* reward_firstModule.json in Resources */ = {isa = PBXBuildFile; fileRef = CE94251C2B4DA02600EF7C7C /* reward_firstModule.json */; };
 		CEBE1E742B482E820079A348 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE1E732B482E820079A348 /* ReviewView.swift */; };
 		CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC18A252AD163BB00825749 /* NewModulesScreen.swift */; };
 		CECE48B72AFF9D82002E5507 /* notificationSound1.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */; };
@@ -292,6 +297,8 @@
 		CE272E1D2B067A6400B2B1E8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		CE41A7FC2AE3D03C002E9E4A /* TimeIntervalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalView.swift; sourceTree = "<group>"; };
 		CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalViewModel.swift; sourceTree = "<group>"; };
+		CE4F240B2B51572D00A1A055 /* haptic.ahap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = haptic.ahap; sourceTree = "<group>"; };
+		CE4F240D2B51670200A1A055 /* reward.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reward.json; sourceTree = "<group>"; };
 		CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCreatingResponse.swift; sourceTree = "<group>"; };
 		CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBackground.swift; sourceTree = "<group>"; };
 		CE5CACFE2B2D9E1C00009FF8 /* loader2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader2.json; sourceTree = "<group>"; };
@@ -302,6 +309,9 @@
 		CE7C1DAD2B08E1B900DEB265 /* Colors6.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors6.xcassets; sourceTree = "<group>"; };
 		CE92994E2B0FAF9B00E24C7E /* NetworkConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectionManager.swift; sourceTree = "<group>"; };
 		CE9299502B0FB7B900E24C7E /* StartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewModel.swift; sourceTree = "<group>"; };
+		CE9425162B4C427400EF7C7C /* Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rewards.swift; sourceTree = "<group>"; };
+		CE9425182B4D990200EF7C7C /* RewardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardManager.swift; sourceTree = "<group>"; };
+		CE94251C2B4DA02600EF7C7C /* reward_firstModule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reward_firstModule.json; sourceTree = "<group>"; };
 		CEBE1E732B482E820079A348 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		CEBE1E752B4ABCDD0079A348 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEC18A252AD163BB00825749 /* NewModulesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewModulesScreen.swift; sourceTree = "<group>"; };
@@ -572,6 +582,7 @@
 		0190562C2944A7140058B566 = {
 			isa = PBXGroup;
 			children = (
+				CE4F240B2B51572D00A1A055 /* haptic.ahap */,
 				CECE48BA2AFF9F8E002E5507 /* notificationSound3.m4r */,
 				CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */,
 				CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */,
@@ -631,6 +642,7 @@
 		019056462944A8450058B566 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				CE9425152B4C426400EF7C7C /* Rewards */,
 				01E033182AD016D800A3DA14 /* SharedModulePage */,
 				013D97752A434A0200F03AF7 /* Paywall */,
 				01F01B6D29F02F7100742DF3 /* PhraseEditPage */,
@@ -724,6 +736,8 @@
 		01978FAF294CBEE600B8EFC3 /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
+				CE4F240D2B51670200A1A055 /* reward.json */,
+				CE94251C2B4DA02600EF7C7C /* reward_firstModule.json */,
 				01B59DF92AA24B1B003115E6 /* onboarding.json */,
 				01770ECB296AF05100578F81 /* addWordLoader.json */,
 				CE5CACFE2B2D9E1C00009FF8 /* loader2.json */,
@@ -772,6 +786,7 @@
 			isa = PBXGroup;
 			children = (
 				01E4B758294B119800720BE0 /* NetworkManager.swift */,
+				CE9425182B4D990200EF7C7C /* RewardManager.swift */,
 				CE92994E2B0FAF9B00E24C7E /* NetworkConnectionManager.swift */,
 				01D89B1D2AC961390077FD6E /* SubscriptionManager.swift */,
 				CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */,
@@ -869,6 +884,14 @@
 				CE7C1DAB2B08E1AA00DEB265 /* Images6.xcassets */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		CE9425152B4C426400EF7C7C /* Rewards */ = {
+			isa = PBXGroup;
+			children = (
+				CE9425162B4C427400EF7C7C /* Rewards.swift */,
+			);
+			path = Rewards;
 			sourceTree = "<group>";
 		};
 		CEBE1E722B482E4A0079A348 /* ReviewView */ = {
@@ -1001,6 +1024,7 @@
 				018D01492ABF179E008297CA /* Images3.xcassets in Resources */,
 				012D95E0294867DA00165DAF /* SF-Pro-Display-MediumItalic.otf in Resources */,
 				014955A829E855FE000BC30F /* congeralations.json in Resources */,
+				CE4F240C2B51572E00A1A055 /* haptic.ahap in Resources */,
 				012D95D7294867DA00165DAF /* SF-Pro-Display-ThinItalic.otf in Resources */,
 				019056562944D0DE0058B566 /* Colors.xcassets in Resources */,
 				012D95DD294867DA00165DAF /* SF-Pro-Display-Semibold.otf in Resources */,
@@ -1019,7 +1043,9 @@
 				012D95D1294867DA00165DAF /* SF-Pro-Display-Thin.otf in Resources */,
 				012D95D9294867DA00165DAF /* SF-Pro-Display-Ultralight.otf in Resources */,
 				012D95D0294867D600165DAF /* SF-Pro-Display-Black.otf in Resources */,
+				CE4F240E2B51670200A1A055 /* reward.json in Resources */,
 				012D95DA294867DA00165DAF /* SF-Pro-Text-Bold.otf in Resources */,
+				CE94251D2B4DA02600EF7C7C /* reward_firstModule.json in Resources */,
 				CE7C1DA82B08D42800DEB265 /* Images4.xcassets in Resources */,
 				012D95E1294867DA00165DAF /* SF-Pro-Text-BoldItalic.otf in Resources */,
 				0190564C2944AA710058B566 /* .gitignore in Resources */,
@@ -1109,6 +1135,7 @@
 				0101B8A92AA0CB060055DEFB /* MockDataManager.swift in Sources */,
 				011B138E2A00176B00D4CCBF /* SignInWithApple.swift in Sources */,
 				013251E0296B034900B071F1 /* UIApplication + hideKeyboard.swift in Sources */,
+				CE9425172B4C427400EF7C7C /* Rewards.swift in Sources */,
 				0101B8B02AA0D45B0055DEFB /* MyTooltipSide.swift in Sources */,
 				0101B8B62AA0D5A00055DEFB /* MyDefaultTooltipConfig.swift in Sources */,
 				019056492944A85E0058B566 /* Modules.swift in Sources */,
@@ -1173,6 +1200,7 @@
 				01B92B35294F606100F440EE /* Settings.swift in Sources */,
 				01F01B7129F0301F00742DF3 /* PhraseEditViewModel.swift in Sources */,
 				CE272E1E2B067A6400B2B1E8 /* Notification.swift in Sources */,
+				CE9425192B4D990200EF7C7C /* RewardManager.swift in Sources */,
 				016AA3A62947550D002C00CC /* ModuleCard.swift in Sources */,
 				CE6BD5B02AFBCF4900C4379F /* PrePaywallManager.swift in Sources */,
 				015CB51F2994381B0088A1FC /* WordsCarouselView.swift in Sources */,

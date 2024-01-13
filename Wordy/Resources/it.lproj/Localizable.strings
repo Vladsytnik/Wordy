@@ -113,8 +113,13 @@
 "Без подписки доступно \n" = "Disponibile senza abbonamento \n";
 " перевода" = " traduzioni";
 
-"Без подписки доступно \n" = "Disponibile senza abbonamento \n";
 "генерации примеров" = "generazione di esempi";
 
 "Вам прислали \nновый модуль 👇" = "Ti è stato inviato \nun nuovo modulo 👇";
 "Принять" = "Accetta";
+
+"Поздравляем!" = "Congratulazioni!";
+"Ты только что создал свой первый модуль, так держать!" = "Hai appena creato il tuo primo modulo, ottimo lavoro!";
+"В честь этого хотим вручить тебе первую награду, ты это заслужил!" = "In onore di questo, vorremmo consegnarti il tuo primo premio. Te lo sei meritato!";
+"Награда" = "Premio";
+"- Исследователь -" = "- Esploratore -";

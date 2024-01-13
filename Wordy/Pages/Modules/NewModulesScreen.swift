@@ -109,6 +109,8 @@ struct NewModulesScreen: View {
     @State private var reviewCounterLimit = 10
     @State private var isReviewOpened = false
     
+    @EnvironmentObject var rewardManager: RewardManager
+    
     var body: some View {
                 GeometryReader { geometry in
                     ZStack {
@@ -486,6 +488,7 @@ struct NewModulesScreen: View {
                 }
             }
             .onAppear {
+
             }
             .navigationBarTitleDisplayMode(.large)
             .navigationTitle("Модули".localize())
