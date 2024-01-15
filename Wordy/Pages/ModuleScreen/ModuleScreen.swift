@@ -285,9 +285,7 @@ struct ModuleScreen: View {
 //                            }
 //                        }
 					}
-                    .showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Отменить", titleForAction: "Удалить") {
-                        viewModel.nowReallyNeedToDeleteModule()
-                    }
+                    .showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Удалить", titleForAction: "Отменить", withoutButtons: false, okAction: { viewModel.nowReallyNeedToDeleteModule() }, repeatAction: {})
                     .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showDeletingErrorAlert) {
                         viewModel.nowReallyNeedToDeleteModule()
                     }

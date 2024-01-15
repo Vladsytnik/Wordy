@@ -66,8 +66,24 @@ class TimeIntervalViewModel: ObservableObject {
     @Published var isShowAlert = false
     @Published var showSuccessSaved = false
     @Published var isSaveInfoToServerProgress = false
+    @Published var needToDismissView = false
     
     private var isPrevOn = false
+    
+    @Published var notificationTimes: [Date] = []
+    @Published var notificationAngles: [Double] = []
+    
+    @Published var forceUpdateView = 0
+    
+    @Published var fromDatePicker = Date()
+    @Published var toDatePicker = Date()
+    @Published var isShowDatePicker = false
+    @Published var isShowEndDatePicker = false
+    
+    private func updateView() {
+        self.forceUpdateView += 1
+        self.forceUpdateView += 1
+    }
     
     func initData() {
         selectedModules = []
@@ -84,11 +100,13 @@ class TimeIntervalViewModel: ObservableObject {
                     self.selectedModulesIndexes = self.initSelectedIndexes(from: notification.selectedModulesIds)
                     self.selectedModulesCount = self.selectedModules.count
                     self.notificationsIsOn = notification.isOn
+                    self.isNight = notification.isNight
                     self.initStartEndDates(from: notification)
                     self.inProgress = false
-                    self.isNight = notification.isNight
                     self.needAnimateChanges = true
                     self.countOfNotifications = notification.notificationCount
+                    self.updateNotificationsDates()
+                    self.updateView()
                 } catch(let error) {
                     print("Error in viewModel -> get NotificationInfo: \(error)")
                     self.inProgress = false
@@ -144,11 +162,8 @@ class TimeIntervalViewModel: ObservableObject {
             .store(in: &cancelations)
         $isNight
             .sink { value in
-                if value {
-                    
-                } else {
-                    
-                }
+                self.updateTimeDifference()
+                self.updateTimeDifference()
             }
             .store(in: &cancelations)
         $notificationsIsOn
@@ -188,16 +203,56 @@ class TimeIntervalViewModel: ObservableObject {
             .store(in: &cancelations)
         
         $showSuccessSaved
+            .dropFirst(1)
             .sink { [weak self] val in
                 if val {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                         self?.showSuccessSaved.toggle()
                     }
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self?.needToDismissView.toggle()
+                    }
+                }
+            }
+            .store(in: &cancelations)
+        
+        $isShowDatePicker
+            .dropFirst()
+            .sink { [weak self] val in
+                guard let self else { return }
+                if !val {
+                    self.setStartDate(self.fromDatePicker)
+                }
+            }
+            .store(in: &cancelations)
+        
+        $isShowEndDatePicker
+            .dropFirst()
+            .sink { [weak self] val in
+                guard let self else { return }
+                if !val {
+                    self.setEndDate(self.toDatePicker)
                 }
             }
             .store(in: &cancelations)
         
         NetworkManager.networkDelegate = self
+    }
+    
+    func setStartDate(_ date: Date) {
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        
+        self.setStartDate(hour: hour, minutes: minutes)
+    }
+    
+    func setEndDate(_ date: Date) {
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        self.setEndDate(hour: hour, minutes: minutes)
     }
     
     func checkNotificationAuthorization(isAllow: ((Bool) -> Void)?) {
@@ -230,7 +285,7 @@ class TimeIntervalViewModel: ObservableObject {
             let angle = getAngle(from: customDate)
             isAfter12 = hour >= 12
             
-            self.startAngle = angle
+            self.startAngle = isNight ? angle + 360 : angle
             self.startProgress = angle / 360
             updateTimeDifference()
         } else {
@@ -281,12 +336,14 @@ class TimeIntervalViewModel: ObservableObject {
     
     private func initStartEndDates(from notification: Notification) {
         if let startDate = notification.dates.first {
+            self.fromDatePicker = startDate
             let calendar = Calendar.current
             let hour = calendar.component(.hour, from: startDate)
             let minutes = calendar.component(.minute, from: startDate)
             self.setStartDate(hour: hour, minutes: minutes)
         }
         if let endDate = notification.dates.last {
+            self.toDatePicker = endDate
             let calendar = Calendar.current
             let hour = calendar.component(.hour, from: endDate)
             let minutes = calendar.component(.minute, from: endDate)
@@ -459,6 +516,9 @@ class TimeIntervalViewModel: ObservableObject {
         let result = calendar.dateComponents([.hour],
                                              from: getTime(angle: startAngle, isStartSlider: true),
                                              to: getTime(angle: toAngle))
+        
+        updateNotificationsDates()
+        
         return result.hour ?? 0
     }
     
@@ -497,6 +557,8 @@ class TimeIntervalViewModel: ObservableObject {
             countOfNotifications = count
 //            updateNotificationInfo()
         }
+        
+        updateNotificationsDates()
     }
     
     private func shakeTextField() {
@@ -514,6 +576,39 @@ class TimeIntervalViewModel: ObservableObject {
         
         group.notify(queue: .main) {
             self.notificationCountIsWrong = false
+        }
+    }
+    
+    private func updateNotificationsDates() {
+        let notificationDates = generateNotificationsDates()
+        self.notificationTimes = notificationDates
+        print("notificationTimes updated: \(notificationTimes)")
+        convertToAngle(dates: self.notificationTimes)
+    }
+    
+    private func convertToAngle(dates: [Date]) {
+        notificationAngles = []
+        
+        for date in dates {
+            let calendar = Calendar.current
+            var dateComponents = calendar.dateComponents([.year, .month, .day], from: date)
+            
+            let hour = calendar.component(.hour, from: date)
+            let minutes = calendar.component(.minute, from: date)
+
+            dateComponents.hour = hour
+            dateComponents.minute = minutes
+            
+            if let customDate = calendar.date(from: dateComponents) {
+                let angle = getAngle(from: customDate) // тут возможно надо делить на 360 каждый угол
+                notificationAngles.append(angle)
+                print("notificationAngles updated: \(notificationAngles)")
+                
+    //            self.startAngle = angle
+    //            self.startProgress = angle / 360
+            } else {
+                print("Ошибка в TimeIntervalViewModel -> convertToAngle")
+            }
         }
     }
     
@@ -565,7 +660,7 @@ class TimeIntervalViewModel: ObservableObject {
             resultDates.append(startDate)
             var stop = false
             
-            while tempEndDate < endDate && !stop {
+            while tempEndDate < endDate && !stop && stepHour > 0 && stepHour != .infinity {
 //                print("TEST DATES: tempEndDate \(tempEndDate)")
 //                print("TEST DATES: Step \(stepHour)")
                 
@@ -604,7 +699,10 @@ class TimeIntervalViewModel: ObservableObject {
     }
     
     private func toSeconds(_ hour: Double) -> Int {
-        Int(hour * 60 * 60)
+        if hour != .infinity {
+            return Int(hour * 60 * 60)
+        }
+        return 0
     }
     
     func userIsClosingView() {
@@ -612,11 +710,11 @@ class TimeIntervalViewModel: ObservableObject {
     }
     
     func reset() {
+        countOfNotifications = 2
         setStartDate(hour: 12)
         setEndDate(hour: 6)
         updateTimeDifference()
         isNight = false
-        countOfNotifications = 2
     }
 }
 
