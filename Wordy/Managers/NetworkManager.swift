@@ -32,6 +32,45 @@ class NetworkManager {
 //	static let db = Firestore.firestore()
 	static var currentUserID: String? { Auth.auth().currentUser?.uid }
     static weak var networkDelegate: NetworkDelegate?
+    
+    // MARK: - Support
+    
+    static func sendSupportRequest(withData data: [String: String]) async throws {
+        guard let currentUserID = currentUserID else {
+            print("error in updateNotificationsInfo -> currentUserID")
+            return
+        }
+        
+        if NetworkConnectionManager.shared.isConnectedToNetwork() {
+            print("Internet connection test: интернет есть")
+        } else {
+            print("Internet connection test: интернета нет")
+            networkDelegate?.networkError(.turnedOff("\nУпс, отсутствует подключение к интернету..."))
+            return
+        }
+        
+        var newData = data
+        newData["user_id"] = currentUserID
+        
+        var isTest = false
+        
+        #if DEBUG
+            isTest = true
+        #endif
+        
+        let jsonData = try JSONEncoder().encode(newData)
+        if let jsonString = String(data: jsonData, encoding: .utf8) {
+            // Отправляем JSON в Firebase
+            if isTest {
+                let _ = try await ref.child("support_request_test").childByAutoId().updateChildValues(["data": newData])
+            } else {
+                let _ = try await ref.child("support_request").childByAutoId().updateChildValues(["data": newData])
+            }
+        } else {
+            print("error in sendSupportRequest -> jsonString")
+        }
+        
+    }
 	
     
     // MARK: - Subscription

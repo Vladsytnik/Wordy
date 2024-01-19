@@ -14,6 +14,7 @@ protocol ThemeProtocol {
 struct ColorTheme: ThemeProtocol {
     let isFree: Bool
 	let isDark: Bool
+    let isSupportLightTheme: Bool
 	
 	var id: String
 	let accent: Color

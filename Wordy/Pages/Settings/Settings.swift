@@ -197,6 +197,17 @@ struct Settings: View {
                                            isOpenable: false,
                                            isOpened: .constant(false))
                     }
+                    
+                    NavigationLink {
+                        SupportView()
+//                            .navigationTitle("Опишите вашу проблему".localize())
+                    } label: {
+                        GeneralSettingsRow(cellHeight: cellHeight,
+                                           cellText: "Помощь",
+                                           cellImageName: "person.2.badge.gearshape",
+                                           isOpenable: false,
+                                           isOpened: $isThemeSelecting)
+                    }
 					
 					LogOutRow(cellHeight: cellHeight) {
 						self.presentationMode.wrappedValue.dismiss()
@@ -379,6 +390,16 @@ struct Settings_Previews: PreviewProvider {
 
 // MARK: - General settings row
 
+struct SettingsImageSizePreference: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        if nextValue().width > value.width {
+            value = nextValue()
+        }
+    }
+}
+
 struct GeneralSettingsRow: View {
 	
 	@EnvironmentObject var themeManager: ThemeManager
@@ -397,6 +418,7 @@ struct GeneralSettingsRow: View {
 					.foregroundColor(themeManager.currentTheme.main)
 				HStack(spacing: 0) {
 					Image(systemName: cellImageName)
+                        .frame(width: 30, height: 30)
 						.foregroundColor(themeManager.currentTheme.mainText)
 						.padding()
                     Text(cellText.localize())
@@ -431,6 +453,7 @@ struct GeneralSettingsRow: View {
 					.foregroundColor(themeManager.currentTheme.main)
 				HStack(spacing: 0) {
 					Image(systemName: cellImageName)
+                        .frame(width: 30, height: 30)
 						.foregroundColor(themeManager.currentTheme.mainText)
 						.padding()
                     Text(cellText.localize())
@@ -475,6 +498,7 @@ struct EditFolderRow: View {
 				.foregroundColor(themeManager.currentTheme.main)
 			HStack(spacing: 0) {
 				Image(systemName: "folder")
+                    .frame(width: 30, height: 30)
 					.foregroundColor(themeManager.currentTheme.mainText)
 					.padding()
 				Text("Редактировать группы".localize())
@@ -509,6 +533,7 @@ struct LogOutRow: View {
 					.foregroundColor(themeManager.currentTheme.main)
 				HStack(spacing: 0) {
 					Image(systemName: "rectangle.portrait.and.arrow.forward")
+                        .frame(width: 30, height: 30)
 						.foregroundColor(themeManager.currentTheme.mainText)
 						.padding()
 					Text("Выйти".localize())

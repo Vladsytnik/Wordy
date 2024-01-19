@@ -132,3 +132,14 @@
 "- Исследователь -" = "- Explorer -";
 
 "Сохранено" = "Saved";
+
+"Помощь" = "Help";
+"Почта*" = "Email*";
+"mail.example.com" = "mail.example.com";
+"Сообщение*" = "Message*";
+"Опишите вашу проблему" = "Describe your issue";
+"Или предложите идею по улучшению приложения" = "Or suggest an idea to improve the app";
+"Отправляя эту форму, вы даете согласие нашей команде поддержки использовать ваш адрес электронной почты и автоматически собираемые данные об устройстве (включая версию ОС) для помощи в разрешении вашего запроса на поддержку. Информация о вашей электронной почте и устройстве будет использоваться исключительно для этой цели и не будет передана третьим лицам. Такое использование не связано с любыми согласиями, предоставленными нашей общей Политикой конфиденциальности." = "By submitting this form, you consent to our support team using your email address and automatically collected device data (including OS version) to help resolve your support request. Information about your email and device will be used solely for this purpose and will not be shared with third parties. This usage is unrelated to any consents provided by our overall Privacy Policy.";
+"Отправить" = "Send";
+
+"Произошла какая-то ошибка..." = "An error occurred...";

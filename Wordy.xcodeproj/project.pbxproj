@@ -152,6 +152,7 @@
 		CE52764C2ADAE80A009F30FB /* BadgeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */; };
 		CE5CACFF2B2D9E1D00009FF8 /* loader2.json in Resources */ = {isa = PBXBuildFile; fileRef = CE5CACFE2B2D9E1C00009FF8 /* loader2.json */; };
 		CE6BD5B02AFBCF4900C4379F /* PrePaywallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */; };
+		CE6C52962B5AC7D900FA7890 /* SupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C52952B5AC7D900FA7890 /* SupportView.swift */; };
 		CE7C1DA62B08D41E00DEB265 /* Colors5.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7C1DA52B08D41E00DEB265 /* Colors5.xcassets */; };
 		CE7C1DA82B08D42800DEB265 /* Images4.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7C1DA72B08D42800DEB265 /* Images4.xcassets */; };
 		CE7C1DAC2B08E1AA00DEB265 /* Images6.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE7C1DAB2B08E1AA00DEB265 /* Images6.xcassets */; };
@@ -303,6 +304,7 @@
 		CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBackground.swift; sourceTree = "<group>"; };
 		CE5CACFE2B2D9E1C00009FF8 /* loader2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader2.json; sourceTree = "<group>"; };
 		CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrePaywallManager.swift; sourceTree = "<group>"; };
+		CE6C52952B5AC7D900FA7890 /* SupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportView.swift; sourceTree = "<group>"; };
 		CE7C1DA52B08D41E00DEB265 /* Colors5.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors5.xcassets; sourceTree = "<group>"; };
 		CE7C1DA72B08D42800DEB265 /* Images4.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images4.xcassets; sourceTree = "<group>"; };
 		CE7C1DAB2B08E1AA00DEB265 /* Images6.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images6.xcassets; sourceTree = "<group>"; };
@@ -762,6 +764,7 @@
 				0192298B2AC48E5A002648C4 /* SettingsDelegate.swift */,
 				01B92B34294F606000F440EE /* Settings.swift */,
 				CE41A7FB2AE3D025002E9E4A /* TimeIntervalView */,
+				CE6C52942B5AC7C700FA7890 /* SupportView */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -858,6 +861,14 @@
 				CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */,
 			);
 			path = NetworkModels;
+			sourceTree = "<group>";
+		};
+		CE6C52942B5AC7C700FA7890 /* SupportView */ = {
+			isa = PBXGroup;
+			children = (
+				CE6C52952B5AC7D900FA7890 /* SupportView.swift */,
+			);
+			path = SupportView;
 			sourceTree = "<group>";
 		};
 		CE7C1DA92B08D49200DEB265 /* Colors */ = {
@@ -1142,6 +1153,7 @@
 				013D97792A49BDF100F03AF7 /* PaywallViewModel.swift in Sources */,
 				CE52764C2ADAE80A009F30FB /* BadgeBackground.swift in Sources */,
 				CE41A7FF2AE3D058002E9E4A /* TimeIntervalViewModel.swift in Sources */,
+				CE6C52962B5AC7D900FA7890 /* SupportView.swift in Sources */,
 				013D97772A434A1B00F03AF7 /* Paywall.swift in Sources */,
 				0110F711297EECD2007F26BC /* NavigationView.swift in Sources */,
 				0101B8AE2AA0D4260055DEFB /* MyTooltipConfig.swift in Sources */,

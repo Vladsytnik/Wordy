@@ -12,6 +12,7 @@ struct Themes {
 	static let availableThemes: [ColorTheme] = [
         ColorTheme(isFree: true,
                    isDark: true,
+                   isSupportLightTheme: true,
 				   id: "MainColor",
 				   accent: Color(asset: Asset.Colors.accent),
 				   main: Color(asset: Asset.Colors.main),
@@ -47,6 +48,7 @@ struct Themes {
 		
 		ColorTheme(isFree: true,
                    isDark: true,
+                   isSupportLightTheme: false,
 				   id: "RedColor",
 				   accent: Color(asset: Asset.Colors2.accent2),
 				   main: Color(asset: Asset.Colors2.main2),
@@ -80,6 +82,7 @@ struct Themes {
 		
 		ColorTheme(isFree: false,
                    isDark: false,
+                   isSupportLightTheme: false,
 				   id: "LightPinkColor",
 				   accent: Color(asset: Asset.Colors3.accent3),
 				   main: Color(asset: Asset.Colors3.main3),
@@ -114,6 +117,7 @@ struct Themes {
         
         ColorTheme(isFree: false,
                    isDark: false,
+                   isSupportLightTheme: false,
                    id: "LightPastilleBlue",
                    accent: Color(asset: Asset.Colors4.accent4),
                    main: Color(asset: Asset.Colors4.main4),
@@ -147,6 +151,7 @@ struct Themes {
         
         ColorTheme(isFree: false,
                    isDark: false,
+                   isSupportLightTheme: false,
                    id: "LightPastillePeach",
                    accent: Color(asset: Asset.Colors5.accent5),
                    main: Color(asset: Asset.Colors5.main5),
@@ -180,6 +185,7 @@ struct Themes {
         
         ColorTheme(isFree: false,
                    isDark: true,
+                   isSupportLightTheme: false,
                    id: "DarkMint",
                    accent: Color(asset: Asset.Colors6.accent6),
                    main: Color(asset: Asset.Colors6.main6),
