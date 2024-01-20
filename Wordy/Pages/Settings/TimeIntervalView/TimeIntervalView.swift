@@ -908,12 +908,12 @@ struct TimeIntervalView: View {
 //                            }
                         }
                         
-                        Button("Crash") {
-                          fatalError("Crash was triggered")
-                        }
-                        .background {
-                            RoundedRectangle(cornerRadius: 12)
-                        }
+//                        Button("Crash") {
+//                          fatalError("Crash was triggered")
+//                        }
+//                        .background {
+//                            RoundedRectangle(cornerRadius: 12)
+//                        }
                     }
                     .frame(width: width,
                            height: width)
