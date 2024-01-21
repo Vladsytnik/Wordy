@@ -143,6 +143,9 @@
 		01FB3A8029505E5100330DDE /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FB3A7F29505E5100330DDE /* SearchTextField.swift */; };
 		54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */; };
 		CE1A63712B1E150F0090850B /* ChangeModulePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1A63702B1E150F0090850B /* ChangeModulePage.swift */; };
+		CE1AF6322B5C466E00CF5F08 /* HighlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AF6312B5C466E00CF5F08 /* HighlightView.swift */; };
+		CE1AF6342B5C570B00CF5F08 /* PopupExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AF6332B5C570B00CF5F08 /* PopupExtension.swift */; };
+		CE1AF6362B5C572000CF5F08 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AF6352B5C572000CF5F08 /* UIDeviceExtension.swift */; };
 		CE272E1E2B067A6400B2B1E8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE272E1D2B067A6400B2B1E8 /* Notification.swift */; };
 		CE41A7FD2AE3D03C002E9E4A /* TimeIntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41A7FC2AE3D03C002E9E4A /* TimeIntervalView.swift */; };
 		CE41A7FF2AE3D058002E9E4A /* TimeIntervalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */; };
@@ -295,6 +298,9 @@
 		01F708BA29B6573F00585B2E /* NewCategoryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryCard.swift; sourceTree = "<group>"; };
 		01FB3A7F29505E5100330DDE /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		CE1A63702B1E150F0090850B /* ChangeModulePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeModulePage.swift; sourceTree = "<group>"; };
+		CE1AF6312B5C466E00CF5F08 /* HighlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightView.swift; sourceTree = "<group>"; };
+		CE1AF6332B5C570B00CF5F08 /* PopupExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupExtension.swift; sourceTree = "<group>"; };
+		CE1AF6352B5C572000CF5F08 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		CE272E1D2B067A6400B2B1E8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		CE41A7FC2AE3D03C002E9E4A /* TimeIntervalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalView.swift; sourceTree = "<group>"; };
 		CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalViewModel.swift; sourceTree = "<group>"; };
@@ -447,6 +453,7 @@
 				019160BD29D2D0360094F36D /* Group.swift */,
 				0109D19B2AB8886600714E55 /* ColorTheme.swift */,
 				CE272E1D2B067A6400B2B1E8 /* Notification.swift */,
+				CE1AF6312B5C466E00CF5F08 /* HighlightView.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -554,6 +561,8 @@
 				0176424B29744BC90042DB86 /* DateFormatter.swift */,
 				0110F710297EECD2007F26BC /* NavigationView.swift */,
 				014955A929E85946000BC30F /* Vibration.swift */,
+				CE1AF6332B5C570B00CF5F08 /* PopupExtension.swift */,
+				CE1AF6352B5C572000CF5F08 /* UIDeviceExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1157,6 +1166,7 @@
 				013D97772A434A1B00F03AF7 /* Paywall.swift in Sources */,
 				0110F711297EECD2007F26BC /* NavigationView.swift in Sources */,
 				0101B8AE2AA0D4260055DEFB /* MyTooltipConfig.swift in Sources */,
+				CE1AF6322B5C466E00CF5F08 /* HighlightView.swift in Sources */,
 				CEBE1E742B482E820079A348 /* ReviewView.swift in Sources */,
 				0103FF48294C5035004C2EA6 /* AuthPage.swift in Sources */,
 				014681132955FF9C0080732C /* CreateModuleCard.swift in Sources */,
@@ -1180,6 +1190,7 @@
 				01780D2C294A110A004F11AC /* ReverseMask.swift in Sources */,
 				0185B55F2949F26D00934373 /* ObservableScrollView.swift in Sources */,
 				CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */,
+				CE1AF6342B5C570B00CF5F08 /* PopupExtension.swift in Sources */,
 				01D89B1E2AC961390077FD6E /* SubscriptionManager.swift in Sources */,
 				CE52764A2ADAD7D9009F30FB /* ExampleCreatingResponse.swift in Sources */,
 				01E0331A2AD016F500A3DA14 /* SharedModulePage.swift in Sources */,
@@ -1219,6 +1230,7 @@
 				016817FF2969B0B400F30E39 /* Alert.swift in Sources */,
 				011B13912A001DB300D4CCBF /* SignInWithAppleDelegates.swift in Sources */,
 				CE1A63712B1E150F0090850B /* ChangeModulePage.swift in Sources */,
+				CE1AF6362B5C572000CF5F08 /* UIDeviceExtension.swift in Sources */,
 				019160BC29D098DD0094F36D /* ModuleSelectPage.swift in Sources */,
 				CE92994F2B0FAF9B00E24C7E /* NetworkConnectionManager.swift in Sources */,
 				01F708BB29B6573F00585B2E /* NewCategoryCard.swift in Sources */,
