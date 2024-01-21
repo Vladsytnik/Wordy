@@ -15,14 +15,6 @@ struct BottomPlaceholderPreference: PreferenceKey {
     }
 }
 
-struct PopupPreferenceKey: PreferenceKey {
-    static var defaultValue: Anchor<CGRect>?
-    
-    static func reduce(value: inout Anchor<CGRect>?, nextValue: () -> Anchor<CGRect>?) {
-        value = nextValue()
-    }
-}
-
 enum Field: Int, Hashable {
    case mail
    case message
@@ -50,7 +42,6 @@ struct SupportView: View {
     @State var shakeMessageTextField = false
     
     @State var needToShowPopup = false
-    @State var popupRect: Anchor<CGRect>?
     
     @State var popupIndex = 0
     
@@ -60,6 +51,12 @@ struct SupportView: View {
             
             VStack {
                 Header()
+                    .if(popupIndex == 2, transform: { v in
+                        v.anchorPreference(key: PopupPreferenceKey.self, value: .bounds, transform: { anchor in
+                            let highlightView = HighlightView(anchor: anchor, text: "Test 2")
+                            return highlightView
+                        })
+                    })
                 
                 Spacer()
                 
@@ -124,10 +121,10 @@ struct SupportView: View {
                             .animation(.default.repeatCount(3, autoreverses: true).speed(3), value: shakeMessageTextField)
                     }
                 }
-                .if(needToShowPopup && popupIndex == 1, transform: { v in
+                .if(popupIndex == 0, transform: { v in
                     v.anchorPreference(key: PopupPreferenceKey.self, value: .bounds, transform: { anchor in
-                        let highlightView = HighlightView(anchor: anchor, title: "Test 0")
-                        return anchor
+                        let highlightView = HighlightView(anchor: anchor, text: "Test 1")
+                        return highlightView
                     })
                 })
                 
@@ -143,9 +140,10 @@ struct SupportView: View {
                                 .foregroundColor(themeManager.currentTheme.main)
                         }
                 })
-                .if(needToShowPopup && popupIndex == 0, transform: { v in
+                .if(popupIndex == 0, transform: { v in
                     v.anchorPreference(key: PopupPreferenceKey.self, value: .bounds, transform: { anchor in
-                        return anchor
+                        let highlightView = HighlightView(anchor: anchor, text: "Test 0")
+                        return highlightView
                     })
                 })
                 
@@ -164,6 +162,12 @@ struct SupportView: View {
                 Spacer()
                 
                 Text("Отправляя эту форму, вы даете согласие нашей команде поддержки использовать ваш адрес электронной почты и автоматически собираемые данные об устройстве (включая версию ОС) для помощи в разрешении вашего запроса на поддержку. Информация о вашей электронной почте и устройстве будет использоваться исключительно для этой цели и не будет передана третьим лицам. Такое использование не связано с любыми согласиями, предоставленными нашей общей Политикой конфиденциальности.".localize())
+//                    .if(popupIndex == 1, transform: { v in
+//                        v.anchorPreference(key: PopupPreferenceKey.self, value: .bounds, transform: { anchor in
+//                            let highlightView = HighlightView(anchor: anchor, text: "Test 0")
+//                            return highlightView
+//                        })
+//                    })
                     .multilineTextAlignment(.center)
                     .foregroundColor(themeManager.currentTheme.mainText.opacity(0.5))
                     .font(.system(size: 11))
@@ -186,27 +190,22 @@ struct SupportView: View {
                     .foregroundColor(themeManager.currentTheme.mainText)
             }
         }
-        .popup(when: needToShowPopup,
-              viewRect: popupRect,
-              onTap: {
-//            needToShowPopup.toggle()
-            popupIndex += 1
-        })
         .navigationBarTitleDisplayMode(.inline)
         .onPreferenceChange(BottomPlaceholderPreference.self) { val in
             self.placeholderSize = val
-        }
-        .onPreferenceChange(PopupPreferenceKey.self) { val in
-            self.popupRect = val
         }
         .activity($isActivity)
         .animation(.spring(), value: needToShowSuccess)
         .showAlert(title: alert.title, description: alert.description, isPresented: $showAlert, titleWithoutAction: "ОК", titleForAction: "", withoutButtons: true, repeatAction: {})
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                needToShowPopup.toggle()
+                needToShowPopup = true
             }
         }
+        .popup(when: needToShowPopup,
+              onTap: {
+            popupIndex += 1
+        })
     }
     
     private func sendProblemDescriptionToServer() {
@@ -315,7 +314,6 @@ struct SupportView: View {
                     .multilineTextAlignment(.leading)
                     Spacer()
                 }
-                
             }
             
             Spacer()
@@ -325,20 +323,6 @@ struct SupportView: View {
 }
 
 // MARK: - View Extensions
-
-extension View {
-    func placeholder<Content: View>(
-        when shouldShow: Bool,
-        alignment: Alignment = .leading,
-        @ViewBuilder placeholder: () -> Content) -> some View {
-
-        ZStack(alignment: alignment) {
-            placeholder().opacity(shouldShow ? 1 : 0)
-                .padding(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 0))
-            self
-        }
-    }
-}
 
 extension View {
     func observeSize<K: PreferenceKey>(key: K.Type) -> some View {

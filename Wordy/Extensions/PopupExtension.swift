@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+struct PopupPreferenceKey: PreferenceKey {
+    static var defaultValue: HighlightView?
+    
+    static func reduce(value: inout HighlightView?, nextValue: () -> HighlightView?) {
+        value = nextValue()
+    }
+}
+
 enum PopupDirection {
     case top, bottom
 }
@@ -14,8 +22,6 @@ enum PopupDirection {
 extension View {
     func popup(
         when shouldShow: Bool,
-        alignment: Alignment = .leading,
-        viewRect rect: Anchor<CGRect>?,
         onTap: @escaping (() -> Void)
     ) -> some View {
         self
@@ -34,46 +40,47 @@ extension View {
                 
                 if shouldShow {
                     ZStack {
-                        Color.black.opacity(0.5)
-                            .ignoresSafeArea()
+//                        Color.black.opacity(0.5)
+//                            .ignoresSafeArea()
                         
                         GeometryReader { geometry in
                             preferences.map {
                                 RoundedRectangle(cornerRadius: cornerRadius)
                                     .foregroundColor(.white)
-                                    .frame(width: geometry[$0].width + horizontalOffset,
-                                           height: geometry[$0].height + verticalOffset)
-                                    .offset(x: geometry[$0].minX - (horizontalOffset/2),
-                                            y: geometry[$0].minY - (verticalOffset/2))
-                                    .blur(radius: 10)
+                                    .frame(width: geometry[$0.anchor].width + horizontalOffset,
+                                           height: geometry[$0.anchor].height + verticalOffset)
+                                    .offset(x: geometry[$0.anchor].minX - (horizontalOffset/2),
+                                            y: geometry[$0.anchor].minY - (verticalOffset/2))
+//                                    .blur(radius: 10)
                             }
                         }
-                        .blendMode(.destinationOut)
                         
-                        GeometryReader { geometry in
-                            preferences.map {
-                                VStack {
-                                    Spacer()
-                                    HStack {
-                                        Spacer()
-                                        Text(title)
-                                            .foregroundColor(.white)
-                                            .background {
-                                                RoundedRectangle(cornerRadius: 12)
-                                                    .foregroundColor(.black)
-                                                    .blur(radius: 20)
-                                                    .padding(EdgeInsets(top: -titleVBgShadow, leading: -titleHBgShadow, bottom: -titleVBgShadow, trailing: -titleHBgShadow) )
-                                                    .opacity(0.7)
-                                            }
-                                            .padding()
-                                            .padding()
-                                            .multilineTextAlignment(.center)
-                                        Spacer()
-                                    }
-                                }
-                                .frame(height: geometry[$0].minY - titleOffset)
-                            }
-                        }
+//                        .blendMode(.destinationOut)
+                        
+//                        GeometryReader { geometry in
+//                            preferences.map { highlightView in
+//                                VStack {
+//                                    Spacer()
+//                                    HStack {
+//                                        Spacer()
+//                                        Text(highlightView.text)
+//                                            .foregroundColor(.white)
+//                                            .background {
+//                                                RoundedRectangle(cornerRadius: 12)
+//                                                    .foregroundColor(.black)
+//                                                    .blur(radius: 20)
+//                                                    .padding(EdgeInsets(top: -titleVBgShadow, leading: -titleHBgShadow, bottom: -titleVBgShadow, trailing: -titleHBgShadow) )
+//                                                    .opacity(0.7)
+//                                            }
+//                                            .padding()
+//                                            .padding()
+//                                            .multilineTextAlignment(.center)
+//                                        Spacer()
+//                                    }
+//                                }
+//                                .frame(height: geometry[highlightView.anchor].minY - titleOffset)
+//                            }
+//                        }
                         
                     }
                     .compositingGroup()
