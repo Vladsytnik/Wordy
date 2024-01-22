@@ -184,10 +184,6 @@ struct SupportView: View {
                 needToShowPopup = true
             }
         }
-//        .popup(when: needToShowPopup,
-//              onTap: {
-//            popupIndex += 1
-//        })
         .popup(allowToShow: $needToShowPopup)
     }
     
@@ -306,19 +302,6 @@ struct SupportView: View {
 }
 
 // MARK: - View Extensions
-
-
-
-extension View {
-    func observeSize<K: PreferenceKey>(key: K.Type) -> some View {
-        self
-            .background {
-                GeometryReader { geo in
-                    Color.clear.preference(key: key.self, value: geo.size as! K.Value)
-                }
-            }
-    }
-}
 
 #Preview {
     SupportView()

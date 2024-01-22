@@ -38,8 +38,10 @@ struct PopupModifier: ViewModifier {
     
     @Binding var allowToShow: Bool
     
-    let horizontalOffset: CGFloat = 10
-    let verticalOffset: CGFloat = 10
+    let horizontalOffset: CGFloat = 20
+    let verticalOffset: CGFloat = 20
+    let blur: CGFloat = 7
+    
     let cornerRadius: CGFloat = 30
     let direction: PopupDirection = .top
     let title = "Нажмите, чтобы поделиться с нами вашей проблемой"
@@ -52,6 +54,8 @@ struct PopupModifier: ViewModifier {
     @State private var order: [Int] = []
     @State private var currentIndex = 0
     @State private var isShownPopup = true
+    
+    @State private var IsAppeared = false
     
     @EnvironmentObject var themeManager: ThemeManager
     
@@ -73,7 +77,7 @@ struct PopupModifier: ViewModifier {
     @ViewBuilder
     private func PopupV(_ highlightView: HighlightView) -> some View {
         ZStack {
-            Color.black.opacity(0.5)
+            Color.black.opacity(0.7)
                 .ignoresSafeArea()
             
             GeometryReader { geo in
@@ -84,10 +88,11 @@ struct PopupModifier: ViewModifier {
                            height: highlightRect.height + verticalOffset)
                     .offset(x: highlightRect.minX - (horizontalOffset/2),
                             y: highlightRect.minY - (verticalOffset/2))
-                    .blur(radius: 4)
+                    .blur(radius: blur)
                     .blendMode(.destinationOut)
                 
             }
+            
             
             GeometryReader { geo in
                 let highlightRect = geo[highlightView.anchor]
@@ -98,8 +103,9 @@ struct PopupModifier: ViewModifier {
                         HStack {
                             Spacer()
                             Text(highlightView.text)
+                                .font(.title2)
                                 .foregroundColor(themeManager.currentTheme.mainText)
-                                .bold()
+                            //                                .bold()
                                 .background {
                                     RoundedRectangle(cornerRadius: 12)
                                         .foregroundColor(.black)
@@ -154,21 +160,27 @@ struct PopupModifier: ViewModifier {
                         Button(action: {
                             
                         }, label: {
-                            Text("Пропустить ->")
-                                .foregroundColor(themeManager.currentTheme.mainText)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .foregroundColor(.black)
-                                        .blur(radius: 5)
-                                        .padding(EdgeInsets(top: -titleVBgShadow,
-                                                            leading: -titleHBgShadow,
-                                                            bottom: -titleVBgShadow,
-                                                            trailing: -titleHBgShadow) )
-                                        .opacity(1)
+                            HStack {
+                                Text("Пропустить")
+                                    .foregroundColor(themeManager.currentTheme.mainText)
+                                    .underline()
+                                    .background {
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .foregroundColor(.black)
+                                            .blur(radius: 5)
+                                            .padding(EdgeInsets(top: -titleVBgShadow,
+                                                                leading: -titleHBgShadow,
+                                                                bottom: -titleVBgShadow,
+                                                                trailing: -titleHBgShadow) )
+                                            .opacity(0.6)
                                 }
+                                
+                                Image(systemName: "arrow.right")
+                                    .foregroundColor(themeManager.currentTheme.mainText)
+                            }
                         })
                         .padding()
-                        .offset(y: highlightRect.minY < 16 ? highlightRect.maxY : 0)
+                        .offset(y: highlightRect.minY < 16 ? highlightRect.maxY + 8 : 0)
                     }
                     Spacer()
                 }
