@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct PopupPreferenceKey: PreferenceKey {
-    static var defaultValue: HighlightView?
+    static var defaultValue: [Int: HighlightView] = [:]
     
-    static func reduce(value: inout HighlightView?, nextValue: () -> HighlightView?) {
-        value = nextValue()
+    static func reduce(value: inout [Int: HighlightView], nextValue: () -> [Int: HighlightView]) {
+        value.merge(nextValue(), uniquingKeysWith: { $1 })
     }
 }
 
@@ -20,78 +20,170 @@ enum PopupDirection {
 }
 
 extension View {
-    func popup(
-        when shouldShow: Bool,
-        onTap: @escaping (() -> Void)
-    ) -> some View {
+    func showPopup(order: Int, title: String) -> some View {
         self
+        .anchorPreference(key: PopupPreferenceKey.self, value: .bounds, transform: { anchor in
+            let highlightView = HighlightView(anchor: anchor, text: title)
+            return [order: highlightView]
+        })
+    }
+    
+    func popup(allowToShow: Binding<Bool>) -> some View {
+        self
+            .modifier(PopupModifier(allowToShow: allowToShow))
+    }
+}
+
+struct PopupModifier: ViewModifier {
+    
+    @Binding var allowToShow: Bool
+    
+    let horizontalOffset: CGFloat = 10
+    let verticalOffset: CGFloat = 10
+    let cornerRadius: CGFloat = 30
+    let direction: PopupDirection = .top
+    let title = "Нажмите, чтобы поделиться с нами вашей проблемой"
+    
+    let titleHBgShadow: CGFloat = 30
+    let titleVBgShadow: CGFloat = 10
+    
+    let titleOffset: CGFloat = 10
+    
+    @State private var order: [Int] = []
+    @State private var currentIndex = 0
+    @State private var isShownPopup = true
+    
+    @EnvironmentObject var themeManager: ThemeManager
+    
+    func body(content: Content) -> some View {
+        content
+            .onPreferenceChange(PopupPreferenceKey.self, perform: { value in
+                order = Array(value.keys.sorted())
+            })
             .overlayPreferenceValue(PopupPreferenceKey.self, { preferences in
-                
-                let horizontalOffset: CGFloat = 10
-                let verticalOffset: CGFloat = 10
-                let cornerRadius: CGFloat = 30
-                let direction: PopupDirection = .top
-                let title = "Нажмите, чтобы поделиться с нами вашей проблемой"
-                
-                let titleHBgShadow: CGFloat = 30
-                let titleVBgShadow: CGFloat = 10
-                
-                let titleOffset: CGFloat = 10
-                
-                if shouldShow {
-                    ZStack {
-//                        Color.black.opacity(0.5)
-//                            .ignoresSafeArea()
-                        
-                        GeometryReader { geometry in
-                            preferences.map {
-                                RoundedRectangle(cornerRadius: cornerRadius)
-                                    .foregroundColor(.white)
-                                    .frame(width: geometry[$0.anchor].width + horizontalOffset,
-                                           height: geometry[$0.anchor].height + verticalOffset)
-                                    .offset(x: geometry[$0.anchor].minX - (horizontalOffset/2),
-                                            y: geometry[$0.anchor].minY - (verticalOffset/2))
-//                                    .blur(radius: 10)
-                            }
-                        }
-                        
-//                        .blendMode(.destinationOut)
-                        
-//                        GeometryReader { geometry in
-//                            preferences.map { highlightView in
-//                                VStack {
-//                                    Spacer()
-//                                    HStack {
-//                                        Spacer()
-//                                        Text(highlightView.text)
-//                                            .foregroundColor(.white)
-//                                            .background {
-//                                                RoundedRectangle(cornerRadius: 12)
-//                                                    .foregroundColor(.black)
-//                                                    .blur(radius: 20)
-//                                                    .padding(EdgeInsets(top: -titleVBgShadow, leading: -titleHBgShadow, bottom: -titleVBgShadow, trailing: -titleHBgShadow) )
-//                                                    .opacity(0.7)
-//                                            }
-//                                            .padding()
-//                                            .padding()
-//                                            .multilineTextAlignment(.center)
-//                                        Spacer()
-//                                    }
-//                                }
-//                                .frame(height: geometry[highlightView.anchor].minY - titleOffset)
-//                            }
-//                        }
-                        
-                    }
-                    .compositingGroup()
-                    .onTapGesture {
-                        withAnimation {
-                            onTap()
-                        }
+                if order.indices.contains(currentIndex) {
+                    if let highlight = preferences[order[currentIndex]], isShownPopup, allowToShow {
+                        PopupV(highlight)
                     }
                 }
             })
-            .animation(.spring(), value: shouldShow)
+            .animation(.spring(), value: allowToShow)
+    }
+    
+    @ViewBuilder
+    private func PopupV(_ highlightView: HighlightView) -> some View {
+        ZStack {
+            Color.black.opacity(0.5)
+                .ignoresSafeArea()
+            
+            GeometryReader { geo in
+                let highlightRect = geo[highlightView.anchor]
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .foregroundColor(.white)
+                    .frame(width: highlightRect.width + horizontalOffset,
+                           height: highlightRect.height + verticalOffset)
+                    .offset(x: highlightRect.minX - (horizontalOffset/2),
+                            y: highlightRect.minY - (verticalOffset/2))
+                    .blur(radius: 4)
+                    .blendMode(.destinationOut)
+                
+            }
+            
+            GeometryReader { geo in
+                let highlightRect = geo[highlightView.anchor]
+                
+                if highlightRect.minY > 64 {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Text(highlightView.text)
+                                .foregroundColor(themeManager.currentTheme.mainText)
+                                .bold()
+                                .background {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .foregroundColor(.black)
+                                        .blur(radius: 20)
+                                        .padding(EdgeInsets(top: -titleVBgShadow,
+                                                            leading: -titleHBgShadow,
+                                                            bottom: -titleVBgShadow,
+                                                            trailing: -titleHBgShadow) )
+                                        .opacity(0.7)
+                                }
+                                .padding()
+                                .padding()
+                                .multilineTextAlignment(.center)
+                            Spacer()
+                        }
+                    }
+                    .frame(height: highlightRect.minY - titleOffset)
+                } else {
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Text(highlightView.text)
+                                .foregroundColor(themeManager.currentTheme.mainText)
+                                .bold()
+                                .background {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .foregroundColor(.black)
+                                        .blur(radius: 20)
+                                        .padding(EdgeInsets(top: -titleVBgShadow,
+                                                            leading: -titleHBgShadow,
+                                                            bottom: -titleVBgShadow,
+                                                            trailing: -titleHBgShadow) )
+                                        .opacity(0.7)
+                                }
+                                .padding()
+                                .padding()
+                                .multilineTextAlignment(.center)
+                            Spacer()
+                        }
+                        
+                        Spacer()
+                    }
+                    .offset(y: highlightRect.maxY + 32)
+                }
+            }
+            
+            GeometryReader { geo in
+                let highlightRect = geo[highlightView.anchor]
+                VStack {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            
+                        }, label: {
+                            Text("Пропустить ->")
+                                .foregroundColor(themeManager.currentTheme.mainText)
+                                .background {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .foregroundColor(.black)
+                                        .blur(radius: 5)
+                                        .padding(EdgeInsets(top: -titleVBgShadow,
+                                                            leading: -titleHBgShadow,
+                                                            bottom: -titleVBgShadow,
+                                                            trailing: -titleHBgShadow) )
+                                        .opacity(1)
+                                }
+                        })
+                        .padding()
+                        .offset(y: highlightRect.minY < 16 ? highlightRect.maxY : 0)
+                    }
+                    Spacer()
+                }
+            }
+        }
+        .compositingGroup()
+        .onTapGesture {
+            if currentIndex > order.count - 1 {
+                isShownPopup = false
+            } else {
+                withAnimation(.spring()) {
+                    currentIndex += 1
+                }
+            }
+        }
     }
 }
 

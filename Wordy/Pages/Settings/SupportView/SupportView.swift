@@ -51,12 +51,8 @@ struct SupportView: View {
             
             VStack {
                 Header()
-                    .if(popupIndex == 2, transform: { v in
-                        v.anchorPreference(key: PopupPreferenceKey.self, value: .bounds, transform: { anchor in
-                            let highlightView = HighlightView(anchor: anchor, text: "Test 2")
-                            return highlightView
-                        })
-                    })
+                    .showPopup(order: 2,
+                               title: "Описание страницы")
                 
                 Spacer()
                 
@@ -121,12 +117,6 @@ struct SupportView: View {
                             .animation(.default.repeatCount(3, autoreverses: true).speed(3), value: shakeMessageTextField)
                     }
                 }
-                .if(popupIndex == 0, transform: { v in
-                    v.anchorPreference(key: PopupPreferenceKey.self, value: .bounds, transform: { anchor in
-                        let highlightView = HighlightView(anchor: anchor, text: "Test 1")
-                        return highlightView
-                    })
-                })
                 
                 Button(action: {
                     sendProblemDescriptionToServer()
@@ -140,12 +130,8 @@ struct SupportView: View {
                                 .foregroundColor(themeManager.currentTheme.main)
                         }
                 })
-                .if(popupIndex == 0, transform: { v in
-                    v.anchorPreference(key: PopupPreferenceKey.self, value: .bounds, transform: { anchor in
-                        let highlightView = HighlightView(anchor: anchor, text: "Test 0")
-                        return highlightView
-                    })
-                })
+                .showPopup(order: 0,
+                           title: "Кнопка отправить")
                 
                 .padding()
                 
@@ -162,12 +148,8 @@ struct SupportView: View {
                 Spacer()
                 
                 Text("Отправляя эту форму, вы даете согласие нашей команде поддержки использовать ваш адрес электронной почты и автоматически собираемые данные об устройстве (включая версию ОС) для помощи в разрешении вашего запроса на поддержку. Информация о вашей электронной почте и устройстве будет использоваться исключительно для этой цели и не будет передана третьим лицам. Такое использование не связано с любыми согласиями, предоставленными нашей общей Политикой конфиденциальности.".localize())
-//                    .if(popupIndex == 1, transform: { v in
-//                        v.anchorPreference(key: PopupPreferenceKey.self, value: .bounds, transform: { anchor in
-//                            let highlightView = HighlightView(anchor: anchor, text: "Test 0")
-//                            return highlightView
-//                        })
-//                    })
+                    .showPopup(order: 1,
+                               title: "Описание конфиденциальности для пользователей")
                     .multilineTextAlignment(.center)
                     .foregroundColor(themeManager.currentTheme.mainText.opacity(0.5))
                     .font(.system(size: 11))
@@ -202,10 +184,11 @@ struct SupportView: View {
                 needToShowPopup = true
             }
         }
-        .popup(when: needToShowPopup,
-              onTap: {
-            popupIndex += 1
-        })
+//        .popup(when: needToShowPopup,
+//              onTap: {
+//            popupIndex += 1
+//        })
+        .popup(allowToShow: $needToShowPopup)
     }
     
     private func sendProblemDescriptionToServer() {
@@ -323,6 +306,8 @@ struct SupportView: View {
 }
 
 // MARK: - View Extensions
+
+
 
 extension View {
     func observeSize<K: PreferenceKey>(key: K.Type) -> some View {
