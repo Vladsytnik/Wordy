@@ -159,6 +159,15 @@ class UserDefaultsManager {
 			}
 		}
 	}
+    
+    static var isMainScreenPopupsShown: Bool {
+        get {
+            UserDefaults().bool(forKey: "isMainScreenPopupsShown")
+        }
+        set {
+            UserDefaults().setValue(newValue, forKey: "isMainScreenPopupsShown")
+        }
+    }
 	
 	static var isNotFirstLaunchOfModulesPage: Bool {
 		get {

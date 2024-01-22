@@ -11,6 +11,7 @@ import SwiftUITooltip
 import ApphudSDK
 import AVFAudio
 import StoreKit
+import Combine
 
 
 struct NewModulesScreen: View {
@@ -106,10 +107,15 @@ struct NewModulesScreen: View {
     
     @AppStorage("isReviewBtnDidTap") private var isReviewDidTap = false
     @AppStorage("review.counter") private var reviewCounter = 0
-    @State private var reviewCounterLimit = 10
+    @AppStorage("review.counterLimit") private var reviewCounterLimit = 10
     @State private var isReviewOpened = false
     
     @EnvironmentObject var rewardManager: RewardManager
+    
+    @State var showPopups = false
+    
+    @State var cancelable = Set<AnyCancellable>()
+    @State var indexOfPopup = 0
     
     var body: some View {
                 GeometryReader { geometry in
@@ -153,6 +159,8 @@ struct NewModulesScreen: View {
                                                     }
                                             }
                                             .disabled(onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+                                            .showPopup(order: 1, title: "Объединяйте модули в группы".localize())
+                                            
                                             if showCreateGroupSheet {
                                                 NewCategoryCard() { success, text in
                                                     if success {
@@ -274,7 +282,9 @@ struct NewModulesScreen: View {
                                     .foregroundColor(.clear)
                             }
                         }
-                        .if(!onboardingManager.isOnboardingMode || UserDefaultsManager.isNotFirstLaunchOfModulesPage) { view in
+                        .if((!onboardingManager.isOnboardingMode || UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+                            && UserDefaultsManager.isMainScreenPopupsShown)
+                        { view in
                             view.searchable(text: $searchText)
                         }
 //                        .searchable(text: $searchText)
@@ -286,9 +296,12 @@ struct NewModulesScreen: View {
                         }
                         .coordinateSpace(name: "RefreshControl")
                         .edgesIgnoringSafeArea(.bottom)
-                        .setTrailingNavBarItem(disabled: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage, completion: {
-                            print("settings")
-                        })
+                        .setTrailingNavBarItem(
+                            disabled: (onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+                            || (showPopups && indexOfPopup != 2),
+                            completion: {
+                                print("settings")
+                            })
 //                        .onChange(of: scrollOffset) { newValue in
 //                            
 //                            withAnimation(.easeInOut(duration: 0.1)) {
@@ -318,6 +331,7 @@ struct NewModulesScreen: View {
 //                                }
                                 onboardingManager.goToNextStep()
                             }
+                            .showPopup(order: 0, title: "Создавайте модули".localize())
                                 .frame(width: geometry.size.width - 60)
                                 .opacity(createModuleButtonOpacity)
                                 .transition(AnyTransition.offset() )
@@ -365,6 +379,18 @@ struct NewModulesScreen: View {
                             }
                             .zIndex(9999)
                         }
+                        
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Color.clear
+                                    .frame(width: 40, height: 40)
+                                    .padding()
+                                    .showPopup(order: 2, title: "Настраивайте уведомления и выбирайте цветовую тему".localize())
+                            }
+                            Spacer()
+                        }
+                        .ignoresSafeArea()
                     }
                     .disabled(showActivity || showAlert)
                     .sheet(isPresented: $deeplinkManager.isOpenModuleType) {
@@ -405,15 +431,32 @@ struct NewModulesScreen: View {
 //                }
                 router.userIsAlreadyLaunched = true
                 
+                print("fevwewev: \(reviewCounter) \(reviewCounterLimit) \(isReviewDidTap)")
                 if reviewCounter >= reviewCounterLimit && !isReviewDidTap {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         isReviewOpened = true
                     }
                     reviewCounter = 0
-                    reviewCounterLimit = 50
+                    reviewCounterLimit += 50
                 } else {
                     reviewCounter += 1
                 }
+                
+                if  UserDefaultsManager.isNotFirstLaunchOfModulesPage
+                        && !UserDefaultsManager.isMainScreenPopupsShown
+                {
+                    self.startPopupsIfNeeded()
+                }
+                 
+                onboardingManager
+                    .$isOnboardingMode
+                    .dropFirst()
+                    .sink { val in
+                        if !val {
+                            self.startPopupsIfNeeded()
+                        }
+                    }
+                    .store(in: &cancelable)
             }
             .sheet(isPresented: $showCreateModuleSheet) {
                 CreateModuleView(needUpdateData: $needUpdateData, showActivity: $showActivity, isOnboardingMode: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
@@ -491,13 +534,29 @@ struct NewModulesScreen: View {
 
             }
             .navigationBarTitleDisplayMode(.large)
-            .navigationTitle("Модули".localize())
+            .if(!showPopups) { v in
+                v.navigationTitle("Модули".localize())
+            }
+            .animation(.spring(), value: showPopups)
             .preferredColorScheme(themeManager.currentTheme.isDark ? (themeManager.currentTheme.id != "MainColor" ? .dark : nil) : .light)
+            .popup(allowToShow: $showPopups, currentIndex: $indexOfPopup) {
+                UserDefaultsManager.isMainScreenPopupsShown = true
+            }
     }
     
     init() {
         configNavBarStyle()
         configTooltip()
+    }
+    
+    private func startPopupsIfNeeded() {
+        if  UserDefaultsManager.isNotFirstLaunchOfModulesPage
+                && !UserDefaultsManager.isMainScreenPopupsShown
+        {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                showPopups = true
+            }
+        }
     }
     
     private func isOnboardingStepNumber(_ value: Int) -> Bool {

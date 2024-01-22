@@ -28,28 +28,36 @@ extension View {
         })
     }
     
-    func popup(allowToShow: Binding<Bool>) -> some View {
-        self
-            .modifier(PopupModifier(allowToShow: allowToShow))
+    func popup(
+        allowToShow: Binding<Bool>,
+        currentIndex: Binding<Int>? = nil,
+        onFinish: (() -> Void)? = nil
+    ) -> some View {
+        self.modifier(PopupModifier(allowToShow: allowToShow,
+                                    currentInd: currentIndex ?? .constant(0),
+                                    onFinish: onFinish))
     }
 }
 
 struct PopupModifier: ViewModifier {
     
     @Binding var allowToShow: Bool
+    @Binding var currentInd: Int
+    var onFinish: (() -> Void)?
     
-    let horizontalOffset: CGFloat = 20
-    let verticalOffset: CGFloat = 20
-    let blur: CGFloat = 7
+    let horizontalOffset: CGFloat = 30
+    let verticalOffset: CGFloat = 30
     
-    let cornerRadius: CGFloat = 30
+    let blurMult: CGFloat = 0.2
+    let cornerRadiusMult: CGFloat = 0.1
+    
     let direction: PopupDirection = .top
     let title = "Нажмите, чтобы поделиться с нами вашей проблемой"
     
     let titleHBgShadow: CGFloat = 30
     let titleVBgShadow: CGFloat = 10
     
-    let titleOffset: CGFloat = 10
+    let titleOffset: CGFloat = 24
     
     @State private var order: [Int] = []
     @State private var currentIndex = 0
@@ -82,13 +90,13 @@ struct PopupModifier: ViewModifier {
             
             GeometryReader { geo in
                 let highlightRect = geo[highlightView.anchor]
-                RoundedRectangle(cornerRadius: cornerRadius)
+                RoundedRectangle(cornerRadius: highlightRect.height * cornerRadiusMult)
                     .foregroundColor(.white)
                     .frame(width: highlightRect.width + horizontalOffset,
                            height: highlightRect.height + verticalOffset)
                     .offset(x: highlightRect.minX - (horizontalOffset/2),
                             y: highlightRect.minY - (verticalOffset/2))
-                    .blur(radius: blur)
+                    .blur(radius: highlightRect.height * blurMult)
                     .blendMode(.destinationOut)
                 
             }
@@ -97,28 +105,12 @@ struct PopupModifier: ViewModifier {
             GeometryReader { geo in
                 let highlightRect = geo[highlightView.anchor]
                 
-                if highlightRect.minY > 64 {
+                if highlightRect.minY > 200 {
                     VStack {
                         Spacer()
                         HStack {
                             Spacer()
-                            Text(highlightView.text)
-                                .font(.title2)
-                                .foregroundColor(themeManager.currentTheme.mainText)
-                            //                                .bold()
-                                .background {
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .foregroundColor(.black)
-                                        .blur(radius: 20)
-                                        .padding(EdgeInsets(top: -titleVBgShadow,
-                                                            leading: -titleHBgShadow,
-                                                            bottom: -titleVBgShadow,
-                                                            trailing: -titleHBgShadow) )
-                                        .opacity(0.7)
-                                }
-                                .padding()
-                                .padding()
-                                .multilineTextAlignment(.center)
+                            PopupTitleView(highlightView)
                             Spacer()
                         }
                     }
@@ -127,22 +119,7 @@ struct PopupModifier: ViewModifier {
                     VStack {
                         HStack {
                             Spacer()
-                            Text(highlightView.text)
-                                .foregroundColor(themeManager.currentTheme.mainText)
-                                .bold()
-                                .background {
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .foregroundColor(.black)
-                                        .blur(radius: 20)
-                                        .padding(EdgeInsets(top: -titleVBgShadow,
-                                                            leading: -titleHBgShadow,
-                                                            bottom: -titleVBgShadow,
-                                                            trailing: -titleHBgShadow) )
-                                        .opacity(0.7)
-                                }
-                                .padding()
-                                .padding()
-                                .multilineTextAlignment(.center)
+                            PopupTitleView(highlightView)
                             Spacer()
                         }
                         
@@ -158,7 +135,10 @@ struct PopupModifier: ViewModifier {
                     HStack {
                         Spacer()
                         Button(action: {
-                            
+                            withAnimation(.spring()) {
+                                currentIndex = order.count
+                                finish()
+                            }
                         }, label: {
                             HStack {
                                 Text("Пропустить")
@@ -189,13 +169,45 @@ struct PopupModifier: ViewModifier {
         .compositingGroup()
         .onTapGesture {
             if currentIndex > order.count - 1 {
-                isShownPopup = false
+                finish()
             } else {
                 withAnimation(.spring()) {
                     currentIndex += 1
+                    if currentIndex == order.count {
+                        finish()
+                    }
                 }
             }
         }
+        .onChange(of: currentIndex) { val in
+            currentInd = val
+        }
+    }
+    
+    @ViewBuilder
+    private func PopupTitleView(_ highlightView: HighlightView) -> some View {
+        Text(highlightView.text)
+            .font(.title)
+            .foregroundColor(themeManager.currentTheme.mainText)
+            .background {
+                RoundedRectangle(cornerRadius: 12)
+                    .foregroundColor(.black)
+                    .blur(radius: 20)
+                    .padding(EdgeInsets(top: -titleVBgShadow,
+                                        leading: -titleHBgShadow,
+                                        bottom: -titleVBgShadow,
+                                        trailing: -titleHBgShadow) )
+                    .opacity(0.7)
+            }
+            .padding()
+            .padding()
+            .multilineTextAlignment(.center)
+    }
+    
+    private func finish() {
+        allowToShow = false
+        isShownPopup = false
+        onFinish?()
     }
 }
 
