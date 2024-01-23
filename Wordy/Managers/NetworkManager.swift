@@ -104,6 +104,31 @@ class NetworkManager {
         }
     }
     
+    static func getSubscriptionExpireDateFromServer() async throws -> Date? {
+        guard let currentUserID = currentUserID else {
+            print("error in sendToken -> currentUserID")
+            return nil
+        }
+        
+        let snapshot = try await ref.child("users").child(currentUserID).child("subscriptionExpireDate").getData()
+        if let jsonString = snapshot.value as? String,
+            let data = jsonString.data(using: .utf8)
+        {
+            do {
+                guard let expireDate = String(data: data, encoding: .utf8) else { return nil }
+                let df = DateFormatter().getDateFormatter()
+                df.timeZone = TimeZone(identifier: "UTC")
+                let date = df.date(from: expireDate)
+                return date
+            } catch(let error) {
+                print("error in getSubscriptionExpireDateFromServer -> currentUserID: \(error)")
+            }
+        } else {
+            print("error in getSubscriptionExpireDateFromServer -> snapshot.value is not exist or not is needed type")
+        }
+        
+        return nil
+    }
     
     // MARK: - Notifications
     

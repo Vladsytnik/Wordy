@@ -136,3 +136,14 @@
 "Отправить" = "Invia";
 
 "Произошла какая-то ошибка..." = "Si è verificato un errore...";
+
+"Настраивайте уведомления и выбирайте цветовую тему" = "Configura le notifiche e scegli il tema colore";
+"Объединяйте модули в группы" = "Unisci i moduli in gruppi";
+"Создавайте модули" = "Crea moduli";
+"Пропустить" = "Salta"; // Обучение
+
+"\nДля текущего модуля вы достигли лимита по количеству автоматического перевода\n\nЧтобы получить полный доступ ко всем возможностям приложения – оформите подписку" = "\nPer il modulo corrente hai raggiunto il limite di traduzione automatica\n\nPer accedere a tutte le funzionalità dell'app, sottoscrivi un abbonamento";
+"Попробовать" = "Prova";
+
+"\nВы уверены, что хотите\n удалить аккаунт? \n\nЭто действие нельзя \nбудет отменить." = "\nSei sicuro di voler\n eliminare l'account? \n\nQuesta azione non potrà \n essere annullata.";
+"Скопировать" = "Copiare";

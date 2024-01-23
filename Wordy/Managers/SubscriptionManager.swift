@@ -17,7 +17,9 @@ class SubscriptionManager: ObservableObject {
     func userHasSubscription() -> Bool {
         if let userId = UserDefaultsManager.userID  {
             Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr", userID: userId)
-            return Apphud.hasPremiumAccess() || UserDefaultsManager.userHasTestSubscription
+            return Apphud.hasPremiumAccess() 
+            || UserDefaultsManager.userHasTestSubscription
+            || userHasServerSubscription()
         } else {
             return false
         }
@@ -36,4 +38,22 @@ class SubscriptionManager: ObservableObject {
         let subscriptionObject = Apphud.subscription()
         return subscriptionObject?.expiresDate
     }
+    
+    func userHasServerSubscription() -> Bool {
+        let currentDate = Date()
+        let serverDate = UserDefaultsManager.serverSubscrExpireDate ?? currentDate
+        let subscrIsActive = currentDate < serverDate
+        return subscrIsActive
+    }
+    
+//    func getServerSubscr() {
+//        Task {
+//            do {
+//                let expireSubscriptionDateFromServer = try await NetworkManager.getSubscriptionExpireDateFromServer()
+//                UserDefaultsManager.serverSubscrExpireDate = expireSubscriptionDateFromServer
+//            } catch (let error) {
+//                print("error in SubscriptionManager -> getServerSubscr -> try await NetworkManager.getSubscriptionExpireDateFromServer(): \(error.localizedDescription)")
+//            }
+//        }
+//    }
 }

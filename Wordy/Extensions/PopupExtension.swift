@@ -67,6 +67,8 @@ struct PopupModifier: ViewModifier {
     
     @EnvironmentObject var themeManager: ThemeManager
     
+    @Environment(\.colorScheme) var colorScheme
+    
     func body(content: Content) -> some View {
         content
             .onPreferenceChange(PopupPreferenceKey.self, perform: { value in
@@ -85,13 +87,19 @@ struct PopupModifier: ViewModifier {
     @ViewBuilder
     private func PopupV(_ highlightView: HighlightView) -> some View {
         ZStack {
-            Color.black.opacity(0.7)
-                .ignoresSafeArea()
+            if isDark() {
+                Color.black.opacity(0.7)
+                    .ignoresSafeArea()
+            } else {
+                Color.white.opacity(0.7)
+                    .ignoresSafeArea()
+            }
+            
             
             GeometryReader { geo in
                 let highlightRect = geo[highlightView.anchor]
                 RoundedRectangle(cornerRadius: highlightRect.height * cornerRadiusMult)
-                    .foregroundColor(.white)
+                    .foregroundColor(isDark() ? .white : .black)
                     .frame(width: highlightRect.width + horizontalOffset,
                            height: highlightRect.height + verticalOffset)
                     .offset(x: highlightRect.minX - (horizontalOffset/2),
@@ -146,7 +154,7 @@ struct PopupModifier: ViewModifier {
                                     .underline()
                                     .background {
                                         RoundedRectangle(cornerRadius: 12)
-                                            .foregroundColor(.black)
+                                            .foregroundColor(isDark() ? .black : .white)
                                             .blur(radius: 5)
                                             .padding(EdgeInsets(top: -titleVBgShadow,
                                                                 leading: -titleHBgShadow,
@@ -188,10 +196,10 @@ struct PopupModifier: ViewModifier {
     private func PopupTitleView(_ highlightView: HighlightView) -> some View {
         Text(highlightView.text)
             .font(.title)
-            .foregroundColor(themeManager.currentTheme.mainText)
+            .foregroundColor(isDark() ? .white : .black)
             .background {
                 RoundedRectangle(cornerRadius: 12)
-                    .foregroundColor(.black)
+                    .foregroundColor(isDark() ? .black : .white)
                     .blur(radius: 20)
                     .padding(EdgeInsets(top: -titleVBgShadow,
                                         leading: -titleHBgShadow,
@@ -208,6 +216,12 @@ struct PopupModifier: ViewModifier {
         allowToShow = false
         isShownPopup = false
         onFinish?()
+    }
+    
+    private func isDark() -> Bool {
+        themeManager.currentTheme.isSupportLightTheme
+        ? colorScheme != .light
+        : themeManager.currentTheme.isDark
     }
 }
 

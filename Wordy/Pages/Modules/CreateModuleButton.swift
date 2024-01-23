@@ -14,6 +14,7 @@ struct CreateModuleButton: View {
 	var text: String?
 	
 	let createModuleText = "Создать модуль".localize()
+    @Environment(\.colorScheme) var colorScheme
 	
     var body: some View {
 		Button {
@@ -23,6 +24,15 @@ struct CreateModuleButton: View {
 				RoundedRectangle(cornerRadius: 20)
 					.foregroundColor(themeManager.currentTheme.moduleCreatingBtn)
 					.shadow(color: .white.opacity(0.15), radius: 20)
+                    .if(!isDark()) { v in
+                        v
+//                            .overlay {
+//                                RoundedRectangle(cornerRadius: 20)
+//                                    .stroke(themeManager.currentTheme.moduleCardRoundedAreaColor, lineWidth: 1)
+//                                    .foregroundColor(themeManager.currentTheme.mainText)
+//                            }
+                            .shadow(color: themeManager.currentTheme.mainText.opacity(0.5), radius: 25)
+                    }
 				HStack {
 					if text == nil {
 						Image(systemName: "plus.circle.fill")
@@ -41,6 +51,12 @@ struct CreateModuleButton: View {
 			}
 		}
 		.frame(height: 55)
+    }
+    
+    private func isDark() -> Bool {
+        themeManager.currentTheme.isSupportLightTheme
+        ? colorScheme != .light
+        : themeManager.currentTheme.isDark
     }
 }
 

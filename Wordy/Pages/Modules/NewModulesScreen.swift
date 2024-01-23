@@ -117,6 +117,8 @@ struct NewModulesScreen: View {
     @State var cancelable = Set<AnyCancellable>()
     @State var indexOfPopup = 0
     
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
                 GeometryReader { geometry in
                     ZStack {
@@ -297,11 +299,15 @@ struct NewModulesScreen: View {
                         .coordinateSpace(name: "RefreshControl")
                         .edgesIgnoringSafeArea(.bottom)
                         .setTrailingNavBarItem(
+                            isSkipBtn: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage,
                             disabled: (onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
                             || (showPopups && indexOfPopup != 2),
+                            onSkip: {
+                                onboardingManager.finish()
+                            },
                             completion: {
                                 print("settings")
-                            })
+                        })
 //                        .onChange(of: scrollOffset) { newValue in
 //                            
 //                            withAnimation(.easeInOut(duration: 0.1)) {
@@ -313,15 +319,6 @@ struct NewModulesScreen: View {
                         
                         VStack {
                             Spacer()
-                            if onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
-                                Button {
-                                    onboardingManager.finish()
-                                } label: {
-                                    Text("Пропустить обучение".localize())
-                                        .bold()
-                                }
-                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 32, trailing: 0))
-                            }
                             CreateModuleButton() {
                                 generator?.impactOccurred()
 //                                if UserDefaultsManager.userHasSubscription || !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
@@ -391,6 +388,33 @@ struct NewModulesScreen: View {
                             Spacer()
                         }
                         .ignoresSafeArea()
+                        
+//                        if onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
+//                            VStack {
+//                                HStack {
+//                                    Spacer()
+//                                    
+//                                    Button {
+//                                        onboardingManager.finish()
+//                                    } label: {
+//                                        HStack {
+//                                            Text("Пропустить".localize())
+//                                                .underline()
+//                                            Image(systemName: "arrow.right")
+//                                                .foregroundColor(themeManager.currentTheme.mainText)
+//                                        }
+//                                    }
+//                                    .padding()
+//                                    .offset(y: -50)
+//                                    .zIndex(100)
+//                                }
+//                                Spacer()
+//                            }
+////                            .ignoresSafeArea()
+//                            
+//                            
+////                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 32, trailing: 0))
+//                        }
                     }
                     .disabled(showActivity || showAlert)
                     .sheet(isPresented: $deeplinkManager.isOpenModuleType) {
@@ -574,6 +598,12 @@ struct NewModulesScreen: View {
         } else {
             filteredModules = modules
         }
+    }
+    
+    private func isDark() -> Bool {
+        themeManager.currentTheme.isSupportLightTheme
+        ? colorScheme != .light
+        : themeManager.currentTheme.isDark
     }
     
     private mutating func configTooltip() {

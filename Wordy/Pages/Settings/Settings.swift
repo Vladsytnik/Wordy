@@ -42,6 +42,7 @@ struct Settings: View {
 	]
     
     @State private var cancelable = Set<AnyCancellable>()
+    @State private var showUserIdAlert = false
 	
 	let cellHeight: CGFloat = 60
     @State var isShowPaywall = false
@@ -215,33 +216,44 @@ struct Settings: View {
 							withAnimation { self.logOut() }
 						}
 					}
+                    
+                    LogOutRow(cellHeight: cellHeight, imageName: "trash", titleText: "Удалить аккаунт") {
+                        withAnimation {
+                            showDeleteAccountAlert.toggle()
+                        }
+                    }
 					
-					Toggle(isOn: $isTestPro) {
-                        Text("Test PRO Subscription".localize())
-							.foregroundColor(themeManager.currentTheme.mainText)
-					}
-					.padding()
+//					Toggle(isOn: $isTestPro) {
+//                        Text("Test PRO Subscription".localize())
+//							.foregroundColor(themeManager.currentTheme.mainText)
+//					}
+//					.padding()
 					
-					Button {
-						withAnimation {
-							showDeleteAccountAlert.toggle()
-						}
-					} label: {
-                        Text("Удалить аккаунт".localize())
-							.foregroundColor(.gray)
-					}
-					.padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
+//					Button {
+//						withAnimation {
+//							showDeleteAccountAlert.toggle()
+//						}
+//					} label: {
+//                        Text("Удалить аккаунт".localize())
+//							.foregroundColor(.gray)
+//					}
+//					.padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
                     
                     if subscriptionManager.userHasSubscription() {
                         Text("Wordy Pro".localize())
                             .bold()
                             .foregroundColor(themeManager.currentTheme.accent)
-//                            .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-//                            .background {
-//                                RoundedRectangle(cornerRadius: 16)
-//                                    .foregroundColor(themeManager.currentTheme.accent)
-//                            }
                             .padding()
+                            .onTapGesture(count: 12) {
+                                showUserIdAlert = true
+                            }
+                    } else {
+                        Text("Wordy.app".localize())
+                            .foregroundColor(themeManager.currentTheme.mainText)
+                            .padding()
+                            .onTapGesture(count: 12) {
+                                showUserIdAlert = true
+                            }
                     }
 				}
 			}
@@ -264,12 +276,12 @@ struct Settings: View {
 		}
 		.navigationBarTitle("Настройки".localize())
 		.onAppear{
-			isTestPro = UserDefaultsManager.userHasTestSubscription
+//            isTestPro = SubscriptionManager().userHasSubscription()
 			currentThemeIndex = themeManager.getCurrentThemeIndex()
 		}
 		.onChange(of: isTestPro) { newValue in
-			UserDefaultsManager.userHasTestSubscription = newValue
-            NetworkManager.updateSubscriptionInfo(isTestPro: newValue)
+//			UserDefaultsManager.userHasTestSubscription = newValue
+//            NetworkManager.updateSubscriptionInfo(isTestPro: newValue)
 		}
         .onAppear {
             subscriptionManager.printSubscriptionInfo()
@@ -277,6 +289,13 @@ struct Settings: View {
         .sheet(isPresented: $isShowPaywall, content: {
             Paywall(isOpened: $isShowPaywall)
         })
+        .alert(NetworkManager.currentUserID ?? "", isPresented: $showUserIdAlert) {
+            Button {
+                UIPasteboard.general.string = NetworkManager.currentUserID ?? ""
+            } label: {
+                Text("Скопировать".localize())
+            }
+        }
 	}
 
 	// MARK: - Helpers
@@ -521,6 +540,8 @@ struct LogOutRow: View {
 	
 	@EnvironmentObject var themeManager: ThemeManager
 	let cellHeight: CGFloat
+    var imageName: String = "rectangle.portrait.and.arrow.forward"
+    var titleText = "Выйти"
 	let didTapOnRow: (() -> Void)
 	
 	var body: some View {
@@ -532,11 +553,12 @@ struct LogOutRow: View {
 					.frame(height: cellHeight)
 					.foregroundColor(themeManager.currentTheme.main)
 				HStack(spacing: 0) {
-					Image(systemName: "rectangle.portrait.and.arrow.forward")
+					Image(systemName: imageName)
                         .frame(width: 30, height: 30)
-						.foregroundColor(themeManager.currentTheme.mainText)
+//						.foregroundColor(themeManager.currentTheme.mainText)
+                        .foregroundColor(.red)
 						.padding()
-					Text("Выйти".localize())
+					Text(titleText.localize())
 						.font(.system(size: 16, weight: .medium))
 						.foregroundColor(.red)
 					Spacer()

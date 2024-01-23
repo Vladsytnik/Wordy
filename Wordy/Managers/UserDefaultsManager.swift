@@ -117,6 +117,15 @@ class UserDefaultsManager {
 			UserDefaults().setValue(newValue, forKey: "isFirstLaunch")
 		}
 	}
+    
+    static var serverSubscrExpireDate: Date? {
+        get {
+            UserDefaults().object(forKey: "serverSubscrExpireDate") as? Date
+        }
+        set {
+            UserDefaults().setValue(newValue, forKey: "serverSubscrExpireDate")
+        }
+    }
 	
 	static var nativeLanguage: Language? {
 		get {

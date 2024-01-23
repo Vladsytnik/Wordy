@@ -14,9 +14,10 @@ extension View {
 }
 
 extension View {
-    func setTrailingNavBarItem(disabled: Bool = false, completion: @escaping () -> Void) -> some View {
-        var view = TrailingNavBarItem(disabled: disabled)
+    func setTrailingNavBarItem(isSkipBtn: Bool = false, disabled: Bool = false, onSkip: (() -> Void)? = nil, completion: @escaping () -> Void) -> some View {
+        var view = TrailingNavBarItem(isSkipBtn: isSkipBtn, disabled: disabled)
 		view.completion = completion
+        view.onSkip = onSkip
 		return modifier(view)
 	}
 }
@@ -47,7 +48,9 @@ extension View {
 
 struct TrailingNavBarItem: ViewModifier {
 	
+    var isSkipBtn = false
 	var disabled: Bool
+    var onSkip: (() -> Void)?
 	var completion: (() -> Void)?
     
     
@@ -55,24 +58,41 @@ struct TrailingNavBarItem: ViewModifier {
 	
 	func body(content: Content) -> some View {
 		content
-			.navigationBarItems(
-				trailing:
-					Button(action: {
-						completion?()
-					}, label: {
-						NavigationLink {
-                            Settings()
-						} label: {
-							Image(asset: Asset.Images.settingsIcon)
-								.resizable()
-                                .renderingMode(.template)
-                                .colorMultiply(themeManager.currentTheme.mainText)
-                                .opacity(themeManager.currentTheme.isDark ? 1 : 0.8)
-								.frame(width: 32, height: 30)
-						}
-						.disabled(disabled)
-					})
-			)
+            .if(isSkipBtn) { v in
+                v.navigationBarItems(
+                    trailing:
+                        Button {
+                            onSkip?()
+                        } label: {
+                            HStack {
+                                Text("Пропустить обучение".localize())
+                                    .underline()
+                                Image(systemName: "arrow.right")
+                                    .foregroundColor(themeManager.currentTheme.mainText)
+                            }
+                        }
+                )
+            }
+            .if(!isSkipBtn) { v in
+                v.navigationBarItems(
+                    trailing:
+                        Button(action: {
+                            completion?()
+                        }, label: {
+                            NavigationLink {
+                                Settings()
+                            } label: {
+                                Image(asset: Asset.Images.settingsIcon)
+                                    .resizable()
+                                    .renderingMode(.template)
+                                    .colorMultiply(themeManager.currentTheme.mainText)
+                                    .opacity(themeManager.currentTheme.isDark ? 1 : 0.8)
+                                    .frame(width: 32, height: 30)
+                            }
+                            .disabled(disabled)
+                        })
+                )
+            }
 	}
 }
 
