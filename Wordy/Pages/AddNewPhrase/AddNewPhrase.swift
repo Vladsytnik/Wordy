@@ -91,28 +91,44 @@ struct AddNewPhrase: View {
                     }
 					
 					if viewModel.showAutomaticTranslatedView {
-						HStack() {
-							HStack {
-								Text(viewModel.automaticTranslatedText)
-									.foregroundColor(themeManager.currentTheme.mainText)
-									.padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
-									.background {
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .foregroundColor(themeManager.currentTheme.accent)
-                                            BadgeBackground(color: themeManager.currentTheme.accent)
+                        ZStack {
+                            HStack() {
+                                HStack {
+                                    Text(viewModel.automaticTranslatedText)
+                                        .foregroundColor(themeManager.currentTheme.mainText)
+                                        .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                                        .background {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .foregroundColor(themeManager.currentTheme.accent)
+                                                BadgeBackground(color: themeManager.currentTheme.accent)
+                                            }
                                         }
-									}
-									.onTapGesture {
-                                        viewModel.onboardingManager.goToNextStep()
-										translatedText = viewModel.automaticTranslatedText
-										viewModel.showAutomaticTranslatedView = false
-									}
+                                        .onTapGesture {
+                                            viewModel.onboardingManager.goToNextStep()
+                                            translatedText = viewModel.automaticTranslatedText
+                                            viewModel.showAutomaticTranslatedView = false
+                                        }
+                                    
+                                    Button {
+                                        viewModel.showAutomaticTranslatedView = false
+                                    } label: {
+                                        Image(asset: Asset.Images.plusIcon)
+                                            .rotationEffect(.degrees(45))
+                                    }
+                                    .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 0))
+                                }
+                                Spacer()
+                            }
+                            
+                            HStack {
+                                Color.clear
+                                    .frame(width: 10, height: 5)
                                     .mytooltip(viewModel.onboardingIndex == 0
                                                && !UserDefaultsManager.userAlreaySawTranslate
                                                ,
                                                side: .bottomRight,
-                                               offset: 0,
+                                               offset: 16,
                                                config: viewModel.tooltipConfig,
                                                appearingDelayValue: 0.5) {
                                         let text = "Нажмите, чтобы применить".localize()
@@ -128,18 +144,9 @@ struct AddNewPhrase: View {
                                             viewModel.onboardingManager.goToNextStep()
                                         }
                                     }
-                                
-								
-								Button {
-									viewModel.showAutomaticTranslatedView = false
-								} label: {
-									Image(asset: Asset.Images.plusIcon)
-										.rotationEffect(.degrees(45))
-								}
-								.padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 0))
-							}
-							Spacer()
-						}
+                                Spacer()
+                            }
+                        }
 						.padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
                         .zIndex(200)
 						

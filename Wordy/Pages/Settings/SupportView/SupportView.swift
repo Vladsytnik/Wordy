@@ -180,9 +180,9 @@ struct SupportView: View {
         .animation(.spring(), value: needToShowSuccess)
         .showAlert(title: alert.title, description: alert.description, isPresented: $showAlert, titleWithoutAction: "ОК", titleForAction: "", withoutButtons: true, repeatAction: {})
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                needToShowPopup = true
-            }
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                needToShowPopup = true
+//            }
         }
         .popup(allowToShow: $needToShowPopup)
     }

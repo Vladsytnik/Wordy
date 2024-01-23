@@ -142,6 +142,7 @@ struct PopupModifier: ViewModifier {
                 VStack {
                     HStack {
                         Spacer()
+                        
                         Button(action: {
                             withAnimation(.spring()) {
                                 currentIndex = order.count
@@ -170,6 +171,7 @@ struct PopupModifier: ViewModifier {
                         .padding()
                         .offset(y: highlightRect.minY < 16 ? highlightRect.maxY + 8 : 0)
                     }
+                    
                     Spacer()
                 }
             }
