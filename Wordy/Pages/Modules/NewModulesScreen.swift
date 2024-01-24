@@ -125,11 +125,22 @@ struct NewModulesScreen: View {
                         ScrollView {
                             VStack {
 //                                RefreshControl(coordinateSpace: .named("RefreshControl")) { pullDownToRefresh() }
-//                                SearchTextField(modules: $modules, filteredModules: $filteredModules, searchText: $searchText, placeholder: "Search")
-//                                    .padding(.leading)
-//                                    .padding(.trailing)
-//                                    .padding(.top)
-//                                    .disabled(onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+                                
+                                HStack {
+                                    Text("Модули".localize())
+                                        .font(.title)
+                                        .bold()
+                                        .padding(.horizontal)
+                                    Spacer()
+                                }
+                                
+                                if (!onboardingManager.isOnboardingMode || UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+                                    && UserDefaultsManager.isMainScreenPopupsShown {
+                                    SearchTextField(modules: $modules, filteredModules: $filteredModules, searchText: $searchText, placeholder: "Поиск".localize())
+                                        .padding(.leading)
+                                        .padding(.trailing)
+                                        .disabled(onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+                                }
                                 
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     withAnimation {
@@ -284,11 +295,11 @@ struct NewModulesScreen: View {
                                     .foregroundColor(.clear)
                             }
                         }
-                        .if((!onboardingManager.isOnboardingMode || UserDefaultsManager.isNotFirstLaunchOfModulesPage)
-                            && UserDefaultsManager.isMainScreenPopupsShown)
-                        { view in
-                            view.searchable(text: $searchText)
-                        }
+//                        .if((!onboardingManager.isOnboardingMode || UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+//                            && UserDefaultsManager.isMainScreenPopupsShown)
+//                        { view in
+//                            view.searchable(text: $searchText)
+//                        }
 //                        .searchable(text: $searchText)
                         .refreshable{
                             pullDownToRefresh()
@@ -457,7 +468,7 @@ struct NewModulesScreen: View {
                 
                 print("fevwewev: \(reviewCounter) \(reviewCounterLimit) \(isReviewDidTap)")
                 if reviewCounter >= reviewCounterLimit && !isReviewDidTap {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         isReviewOpened = true
                     }
                     reviewCounter = 0
@@ -557,10 +568,11 @@ struct NewModulesScreen: View {
             .onAppear {
 
             }
-            .navigationBarTitleDisplayMode(.large)
-            .if(!showPopups) { v in
-                v.navigationTitle("Модули".localize())
-            }
+            .navigationBarTitleDisplayMode(.inline)
+//            .if(!showPopups) { v in
+//                v.navigationTitle("Модули".localize())
+//            }
+            .navigationTitle("Модули".localize())
             .animation(.spring(), value: showPopups)
             .preferredColorScheme(themeManager.currentTheme.isDark ? (themeManager.currentTheme.id != "MainColor" ? .dark : nil) : .light)
             .popup(allowToShow: $showPopups, currentIndex: $indexOfPopup) {

@@ -248,12 +248,21 @@ struct Settings: View {
                                 showUserIdAlert = true
                             }
                     } else {
-                        Text("Wordy.app".localize())
-                            .foregroundColor(themeManager.currentTheme.mainText)
-                            .padding()
-                            .onTapGesture(count: 12) {
-                                showUserIdAlert = true
-                            }
+                        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+                        let appBundle = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
+                        VStack(spacing: -8) {
+                            Text("Wordy.app".localize())
+                                .foregroundColor(themeManager.currentTheme.mainText)
+                                .padding()
+                                .onTapGesture(count: 12) {
+                                    showUserIdAlert = true
+                                }
+                            
+                            Text("\(appVersion) (\(appBundle))")
+                                .foregroundColor(themeManager.currentTheme.mainText)
+                                .opacity(0.5)
+                                .font(.system(size: 12))
+                        }
                     }
 				}
 			}

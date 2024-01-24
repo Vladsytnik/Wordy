@@ -47,7 +47,7 @@ struct SearchTextField: View {
 										HStack {
 											Text(placeholder)
 												.fontWeight(.regular)
-												.opacity(searchText.isEmpty ? 0.8 : 0)
+												.opacity(searchText.isEmpty ? 0.5 : 0)
 												.foregroundColor(themeManager.currentTheme.searchTextFieldText)
 												.padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 0))
                                                 .onTapGesture {

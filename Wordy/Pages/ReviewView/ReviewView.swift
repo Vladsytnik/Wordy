@@ -103,6 +103,7 @@ struct ReviewView: View {
             RoundedRectangle(cornerRadius: reviewSize.height * cornerMult)
                 .foregroundColor(themeManager.currentTheme.main)
         }
+        .padding(.horizontal)
         .offset(y: -50)
     }
 }
