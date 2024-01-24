@@ -252,49 +252,60 @@ struct AddNewPhrase: View {
                         }
 					} else {
 						HStack {
-							Button {
-								viewModel.wasTappedAddExample.toggle()
-								DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-									viewModel.didTapTextField(index: 2)
-								}
-							} label: {
-								Text("Добавить пример".localize())
-									.foregroundColor(themeManager.currentTheme.mainText)
-									.font(.system(size: 14, weight: .regular))
-							}
-                            .zIndex(100)
-							.background {
-								VStack {
-									Spacer()
-									Rectangle()
-										.frame(height: 1)
-										.foregroundColor(themeManager.currentTheme.mainText)
-								}
-								.offset(y: 6)
-							}
-							.padding(EdgeInsets(top: 0, leading: 0, bottom: viewModel.showAutomaticTranslatedView ? 0 : 30, trailing: 0))
-                            .mytooltip(viewModel.onboardingIndex == 1
-                                       && !UserDefaultsManager.userAlreaySawAddExampleBtn
-                                       ,
-                                       side: .bottomRight,
-                                       offset: 0,
-                                       config: viewModel.tooltipConfig,
-                                       appearingDelayValue: 0.5) {
-                                let text = "Добавьте пример \nиспользования новой фразы".localize()
-                                let descr = "ИИ автоматически сгенерирует контекст и предложит несколько вариантов на выбор".localize()
-                                TooltipView(text: text,
-                                            stepNumber: 0,
-                                            allStepCount: 0,
-                                            withoutSteps: true,
-                                            description: nil,
-                                            onDisappear: {
-                                    UserDefaultsManager.isUserSawCreateNewPhrase = true
-                                }) {
-                                    viewModel.onboardingManager.goToNextStep()
+                            ZStack {
+                                HStack {
+                                    Button {
+                                        viewModel.wasTappedAddExample.toggle()
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                            viewModel.didTapTextField(index: 2)
+                                        }
+                                    } label: {
+                                        Text("Добавить пример".localize())
+                                            .foregroundColor(themeManager.currentTheme.mainText)
+                                            .font(.system(size: 14, weight: .regular))
+                                    }
+                                    .zIndex(100)
+                                    .background {
+                                        VStack {
+                                            Spacer()
+                                            Rectangle()
+                                                .frame(height: 1)
+                                                .foregroundColor(themeManager.currentTheme.mainText)
+                                        }
+                                        .offset(y: 6)
+                                    }
+                                    .padding(EdgeInsets(top: 0, leading: 0, bottom: viewModel.showAutomaticTranslatedView ? 0 : 30, trailing: 0))
+                                    
+                                    Spacer()
+                                }
+                                
+                                
+                                HStack {
+                                    Color.clear
+                                        .frame(width: 10, height: 5)
+                                        .mytooltip(viewModel.onboardingIndex == 1
+                                                   && !UserDefaultsManager.userAlreaySawAddExampleBtn
+                                                   ,
+                                                   side: .bottomRight,
+                                                   offset: 0,
+                                                   config: viewModel.tooltipConfig,
+                                                   appearingDelayValue: 0.5) {
+                                            let text = "Добавьте пример \nиспользования новой фразы".localize()
+                                            let descr = "ИИ автоматически сгенерирует контекст и предложит несколько вариантов на выбор".localize()
+                                            TooltipView(text: text,
+                                                        stepNumber: 0,
+                                                        allStepCount: 0,
+                                                        withoutSteps: true,
+                                                        description: nil,
+                                                        onDisappear: {
+                                                UserDefaultsManager.isUserSawCreateNewPhrase = true
+                                            }) {
+                                                viewModel.onboardingManager.goToNextStep()
+                                            }
+                                        }
+                                    Spacer()
                                 }
                             }
-
-                            
 							Spacer()
 						}
 						.opacity(0.9)

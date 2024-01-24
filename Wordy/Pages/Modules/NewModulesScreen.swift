@@ -376,12 +376,15 @@ struct NewModulesScreen: View {
                         if (modules.count == 0 || filteredModules.count == 0)
                         && !showActivity {
                                 EmptyBGView()
+                                .onTapGesture {
+                                    UIApplication.shared.endEditing()
+                                }
                         }
                         
                         if isReviewOpened {
                             ZStack {
                                 Rectangle()
-                                    .foregroundColor(themeManager.currentTheme.isDark ? Color.black.opacity(0.5) :  Color.white.opacity(0.5))
+                                    .foregroundColor(themeManager.currentTheme.isDark ? Color.black.opacity(0.5) : Color.white.opacity(0.5))
                                     .ignoresSafeArea()
                                 ReviewView(isOpened: $isReviewOpened)
                             }
@@ -426,6 +429,9 @@ struct NewModulesScreen: View {
 //                            
 ////                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 32, trailing: 0))
 //                        }
+                    }
+                    .onTapGesture {
+                        UIApplication.shared.endEditing()
                     }
                     .disabled(showActivity || showAlert)
                     .sheet(isPresented: $deeplinkManager.isOpenModuleType) {
