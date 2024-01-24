@@ -95,8 +95,12 @@ enum Language: String, CaseIterable, Codable {
             return "italian"
         case .tur:
             return "turkish"
-        default:
-            return "english"
+        case .ispan:
+            return "spanish"
+        case .ru:
+            return "russian"
+        case .ro:
+            return "romanian"
         }
     }
 }

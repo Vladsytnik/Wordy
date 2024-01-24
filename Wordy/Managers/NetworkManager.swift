@@ -674,7 +674,7 @@ class NetworkManager {
         ]
         
         let sourceLanguage = UserDefaultsManager.learnLanguage?.getLangCodeForGeneratingExamples() ?? "english"
-        let additionalLanguage =  UserDefaultsManager.learnLanguage != .ru ? "russian" : "english"
+        let additionalLanguage =  UserDefaultsManager.learnLanguage == .eng ? "russian" : "english" // это не используется по сути, тут все правильно
         
         
         let body = [
