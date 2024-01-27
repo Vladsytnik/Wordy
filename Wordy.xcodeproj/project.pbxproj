@@ -102,7 +102,6 @@
 		01780D2C294A110A004F11AC /* ReverseMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01780D2B294A110A004F11AC /* ReverseMask.swift */; };
 		017A6F742969CF4B001C1855 /* AddNewPhrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017A6F732969CF4B001C1855 /* AddNewPhrase.swift */; };
 		0185B55F2949F26D00934373 /* ObservableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0185B55E2949F26D00934373 /* ObservableScrollView.swift */; };
-		01897C032A17DCC3007F6A2C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01897C052A17DCC3007F6A2C /* Localizable.strings */; };
 		018D01472ABF1793008297CA /* Colors3.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 018D01462ABF1793008297CA /* Colors3.xcassets */; };
 		018D01492ABF179E008297CA /* Images3.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 018D01482ABF179E008297CA /* Images3.xcassets */; };
 		019056392944A7140058B566 /* WordyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019056382944A7140058B566 /* WordyApp.swift */; };
@@ -166,6 +165,7 @@
 		CE9425172B4C427400EF7C7C /* Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9425162B4C427400EF7C7C /* Rewards.swift */; };
 		CE9425192B4D990200EF7C7C /* RewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9425182B4D990200EF7C7C /* RewardManager.swift */; };
 		CE94251D2B4DA02600EF7C7C /* reward_firstModule.json in Resources */ = {isa = PBXBuildFile; fileRef = CE94251C2B4DA02600EF7C7C /* reward_firstModule.json */; };
+		CEB2DDDB2B6235E300C6A855 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CEB2DDDA2B6235E300C6A855 /* Localizable.xcstrings */; };
 		CEBE1E742B482E820079A348 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE1E732B482E820079A348 /* ReviewView.swift */; };
 		CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC18A252AD163BB00825749 /* NewModulesScreen.swift */; };
 		CECE48B72AFF9D82002E5507 /* notificationSound1.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */; };
@@ -258,8 +258,6 @@
 		01780D2B294A110A004F11AC /* ReverseMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseMask.swift; sourceTree = "<group>"; };
 		017A6F732969CF4B001C1855 /* AddNewPhrase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewPhrase.swift; sourceTree = "<group>"; };
 		0185B55E2949F26D00934373 /* ObservableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableScrollView.swift; sourceTree = "<group>"; };
-		01897C042A17DCC3007F6A2C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		01897C062A17DCD5007F6A2C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		018D01462ABF1793008297CA /* Colors3.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors3.xcassets; sourceTree = "<group>"; };
 		018D01482ABF179E008297CA /* Images3.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images3.xcassets; sourceTree = "<group>"; };
 		019056352944A7140058B566 /* Wordy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wordy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -322,8 +320,8 @@
 		CE9425162B4C427400EF7C7C /* Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rewards.swift; sourceTree = "<group>"; };
 		CE9425182B4D990200EF7C7C /* RewardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardManager.swift; sourceTree = "<group>"; };
 		CE94251C2B4DA02600EF7C7C /* reward_firstModule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reward_firstModule.json; sourceTree = "<group>"; };
+		CEB2DDDA2B6235E300C6A855 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		CEBE1E732B482E820079A348 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
-		CEBE1E752B4ABCDD0079A348 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEC18A252AD163BB00825749 /* NewModulesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewModulesScreen.swift; sourceTree = "<group>"; };
 		CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound1.m4r; sourceTree = "<group>"; };
 		CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound2.m4r; sourceTree = "<group>"; };
@@ -701,7 +699,7 @@
 				01978FAF294CBEE600B8EFC3 /* Lottie */,
 				012D95B529485EEC00165DAF /* Fonts */,
 				0190564B2944AA700058B566 /* .gitignore */,
-				01897C052A17DCC3007F6A2C /* Localizable.strings */,
+				CEB2DDDA2B6235E300C6A855 /* Localizable.xcstrings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1058,6 +1056,7 @@
 				019229912AC7095B002648C4 /* ShortStack-Regular.ttf in Resources */,
 				012D95E3294867DA00165DAF /* SF-Pro-Display-Heavy.otf in Resources */,
 				019AC10F2AB43F3B00B31E8F /* GoogleService-Info.plist in Resources */,
+				CEB2DDDB2B6235E300C6A855 /* Localizable.xcstrings in Resources */,
 				01DEA5082AB8C90300A8074D /* Colors2.xcassets in Resources */,
 				CECE48C92B010C1B002E5507 /* Colors4.xcassets in Resources */,
 				012D95DE294867DA00165DAF /* SF-Pro-Display-Light.otf in Resources */,
@@ -1078,7 +1077,6 @@
 				CECE48C52B00FB5F002E5507 /* correctChose.m4r in Resources */,
 				0192298F2AC7055D002648C4 /* Launch Screen.storyboard in Resources */,
 				CE7C1DAC2B08E1AA00DEB265 /* Images6.xcassets in Resources */,
-				01897C032A17DCC3007F6A2C /* Localizable.strings in Resources */,
 				012D95D4294867DA00165DAF /* SF-Pro-Display-HeavyItalic.otf in Resources */,
 				CECE48BB2AFF9F8F002E5507 /* notificationSound3.m4r in Resources */,
 				CECE48B72AFF9D82002E5507 /* notificationSound1.m4r in Resources */,
@@ -1260,19 +1258,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		01897C052A17DCC3007F6A2C /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				01897C042A17DCC3007F6A2C /* en */,
-				01897C062A17DCD5007F6A2C /* ru */,
-				CEBE1E752B4ABCDD0079A348 /* it */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		019056412944A7170058B566 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1326,6 +1311,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1380,6 +1366,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
