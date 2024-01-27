@@ -40,10 +40,15 @@ struct StartView: View {
                                 .sheet(isPresented: $rewardManager.showReward, content: {
                                     Rewards()
                                 })
-//                                .overlay {
-//                                    EmptyView()
-//                                        .showAlert(title: "Wordy.app", description: viewModel.alertText, isPresented: $viewModel.showAlert, withoutButtons: true, repeatAction: {})
-//                                }
+                                .task {
+                                    do {
+                                        let expireSubscriptionDateFromServer = try await NetworkManager.getSubscriptionExpireDateFromServer()
+                                        UserDefaultsManager.serverSubscrExpireDate = expireSubscriptionDateFromServer
+                                        print("expire date from server: \(expireSubscriptionDateFromServer)")
+                                    } catch (let error) {
+                                        print("error in StartView -> .task -> try await NetworkManager.getSubscriptionExpireDateFromServer(): \(error.localizedDescription)")
+                                    }
+                                }
 //                            } else {
 //                                Modules()
 //                            }
@@ -79,17 +84,6 @@ struct StartView: View {
 			}
 		.environmentObject(router)
 		.accentColor(.white)
-        .task {
-            do {
-                let expireSubscriptionDateFromServer = try await NetworkManager.getSubscriptionExpireDateFromServer()
-                UserDefaultsManager.serverSubscrExpireDate = expireSubscriptionDateFromServer
-//                UserDefaultsManager.userHasTestSubscription = SubscriptionManager().userHasServerSubscription()
-                print("expire date from server: \(expireSubscriptionDateFromServer)")
-            } catch (let error) {
-                print("error in StartView -> .task -> try await NetworkManager.getSubscriptionExpireDateFromServer(): \(error.localizedDescription)")
-            }
-//            UserDefaultsManager.userHasTestSubscription =
-        }
 //        .onChange(of: viewModel.showAlert) { _ in
 //            print("Test init view model - changed")
 //        }
