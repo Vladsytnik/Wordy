@@ -31,7 +31,7 @@ struct CreateModuleButton: View {
 //                                    .stroke(themeManager.currentTheme.moduleCardRoundedAreaColor, lineWidth: 1)
 //                                    .foregroundColor(themeManager.currentTheme.mainText)
 //                            }
-                            .shadow(color: themeManager.currentTheme.mainText.opacity(0.5), radius: 25)
+                            .shadow(color: themeManager.currentTheme.mainText.opacity(0.35), radius: 25)
                     }
 				HStack {
 					if text == nil {

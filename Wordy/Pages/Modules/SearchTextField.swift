@@ -16,6 +16,7 @@ struct SearchTextField: View {
 	@EnvironmentObject var themeManager: ThemeManager
     
     @FocusState var isFocused: Bool
+    @Environment(\.colorScheme) var colorScheme
 	
 //	@State private var initialModules: [Module] = []
 
@@ -27,6 +28,8 @@ struct SearchTextField: View {
 					ZStack {
 						RoundedRectangle(cornerRadius: 12)
 							.foregroundColor(themeManager.currentTheme.searchTextFieldBG)
+//                        VisualEffectView(effect: UIBlurEffect(style: .regular))
+//                            .cornerRadius(11, corners: .allCorners)
 							.overlay {
 								HStack {
 									Image(asset: Asset.Images.searchIcon)
@@ -47,7 +50,7 @@ struct SearchTextField: View {
 										HStack {
 											Text(placeholder)
 												.fontWeight(.regular)
-												.opacity(searchText.isEmpty ? 0.5 : 0)
+                                                .opacity(searchText.isEmpty ? (isDark() ? 0.5 : 0.7) : 0)
 												.foregroundColor(themeManager.currentTheme.searchTextFieldText)
 												.padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 0))
                                                 .onTapGesture {
@@ -61,6 +64,12 @@ struct SearchTextField: View {
 					}
 				}
 			}
+    }
+    
+    private func isDark() -> Bool {
+        themeManager.currentTheme.isSupportLightTheme
+        ? colorScheme != .light
+        : themeManager.currentTheme.isDark
     }
 	
 	func filterModules(text: String) {

@@ -103,4 +103,21 @@ enum Language: String, CaseIterable, Codable {
             return "romanian"
         }
     }
+    
+//    func getAdditionalLangCodeForGeneratingExamples() -> String {
+//        switch self {
+//        case .eng:
+//            return "russian"
+//        case .it:
+//            return "english"
+//        case .tur:
+//            return "turkish"
+//        case .ispan:
+//            return "spanish"
+//        case .ru:
+//            return "russian"
+//        case .ro:
+//            return "romanian"
+//        }
+//    }
 }

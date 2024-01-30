@@ -55,6 +55,15 @@ struct Settings: View {
 					.foregroundColor(.clear)
 					.frame(height: 32)
 				VStack {
+                    HStack {
+                        Text("Основные".localize())
+                            .foregroundColor(themeManager.currentTheme.mainText)
+                            .font(.title)
+                            .bold()
+                        Spacer()
+                    }
+                    .padding(.horizontal)
+                    
 					NavigationLink {
 						GroupsEditingPage()
 					} label: {
@@ -199,6 +208,33 @@ struct Settings: View {
                                            isOpened: .constant(false))
                     }
                     
+//                    Divider()
+//                        .foregroundColor(themeManager.currentTheme.mainText)
+//                        .padding(.horizontal)
+//                        .padding(.horizontal)
+//                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
+                    
+                    HStack {
+                        Text("Аккаунт".localize())
+                            .foregroundColor(themeManager.currentTheme.mainText)
+                            .font(.title)
+                            .bold()
+                        Spacer()
+                    }
+                    .padding(.horizontal)
+                    .padding(EdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 0))
+                    
+                    if (!SubscriptionManager().userHasSubscription()) {
+                        GeneralSettingsRow(cellHeight: cellHeight,
+                                           cellText: "Получить PRO".localize(),
+                                           cellImageName: "star",
+                                           isOpenable: false,
+                                           isOpened: .constant(false),
+                                           didTapOnRow: {
+                            isShowPaywall = true
+                        })
+                    }
+                    
                     NavigationLink {
                         SupportView()
 //                            .navigationTitle("Опишите вашу проблему".localize())
@@ -209,6 +245,24 @@ struct Settings: View {
                                            isOpenable: false,
                                            isOpened: $isThemeSelecting)
                     }
+                    
+                    GeneralSettingsRow(cellHeight: cellHeight,
+                                       cellText: "Политика конфиденциальности".localize(),
+                                       cellImageName: "lock.shield",
+                                       isOpenable: false,
+                                       isOpened: .constant(false),
+                                       didTapOnRow: {
+                        UIApplication.shared.open(URL(string: "https://translate.google.co.tz/?hl=ru&tab=TT&sl=ru&tl=en&text=%D1%89%D0%B8%D1%82&op=translate")!)
+                    })
+                    
+                    GeneralSettingsRow(cellHeight: cellHeight,
+                                       cellText: "Условия и положения".localize(),
+                                       cellImageName: "person.badge.shield.checkmark",
+                                       isOpenable: false,
+                                       isOpened: .constant(false),
+                                       didTapOnRow: {
+                        UIApplication.shared.open(URL(string: "https://translate.google.co.tz/?hl=ru&tab=TT&sl=ru&tl=en&text=%D1%89%D0%B8%D1%82&op=translate")!)
+                    })
 					
 					LogOutRow(cellHeight: cellHeight) {
 						self.presentationMode.wrappedValue.dismiss()
@@ -264,6 +318,9 @@ struct Settings: View {
                                 .font(.system(size: 12))
                         }
                     }
+                    
+                    Color.clear
+                        .frame(height: 16)
 				}
 			}
 			.showAlert(title: "Wordy.app",
@@ -568,7 +625,7 @@ struct LogOutRow: View {
                         .foregroundColor(.red)
 						.padding()
 					Text(titleText.localize())
-						.font(.system(size: 16, weight: .medium))
+						.font(.system(size: 16, weight: .regular))
 						.foregroundColor(.red)
 					Spacer()
 				}
