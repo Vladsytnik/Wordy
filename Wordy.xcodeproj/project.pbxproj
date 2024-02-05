@@ -154,6 +154,7 @@
 		CE4F240E2B51670200A1A055 /* reward.json in Resources */ = {isa = PBXBuildFile; fileRef = CE4F240D2B51670200A1A055 /* reward.json */; };
 		CE52764A2ADAD7D9009F30FB /* ExampleCreatingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */; };
 		CE52764C2ADAE80A009F30FB /* BadgeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */; };
+		CE5981CA2B6E700500950FB6 /* String + GlobalValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5981C92B6E700500950FB6 /* String + GlobalValues.swift */; };
 		CE5CACFF2B2D9E1D00009FF8 /* loader2.json in Resources */ = {isa = PBXBuildFile; fileRef = CE5CACFE2B2D9E1C00009FF8 /* loader2.json */; };
 		CE6BD5B02AFBCF4900C4379F /* PrePaywallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */; };
 		CE6C52962B5AC7D900FA7890 /* SupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C52952B5AC7D900FA7890 /* SupportView.swift */; };
@@ -310,6 +311,8 @@
 		CE4F240D2B51670200A1A055 /* reward.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reward.json; sourceTree = "<group>"; };
 		CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCreatingResponse.swift; sourceTree = "<group>"; };
 		CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBackground.swift; sourceTree = "<group>"; };
+		CE5981C92B6E700500950FB6 /* String + GlobalValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + GlobalValues.swift"; sourceTree = "<group>"; };
+		CE5981CB2B6FD1C700950FB6 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		CE5CACFE2B2D9E1C00009FF8 /* loader2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader2.json; sourceTree = "<group>"; };
 		CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrePaywallManager.swift; sourceTree = "<group>"; };
 		CE6C52952B5AC7D900FA7890 /* SupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportView.swift; sourceTree = "<group>"; };
@@ -562,6 +565,7 @@
 			children = (
 				01780D2B294A110A004F11AC /* ReverseMask.swift */,
 				0103FF4F294C7FFA004C2EA6 /* String.swift */,
+				CE5981C92B6E700500950FB6 /* String + GlobalValues.swift */,
 				01D2F1BD294CE468000330A8 /* View + Modifiers.swift */,
 				013251DF296B034900B071F1 /* UIApplication + hideKeyboard.swift */,
 				017642462972EEF30042DB86 /* Date.swift */,
@@ -1018,6 +1022,7 @@
 				ro,
 				tr,
 				es,
+				"zh-Hant",
 			);
 			mainGroup = 0190562C2944A7140058B566;
 			packageReferences = (
@@ -1195,6 +1200,7 @@
 				013251E0296B034900B071F1 /* UIApplication + hideKeyboard.swift in Sources */,
 				CE9425172B4C427400EF7C7C /* Rewards.swift in Sources */,
 				0101B8B02AA0D45B0055DEFB /* MyTooltipSide.swift in Sources */,
+				CE5981CA2B6E700500950FB6 /* String + GlobalValues.swift in Sources */,
 				0101B8B62AA0D5A00055DEFB /* MyDefaultTooltipConfig.swift in Sources */,
 				019056492944A85E0058B566 /* Modules.swift in Sources */,
 				0103FF52294C86F5004C2EA6 /* ErrorCodeManager.swift in Sources */,
@@ -1282,6 +1288,7 @@
 				CEC795472B655B590038D4C5 /* ro */,
 				CEC795482B655B670038D4C5 /* tr */,
 				CEC795492B655B910038D4C5 /* es */,
+				CE5981CB2B6FD1C700950FB6 /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

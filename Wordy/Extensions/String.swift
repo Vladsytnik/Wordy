@@ -119,6 +119,21 @@ extension String {
         return string
     }
     
+    func localize(forLang langCode: String) -> String {
+        let preferredLanguage = langCode
+        let path = Bundle.main.path(forResource: preferredLanguage, ofType: "lproj")
+        
+        if let path = path, let bundle = Bundle(path: path) {
+            let localizedString = NSLocalizedString(self, bundle: bundle, comment: "")
+            let string = String(format: localizedString, self)
+            logLocalizedInfo(original: self, localizedString: string)
+            return string
+        }
+
+        // по дефолту возвращаем на англ
+        return self.localize(forLang: "en")
+    }
+    
     func logLocalizedInfo(original: String, localizedString: String) {
         // работает корректно только когда айфон не на русском языке
         // лучше чтобы был не английский, и не русский

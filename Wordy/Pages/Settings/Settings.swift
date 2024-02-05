@@ -252,7 +252,7 @@ struct Settings: View {
                                        isOpenable: false,
                                        isOpened: .constant(false),
                                        didTapOnRow: {
-                        UIApplication.shared.open(URL(string: "https://translate.google.co.tz/?hl=ru&tab=TT&sl=ru&tl=en&text=%D1%89%D0%B8%D1%82&op=translate")!)
+                        UIApplication.shared.open(URL(string: .GlobalValues.URLS.privacy)!)
                     })
                     
                     GeneralSettingsRow(cellHeight: cellHeight,
@@ -261,7 +261,7 @@ struct Settings: View {
                                        isOpenable: false,
                                        isOpened: .constant(false),
                                        didTapOnRow: {
-                        UIApplication.shared.open(URL(string: "https://translate.google.co.tz/?hl=ru&tab=TT&sl=ru&tl=en&text=%D1%89%D0%B8%D1%82&op=translate")!)
+                        UIApplication.shared.open(URL(string: .GlobalValues.URLS.termsOfUse)!)
                     })
 					
 					LogOutRow(cellHeight: cellHeight) {

@@ -171,13 +171,13 @@ struct Paywall: View {
 						
 						HStack {
 							Button {
-								
+                                UIApplication.shared.open(URL(string: .GlobalValues.URLS.privacy)!)
 							} label: {
 								Text("PRIVACY POLICY".localize())
 							}
 							Spacer()
 							Button {
-								
+                                UIApplication.shared.open(URL(string: .GlobalValues.URLS.termsOfUse)!)
 							} label: {
 								Text("TERMS & CONDITIONS".localize())
 							}
