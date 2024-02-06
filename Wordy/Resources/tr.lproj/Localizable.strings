@@ -60,9 +60,7 @@
 "Вы ответили: " = "Cevabınız: ";
 "Правильный ответ: " = "Doğru cevap: ";
 "Готово" = "Tamam";
-"Возобновить покупку" =
-
- "Satın almaya devam et";
+"Возобновить покупку" = "Satın almaya devam et";
 "ОК" = "Tamam";
 "Попробовать снова" = "Yeniden dene";
 "А знаете ли вы, что?" = "Biliyor musunuz?";
@@ -100,9 +98,7 @@
 "Модули: " = "Modüller:  ";
 "ВЫБРАТЬ" = "SEÇ";
 "Добавьте пример \nиспользования новой фразы" = "Yeni bir cümle kullanım örneği ekleyin";
-"ИИ автоматически сгенерирует контекст и предложит несколько вариантов на выбор" = "Yapay zeka ot
-
-omatik olarak bağlam oluşturacak\nve seçim için birkaç seçenek sunacak";
+"ИИ автоматически сгенерирует контекст и предложит несколько вариантов на выбор" = "Yapay zeka otomatik olarak bağlam oluşturacak\nve seçim için birkaç seçenek sunacak";
 "Логин" = "Kullanıcı adı";
 "Пароль" = "Parola";
 "Пропустить обучение" = "Eğitimi atla";

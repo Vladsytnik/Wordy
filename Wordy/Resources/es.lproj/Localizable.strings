@@ -19,7 +19,7 @@
 "Новая группа" = "Nuevo grupo";
 "Новый модуль" = "Nuevo módulo";
 "Отменить" = "Cancelar";
-"Поздравляем!" = "¡Felicidades!";
+"Поздравляем!" = "Felicidades!";
 "ПРОДОЛЖИТЬ" = "CONTINUAR";
 "Редактировать группы" = "Editar grupos";
 "Родной" = "Nativo";
@@ -38,9 +38,9 @@
 "Пример" = "Ejemplo";
 "Создать модуль" = "Crear nuevo módulo";
 "Буду знать!" = "OK";
-"Удалить этот модуль?" = "¿Eliminar este módulo?";
+"Удалить этот модуль?" = "Eliminar este módulo?";
 "Это действие нельзя будет отменить" = "Esta acción no se puede deshacer";
-"Вы действительно хотите удалить эту группу?" = "¿Seguro que quieres eliminar este grupo?";
+"Вы действительно хотите удалить эту группу?" = "Seguro que quieres eliminar este grupo?";
 "Упс, произошла ошибка..." = "Oops, ocurrió un error...";
 "Для изучения слов необходимо минимум \n4 фразы" = "Se requieren al menos \n4 frases para aprender palabras";
 "\nОсталось добавить еще" = "\nAún necesitas agregar más";
@@ -66,9 +66,7 @@
 "А знаете ли вы, что?" = "¿Sabías que?";
 "Ничего не радует разработчиков сильнее, чем хороший отзыв в App Store :)" = "Nada alegra más a los desarrolladores que una buena reseña en la App Store :)";
 "Оставить отзыв" = "Dejar una reseña";
-"П
-
-усть разработчики грустят" = "Deja que los desarrolladores estén tristes";
+"Пусть разработчики грустят" = "Deja que los desarrolladores estén tristes";
 "Удерживайте, чтобы добавить \nили удалить модуль из группы" = "Mantén pulsado para agregar \no eliminar un módulo del grupo";
 "Нажмите, чтобы увидеть \nмодули из этой группы" = "Presiona para ver \nlos módulos de este grupo";
 "Нажмите, чтобы создать \nновый модуль" = "Presiona para crear \nun nuevo módulo";
@@ -114,9 +112,7 @@
 "Ты только что создал свой первый модуль, так держать!" = "Acabas de crear tu primer módulo, ¡bien hecho!";
 "В честь этого хотим вручить тебе первую награду, ты это заслужил!" = "En honor a esto, queremos otorgarte tu primer premio, ¡te lo has ganado!";
 "Награда" = "Premio";
-"- Исследов
-
-атель -" = "- Explorador -";
+"- Исследователь -" = "- Explorador -";
 "Сохранено" = "Guardado";
 "Помощь" = "Ayuda";
 "Почта*" = "Correo electrónico*";

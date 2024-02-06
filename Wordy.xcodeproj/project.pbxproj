@@ -325,6 +325,8 @@
 		CE9425162B4C427400EF7C7C /* Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rewards.swift; sourceTree = "<group>"; };
 		CE9425182B4D990200EF7C7C /* RewardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardManager.swift; sourceTree = "<group>"; };
 		CE94251C2B4DA02600EF7C7C /* reward_firstModule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reward_firstModule.json; sourceTree = "<group>"; };
+		CEB8A99F2B71327E00A15257 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CEB8A9A02B71328500A15257 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEBE1E732B482E820079A348 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		CEBE1E752B4ABCDD0079A348 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEC18A252AD163BB00825749 /* NewModulesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewModulesScreen.swift; sourceTree = "<group>"; };
@@ -1023,6 +1025,8 @@
 				tr,
 				es,
 				"zh-Hant",
+				ja,
+				hi,
 			);
 			mainGroup = 0190562C2944A7140058B566;
 			packageReferences = (
@@ -1289,6 +1293,8 @@
 				CEC795482B655B670038D4C5 /* tr */,
 				CEC795492B655B910038D4C5 /* es */,
 				CE5981CB2B6FD1C700950FB6 /* zh-Hant */,
+				CEB8A99F2B71327E00A15257 /* ja */,
+				CEB8A9A02B71328500A15257 /* hi */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

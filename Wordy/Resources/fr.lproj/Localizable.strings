@@ -19,7 +19,7 @@
 "Новая группа" = "Nouveau groupe";
 "Новый модуль" = "Nouveau module";
 "Отменить" = "Annuler";
-"Поздравляем!" = "Félicitations !";
+"Поздравляем!" = "Félicitations!";
 "ПРОДОЛЖИТЬ" = "CONTINUER";
 "Редактировать группы" = "Éditer les groupes";
 "Родной" = "Maternelle";
@@ -38,9 +38,9 @@
 "Пример" = "Exemple";
 "Создать модуль" = "Créer un nouveau module";
 "Буду знать!" = "OK";
-"Удалить этот модуль?" = "Supprimer ce module ?";
+"Удалить этот модуль?" = "Supprimer ce module?";
 "Это действие нельзя будет отменить" = "Cette action ne pourra pas être annulée";
-"Вы действительно хотите удалить эту группу?" = "Êtes-vous sûr de vouloir supprimer ce groupe ?";
+"Вы действительно хотите удалить эту группу?" = "Êtes-vous sûr de vouloir supprimer ce groupe?";
 "Упс, произошла ошибка..." = "Oups, une erreur s'est produite...";
 "Для изучения слов необходимо минимум \n4 фразы" = "Pour apprendre des mots, il faut au moins \n4 phrases";
 "\nОсталось добавить еще" = "\nIl vous reste à ajouter";
@@ -70,7 +70,7 @@
 
 "ОК" = "OK";
 "Попробовать снова" = "Réessayer";
-"А знаете ли вы, что?" = "Le saviez-vous ?";
+"А знаете ли вы, что?" = "Le saviez-vous?";
 "Ничего не радует разработчиков сильнее, чем хороший отзыв в App Store :)" = "Rien ne réjouit plus les développeurs qu'un bon avis sur l'App Store :)";
 "Оставить отзыв" = "Laisser un avis";
 "Пусть разработчики грустят" = "Laissez les développeurs être tristes";
@@ -85,7 +85,7 @@
 "Уведомления" = "Notifications";
 
 "Введите ваш ответ" = "Entrez votre réponse";
-"Добавьте свою первую фразу!" = "Ajoutez votre première phrase !";
+"Добавьте свою первую фразу!" = "Ajoutez votre première phrase!";
 "ИИ автоматически переведет ее, \nа также покажет примеры \nиспользования в тексте." = "L'IA la traduira automatiquement, \net montrera également des exemples \nde son utilisation dans le texte.";
 "Понятно" = "Compris";
 "Нажмите для выбора эмодзи" = "Appuyez pour choisir un emoji";
@@ -102,8 +102,8 @@
 "С" = "De";
 "До" = "À";
 "Сбросить" = "Réinitialiser";
-"Кол-во в день: " = "Nombre par jour : ";
-"Модули: " = "Modules : ";
+"Кол-во в день: " = "Nombre par jour: ";
+"Модули: " = "Modules: ";
 "ВЫБРАТЬ" = "SÉLECTIONNER";
 
 "Добавьте пример \nиспользования новой фразы" = "Ajoutez un exemple \nde l'utilisation de la nouvelle phrase";
@@ -121,9 +121,9 @@
 "Вам прислали \nновый модуль 👇" = "Vous avez reçu \nun nouveau module 👇";
 "Принять" = "Accepter";
 
-"Поздравляем!" = "Félicitations !";
-"Ты только что создал свой первый модуль, так держать!" = "Vous venez de créer votre premier module, bien joué !";
-"В честь этого хотим вручить тебе первую награду, ты это заслужил!" = "En l'honneur de cela, nous aimerions vous présenter votre première récompense. Vous l'avez bien méritée !";
+"Поздравляем!" = "Félicitations!";
+"Ты только что создал свой первый модуль, так держать!" = "Vous venez de créer votre premier module, bien joué!";
+"В честь этого хотим вручить тебе первую награду, ты это заслужил!" = "En l'honneur de cela, nous aimerions vous présenter votre première récompense. Vous l'avez bien méritée!";
 "Награда" = "Récompense";
 "- Исследователь -" = "- Explorateur -";
 
