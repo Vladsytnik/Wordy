@@ -14,6 +14,12 @@ enum Language: String, CaseIterable, Codable {
 	case ro
 	case tur
 	case ispan
+    
+    case german
+    case france
+    case chinese
+    case japanese
+    case hindi
 	
 	static func getAll() -> [Language] {
 		Self.allCases
@@ -33,26 +39,48 @@ enum Language: String, CaseIterable, Codable {
 			return "🇹🇷"
 		case .ispan:
 			return "🇪🇸"
-		}
+        case .german:
+            return "🇩🇪"
+        case .france:
+            return "🇫🇷"
+        case .chinese:
+            return "🇨🇳"
+        case .japanese:
+            return "🇯🇵"
+        case .hindi:
+            return "🇮🇳"
+        }
 	}
 	
 	func getTitle() -> String {
 		switch self {
 		case .ru:
-			return "Русский"
+			return "Русский  |  Russian"
 		case .eng:
 			return "English"
 		case .it:
-			return "Italian"
+			return "Italiano  |  Italian"
 		case .ro:
-			return "Română"
+			return "Română  |  Romanian"
 		case .tur:
-			return "Türkçe"
+			return "Türkçe  |  Turkish"
 		case .ispan:
-			return "Español"
-		}
+			return "Español  |  Spanish"
+        case .german:
+            return "Deutsch  |  German"
+        case .france:
+            return "Français  |  French"
+        case .chinese:
+            return "中國人  |  Chinese"
+        case .japanese:
+            return "日本語  |  Japanese"
+        case .hindi:
+            return "भारतीय  |  Hindi"
+        }
 	}
 	
+    // для озвучивания фраз
+    // https://www.loc.gov/standards/iso639-2/php/English_list.php
 	func getLangCode() -> String {
 		switch self {
 		case .ru:
@@ -67,7 +95,17 @@ enum Language: String, CaseIterable, Codable {
 			return "tr-TR"
 		case .ispan:
 			return "es-ES"
-		}
+        case .german:
+            return "de"
+        case .france:
+            return "fr"
+        case .chinese:
+            return "zh"
+        case .japanese:
+            return "ja"
+        case .hindi:
+            return "hi"
+        }
 	}
 	
 	func getLangCodeForYandexApy() -> String {
@@ -84,7 +122,17 @@ enum Language: String, CaseIterable, Codable {
 			return "tr"
 		case .ispan:
 			return "es"
-		}
+        case .german:
+            return "de"
+        case .france:
+            return "fr"
+        case .chinese:
+            return "zh"
+        case .japanese:
+            return "ja"
+        case .hindi:
+            return "hi"
+        }
 	}
     
     func getLangCodeForGeneratingExamples() -> String {
@@ -101,6 +149,16 @@ enum Language: String, CaseIterable, Codable {
             return "russian"
         case .ro:
             return "romanian"
+        case .german:
+            return "german"
+        case .france:
+            return "french"
+        case .chinese:
+            return "chinese"
+        case .japanese:
+            return "japanese"
+        case .hindi:
+            return "hindi"
         }
     }
     
