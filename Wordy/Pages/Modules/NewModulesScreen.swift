@@ -317,7 +317,11 @@ struct NewModulesScreen: View {
                                 onboardingManager.finish()
                             },
                             completion: {
-                                print("settings")
+                                if showPopups {
+                                    indexOfPopup+=1
+                                    UserDefaultsManager.isMainScreenPopupsShown = true
+                                    showPopups = false
+                                }
                         })
 //                        .onChange(of: scrollOffset) { newValue in
 //                            

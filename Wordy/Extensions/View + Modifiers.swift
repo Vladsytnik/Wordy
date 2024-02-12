@@ -81,6 +81,9 @@ struct TrailingNavBarItem: ViewModifier {
                         }, label: {
                             NavigationLink {
                                 Settings()
+                                    .onAppear {
+                                        completion?()
+                                    }
                             } label: {
                                 Image(asset: Asset.Images.settingsIcon)
                                     .resizable()
