@@ -10,10 +10,28 @@ import ApphudSDK
 import StoreKit
 import SwiftUI
 
-struct AppstorePrice {
-	let priceDescription: String
-	var descriptionText: String?
-}
+enum SubscriptionPeriod: String, CaseIterable {
+    case OneMonth = "month"
+    case OneYear = "year"
+    
+    func getPeriodText() -> String {
+        switch self {
+        case .OneMonth:
+            return "month".localize()
+        case .OneYear:
+            return "year".localize()
+        }
+    }
+    
+    static func fetch(from offerName: String) -> Self? {
+        for period in SubscriptionPeriod.allCases {
+            if offerName.lowercased().contains(period.rawValue.lowercased()) {
+                return period
+            }
+        }
+        return nil
+    }
+ }
 
 @MainActor
 class PaywallViewModel: ObservableObject {
@@ -26,6 +44,8 @@ class PaywallViewModel: ObservableObject {
 	@Published var isInProgress = false
     @Published var showAlert = false
     @Published var alertText = ""
+    
+    var popularIndex = 0
 	
 	let advantagesText = [
 		("Разблокируйте свой творческий потенциал: бесконечное количество модулей и фраз", "Разблокируйте свой творческий потенциал:"),
@@ -104,7 +124,12 @@ class PaywallViewModel: ObservableObject {
 	}
 	
 	func getPriceTitleFor(index: Int) -> String {
-		products[index].displayPrice + "  " + products[index].displayName
+        print(products[index])
+        guard let period = SubscriptionPeriod.fetch(from: products[index].id) else { return "error" }
+        if period == .OneYear {
+            popularIndex = index
+        }
+        return products[index].displayPrice + " / " + period.getPeriodText()
 	}
     
     func restorePurchase() {

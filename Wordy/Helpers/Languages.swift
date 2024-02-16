@@ -53,30 +53,34 @@ enum Language: String, CaseIterable, Codable {
 	}
 	
 	func getTitle() -> String {
+        var result = ""
+        
 		switch self {
 		case .ru:
-			return "Русский  |  Russian"
+            result = "Russian"
 		case .eng:
-			return "English"
+            result = "English"
 		case .it:
-			return "Italiano  |  Italian"
+            result = "Italiano"
 		case .ro:
-			return "Română  |  Romanian"
+            result = "Romanian"
 		case .tur:
-			return "Türkçe  |  Turkish"
+            result = "Turkish"
 		case .ispan:
-			return "Español  |  Spanish"
+            result = "Spanish"
         case .german:
-            return "Deutsch  |  German"
+            result = "German"
         case .france:
-            return "Français  |  French"
+            result = "French"
         case .chinese:
-            return "中國人  |  Chinese"
+            result = "Chinese"
         case .japanese:
-            return "日本語  |  Japanese"
+            result = "Japanese"
         case .hindi:
-            return "भारतीय  |  Hindi"
+            result = "Hindi"
         }
+        
+        return result.localize()
 	}
 	
     // для озвучивания фраз

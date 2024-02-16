@@ -147,3 +147,18 @@
 "Кино" = "Sinema";
 "Праздник" = "Bayram";
 "Спектакль" = "Tiyatro";
+
+"month" = "ay";
+"year" = "yıl";
+
+"Russian" = "Rusça";
+"English" = "İngilizce";
+"Italiano" = "İtalyanca";
+"Romanian" = "Rumence";
+"Turkish" = "Türkçe";
+"Spanish" = "İspanyolca";
+"German" = "Almanca";
+"French" = "Fransızca";
+"Chinese" = "Çince";
+"Japanese" = "Japonca";
+"Hindi" = "Hintçe";

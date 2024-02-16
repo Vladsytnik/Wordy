@@ -371,7 +371,7 @@ struct Settings: View {
 			NetworkManager.deleteAccount { isSuccess in
 				showAcivity = false
 				if isSuccess {
-					showDeleteAccountAlert.toggle()
+//					showDeleteAccountAlert.toggle()
 					self.logOut()
 				} else {
 					showDeleteAccountError.toggle()
