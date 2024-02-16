@@ -183,3 +183,6 @@
 "Chinese" = "Cinese";
 "Japanese" = "Giapponese";
 "Hindi" = "Hindi";
+
+"\n Возникла проблема \nпри удалении аккаунта." = "\n Si è verificato un problema \n durante l'eliminazione dell'account.";
+

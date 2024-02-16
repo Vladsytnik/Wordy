@@ -191,3 +191,5 @@
 "Chinese" = "Chinese";
 "Japanese" = "Japanese";
 "Hindi" = "Hindi";
+
+"\n Возникла проблема \nпри удалении аккаунта." = "\n There was a problem \nwhen deleting the account.";

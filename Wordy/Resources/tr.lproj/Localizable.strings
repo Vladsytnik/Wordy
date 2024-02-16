@@ -162,3 +162,6 @@
 "Chinese" = "Çince";
 "Japanese" = "Japonca";
 "Hindi" = "Hintçe";
+
+"\n Возникла проблема \nпри удалении аккаунта." = "\n Hesap silinirken bir sorun oluştu.";
+
