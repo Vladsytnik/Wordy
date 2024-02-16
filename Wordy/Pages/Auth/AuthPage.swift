@@ -185,6 +185,7 @@ struct AuthTextField: View {
 	private let cornerRadius: CGFloat = 12
 	@FocusState var textFieldIsFocused: Bool
     let isEmail: Bool
+    @EnvironmentObject var themeManager: ThemeManager
 	
 	var body: some View {
         TextField(placeholder.localize(), text: $text)
@@ -203,6 +204,7 @@ struct AuthTextField: View {
             .if(isEmail) { v in
                 v.keyboardType(.emailAddress)
             }
+            .tint(themeManager.currentTheme.accent)
 	}
 }
 

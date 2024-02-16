@@ -161,3 +161,10 @@ extension String {
         }
     }
 }
+
+// MARK: - String Constants
+
+extension String {
+    static let KeychainServiceKey = "auth_token"
+    static let KeychainAccountKey = "wordy"
+}
