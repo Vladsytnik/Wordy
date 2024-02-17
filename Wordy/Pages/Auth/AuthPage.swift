@@ -26,6 +26,9 @@ struct AuthPage: View {
 				themeManager.currentTheme.authBackgroundImage
 					.resizable()
 					.edgesIgnoringSafeArea(.all)
+//                    .onTapGesture {
+//                        UIApplication().endEditing()
+//                    }
 				
 				themeManager.currentTheme.authBackgroundImage
 					.resizable()
@@ -60,10 +63,12 @@ struct AuthPage: View {
 						VStack {
                             AuthTextField(placeholder: "Логин",
 										  text: $viewModel.email,
-										  isFocused: $isFocused)
+										  isFocused: $isFocused,
+                                          isEmail: true)
                             AuthTextField(placeholder: "Пароль",
 										  text: $viewModel.password,
-										  isFocused: $isFocused)
+										  isFocused: $isFocused,
+                                          isEmail: false)
 						}
 						.textFieldStyle(.roundedBorder)
 						.padding()
@@ -179,6 +184,8 @@ struct AuthTextField: View {
 	@Binding var isFocused: Bool
 	private let cornerRadius: CGFloat = 12
 	@FocusState var textFieldIsFocused: Bool
+    let isEmail: Bool
+    @EnvironmentObject var themeManager: ThemeManager
 	
 	var body: some View {
         TextField(placeholder.localize(), text: $text)
@@ -194,6 +201,10 @@ struct AuthTextField: View {
 			.onChange(of: textFieldIsFocused) { newValue in
 				isFocused = newValue
 			}
+            .if(isEmail) { v in
+                v.keyboardType(.emailAddress)
+            }
+            .tint(themeManager.currentTheme.accent)
 	}
 }
 

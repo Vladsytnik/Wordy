@@ -147,3 +147,21 @@
 "Кино" = "Cine";
 "Праздник" = "Fiesta";
 "Спектакль" = "Espectáculo";
+
+"month" = "mes";
+"year" = "año";
+
+"Russian" = "Ruso";
+"English" = "Inglés";
+"Italiano" = "Italiano";
+"Romanian" = "Rumano";
+"Turkish" = "Turco";
+"Spanish" = "Español";
+"German" = "Alemán";
+"French" = "Francés";
+"Chinese" = "Chino";
+"Japanese" = "Japonés";
+"Hindi" = "Hindi";
+
+"\n Возникла проблема \nпри удалении аккаунта." = "\n Hubo un problema \n al eliminar la cuenta.";
+

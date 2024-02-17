@@ -174,3 +174,20 @@
 
 "Праздник" = "Fest";
 "Спектакль" = "Aufführung";
+
+"month" = "Monat";
+"year" = "Jahr";
+
+"Russian" = "Russisch";
+"English" = "Englisch";
+"Italiano" = "Italienisch";
+"Romanian" = "Rumänisch";
+"Turkish" = "Türkisch";
+"Spanish" = "Spanisch";
+"German" = "Deutsch";
+"French" = "Französisch";
+"Chinese" = "Chinesisch";
+"Japanese" = "Japanisch";
+"Hindi" = "Hindi";
+
+"\n Возникла проблема \nпри удалении аккаунта." = "\n Es gab ein Problem \n beim Löschen des Kontos.";

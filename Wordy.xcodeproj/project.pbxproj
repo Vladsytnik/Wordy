@@ -177,6 +177,8 @@
 		CECE48C52B00FB5F002E5507 /* correctChose.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48C42B00FB5E002E5507 /* correctChose.m4r */; };
 		CECE48C92B010C1B002E5507 /* Colors4.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CECE48C82B010C1B002E5507 /* Colors4.xcassets */; };
 		CECE48CB2B010C3D002E5507 /* Images5.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CECE48CA2B010C3D002E5507 /* Images5.xcassets */; };
+		CEFE41272B7F9D1E00C8ADF1 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFE41262B7F9D1E00C8ADF1 /* KeychainManager.swift */; };
+		CEFE41292B7FA40600C8ADF1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFE41282B7FA40600C8ADF1 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -343,6 +345,8 @@
 		CECE48C42B00FB5E002E5507 /* correctChose.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = correctChose.m4r; sourceTree = "<group>"; };
 		CECE48C82B010C1B002E5507 /* Colors4.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors4.xcassets; sourceTree = "<group>"; };
 		CECE48CA2B010C3D002E5507 /* Images5.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images5.xcassets; sourceTree = "<group>"; };
+		CEFE41262B7F9D1E00C8ADF1 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		CEFE41282B7FA40600C8ADF1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DF01A188026EA0C8921A4D0E /* Pods-Wordy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.release.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.release.xcconfig"; sourceTree = "<group>"; };
 		E8C956E5C5ED6A0A18071179 /* Pods-Wordy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wordy.debug.xcconfig"; path = "Target Support Files/Pods-Wordy/Pods-Wordy.debug.xcconfig"; sourceTree = "<group>"; };
 		F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Wordy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -466,6 +470,7 @@
 				0109D19B2AB8886600714E55 /* ColorTheme.swift */,
 				CE272E1D2B067A6400B2B1E8 /* Notification.swift */,
 				CE1AF6312B5C466E00CF5F08 /* HighlightView.swift */,
+				CEFE41282B7FA40600C8ADF1 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -812,6 +817,7 @@
 			isa = PBXGroup;
 			children = (
 				01E4B758294B119800720BE0 /* NetworkManager.swift */,
+				CEFE41262B7F9D1E00C8ADF1 /* KeychainManager.swift */,
 				CE9425182B4D990200EF7C7C /* RewardManager.swift */,
 				CE92994E2B0FAF9B00E24C7E /* NetworkConnectionManager.swift */,
 				01D89B1D2AC961390077FD6E /* SubscriptionManager.swift */,
@@ -1262,12 +1268,14 @@
 				0176424C29744BC90042DB86 /* DateFormatter.swift in Sources */,
 				01D2F1BE294CE468000330A8 /* View + Modifiers.swift in Sources */,
 				017642452972EB920042DB86 /* Phrase.swift in Sources */,
+				CEFE41272B7F9D1E00C8ADF1 /* KeychainManager.swift in Sources */,
 				017642472972EEF30042DB86 /* Date.swift in Sources */,
 				01E033172AD0104B00A3DA14 /* DeeplinkManager.swift in Sources */,
 				01D2F1C1294CEAD5000330A8 /* CategoryCard.swift in Sources */,
 				016141D12A0D6847009A9A8F /* SelectLanguagePage.swift in Sources */,
 				0103FF50294C7FFA004C2EA6 /* String.swift in Sources */,
 				0135E24F295B645300B1C8A0 /* Module.swift in Sources */,
+				CEFE41292B7FA40600C8ADF1 /* User.swift in Sources */,
 				01B92B35294F606100F440EE /* Settings.swift in Sources */,
 				01F01B7129F0301F00742DF3 /* PhraseEditViewModel.swift in Sources */,
 				CE272E1E2B067A6400B2B1E8 /* Notification.swift in Sources */,
@@ -1448,9 +1456,12 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = app.wordy.wordy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1483,9 +1494,12 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = app.wordy.wordy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

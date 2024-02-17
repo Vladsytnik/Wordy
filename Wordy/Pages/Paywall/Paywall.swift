@@ -92,7 +92,7 @@ struct Paywall: View {
 								VStack {
 									PaywallPlanBtn(
 										isSelected: viewModel.selectedIndex == i,
-										isMostPopular: i == 1,
+                                        isMostPopular: i == viewModel.popularIndex,
 										price: viewModel.getPriceTitleFor(index: i),
 										descriptionTxt: viewModel.products[i].description
 									) {

@@ -168,3 +168,21 @@
 
 "Праздник" = "Festa";
 "Спектакль" = "Spettacolo";
+
+"month" = "mese";
+"year" = "anno";
+
+"Russian" = "Russo";
+"English" = "Inglese";
+"Italiano" = "Italiano";
+"Romanian" = "Rumeno";
+"Turkish" = "Turco";
+"Spanish" = "Spagnolo";
+"German" = "Tedesco";
+"French" = "Francese";
+"Chinese" = "Cinese";
+"Japanese" = "Giapponese";
+"Hindi" = "Hindi";
+
+"\n Возникла проблема \nпри удалении аккаунта." = "\n Si è verificato un problema \n durante l'eliminazione dell'account.";
+

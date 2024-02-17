@@ -150,3 +150,20 @@
 
 "Праздник" = "Sărbătoare";
 "Спектакль" = "Spectacol";
+
+"month" = "lună";
+"year" = "an";
+
+"Russian" = "Rus";
+"English" = "Engleză";
+"Italiano" = "Italiană";
+"Romanian" = "Română";
+"Turkish" = "Turcă";
+"Spanish" = "Spaniolă";
+"German" = "Germană";
+"French" = "Franceză";
+"Chinese" = "Chineză";
+"Japanese" = "Japoneză";
+"Hindi" = "Hindi";
+
+"\n Возникла проблема \nпри удалении аккаунта." = "\n A apărut o problemă \n la ștergerea contului.";

@@ -15,8 +15,10 @@ struct ModuleScreen: View {
 	@Binding var modules: [Module]
 	@Binding var filteredModules: [Module]
 	@Binding var searchText: String
+    
 	@ObservedObject var viewModel = ModuleScreenViewModel()
 	@StateObject var learnPageViewModel = LearnSelectionPageViewModel()
+    
 	@State var showLearnPage = false
 	@State var showEditAlert = false
     

@@ -35,6 +35,7 @@ class AuthViewModel: NSObject, ObservableObject {
 		NetworkManager.signIn(email: email, password: password) { [weak self] resultText in
 			guard let self = self else { return }
 			self.hideActivity()
+            updateKeychainData()
 			self.showNextPage = true
 			self.alertText = resultText
 			self.showAlert.toggle()
@@ -52,6 +53,7 @@ class AuthViewModel: NSObject, ObservableObject {
 		NetworkManager.register(email: email, password: password) { [weak self] resultText in
 			guard let self = self else { return }
 			self.hideActivity()
+            updateKeychainData()
 			self.showNextPage = true
 			self.alertText = resultText
 			self.showAlert.toggle()
@@ -63,6 +65,13 @@ class AuthViewModel: NSObject, ObservableObject {
 			self.showAlert.toggle()
 		}
 	}
+    
+    private func updateKeychainData() {
+        let user = User(authType: .Email)
+        user.email = email
+        user.password = password
+        KeychainHelper.standard.save(user, service: .KeychainServiceKey, account: .KeychainAccountKey)
+    }
 	
 	private func hideActivity() {
 		DispatchQueue.main.async {
@@ -114,6 +123,12 @@ extension AuthViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
 			
 			// for logout
 			UserDefaultsManager.userID = idTokenString
+            
+            let user = User(authType: .AppleID)
+            user.nonce = nonce
+            user.appleToken = idTokenString
+            
+            KeychainHelper.standard.save(user, service: .KeychainServiceKey, account: .KeychainAccountKey)
 			
 			// Initialize a Firebase credential, including the user's full name.
 			let credential = OAuthProvider.credential(withProviderID: "apple.com",

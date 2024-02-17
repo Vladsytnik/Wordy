@@ -367,21 +367,61 @@ struct Settings: View {
 	// MARK: - Helpers
 	
 	private func deleteAccount() {
+        showAcivity = true
 		Task {
-			NetworkManager.deleteAccount { isSuccess in
-				showAcivity = false
-				if isSuccess {
-					showDeleteAccountAlert.toggle()
-					self.logOut()
-				} else {
-					showDeleteAccountError.toggle()
-				}
-			}
-			router.userIsLoggedIn = false
-			UserDefaultsManager.userID = nil
-//			await deleteCurrentUser()
+            do {
+                try await reauthenticateUser()
+                try await literallyDeleteAccount()
+                router.userIsLoggedIn = false
+                UserDefaultsManager.userID = nil
+                KeychainHelper.standard.delete(service: .KeychainServiceKey, account: .KeychainAccountKey)
+            } catch (let error) {
+                print(error)
+                showAcivity = false
+                showDeleteAccountError.toggle()
+            }
 		}
 	}
+    
+    private func reauthenticateUser() async throws {
+        let user = Auth.auth().currentUser
+
+        guard let credential = fetchAuthCredential() else { 
+            showDeleteAccountError.toggle()
+            return
+        }
+
+        try await user?.reauthenticate(with: credential)
+    }
+    
+    private func fetchAuthCredential() -> AuthCredential? {
+        guard let user = KeychainHelper.standard.read(service: .KeychainServiceKey,
+                                                        account: .KeychainAccountKey,
+                                                  type: User.self)
+        else { return nil }
+        
+        var credential: AuthCredential?
+        
+        if user.authType == .AppleID {
+            guard let token = user.appleToken else { return nil }
+            guard let nonce = user.nonce else { return nil }
+            credential = OAuthProvider.credential(withProviderID: "apple.com",
+                                                      idToken: token,
+                                                      rawNonce: nonce)
+            
+        } else {
+            guard let email = user.email else { return nil }
+            guard let pass = user.password else { return nil }
+            credential = EmailAuthProvider.credential(withEmail: email, password: pass)
+        }
+        
+        return credential
+    }
+    
+    private func literallyDeleteAccount() async throws {
+        try await Auth.auth().currentUser?.delete()
+    }
+
 	
 	private func isLastRow(_ i: Int) -> Bool {
 		i == rowsTitles.count - 1
@@ -390,10 +430,6 @@ struct Settings: View {
 	private func logOut() {
 		do {
 			try Auth.auth().signOut()
-//			Task {
-//				try await Auth.auth().currentUser?.delete()
-//				router.userIsLoggedIn = false
-//			}
 		} catch  {
 			print("Ошибка при выходе из аккаунта")
 		}
