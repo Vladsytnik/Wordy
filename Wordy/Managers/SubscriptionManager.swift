@@ -5,7 +5,7 @@
 //  Created by Vlad Sytnik on 01.10.2023.
 //
 
-import Foundation
+import SwiftUI
 import ApphudSDK
 
 class SubscriptionManager: ObservableObject {
@@ -14,14 +14,43 @@ class SubscriptionManager: ObservableObject {
 //		Apphud.hasPremiumAccess()
 //	}()
     
+    @Published var isUserHasSubscription = false
+    var onSubscriptionUpdate: ((Bool) -> Void)?
+    
+    static private var lastServerSubscrUpdatedDate: Date?
+    
+    init() {
+        isUserHasSubscription = userHasSubscription()
+    }
+    
+    @discardableResult
     func userHasSubscription() -> Bool {
         if let userId = UserDefaultsManager.userID  {
             Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr", userID: userId)
-            return Apphud.hasPremiumAccess() 
+            let hasSubscr = Apphud.hasPremiumAccess()
             || UserDefaultsManager.userHasTestSubscription
             || userHasServerSubscription()
+            withAnimation {
+                isUserHasSubscription = hasSubscr
+            }
+            onSubscriptionUpdate?(hasSubscr)
+            printSubscriptionInfo()
+            updateServerSubscrDateIfNeeded()
+            return hasSubscr
         } else {
+            isUserHasSubscription = false
+            onSubscriptionUpdate?(false)
+            printSubscriptionInfo()
             return false
+        }
+    }
+    
+    private func updateServerSubscrDateIfNeeded() {
+        let now = Date()
+        let interval = abs(now.timeIntervalSince(SubscriptionManager.lastServerSubscrUpdatedDate ?? now))
+        if SubscriptionManager.lastServerSubscrUpdatedDate == nil || interval > 60 {
+            NetworkManager.updateSubscriptionInfo()
+            SubscriptionManager.lastServerSubscrUpdatedDate = Date()
         }
     }
 	

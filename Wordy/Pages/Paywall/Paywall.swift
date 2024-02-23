@@ -16,6 +16,10 @@ struct Paywall: View {
 	@State var isOnAppear = false
 	
 	@State var isPurchasing = false
+    
+    @State var alertTitle = "Wordy.app"
+    @State var alertMessage = ""
+    @State var isCongratsAlertShown = false
 	
 	var isNothingSelected: Bool {
 		viewModel.selectedIndex == nil
@@ -97,6 +101,7 @@ struct Paywall: View {
 										descriptionTxt: viewModel.products[i].description
 									) {
 										viewModel.didTapBtn(index: i)
+                                        didTapBuy()
 									}
 								}
 							}
@@ -121,24 +126,7 @@ struct Paywall: View {
 							.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: Alignment.topLeading)
                         
 						Button {
-							if viewModel.selectedIndex < viewModel.products.count {
-                                viewModel.isInProgress = true
-								Task { @MainActor in
-									// productStruct is Product struct model from StoreKit2
-									// $isPurchasing should be used only in SwiftUI apps, otherwise don't use this parameter
-									let result = await Apphud.purchase(viewModel.getSelectedProduct(),
-																	   isPurchasing: $isPurchasing)
-                                    viewModel.isInProgress = false
-									print("Subscr print: ", result)
-									if result.success {
-										// handle successful purchase
-										print("Subscr print: success")
-										isOpened = false
-									} else {
-										print("Subscr print: not success")
-									}
-								}
-							}
+                            didTapBuy()
 						} label: {
 							RoundedRectangle(cornerRadius: 28)
 								.frame(height: 56)
@@ -192,9 +180,57 @@ struct Paywall: View {
 		}
 		.onAppear { isOnAppear = true }
         .activity($viewModel.isInProgress)
-        .alert(viewModel.alertText, isPresented: $viewModel.showAlert) {
-            Text("ОК".localize())
+//        .alert(isPresented: $isCongratsAlertShown) {
+//            let btnText = "Got it!".localize()
+//            return Alert(
+//                title: Text(alertTitle),
+//                message: Text(alertMessage),
+//                dismissButton: .default(Text(btnText), action: {
+//                    closePaywall()
+//                })
+//            )
+//        }
+        .alert(isPresented: $viewModel.showAlert) {
+            let btnText = "ОК".localize()
+            return Alert(
+                title: Text(viewModel.alertTitle),
+                message: Text(viewModel.alertText),
+                dismissButton: .default(Text(btnText), action: {
+                    if viewModel.isNeedToClosePaywall {
+                        closePaywall()
+                    }
+                })
+            )
         }
+    }
+    
+    private func didTapBuy() {
+        if viewModel.selectedIndex < viewModel.products.count {
+            viewModel.isInProgress = true
+            Task { @MainActor in
+                let result = await Apphud.purchase(viewModel.getSelectedProduct(), isPurchasing: $isPurchasing)
+                print("Subscr print: ", result)
+                if result.success {
+                    print("Subscr print: success")
+                    NetworkManager.updateSubscriptionInfo()
+                    viewModel.isNeedToClosePaywall = true
+                    showCongratsAlert()
+                } else {
+                    print("Subscr print: not success")
+                }
+                viewModel.isInProgress = false
+            }
+        }
+    }
+    
+    private func showCongratsAlert() {
+        viewModel.alertTitle = "Поздравляем, оплата прошла успешно!".localize() + "\n"
+        viewModel.alertText = "Спасибо, что поддерживаете нас! <3".localize() + "\n\n" + "Теперь вам доступны все возможности приложения без ограничений!".localize()
+        viewModel.showAlert.toggle()
+    }
+    
+    private func closePaywall() {
+        isOpened = false
     }
 }
 

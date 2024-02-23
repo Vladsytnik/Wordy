@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Alert: View {
+struct CustomAlert: View {
 	
 	let title: String
 	let description: String
@@ -131,7 +131,7 @@ struct Alert: View {
 
 struct Alert_Previews: PreviewProvider {
     static var previews: some View {
-		Alert(
+		CustomAlert(
 			title: "Упс! Ошибка сети",
 			description: "Проверьте соединение с интернетом",
 			isShow: .constant(true),
