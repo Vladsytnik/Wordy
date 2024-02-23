@@ -10,7 +10,7 @@ import AVKit
 import ApphudSDK
 import FirebaseAuth
 
-let maxCountOfStartingLearnMode = 3
+let maxCountOfStartingLearnMode = 10
 
 class ModuleScreenViewModel: ObservableObject {
 	
