@@ -520,7 +520,7 @@ struct CustomTextField: View {
 						.tint(themeManager.currentTheme.mainText)
 						.font(.system(size: fontSize, weight: .medium))
 						.focused($isFocused)
-						.keyboardType(.twitter)
+						.keyboardType(.default)
 					} else {
                         ZStack {
                             LanguageTextField(placeholder: "",

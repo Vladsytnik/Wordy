@@ -42,7 +42,7 @@ class AppValues {
     
     private func fetchCloudValues() {
         let settings = RemoteConfigSettings()
-        settings.minimumFetchInterval = 43200
+        settings.minimumFetchInterval = 43200 // каждые 12 часов
         RemoteConfig.remoteConfig().configSettings = settings
         
 #if DEBUG

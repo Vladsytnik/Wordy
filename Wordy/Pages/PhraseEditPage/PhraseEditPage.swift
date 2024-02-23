@@ -155,6 +155,9 @@ struct PhraseEditPage: View {
 				}
 				.padding()
 			}
+            .onTapGesture {
+                UIApplication.shared.endEditing()
+            }
 			.onChange(of: viewModel.modules, perform: { newValue in
 				self.modules = newValue
 			})
