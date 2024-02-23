@@ -11,6 +11,7 @@ import AppsFlyerLib
 import ApphudSDK
 import UserNotifications
 import AVFAudio
+import FirebaseRemoteConfig
 
 @main
 struct WordyApp: App {
@@ -68,9 +69,12 @@ struct WordyApp: App {
 class AppDelegate: NSObject, UIApplicationDelegate {
 	
 	let gcmMessageIDKey = "gcm.message_id"
+    var remoteConfig: RemoteConfig!
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
 		FirebaseApp.configure()
+        
+        _ = AppValues.shared
         
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
