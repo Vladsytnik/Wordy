@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -53,10 +53,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WordyYellow" translatesAutoresizingMaskIntoConstraints="NO" id="g9G-9O-FLq">
-                                <rect key="frame" x="129.66666666666666" y="331" width="149.99999999999997" height="150"/>
+                                <rect key="frame" x="154.66666666666666" y="350.66666666666669" width="100" height="111"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="fon-Gw-tfl"/>
-                                    <constraint firstAttribute="width" constant="150" id="yhG-QJ-Ae8"/>
+                                    <constraint firstAttribute="width" constant="100" id="yhG-QJ-Ae8"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -91,7 +90,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="WordyYellow" width="232" height="206"/>
+        <image name="WordyYellow" width="138" height="111"/>
         <namedColor name="LaunchScreenBG">
             <color red="0.98799997568130493" green="0.91399997472763062" blue="0.80000001192092896" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

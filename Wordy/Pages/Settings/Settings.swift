@@ -24,6 +24,8 @@ struct Settings: View {
 	@State var showDeleteAccountError = false
 	@State var showAcivity = false
 	@State var isTestPro = false
+    
+    @State private var userHasSubscription = false
 	
 	@State var isThemeSelecting = false
 	@State var currentNonce: String = ""
@@ -46,6 +48,8 @@ struct Settings: View {
 	
 	let cellHeight: CGFloat = 60
     @State var isShowPaywall = false
+    
+    @State var showCongrats = false
 	
 	var body: some View {
 		ZStack {
@@ -120,7 +124,7 @@ struct Settings: View {
                                             .onTapGesture {
                                                 guard themeManager.allThemes()[index].isFree
                                                         || (!themeManager.allThemes()[index].isFree
-                                                             && subscriptionManager.userHasSubscription())
+                                                             && userHasSubscription)
                                                 else {
                                                     isShowPaywall = true
                                                     return
@@ -143,7 +147,7 @@ struct Settings: View {
                                             }
                                             
                                             if !themeManager.allThemes()[index].isFree
-                                                && !subscriptionManager.userHasSubscription()
+                                                && !userHasSubscription
                                             {
                                                 Image(systemName: "lock.fill")
                                                     .foregroundColor(.white.opacity(0.9))
@@ -224,7 +228,7 @@ struct Settings: View {
                     .padding(.horizontal)
                     .padding(EdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 0))
                     
-                    if (!SubscriptionManager().userHasSubscription()) {
+                    if (!userHasSubscription) {
                         GeneralSettingsRow(cellHeight: cellHeight,
                                            cellText: "Получить PRO".localize(),
                                            cellImageName: "star",
@@ -293,7 +297,7 @@ struct Settings: View {
 //					}
 //					.padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
                     
-                    if subscriptionManager.userHasSubscription() {
+                    if userHasSubscription {
                         Text("Wordy Pro".localize())
                             .bold()
                             .foregroundColor(themeManager.currentTheme.accent)
@@ -339,10 +343,19 @@ struct Settings: View {
 				deleteAccount()
 			}
 			.activity($showAcivity)
+            
+            if showCongrats {
+                LottieView(fileName: "onboarding")
+                    .onAppear {
+                        generator2?.impactOccurred()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
+                            showCongrats = false
+                        }
+                    }
+            }
 		}
 		.navigationBarTitle("Настройки".localize())
 		.onAppear{
-//            isTestPro = SubscriptionManager().userHasSubscription()
 			currentThemeIndex = themeManager.getCurrentThemeIndex()
 		}
 		.onChange(of: isTestPro) { newValue in
@@ -350,8 +363,23 @@ struct Settings: View {
 //            NetworkManager.updateSubscriptionInfo(isTestPro: newValue)
 		}
         .onAppear {
+            userHasSubscription = subscriptionManager.isUserHasSubscription
             subscriptionManager.printSubscriptionInfo()
+            subscriptionManager.userHasSubscription()
+            subscriptionManager.onSubscriptionUpdate = { hasSubscr in
+                self.userHasSubscription = hasSubscr
+            }
         }
+        .onChange(of: subscriptionManager.isUserHasSubscription, perform: { val in
+            self.userHasSubscription = val
+        })
+        .onChange(of: isShowPaywall, perform: { val in
+            if !val {
+                if subscriptionManager.userHasSubscription() {
+                    showCongrats = true
+                }
+            }
+        })
         .sheet(isPresented: $isShowPaywall, content: {
             Paywall(isOpened: $isShowPaywall)
         })

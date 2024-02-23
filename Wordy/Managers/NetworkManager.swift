@@ -99,8 +99,9 @@ class NetworkManager {
                 }
             }
             
-            // Отправляем JSON в Firebase
-            let _ = try await ref.child("users").child(currentUserID).updateChildValues(["subscriptionExpireDate": dateStr])
+            if dateStr.count > 0 {
+                let _ = try await ref.child("users").child(currentUserID).updateChildValues(["subscriptionExpireDate": dateStr])
+            }
         }
     }
     

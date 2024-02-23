@@ -20,6 +20,8 @@ struct StartView: View {
 	let transition = AnyTransition.opacity
 	let opacityTransition = AnyTransition.opacity
     
+    @State var isShownLoadingPage = true
+    
 //    @StateObject var viewModel = StartViewModel()
     
     @State private var cancelable = Set<AnyCancellable>()
@@ -82,8 +84,23 @@ struct StartView: View {
 					.ignoresSafeArea()
 				}
 			}
+            .overlay(content: {
+                if isShownLoadingPage {
+                    LoadingPage()
+                        .ignoresSafeArea()
+                }
+            })
 		.environmentObject(router)
 		.accentColor(.white)
+        .onAppear {
+            Task {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    withAnimation {
+                        isShownLoadingPage.toggle()
+                    }
+                }
+            }
+        }
 //        .onChange(of: viewModel.showAlert) { _ in
 //            print("Test init view model - changed")
 //        }

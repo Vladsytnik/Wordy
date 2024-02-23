@@ -199,7 +199,7 @@ struct ShowAlert: ViewModifier {
 						}
 				}
 				
-				Alert(
+				CustomAlert(
 					title: title,
 					description: description,
 					isShow: $showAlert,

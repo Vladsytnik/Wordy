@@ -44,6 +44,8 @@ class PaywallViewModel: ObservableObject {
 	@Published var isInProgress = false
     @Published var showAlert = false
     @Published var alertText = ""
+    @Published var alertTitle = "Wordy.app"
+    @Published var isNeedToClosePaywall = false
     
     var popularIndex = 0
 	
@@ -116,8 +118,8 @@ class PaywallViewModel: ObservableObject {
 				isInProgress = false
 				if result.success {
 					// handle successful purchase
-                    alertText = "Поздравляем! Оплата прошла успешно! \n\nСпасибо, что поддерживаете разработчиков <3. Теперь вам доступны все возможности приложения без ограничений!".localize()
-                    showAlert.toggle()
+//                    alertText = "Поздравляем, оплата прошла успешно! \n\nСпасибо, что поддерживаете нас! <3. Теперь вам доступны все возможности приложения без ограничений!".localize()
+//                    showAlert.toggle()
 				}
 			}
 		}
@@ -136,17 +138,29 @@ class PaywallViewModel: ObservableObject {
         isInProgress = true
         Task { @MainActor in
             let error = await Apphud.restorePurchases()
-            if let error {
-//                alertText = "Упс, что-то пошло не так. \n\nЕсли вы столкнулись с проблемами в работе приложения, пожалуйста, сообщите об этом разрабочикам".localize()
-                alertText = "К сожалению, нам не удалось возобновить покупку".localize()
-                showAlert.toggle()
+            if let error  {
+                showErrorRestore()
                 print("Apphud error: restorePurchase: \(error)")
+            } else if !SubscriptionManager().userHasSubscription() {
+                showErrorRestore()
             } else {
-                alertText = "Все прошло успешно! \n\nТеперь вам доступны все возможности приложения без ограничений!".localize()
-                showAlert.toggle()
+                showSuccessRestore()
             }
             isInProgress = false
         }
+    }
+    
+    func showErrorRestore() {
+        alertTitle = "Wordy.app"
+        alertText = "К сожалению, нам не удалось возобновить покупку".localize()
+        showAlert.toggle()
+    }
+    
+    func showSuccessRestore() {
+        alertTitle = "Все прошло успешно!".localize()
+        alertText = "Теперь вам доступны все возможности приложения без ограничений!".localize()
+        showAlert.toggle()
+        isNeedToClosePaywall = true
     }
 	
 	func fetchProducts() async {
