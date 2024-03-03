@@ -11,10 +11,11 @@ struct WordsCarouselView: View {
 	
 	@EnvironmentObject var themeManager: ThemeManager
 	@State private var scrollOffset = CGFloat.zero
-	@ObservedObject var viewModel = WordsCarouselViewModel()
-	@Binding var modules: [Module]
-	@Binding var filteredModules: [Module]
+	@StateObject var viewModel = WordsCarouselViewModel()
+	@Binding var module: Module
 	@Environment(\.dismiss) private var dismiss
+    
+    private let selectedWordIndex: Int
 	
 	@StateObject var learnPageViewModel = LearnSelectionPageViewModel()
 	@State var showLearnPage = false
@@ -32,7 +33,7 @@ struct WordsCarouselView: View {
 						}
 						Spacer()
 					}
-					Text("\(viewModel.selectedWordIndex + 1)/\(viewModel.phrases.count)")
+					Text("\(viewModel.selectedWordIndex + 1)/\(module.phrases.count)")
 						.foregroundColor(themeManager.currentTheme.mainText)
 						.font(.system(size: 40, weight: .bold))
 						.padding(EdgeInsets(top: 0, leading: 0, bottom: 40, trailing: 0))
@@ -40,14 +41,17 @@ struct WordsCarouselView: View {
 				Spacer()
 				
 				TabView(selection: $viewModel.selectedWordIndex) {
-					ForEach(0..<viewModel.phrases.count, id: \.self) { i in
+					ForEach(0..<module.phrases.count, id: \.self) { i in
 //						CarouselCard(phrase: viewModel.phrases[viewModel.phrases.count - 1 - i],
 //									 onDeletedTap: {
 //							viewModel.didTapDeletePhrase(with: viewModel.phrases.count - 1 - i)
 //						})
-						CarouselCard(phrase: viewModel.phrases[i],
+						CarouselCard(phrase: module.phrases[i],
 									 onDeletedTap: {
-							viewModel.didTapDeletePhrase(with: i)
+                            viewModel.lastTappedPhraseIndexForDelete = i
+                            withAnimation {
+                                viewModel.deletePhrase = true
+                            }
 						})
 							.padding(.leading)
 							.padding(.trailing)
@@ -60,31 +64,25 @@ struct WordsCarouselView: View {
 				
 				Spacer(minLength: 50)
                 LearnModuleButton(customBgColor: themeManager.currentTheme.carouselLearnBtnColor) {
-					if viewModel.thisModule.phrases.count >= 4 {
-						viewModel.checkSubscriptionAndAccessability { isAllow in
+					if module.phrases.count >= 4 {
+						viewModel.checkSubscriptionAndAccessability(module: module) { isAllow in
 							if isAllow {
-								learnPageViewModel.module = viewModel.thisModule
+								learnPageViewModel.module = module
 								showLearnPage.toggle()
 							} else {
 								viewModel.showPaywall()
 							}
 						}
 					} else {
-						viewModel.didTapShowLearnPage()
+						viewModel.didTapShowLearnPage(module: module)
 					}
 				}
 				.padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
 			}
 		}
-		.onChange(of: viewModel.modules) { newValue in
-			modules = newValue
-		}
-		.onChange(of: viewModel.filteredModules) { newValue in
-			self.filteredModules = newValue
-		}
 		.fullScreenCover(isPresented: $showLearnPage, content: {
 			LearnSelectionPage(
-				module: viewModel.thisModule,
+				module: module,
 				viewModel: learnPageViewModel
 			)
 		})
@@ -102,24 +100,24 @@ struct WordsCarouselView: View {
 				}
 			}
 		})
+        .onAppear {
+            viewModel.selectedWordIndex = self.selectedWordIndex
+        }
 		.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showAlert, titleWithoutAction: "OK", titleForAction: "", withoutButtons: true) {
 			
 		}
+        .showAlert(title: "Удалить эту фразу?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.deletePhrase, titleWithoutAction: "Удалить", titleForAction: "Отменить", withoutButtons: false, okAction: { viewModel.didTapDeletePhrase(module.phrases[viewModel.lastTappedPhraseIndexForDelete], module: module) }, repeatAction: {})
 		.activity($viewModel.showActivity)
 	}
 	
-	init(modules: Binding<[Module]>, filteredModules: Binding<[Module]>, moduleIndex: Int, selectedWordIndex: Int) {
-		self._modules = modules
-		self._filteredModules = filteredModules
-		viewModel.modules = modules.wrappedValue
-		viewModel.filteredModules = filteredModules.wrappedValue
-		viewModel.index = moduleIndex
-		viewModel.selectedWordIndex = selectedWordIndex
+    init(module: Binding<Module>, selectedWordIndex: Int) {
+		self._module = module
+        self.selectedWordIndex = selectedWordIndex
 	}
 	
 	
 	func didTapShowLearnPage() {
-		if viewModel.thisModule.phrases.count >= 4 {
+		if module.phrases.count >= 4 {
             isUserCanLearnModule { isAllow in
                 if isAllow {
                     showLearnPage.toggle()
@@ -128,7 +126,7 @@ struct WordsCarouselView: View {
                 }
             }
 		} else {
-			let wordsCountDifference = 4 - viewModel.thisModule.phrases.count
+			let wordsCountDifference = 4 - module.phrases.count
             viewModel.alert.title = "Для изучения слов необходимо минимум 4 фразы".localize()
             viewModel.alert.description = "\nОсталось добавить еще".localize() + " \(viewModel.getCorrectWord(value: wordsCountDifference))!"
 			withAnimation {
@@ -138,13 +136,13 @@ struct WordsCarouselView: View {
 	}
     
     func isUserCanLearnModule(isAllow: ((Bool) -> Void)) {
-        let countOfStartingLearnMode =  UserDefaultsManager.countOfStartingLearnModes[viewModel.thisModule.id] ?? 0
+        let countOfStartingLearnMode =  UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
         let subscriptionManager = SubscriptionManager()
         let test = subscriptionManager.userHasSubscription()
         isAllow(subscriptionManager.userHasSubscription()
                 || (countOfStartingLearnMode < maxCountOfStartingLearnMode
-                    && !viewModel.thisModule.isBlockedFreeFeatures)
-                || viewModel.thisModule.acceptedAsStudent)
+                    && !module.isBlockedFreeFeatures)
+                || module.acceptedAsStudent)
     }
 }
 
@@ -183,7 +181,7 @@ struct CarouselCard: View {
 
 struct WordsCarouselView_Previews: PreviewProvider {
 	static var previews: some View {
-		WordsCarouselView(modules: .constant([
+		WordsCarouselView(module: .constant(
 			Module(name: "Test",
 				   emoji: "👻",
 				   id: "400",
@@ -194,7 +192,7 @@ struct WordsCarouselView_Previews: PreviewProvider {
 					Phrase(nativeText: "Test", translatedText: "Test", id: "", date: Date()),
 					Phrase(nativeText: "Test", translatedText: "Test", id: "", date: Date())
 				   ])
-		]), filteredModules: .constant([]), moduleIndex: 0, selectedWordIndex: 0)
+		), selectedWordIndex: 0)
 	}
 }
 

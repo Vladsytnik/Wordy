@@ -26,8 +26,6 @@ struct NewModulesScreen: View {
     @State private var searchText = ""
     @State private var createModuleButtonOpacity = 1.0
     @State private var showCreateModuleSheet = false
-    @State private var showActivity = false
-    @State private var selectedCategoryIndex = -1
     @State private var showCreateGroupSheet = false
     
     @EnvironmentObject var router: Router
@@ -39,28 +37,7 @@ struct NewModulesScreen: View {
     
     @State private var showSettings = false
     
-    @State private var modules: [Module] = [
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: [])
-    ]
-    @State private var filteredModules: [Module] = [
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: []),
-//        .init(name: "Test", emoji: "👾", id: "1", date: Date(), phrases: [])
-    ]
+    @EnvironmentObject var dataManager: DataManager
     
     @State private var needUpdateData = false
     
@@ -74,12 +51,7 @@ struct NewModulesScreen: View {
     
     @State private var groupId = ""
     
-    @State var groups: [Group] = [
-//        .init(name: "Test", id: "1", modulesID: [], date: Date()),
-//        .init(name: "Test", id: "1", modulesID: [], date: Date()),
-//        .init(name: "Test", id: "1", modulesID: [], date: Date()),
-//        .init(name: "Test", id: "1", modulesID: [], date: Date())
-    ]
+    
     @State var isOnAppear = false
     
     @State var selectedIndexes: [Int] = []
@@ -136,7 +108,7 @@ struct NewModulesScreen: View {
                                 
                                 if (!onboardingManager.isOnboardingMode || UserDefaultsManager.isNotFirstLaunchOfModulesPage)
                                     && UserDefaultsManager.isMainScreenPopupsShown {
-                                    SearchTextField(modules: $modules, filteredModules: $filteredModules, searchText: $searchText, placeholder: "Поиск".localize())
+                                    SearchTextField(modules: $dataManager.modules, searchText: $searchText, placeholder: "Поиск".localize())
                                         .padding(.leading)
                                         .padding(.trailing)
                                         .disabled(onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
@@ -180,7 +152,7 @@ struct NewModulesScreen: View {
                                                         isEditMode = false
                                                         showCreateGroupSheet = false
                                                         let newGroup = Group(name: text)
-                                                        groups.insert(newGroup, at: 0)
+                                                        dataManager.groups.insert(newGroup, at: 0)
                                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                                             showSelectModulePage.toggle()
                                                         }
@@ -192,12 +164,11 @@ struct NewModulesScreen: View {
                                                 }
                                             }
                                             HStack(spacing: 12) {
-                                                ForEach(0..<groups.count, id: \.self) { j in
+                                                ForEach(0..<dataManager.groups.count, id: \.self) { j in
                                                     CategoryCard(
-                                                        group: groups[j],
-                                                        isSelected: selectedCategoryIndex == j,
-                                                        modules: $modules,
-                                                        filteredModules: $filteredModules,
+                                                        group: dataManager.groups[j],
+                                                        isSelected: dataManager.selectedCategoryIndex == j,
+                                                        modules: $dataManager.modules,
                                                         searchText: $searchText
                                                     )
                                                         .onTapGesture {
@@ -206,17 +177,18 @@ struct NewModulesScreen: View {
                                                                     onboardingManager.goToNextStep()
                                                                 }
                                                             }
-                                                            withAnimation(Animation.spring()) {
-                                                                selectedCategoryIndex = j != selectedCategoryIndex ? j : -1
-                                                            }
+//                                                            withAnimation(Animation.spring()) {
+                                                                dataManager.selectedCategoryIndex = j != dataManager.selectedCategoryIndex ? j : -1
+                                                                dataManager.filter(withText: self.searchText)
+//                                                            }
                                                         }
                                                         .onLongPressGesture(minimumDuration: 0.5) {
                                                             if isOnboardingStepNumber(0) {
                                                                 onboardingManager.goToNextStep()
                                                             }
                                                             isEditMode = true
-                                                            self.groupId = groups[j].id
-                                                            selectedIndexes = translateUuidies(groups[j].modulesID)
+                                                            self.groupId = dataManager.groups[j].id
+                                                            selectedIndexes = translateUuidies(dataManager.groups[j].modulesID)
                                                             showEditModulePage.toggle()
                                                             generator2?.impactOccurred()
                                                         }
@@ -263,19 +235,19 @@ struct NewModulesScreen: View {
                                 .zIndex(100)
                                 
                                 LazyVGrid(columns: columns, spacing: 14) {
-                                    ForEach(0..<filteredModules.count, id: \.self) { i in
+                                    ForEach(0..<dataManager.modules.count, id: \.self) { i in
                                         NavigationLink(
                                             destination: ModuleScreen(
-                                                modules: $modules,
+                                                module: $dataManager.modules[i],
+                                                modules: $dataManager.modules,
                                                 searchedText: $searchText,
-                                                filteredModules: $filteredModules,
                                                 index: i
                                             ), label: {
                                                 ModuleCard(
                                                     width: moduleCardWidth,
-                                                    cardName: filteredModules[i].name,
-                                                    emoji: filteredModules[i].emoji,
-                                                    module: $filteredModules[i],
+                                                    cardName: dataManager.modules[i].name,
+                                                    emoji: dataManager.modules[i].emoji,
+                                                    module: $dataManager.modules[i],
                                                     isSelected: .constant(false)
                                                 )
                                             })
@@ -377,8 +349,8 @@ struct NewModulesScreen: View {
                         }
                         .ignoresSafeArea()
                         
-                        if (modules.count == 0 || filteredModules.count == 0)
-                        && !showActivity {
+                        if (dataManager.modules.count == 0)
+                            && !dataManager.isLoading {
                                 EmptyBGView()
                                 .onTapGesture {
                                     UIApplication.shared.endEditing()
@@ -437,18 +409,18 @@ struct NewModulesScreen: View {
                     .onTapGesture {
                         UIApplication.shared.endEditing()
                     }
-                    .disabled(showActivity || showAlert)
+                    .disabled(dataManager.isLoading || showAlert)
                     .sheet(isPresented: $deeplinkManager.isOpenModuleType) {
                         if #available(iOS 16.0, *) {
                             SharedModulePage(needUpdateData: $needUpdateData,
-                                             showActivity: $showActivity,
+                                             showActivity: $dataManager.isLoading,
                                              screenFullHeight: geometry.size.height,
                                              isNotAbleToChangeIcon: true
                             )
                             .presentationDetents([.medium, .large])
                         } else {
                             SharedModulePage(needUpdateData: $needUpdateData,
-                                             showActivity: $showActivity,
+                                             showActivity: $dataManager.isLoading,
                                              screenFullHeight: geometry.size.height,
                                              isNotAbleToChangeIcon: true)
                         }
@@ -471,8 +443,7 @@ struct NewModulesScreen: View {
                 checkUser()
 //                if isFirstLaunch {
                 isFirstLaunch = false
-                fetchModules()
-                fetchGroups()
+                fetchDataFromServer()
 //                }
                 router.userIsAlreadyLaunched = true
                 
@@ -504,54 +475,45 @@ struct NewModulesScreen: View {
                     .store(in: &cancelable)
             }
             .sheet(isPresented: $showCreateModuleSheet) {
-                CreateModuleView(needUpdateData: $needUpdateData, showActivity: $showActivity, isOnboardingMode: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+                CreateModuleView(needUpdateData: $needUpdateData, showActivity: $dataManager.isLoading, isOnboardingMode: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
                     .environmentObject(router)
             }
-            .activity($showActivity)
-            .onChange(of: needUpdateData) { _ in
-                fetchModules()
-                fetchGroups()
-            }
-            .onChange(of: modules, perform: { newValue in
-                if searchText.count > 0 {
-                    filteredModules = modules.filter{ $0.name.contains("\(searchText)") }
-                } else {
-                    filteredModules = modules
-                }
-            })
+            .activity($dataManager.isLoading)
+//            .onChange(of: needUpdateData) { _ in
+//                fetchDataFromServer()
+//            }
             .onChange(of: onboardingManager.isOnboardingMode, perform: { newValue in
                 if !newValue {
-                    fetchGroups()
-                    fetchModules()
+                    fetchDataFromServer()
                 }
             })
             .fullScreenCover(isPresented: $showSelectModulePage, content: {
                 ModuleSelectPage(
-                    modules: $modules,
+                    modules: $dataManager.modules,
                     isOpened: $showSelectModulePage,
-                    groupId: $groups[0].id,
+                    groupId: $dataManager.groups[0].id,
                     needUpdate: $needUpdateData,
-                    groups: $groups,
+                    groups: $dataManager.groups,
                     isEditMode: $isEditMode
                 )
             })
             .sheet(isPresented: $showEditModulePage, content: {
                 ModuleSelectPage(
-                    modules: $modules,
+                    modules: $dataManager.allModules,
                     isOpened: $showEditModulePage,
                     groupId: $groupId,
                     needUpdate: $needUpdateData,
-                    groups: $groups,
+                    groups: $dataManager.groups,
                     isEditMode: $isEditMode,
                     isOnboardingMode: onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage,
                     selectedIndexes: $selectedIndexes
                 )
             })
             .showAlert(title: alert.title, description: alert.description, isPresented: $showAlert) {
-                fetchModules()
+                fetchDataFromServer()
             }
             .showAlert(title: alert.title, description: alert.description, isPresented: $showGroupsAlert) {
-                fetchGroups()
+                fetchDataFromServer()
             }
             .sheet(isPresented: $isShowPaywall, content: {
                 Paywall(isOpened: $isShowPaywall)
@@ -559,11 +521,6 @@ struct NewModulesScreen: View {
             .fullScreenCover(isPresented: $paywallIsOpened, content: {
                 Paywall(isOpened: $paywallIsOpened)
             })
-            .onChange(of: selectedCategoryIndex) { newValue in
-                if newValue == -1 {
-                    filteredModules = modules
-                }
-            }
             .onChange(of: onboardingManager.onboardingHasFinished) { newValue in
                 if newValue {
                     generator2?.impactOccurred()
@@ -576,7 +533,7 @@ struct NewModulesScreen: View {
                 }
             }
             .onAppear {
-
+                
             }
             .navigationBarTitleDisplayMode(.inline)
 //            .if(!showPopups) { v in
@@ -588,6 +545,9 @@ struct NewModulesScreen: View {
             .popup(allowToShow: $showPopups, currentIndex: $indexOfPopup) {
                 UserDefaultsManager.isMainScreenPopupsShown = true
             }
+//            .onChange(of: dataManager.isLoading) { val in
+//                self.showActivity = val
+//            }
     }
     
     init() {
@@ -612,14 +572,7 @@ struct NewModulesScreen: View {
     }
     
    private func filterModules(text: String) {
-        print(text, modules.count, filteredModules.count)
-        if text.count > 0 {
-            filteredModules = modules.filter({ module in
-                module.name.contains("\(text)")
-            })
-        } else {
-            filteredModules = modules
-        }
+       dataManager.filter(withText: text)
     }
     
     private func isDark() -> Bool {
@@ -636,7 +589,7 @@ struct NewModulesScreen: View {
         var result: [Int] = []
         
         for uuid in uuidies {
-            for (i, module) in modules.enumerated() {
+            for (i, module) in dataManager.modules.enumerated() {
                 if module.id == uuid {
                     result.append(i)
                 }
@@ -648,9 +601,8 @@ struct NewModulesScreen: View {
     
     private func pullDownToRefresh() {
         simpleSuccess()
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
-            fetchModules(fromPullDown: true)
-            fetchGroups(fromPullDown: true)
+        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 0.7) {
+            dataManager.forceLoadFromServer()
         }
     }
     
@@ -659,42 +611,15 @@ struct NewModulesScreen: View {
         generator.notificationOccurred(.success)
     }
     
-    private func fetchModules(fromPullDown: Bool = false) {
-        if onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
-            modules = MockDataManager().modules
-        } else {
-            if !fromPullDown {
-                showActivity = true
-            }
-            searchText = ""
-            NetworkManager.getModules { modules in
-                showActivity = false
-                self.modules = modules
-                self.filteredModules = modules
-            } errorBlock: { errorText in
-                showActivity = false
-                guard !errorText.isEmpty else { return }
-                showAlert(errorText: errorText)
-            }
+    private func fetchDataFromServer() {
+        onboardingManager.onFinish = {
+            dataManager.forceLoadFromServer()
+            dataManager.setRealData()
         }
-    }
-    
-    private func fetchGroups(fromPullDown: Bool = false) {
         if onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
-            groups = MockDataManager().groups
+            dataManager.setMockData()
         } else {
-            selectedCategoryIndex = -1
-            if !fromPullDown {
-                showActivity = true
-            }
-            NetworkManager.getGroups { groups in
-                showActivity = false
-                self.groups = groups
-            } errorBlock: { errorText in
-                showActivity = false
-                guard !errorText.isEmpty else { return }
-                showAlert(errorText: errorText)
-            }
+            dataManager.setRealData()
         }
     }
     
@@ -775,7 +700,7 @@ struct NewModulesScreen: View {
     
     private func checkSubscriptionAndCountOfGroups(isAllow: ((Bool) -> Void)) {
         isAllow(subscriptionManager.userHasSubscription()
-                || groups.count < macCountOfFreeGroups)
+                || dataManager.groups.count < macCountOfFreeGroups)
     }
 }
 

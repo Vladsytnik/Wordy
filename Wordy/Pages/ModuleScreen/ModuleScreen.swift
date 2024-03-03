@@ -12,8 +12,8 @@ struct ModuleScreen: View {
 	
 	@EnvironmentObject var subscriptionManager: SubscriptionManager
 	
+    @Binding var module: Module
 	@Binding var modules: [Module]
-	@Binding var filteredModules: [Module]
 	@Binding var searchText: String
     
 	@ObservedObject var viewModel = ModuleScreenViewModel()
@@ -64,11 +64,8 @@ struct ModuleScreen: View {
 						if viewModel.showEditPhrasePage {
 							NavigationLink(
 								destination: PhraseEditPage(
-									modules: $modules,
-									searchedText: $searchText,
-									filteredModules: $filteredModules,
-									phraseIndex: viewModel.phraseIndexForEdit,
-									moduleIndex: viewModel.index
+									module: $module,
+									phraseIndex: viewModel.phraseIndexForEdit
 								),
 								isActive: $viewModel.showEditPhrasePage
 							) {
@@ -79,7 +76,7 @@ struct ModuleScreen: View {
 //						ObservableScrollView(scrollOffset: $scrollOffset) { proxy in
 						ScrollView {
                             VStack {
-                                if isShared || viewModel.module.isSharedByTeacher {
+                                if isShared || module.isSharedByTeacher {
                                     HStack(spacing: 6) {
                                         Image(systemName: "network")
                                         Text("Опубликован".localize())
@@ -101,7 +98,7 @@ struct ModuleScreen: View {
                                        showAlert: $showInfoAlert,
                                        moduleName: $moduleName,
                                        isShared: $isShared, 
-                                       module: viewModel.module,
+                                       module: module,
                                        withoutBackButton: true)
 								//								Color.clear
 								//									.frame(height: 30)
@@ -122,7 +119,7 @@ struct ModuleScreen: View {
 //                                    }
 								//									.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 24))
                                 
-								if viewModel.module.phrases.count > 0 {
+								if module.phrases.count > 0 {
 									AddWordPlusButton {
 										didTapShareModule()
 									}
@@ -130,24 +127,24 @@ struct ModuleScreen: View {
                                     
 									LearnModuleButton {
                                         onboardingManager.goToNextStep()
-										if viewModel.module.phrases.count >= 4 {
-											viewModel.checkSubscriptionAndAccessability { isAllow in
+										if module.phrases.count >= 4 {
+                                            viewModel.checkSubscriptionAndAccessability(module: module) { isAllow in
 												if isAllow {
-													learnPageViewModel.module = viewModel.module
+													learnPageViewModel.module = module
 													showLearnPage.toggle()
 												} else {
 													viewModel.showPaywall()
 												}
 											}
 										} else {
-											viewModel.didTapPhraseCountAlert()
+											viewModel.didTapPhraseCountAlert(module: module)
 										}
 									}
 									.frame(height: 45)
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
                                     .mytooltip(onboardingManager.currentStepIndex == 0 
                                                && viewModel.userDidntSeeLearnBtnYet()
-                                               && viewModel.phrases.count >= 4,
+                                               && module.phrases.count >= 4,
                                                config: nil,
                                                appearingDelayValue: 0.5) {
                                         let text = "Используйте обучающий режим, \nчтобы эффективнее запоминать фразы".localize()
@@ -168,16 +165,14 @@ struct ModuleScreen: View {
                                     .zIndex(100)
 								}
 								
-								ForEach(0..<viewModel.phraseCount, id: \.self) { i in
+                                ForEach(0..<module.phrases.count, id: \.self) { i in
 									Button {
 //										viewModel.didTapWord(with: i)
 //                                        onboardingManager.goToNextStep()
 									} label: {
 										WordCard(
 											width: geo.size.width - 60,
-											modules: $filteredModules,
-											index: viewModel.index,
-											phrase: viewModel.phrases[i],
+											module: $module,
 											phraseIndex: i,
 											onAddExampleTap: { index in
 												viewModel.didTapAddExample(index: index)
@@ -186,7 +181,7 @@ struct ModuleScreen: View {
 												currentEditPhraseIndex = index
 												showEditAlert.toggle()
 											}, onSpeachTap: { index in
-												viewModel.didTapSpeach(index: index)
+                                                viewModel.didTapSpeach(phrase: module.phrases[i])
 											} )
                                         .onTapGesture {
                                             viewModel.didTapWord(with: i)
@@ -201,7 +196,7 @@ struct ModuleScreen: View {
 								}
 //								AddWordButton { didTapAddNewPhrase() }
 								
-								if viewModel.module.phrases.count > 0 {
+								if module.phrases.count > 0 {
 									DeleteModuleButton { viewModel.didTapDeleteModule() }
                                         .padding(.bottom)
 								}
@@ -210,7 +205,7 @@ struct ModuleScreen: View {
 									.frame(height: 55)
 									.foregroundColor(.clear)
                                 
-                                if viewModel.module.phrases.count == 0 {
+                                if module.phrases.count == 0 {
                                     EmptyBGView()
                                 }
 							}
@@ -224,7 +219,8 @@ struct ModuleScreen: View {
 						VStack {
 							Spacer()
                             
-                            if viewModel.module.phrases.count == 0 {
+                            // РАЗОБРАТЬСЯ С ТЕМ ЧТО НЕПРАВИЛЬНО УДАЛЯЮТСЯ ФРАЗЫ
+                            if module.phrases.count == 0 {
                                 DeleteModuleButton { viewModel.didTapDeleteModule() }
                             }
                             
@@ -287,29 +283,23 @@ struct ModuleScreen: View {
 //                            }
 //                        }
 					}
-                    .showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Удалить", titleForAction: "Отменить", withoutButtons: false, okAction: { viewModel.nowReallyNeedToDeleteModule() }, repeatAction: {})
+                    .showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Удалить", titleForAction: "Отменить", withoutButtons: false, okAction: { viewModel.nowReallyNeedToDeleteModule(module: module) }, repeatAction: {})
                     .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showDeletingErrorAlert) {
-                        viewModel.nowReallyNeedToDeleteModule()
+                        viewModel.nowReallyNeedToDeleteModule(module: module)
                     }
                     .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showOkAlert, withoutButtons: true) {
-                        viewModel.nowReallyNeedToDeleteModule()
+                        viewModel.nowReallyNeedToDeleteModule(module: module)
                     }
                     .showAlert(title: "💡 Правило\n пятнадцати слов", description: "\nНаш мозг устроен таким образом, \nчто информация усваивается \nболее эффективно, если она \nразделена на порции. \n\n 15 – это та самая порция, которая \nявляется оптимальной \nдля запоминания слов 🧠", isPresented: $showInfoAlert, titleWithoutAction: "Буду знать!", withoutButtons: true) {
                         
                     }
                     .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAboutPhraseCount, withoutButtons: true) {
                     }
-					.onChange(of: viewModel.modules) { newValue in
-						self.modules = newValue
-					}
-					.onChange(of: viewModel.filteredModules) { newValue in
-						self.filteredModules = newValue
-					}
+//					.onChange(of: viewModel.modules) { newValue in
+//						self.modules = newValue
+//					}
 					.fullScreenCover(isPresented: $viewModel.showActionSheet) {
-						AddNewPhrase(modules: $modules, 
-                                     filteredModules: $filteredModules,
-                                     searchText: $searchText,
-                                     index: viewModel.index)
+                        AddNewPhrase(module: $module)
                             .environmentObject(addNewPhraseViewModel)
 					}
 				}
@@ -320,15 +310,13 @@ struct ModuleScreen: View {
             .navigationBarTitleDisplayMode(.inline)
 			.fullScreenCover(isPresented: $viewModel.showWordsCarousel) {
 				WordsCarouselView(
-					modules: $modules,
-					filteredModules: $filteredModules,
-					moduleIndex: viewModel.index,
+					module: $module,
 					selectedWordIndex: viewModel.selectedWordIndex
 				)
 			}
 			.fullScreenCover(isPresented: $showLearnPage, content: {
 				LearnSelectionPage(
-					module: viewModel.module,
+					module: module,
 					viewModel: learnPageViewModel
 				)
 			})
@@ -349,7 +337,7 @@ struct ModuleScreen: View {
 							viewModel.didTapAddExample(index: currentEditPhraseIndex)
 						}),
 						.destructive(Text("Удалить".localize()), action: {
-							viewModel.didTapDeletePhrase(with: currentEditPhraseIndex)
+                            viewModel.didTapDeletePhrase(module: module, phrase: module.phrases[currentEditPhraseIndex])
 						}),
 						.cancel(Text("Отменить".localize()), action: {
 							
@@ -373,14 +361,14 @@ struct ModuleScreen: View {
 			.background {
                 UIKitActivityView(isPresented: $showActivity,
                                   userIsReallyShared: $userIsReallyShared,
-								  data: [viewModel.getShareUrl()],
+								  data: [viewModel.getShareUrl(module: module)],
 //								  data: [URL(string: "https://wordy.onelink.me/HpCP/s3t4ujfk")!],
 								  subject: nil,
 								  message: nil)
 			}
             .onAppear {
-                self.emoji = viewModel.module.emoji
-                self.moduleName = viewModel.module.name
+                self.emoji = module.emoji
+                self.moduleName = module.name
             }
             .navigationBarItems(
                 trailing:
@@ -393,26 +381,28 @@ struct ModuleScreen: View {
             )
             .sheet(isPresented: $showChangeModuleDataScreen) {
                 if #available(iOS 16.0, *) {
-                    ChangeModulePage(module:viewModel.module,
+                    ChangeModulePage(module:module,
                                      moduleName: $moduleName,
                                      emoji: $emoji)
                     .presentationDetents([.medium])
                 } else {
-                    ChangeModulePage(module:viewModel.module,
+                    ChangeModulePage(module:module,
                                      moduleName: $moduleName,
                                      emoji: $emoji)
                 }
             }
+            .onChange(of: module) { val in
+//                module = val
+            }
             
 	}
 	
-	init(modules: Binding<[Module]>, searchedText: Binding<String>, filteredModules: Binding<[Module]>, index: Int) {
+    init(module: Binding<Module>, modules: Binding<[Module]>, searchedText: Binding<String>, index: Int) {
+        self._module = module
 		self._modules = modules
-		self._filteredModules = filteredModules
 		self._searchText = searchedText
-		viewModel.modules = modules.wrappedValue
-		viewModel.filteredModules = filteredModules.wrappedValue
-		viewModel.index = index
+        
+//        module = module.wrappedValue
         
 //        if let currentThemeName {
 //            guard let theme = ThemeManager().allThemes().first(where: { $0.id == currentThemeName })
@@ -440,7 +430,7 @@ struct ModuleScreen: View {
 	}
 	
 	func didTapAddNewPhrase() {
-		if viewModel.phrases.count < countOfWordsForFree || SubscriptionManager().userHasSubscription() {
+		if module.phrases.count < countOfWordsForFree || SubscriptionManager().userHasSubscription() {
 			viewModel.showActionSheet = true
 		} else {
 			viewModel.showPaywall()
@@ -453,10 +443,12 @@ struct ModuleScreen: View {
     
     func needToUpdateTeacherMode() {
         userIsReallyShared = false
-        viewModel.setToModuleTeacherMode {
-            viewModel.setToModuleTeacherMode {
-                isShared = true
-            }
+        viewModel.setToModuleTeacherMode(module: module) {
+            module.isSharedByTeacher = true
+            isShared = true
+//            viewModel.setToModuleTeacherMode(module: module) {
+//                isShared = true
+//            }
         }
     }
 }
@@ -464,13 +456,11 @@ struct ModuleScreen: View {
 struct ModuleScreen_Previews: PreviewProvider {
 	static var previews: some View {
 		ModuleScreen(
+            module: .constant(.init()),
 			modules: .constant( [Module(name: "Test", emoji: "❤️‍🔥", phrases: [
 				.init(nativeText: "Test", translatedText: "Test", id: "1")
 			])]),
 			searchedText: .constant(""),
-			filteredModules: .constant([Module(name: "Test", emoji: "❤️‍🔥", phrases: [
-				.init(nativeText: "Test", translatedText: "Test", id: "1")
-			])]),
 			index: 0
 		)
 		.environmentObject(ThemeManager())

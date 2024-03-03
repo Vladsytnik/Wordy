@@ -139,6 +139,7 @@ extension Module {
 			}
 		}
 		
+        module.phrases.sort(by: AppConstants.phrasesSortingValue)
 		return module
 	}
 	

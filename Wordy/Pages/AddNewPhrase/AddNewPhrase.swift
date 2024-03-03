@@ -11,12 +11,7 @@ import SwiftUITooltip
 
 struct AddNewPhrase: View {
 	
-//	let module: Module
-	@Binding var modules: [Module]
-	@Binding var filteredModules: [Module]
-	@Binding var searchText: String
-    
-    var index = 0
+	@Binding var module: Module
 	
 	@State private var nativeText = ""
 	@State private var translatedText = ""
@@ -28,6 +23,11 @@ struct AddNewPhrase: View {
     
     @State var isShowLimitAlert = false
     @State var isShowPaywall = false
+    
+    init(module: Binding<Module>) {
+        self._module = module
+        viewModel.module = module.wrappedValue
+    }
     
 	var body: some View {
 		ZStack {
@@ -348,12 +348,7 @@ struct AddNewPhrase: View {
 			.animation(.spring(), value: viewModel.showAutomaticTranslatedView)
             .animation(.spring(), value: viewModel.isShowCreatedExample)
             .animation(.spring(), value: viewModel.wasTappedAddExample)
-			.onChange(of: viewModel.modules, perform: { newValue in
-				self.modules = newValue
-			})
-			.onChange(of: viewModel.filteredModules, perform: { newValue in
-				self.filteredModules = newValue
-			})
+
 			.offset(y: viewModel.swipeOffsetValue)
 			.gesture(
 				DragGesture().onEnded{ value in
@@ -382,10 +377,7 @@ struct AddNewPhrase: View {
             UIApplication.shared.endEditing()
         })
         .onAppear {
-            viewModel.modules = modules
-            viewModel.searchedText = searchText
-            viewModel.filteredModules = filteredModules
-            viewModel.index = index
+            viewModel.module = module
             
             viewModel.nativePhrase = nativeText
             viewModel.translatedPhrase = translatedText
@@ -468,10 +460,7 @@ struct AddNewPhrase: View {
 struct AddNewPhrase_Previews: PreviewProvider {
 	static var previews: some View {
 		AddNewPhrase(
-			modules: .constant([.init()]),
-            filteredModules: .constant([]),
-            searchText: .constant(""),
-            index: 0
+            module: .constant(.init())
 		)
         .environmentObject(ThemeManager())
         .environmentObject(AddNewPhraseViewModel())

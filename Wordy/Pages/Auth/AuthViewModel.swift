@@ -39,6 +39,7 @@ class AuthViewModel: NSObject, ObservableObject {
 			self.showNextPage = true
 			self.alertText = resultText
 			self.showAlert.toggle()
+            DataManager.shared.forceLoadFromServer()
             UserDefaultsManager.userID = email
 		} errorBlock: { [weak self] errorText in
 			guard let self = self else { return }
@@ -155,6 +156,7 @@ extension AuthViewModel: ASAuthorizationControllerDelegate, ASAuthorizationContr
 				// User is signed in to Firebase with Apple.
 				// ...
 				self.hideActivity()
+                DataManager.shared.forceLoadFromServer()
 				self.showNextPage = true
 			}
 		}

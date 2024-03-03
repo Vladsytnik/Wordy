@@ -168,6 +168,7 @@
 		CE9425172B4C427400EF7C7C /* Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9425162B4C427400EF7C7C /* Rewards.swift */; };
 		CE9425192B4D990200EF7C7C /* RewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9425182B4D990200EF7C7C /* RewardManager.swift */; };
 		CE94251D2B4DA02600EF7C7C /* reward_firstModule.json in Resources */ = {isa = PBXBuildFile; fileRef = CE94251C2B4DA02600EF7C7C /* reward_firstModule.json */; };
+		CEA5EA8D2B8A18C300AB7EC3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA5EA8C2B8A18C300AB7EC3 /* DataManager.swift */; };
 		CEBE1E742B482E820079A348 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE1E732B482E820079A348 /* ReviewView.swift */; };
 		CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC18A252AD163BB00825749 /* NewModulesScreen.swift */; };
 		CEC836BE2B88BABB0081BFF8 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = CEC836BD2B88BABB0081BFF8 /* FirebaseRemoteConfig */; };
@@ -334,6 +335,7 @@
 		CE9425162B4C427400EF7C7C /* Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rewards.swift; sourceTree = "<group>"; };
 		CE9425182B4D990200EF7C7C /* RewardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardManager.swift; sourceTree = "<group>"; };
 		CE94251C2B4DA02600EF7C7C /* reward_firstModule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reward_firstModule.json; sourceTree = "<group>"; };
+		CEA5EA8C2B8A18C300AB7EC3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		CEB8A99F2B71327E00A15257 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEB8A9A02B71328500A15257 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEBE1E732B482E820079A348 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
@@ -832,6 +834,7 @@
 		01E4B757294B114700720BE0 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				CEA5EA8C2B8A18C300AB7EC3 /* DataManager.swift */,
 				01E4B758294B119800720BE0 /* NetworkManager.swift */,
 				CEFE41262B7F9D1E00C8ADF1 /* KeychainManager.swift */,
 				CE9425182B4D990200EF7C7C /* RewardManager.swift */,
@@ -1291,6 +1294,7 @@
 				CE9299512B0FB7B900E24C7E /* StartViewModel.swift in Sources */,
 				01468115295602290080732C /* InputRoundedTextArea.swift in Sources */,
 				0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */,
+				CEA5EA8D2B8A18C300AB7EC3 /* DataManager.swift in Sources */,
 				0109D19C2AB8886600714E55 /* ColorTheme.swift in Sources */,
 				014B767D29E038D10044DF87 /* LearnSelectionPage.swift in Sources */,
 				0101B8B22AA0D54C0055DEFB /* MyArrowShape.swift in Sources */,

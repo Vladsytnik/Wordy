@@ -265,7 +265,7 @@ struct ModuleSelectPage: View {
 		
 		NetworkManager.changeGroup(group, modules: addedModules) { _ in
 			generator?.impactOccurred()
-			needUpdate.toggle()
+//			needUpdate.toggle()
 			showActivity = false
 			isOpened.toggle()
 		} errorBlock: { errorText in

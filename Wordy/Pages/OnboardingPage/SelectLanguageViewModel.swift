@@ -26,7 +26,7 @@ class SelectLanguageViewModel: ObservableObject {
 	@EnvironmentObject var router: Router
 	
 	@Published var showAlert = false
-	var alert = (title: "Упс! Произошла ошибка...", description: "")
+	var alert = (title: "Упс! Произошла ошибка...".localize(), description: "")
 	
 	private var cancellable = Set<AnyCancellable>()
 

@@ -11,9 +11,8 @@ import Combine
 struct PhraseEditPage: View {
 	
 	//	let module: Module
-	@Binding var modules: [Module]
-	@Binding var filteredModules: [Module]
-	@Binding var searchText: String
+	@Binding var module: Module
+    private let phraseIndex: Int
 	
 	@Environment(\.dismiss) private var dismiss
 	@ObservedObject var viewModel = PhraseEditViewModel()
@@ -22,34 +21,19 @@ struct PhraseEditPage: View {
 	@State var test = ""
 	
 	init(
-		modules: Binding<[Module]>,
-		searchedText: Binding<String>,
-		filteredModules: Binding<[Module]>,
-		phraseIndex: Int,
-		moduleIndex: Int
+		module: Binding<Module>,
+		phraseIndex: Int
 	) {
-		self._modules = modules
-		self._filteredModules = filteredModules
-		self._searchText = searchedText
-		viewModel.modules = modules.wrappedValue
-		viewModel.searchedText = searchedText.wrappedValue
-		viewModel.filteredModules = filteredModules.wrappedValue
-		viewModel.modulesIndex = moduleIndex
-		
-		if moduleIndex < filteredModules.count {
-//			let index = filteredModules[moduleIndex].phrases.count - phraseIndex - 1
-			let index = phraseIndex
-			viewModel.phraseIndex = index
-			
-			if moduleIndex >= 0 && index >= 0 {
-				let phrases = viewModel.filteredModules[moduleIndex].phrases.sorted(by: { $0.date ?? Date() > $1.date ?? Date() })
-				viewModel.nativePhrase = phrases[index].nativeText
-				viewModel.translatedPhrase = phrases[index].translatedText
-				viewModel.examplePhrase = phrases[index].example ?? ""
-			}
-		}
-	}
-	
+		self._module = module
+        self.phraseIndex = phraseIndex
+        
+        let index = phraseIndex
+        let phrases = self.module.phrases.sorted(by: { $0.date ?? Date() > $1.date ?? Date() })
+        viewModel.nativePhrase = phrases[index].nativeText
+        viewModel.translatedPhrase = phrases[index].translatedText
+        viewModel.examplePhrase = phrases[index].example ?? ""
+    }
+    
 	var body: some View {
 		ZStack {
 			ZStack {
@@ -158,12 +142,6 @@ struct PhraseEditPage: View {
             .onTapGesture {
                 UIApplication.shared.endEditing()
             }
-			.onChange(of: viewModel.modules, perform: { newValue in
-				self.modules = newValue
-			})
-			.onChange(of: viewModel.filteredModules, perform: { newValue in
-				self.filteredModules = newValue
-			})
 			.gesture(
 				DragGesture().onEnded{ value in
 					print(value.translation.height)
@@ -191,19 +169,19 @@ struct PhraseEditPage: View {
 	}
 	
 	private func savePhrase() {
-		viewModel.saveChanges(success: {
-			dismiss()
-		})
-	}
+        viewModel.saveChanges(
+            phrase: module.phrases[phraseIndex],
+            module: module,
+            success: {
+                dismiss()
+            })
+    }
 }
 
 struct PhraseEditPage_Previews: PreviewProvider {
 	static var previews: some View {
 		AddNewPhrase(
-			modules: .constant([.init()]),
-            filteredModules: .constant([]),
-            searchText: .constant(""),
-			index: 0
+            module: .constant(.init())
 		)
         .environmentObject(AddNewPhraseViewModel())
 	}

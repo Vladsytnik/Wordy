@@ -12,7 +12,9 @@ struct SharedModulePage: View {
 	
 	@Binding var needUpdateData: Bool
 	@Binding var showActivity: Bool
-	
+    
+    
+    @State var isActivity = false
 	@State private var needAnimate = false
 	@State var showEmojiView = false
 	@State var moduleName = ""
@@ -30,6 +32,7 @@ struct SharedModulePage: View {
 	
 	@EnvironmentObject var router: Router
 	@Environment(\.presentationMode) var presentation
+    @EnvironmentObject var dataManager: DataManager
 	@EnvironmentObject var themeManager: ThemeManager
 	@EnvironmentObject var deeplinkManager: DeeplinkManager
 	@State var isNeedToShowTitle = false
@@ -153,12 +156,12 @@ struct SharedModulePage: View {
 				}
 			}
 			.task {
-				showActivity = true
+                isActivity = true
 				guard let (moduleID, userID) = deeplinkManager.currentType.getData() as? (String, String)
 				else { return }
 				NetworkManager.getModule(with: moduleID,
 										 fromUser: userID) { module in
-					showActivity = false
+                    isActivity = false
 					emoji = module.emoji
 					moduleName = module.name
 					phrases = module.phrases
@@ -169,11 +172,11 @@ struct SharedModulePage: View {
                     }
                    
 				} errorBlock: { error in
-					showActivity = false
+                    isActivity = false
 				}
 				
 			}
-			.activity($showActivity)
+			.activity($isActivity)
 //			.interactiveDismissDisabled(showEmojiView)
 			.onAppear {
 //				DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -187,15 +190,17 @@ struct SharedModulePage: View {
 	}
 	
     private func createModule() {
-        showActivity = true
+        isActivity = true
         NetworkManager.createModule(
             name: moduleName,
             emoji: emoji,
             phrases: phrases,
             acceptedAsStudent: acceptedAsStudent,
             isBlockedFreeFeatures: isBlockedFreeFeatures
-        ) { successResult in
-            needUpdateData.toggle()
+        ) { newModule in
+//            needUpdateData.toggle()
+            dataManager.addModule(newModule)
+            isActivity = false
             self.presentation.wrappedValue.dismiss()
         } errorBlock: { error in
             
@@ -209,5 +214,6 @@ struct SharedModulePage_Previews: PreviewProvider {
 			.environmentObject(Router())
 			.environmentObject(ThemeManager())
 			.environmentObject(DeeplinkManager())
+            .environmentObject(DataManager.shared)
 	}
 }

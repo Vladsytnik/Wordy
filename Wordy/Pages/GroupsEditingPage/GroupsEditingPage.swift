@@ -9,11 +9,12 @@ import SwiftUI
 
 struct GroupsEditingPage: View {
 	
+    @EnvironmentObject var dataManager: DataManager
 	@EnvironmentObject var themeManager: ThemeManager
 	@Environment(\.dismiss) private var dismiss
 	
 	@State var showActivity = false
-	@State var groups: [Group] = []
+	
 	@State var showAlert = false
 	@State var alert = (title: "", description: "")
 	@State var selectedGroup = Group()
@@ -39,8 +40,21 @@ struct GroupsEditingPage: View {
 			themeManager.currentTheme.mainBackgroundImage
 				.resizable()
 				.ignoresSafeArea()
+            
 			ScrollView {
+                Rectangle()
+                    .foregroundColor(.clear)
+                    .frame(height: 32)
+                
 				VStack(spacing: 20) {
+                    HStack {
+                        Text("Группы".localize())
+                            .foregroundColor(themeManager.currentTheme.mainText)
+                            .font(.title)
+                            .bold()
+                        Spacer()
+                    }
+                    .padding(.horizontal)
 //					HStack {
 //						BackButton {
 //							dismiss()
@@ -57,12 +71,12 @@ struct GroupsEditingPage: View {
 //						Spacer()
 //					}
                     
-                    Rectangle()
-                        .foregroundColor(.clear)
-                        .frame(height: 16)
+//                    Rectangle()
+//                        .foregroundColor(.clear)
+//                        .frame(height: 16)
 					
 					VStack {
-						ForEach(groups, id: \.id) { group in
+						ForEach(dataManager.groups, id: \.id) { group in
 							HStack {
 								HStack(alignment: .top, spacing: 12) {
 									Image(systemName: "folder")
@@ -105,6 +119,10 @@ struct GroupsEditingPage: View {
 							}
 						}
 					}
+                    
+                    if (dataManager.groups.count == 0) {
+                        EmptyBGView()
+                    }
 				}
 			}
 		}
@@ -113,8 +131,6 @@ struct GroupsEditingPage: View {
 		}
 		.activity($showActivity)
 //		.navigationBarHidden(true)
-        .navigationBarTitleDisplayMode(.large)
-        .navigationTitle("Группы".localize())
 		.onAppear {
 			fetchModules()
 			fetchGroups()
@@ -129,21 +145,21 @@ struct GroupsEditingPage: View {
 				isOpened: $showSheet,
 				groupId: $groupId,
 				needUpdate: $needUpdateData,
-				groups: $groups,
+				groups: $dataManager.groups,
 				isEditMode: .constant(true),
 				selectedIndexes: $selectedIndexes
 			)
 		}
 		.showAlert(title: "Вы действительно хотите удалить эту группу?", description: "Это действие нельзя будет отменить", isPresented: $showDeleteAlert, titleWithoutAction: "Отменить", titleForAction: "Удалить") {
-			nowReallyNeedToDeleteModule()
+            nowReallyNeedToDeleteGroup()
 		}
 	}
 	
-	func nowReallyNeedToDeleteModule() {
+	func nowReallyNeedToDeleteGroup() {
 		showActivity = true
 		NetworkManager.deleteGroup(with: selectedGroup.id) {
 			self.showActivity = false
-			needUpdateData.toggle()
+//			needUpdateData.toggle()
 		} errorBlock: { errorText in
             self.alert.title = "Упс, произошла ошибка...".localize()
 			self.alert.description = errorText
@@ -167,27 +183,27 @@ struct GroupsEditingPage: View {
 	}
 	
 	private func fetchModules() {
-		showActivity = true
-		NetworkManager.getModules { modules in
-			showActivity = false
-			self.modules = modules
-		} errorBlock: { errorText in
-			showActivity = false
-			guard !errorText.isEmpty else { return }
-			showAlert(errorText: errorText)
-		}
+//		showActivity = true
+//		NetworkManager.getModules { modules in
+//			showActivity = false
+            self.modules = dataManager.allModules
+//		} errorBlock: { errorText in
+//			showActivity = false
+//			guard !errorText.isEmpty else { return }
+//			showAlert(errorText: errorText)
+//		}
 	}
 	
 	private func fetchGroups() {
-		showActivity = true
-		NetworkManager.getGroups { groups in
-			showActivity = false
-			self.groups = groups
-		} errorBlock: { errorText in
-			showActivity = false
-			guard !errorText.isEmpty else { return }
-			showAlert(errorText: errorText)
-		}
+//		showActivity = true
+//		NetworkManager.getGroups { groups in
+//			showActivity = false
+//			self.groups = groups
+//		} errorBlock: { errorText in
+//			showActivity = false
+//			guard !errorText.isEmpty else { return }
+//			showAlert(errorText: errorText)
+//		}
 	}
 	
 	private func showAlert(errorText: String) {
@@ -202,5 +218,7 @@ struct GroupsEditingPage: View {
 struct GroupsEditingPage_Previews: PreviewProvider {
     static var previews: some View {
         GroupsEditingPage()
+            .environmentObject(DataManager.shared)
+            .environmentObject(ThemeManager())
     }
 }

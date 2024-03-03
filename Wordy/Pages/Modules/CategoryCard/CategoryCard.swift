@@ -21,7 +21,6 @@ struct CategoryCard: View {
 	var isSelected = false
 	
 	@Binding var modules: [Module]
-	@Binding var filteredModules: [Module]
 	@Binding var searchText: String
 	
 	@State private var savedModules: [Module] = []
@@ -44,16 +43,16 @@ struct CategoryCard: View {
 			}
             .foregroundColor(isSelected ? .white : themeManager.currentTheme.mainText)
 			.font(.system(size: 16, weight: .regular))
-			.onChange(of: isSelected) { newValue in
-					if newValue {
-						filteredModules = modules.filter{ group.modulesID.contains($0.id) }
-					}
-			}
+//			.onChange(of: isSelected) { newValue in
+//					if newValue {
+//                        modules = modules.filter{ group.modulesID.contains($0.id) }
+//					}
+//			}
     }
 }
 
 struct CategoryCard_Previews: PreviewProvider {
     static var previews: some View {
-		CategoryCard(group: Group(), modules: .constant([]), filteredModules: .constant([]), searchText: .constant(""))
+		CategoryCard(group: Group(), modules: .constant([]), searchText: .constant(""))
     }
 }

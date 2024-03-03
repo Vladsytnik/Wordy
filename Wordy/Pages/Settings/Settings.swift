@@ -54,6 +54,7 @@ struct Settings: View {
 	var body: some View {
 		ZStack {
 			BackgroundView()
+            
 			ScrollView {
 				Rectangle()
 					.foregroundColor(.clear)
@@ -70,6 +71,8 @@ struct Settings: View {
                     
 					NavigationLink {
 						GroupsEditingPage()
+                            .navigationTitle("Группы".localize())
+//                            .navigationBarTitleDisplayMode(.large)
 					} label: {
 						EditFolderRow(cellHeight: cellHeight) {
 							print("Редактировать группы")

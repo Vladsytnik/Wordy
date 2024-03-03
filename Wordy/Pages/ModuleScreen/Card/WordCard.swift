@@ -13,7 +13,8 @@ struct WordCard: View {
 	@ObservedObject var viewModel = WordCardViewModel()
 	@EnvironmentObject var themeManager: ThemeManager
 	
-	@Binding var modules: [Module]
+	@Binding var module: Module
+    private let phraseIndex: Int
 	@FocusState var isFocused: Bool
 	
 	var onAddExampleTap: ((Int) -> Void)?
@@ -22,23 +23,18 @@ struct WordCard: View {
 	
 	init(
 		width: CGFloat,
-		modules: Binding<[Module]>,
-		index: Int,
-		phrase: Phrase,
+		module: Binding<Module>,
 		phraseIndex: Int,
 		onAddExampleTap: ((Int) -> Void)?,
 		onEditTap: ((Int) -> Void)?,
 		onSpeachTap: ((Int) -> Void)?
 	) {
-		self._modules = modules
+		self._module = module
 		self.width = width
+        self.phraseIndex = phraseIndex
 		self.onAddExampleTap = onAddExampleTap
 		self.onEditTap = onEditTap
 		self.onSpeachTap = onSpeachTap
-		viewModel.modules = modules.wrappedValue
-		viewModel.phraseIndex = phraseIndex
-		viewModel.index = index
-		viewModel.phrase = phrase
 	}
 	
 	var body: some View {
@@ -46,11 +42,11 @@ struct WordCard: View {
 			VStack(alignment: .leading) {
 				HStack(alignment: .firstTextBaseline) {
 					VStack(alignment: .leading, spacing: 7) {
-						Text(viewModel.phrase.nativeText)
+                        Text(module.phrases[phraseIndex].nativeText)
 							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 24, weight: .bold))
 							.multilineTextAlignment(.leading)
-						Text(viewModel.phrase.translatedText)
+						Text(module.phrases[phraseIndex].translatedText)
 							.foregroundColor(themeManager.currentTheme.brightForBtnsText)
 							.font(.system(size: 18, weight: .medium))
 							.multilineTextAlignment(.leading)
@@ -60,7 +56,7 @@ struct WordCard: View {
 					Spacer()
 					HStack(spacing: 0) {
 						Button {
-							onSpeachTap?(viewModel.phraseIndex)
+							onSpeachTap?(phraseIndex)
 							print("tap speach")
 						} label: {
 							Image(asset: Asset.Images.speach)
@@ -74,7 +70,7 @@ struct WordCard: View {
 						}
 						Button {
 							print("tap more")
-							onEditTap?(viewModel.phraseIndex)
+							onEditTap?(phraseIndex)
 						} label: {
 							Image(systemName: "ellipsis")
 							//								.resizable()
@@ -88,17 +84,17 @@ struct WordCard: View {
 					}
 				}
 				Color.clear
-					.frame(height: viewModel.phrase.example != nil ? 5 : 1)
-				if let example = viewModel.phrase.example, example.count > 0 {
+					.frame(height: module.phrases[phraseIndex].example != nil ? 5 : 1)
+				if let example = module.phrases[phraseIndex].example, example.count > 0 {
 					highlightSubstring(
-						viewModel.phrase.nativeText,
+                        module.phrases[phraseIndex].nativeText,
 						in: example
 					)
 						.foregroundColor(themeManager.currentTheme.mainText)
 						.multilineTextAlignment(.leading)
 				} else {
 					Button {
-						onAddExampleTap?(viewModel.phraseIndex)
+						onAddExampleTap?(phraseIndex)
 					} label: {
 						VStack(spacing: 5) {
 							Text("Добавить пример".localize())
@@ -122,9 +118,6 @@ struct WordCard: View {
 			}
 			.padding()
 		}
-		.onChange(of: viewModel.modules, perform: { newValue in
-			self.modules = newValue
-		})
 		.background {
 			RoundedRectangle(cornerRadius: 20)
 				.foregroundColor(themeManager.currentTheme.main)
@@ -148,9 +141,7 @@ struct WordCard_Previews: PreviewProvider {
     static var previews: some View {
 		WordCard(
 			width: 300,
-			modules: .constant([.init(name: "Test", emoji: "🔮")]),
-			index: 0,
-			phrase: Phrase(nativeText: "Overcome", translatedText: "Преодолевать", id: ""),
+			module: .constant(.init(name: "Test", emoji: "🔮")),
 			phraseIndex: 0,
 			onAddExampleTap: { _ in},
 			onEditTap: { _ in },

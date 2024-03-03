@@ -123,5 +123,6 @@ struct StartView_Previews: PreviewProvider {
     static var previews: some View {
         StartView()
 			.environmentObject(Router())
+            .environmentObject(DataManager.shared)
     }
 }

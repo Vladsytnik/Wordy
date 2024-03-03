@@ -314,5 +314,6 @@ struct MyDivider: View {
             .foregroundColor(themeManager.currentTheme.mainText.opacity(0.1))
 			.padding(.leading)
 			.padding(.trailing)
+            .padding(EdgeInsets(top: 2, leading: 0, bottom: 4, trailing: 0))
 	}
 }

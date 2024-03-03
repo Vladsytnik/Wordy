@@ -13,23 +13,28 @@ import UserNotifications
 import AVFAudio
 import FirebaseRemoteConfig
 
+struct AppConstants {
+    static let phrasesSortingValue: ((Phrase, Phrase) -> Bool) = { ($0.date ?? Date()) > ($1.date ?? Date())  }
+    static let groupsSortingValue: ((Group, Group) -> Bool) = { ($0.date ?? Date()) > ($1.date ?? Date())  }
+}
+
 @main
 struct WordyApp: App {
 	
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
 	@StateObject var router = Router()
 	@StateObject var themeManager = ThemeManager()
 	@StateObject var subsriptionManager = SubscriptionManager()
 	@StateObject var deeplinkManager = DeeplinkManager()
     @StateObject var rewardManager = RewardManager()
+    @StateObject var dataManager = DataManager.shared
 	
 	private let deepLinkDelegate = AppFliyerDelegate()
 	
 	init() {
-//		FirebaseApp.configure()
 		AppsFlyerLib.shared().appsFlyerDevKey = "axfubYMdYCtRH3aW6FZYUc"
 		AppsFlyerLib.shared().appleAppID = "6466481056"
-//		Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr")
 	}
 	
 	var body: some Scene {
@@ -40,6 +45,7 @@ struct WordyApp: App {
 				.environmentObject(subsriptionManager)
 				.environmentObject(deeplinkManager)
                 .environmentObject(rewardManager)
+                .environmentObject(dataManager)
 				.onAppear {
 					AppsFlyerLib.shared().start(completionHandler: { (dictionary, error) in
 						if (error != nil){
@@ -110,6 +116,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		}
 		
 		application.registerForRemoteNotifications()
+        
+        _ = DataManager.shared
+        
 		return true
 	}
 	

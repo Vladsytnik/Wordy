@@ -10,13 +10,8 @@ import Combine
 
 class AddNewPhraseViewModel: ObservableObject {
 	
-	var index = 0
-	@Published var modules: [Module] = []
-	@Published var filteredModules: [Module] = []
-	
 	@Published var nativePhrase = ""
 	@Published var translatedPhrase = ""
-	@Published var searchedText = ""
 	@Published var examplePhrase = ""
 	
 	@Published var textFieldOneIsActive = true
@@ -54,18 +49,12 @@ class AddNewPhraseViewModel: ObservableObject {
     
     private var isFirstLaunch = false
 	
-	var alert = (title: "Упс! Произошла ошибка...", description: "")
+	var alert = (title: "Упс! Произошла ошибка...".localize(), description: "")
     
     var countOfGeneratingExamplesDict: [String: Int] = [:]
     var countOfTranslatesDict: [String: Int] = [:]
 	
-	var module: Module {
-        if index < filteredModules.count {
-            return filteredModules[index]
-        } else {
-            return .init()
-        }
-	}
+    var module: Module = .init()
 	
 	@Published var closeKeyboards = false
 	
@@ -128,13 +117,6 @@ class AddNewPhraseViewModel: ObservableObject {
         self.tooltipConfig.enableAnimation = true
         self.tooltipConfig.margin = 0
 	}
-    
-    convenience init(modules: Binding<[Module]>,  searchedText: Binding<String>, filteredModules: Binding<[Module]>, index: Int) {
-        self.init()
-        self.modules = modules.wrappedValue
-        self.filteredModules = filteredModules.wrappedValue
-        self.searchedText = searchedText.wrappedValue
-    }
     
     func zIndex() -> Double {
         switch onboardingManager.currentStepIndex {
@@ -283,16 +265,15 @@ class AddNewPhraseViewModel: ObservableObject {
 			NetworkManager.addNewPhrase(newPhrase, to: self.module.id) { [weak self] in
 				guard let self = self else { return }
 				
-				NetworkManager.getModules { modules in
+//				NetworkManager.getModules { modules in
 					self.changeActivityState(toProccess: false)
-                    self.filteredModules = modules
-                    self.modules = modules
+//                    self.modules = modules
 					success()
-				} errorBlock: { errorText in
-					self.changeActivityState(toProccess: false)
-					self.alert.description = errorText
-					self.showAlertNow()
-				}
+//				} errorBlock: { errorText in
+//					self.changeActivityState(toProccess: false)
+//					self.alert.description = errorText
+//					self.showAlertNow()
+//				}
 				
 				
 			} errorBlock: { [weak self] errorText in
