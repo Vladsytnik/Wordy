@@ -10,6 +10,7 @@ import FirebaseRemoteConfig
 
 enum ValueKey: String {
     case LearningModeCountForFree
+    case IsNotificationsFree
     case TestValue
 }
 
@@ -19,12 +20,19 @@ class AppValues {
     
     var loadingDoneCallback: (() -> Void)?
     
+    // MARK: - Values
+    
     var learningModeCountForFree: Int {
         self.int(forKey: ValueKey.LearningModeCountForFree.rawValue)
+    }
+    var isNotificationsFree: Bool {
+        self.bool(forKey: ValueKey.IsNotificationsFree.rawValue)
     }
     var testValue: String {
         self.str(forKey: ValueKey.TestValue.rawValue)
     }
+    
+    // MARK: -
     
     private init() {
         loadDefaultValues()
@@ -34,6 +42,7 @@ class AppValues {
     private func loadDefaultValues() {
         let appDefaults: [String: Any?] = [
             ValueKey.LearningModeCountForFree.rawValue : 5,
+            ValueKey.IsNotificationsFree.rawValue : false,
             ValueKey.TestValue.rawValue : "Test"
         ]
         
@@ -70,6 +79,10 @@ class AppValues {
     
     private func int(forKey key: String) -> Int {
         RemoteConfig.remoteConfig().configValue(forKey: key).numberValue.intValue
+    }
+    
+    private func bool(forKey key: String) -> Bool {
+        RemoteConfig.remoteConfig().configValue(forKey: key).boolValue
     }
     
     private func str(forKey key: String) -> String {
