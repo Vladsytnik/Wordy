@@ -24,7 +24,7 @@ final class DataManager: ObservableObject {
     
     @Published private var allGroups: [Group] = []
     
-    private var isMockData = false
+    @Published var isMockData = false
     private var networkProcesses: [Int] = []
     private var filterText = ""
     

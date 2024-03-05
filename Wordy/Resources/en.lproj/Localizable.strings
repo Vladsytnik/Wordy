@@ -206,4 +206,6 @@
 "\nAdd a few more words" = "\nAdd a few more words";
 
 "Вы достигли лимита по количеству \nслов в одном модуле. \n\nМы не рекомендуем добавлять больше 15 фраз в один модуль. \n\nНо если вы все равно хотите снять все ограничения, то попробуйте \nподписку Wordy PRO" = "You have reached the limit on the number of \nwords in one module. \n\nWe do not recommend adding more than 15 phrases in one module. \n\nBut if you still want to lift all restrictions, try \nWordy PRO subscription";
+"\n Чтобы включить уведомления, необходимо дать к ним доступ в настройках" = "\n Чтобы включить уведомления, необходимо дать к ним доступ в настройках";
 
+"\n Чтобы включить уведомления, необходимо дать к ним доступ в настройках" = "\n To enable notifications, you need to grant access to them in settings";

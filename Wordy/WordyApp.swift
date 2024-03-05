@@ -100,27 +100,37 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Database.database().isPersistenceEnabled = true
 		
 		Messaging.messaging().delegate = self
-		
-		if #available(iOS 10.0, *) {
-			// For iOS 10 display notification (sent via APNS)
-			UNUserNotificationCenter.current().delegate = self
-			
-			let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-			UNUserNotificationCenter.current().requestAuthorization(
-				options: authOptions,
-				completionHandler: {_, _ in })
-		} else {
-			let settings: UIUserNotificationSettings =
-			UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-			application.registerUserNotificationSettings(settings)
-		}
-		
-		application.registerForRemoteNotifications()
         
         _ = DataManager.shared
         
 		return true
 	}
+    
+    func sendNotificationPermissionRequest() {
+        
+        if let fcmToken = KeychainHelper.standard.read(service: .KeychainServiceNotificationKey, account: .KeychainAccountKey, type: String.self) {
+            Task {
+                await NetworkManager.sendToken(fcmToken)
+            }
+        }
+        
+        let application = UIApplication.shared
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        
+        application.registerForRemoteNotifications()
+    }
 	
 	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
 					 fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -143,6 +153,7 @@ extension AppDelegate: MessagingDelegate {
 		if let fcmToken {
 			Task {
 				await NetworkManager.sendToken(fcmToken)
+                KeychainHelper.standard.save(fcmToken, service: .KeychainServiceNotificationKey, account: .KeychainAccountKey)
 			}
 		}
 	}

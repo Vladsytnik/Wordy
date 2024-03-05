@@ -185,42 +185,20 @@ class NetworkManager {
     }
 	
     // Device token for notifications
-	static func sendToken(_ token: String) async {
-		guard let currentUserID = currentUserID else {
-			print("error in sendToken -> currentUserID")
-			return
-		}
-		
-		ref.child("users").child(currentUserID).updateChildValues(["token": token]) { error, ref in
-			guard error == nil else {
-				print("error in sendToken -> updateChildValues: \(error)")
-				return
-			}
-			
-			print("sendToken -> success")
-		}
-		
-//		let localDate = String().generateCurrentDateMarker()
-//		let date = String().generateCurrentDateMarkerInUTC0()
-//		let dateToUtc0 = String().generateDateMarkerInUTC0(withHour: 21, and: 00)
-//		
-//		guard let dateToUtc0 else {
-//			print("error in sendToken -> dateToUtc0")
-//			return
-//		}
-//		
-//		ref.child("users").child(currentUserID).child("notifications").childByAutoId().updateChildValues([
-//			"notificationDateTime": dateToUtc0,
-//			"title" : "Test Title",
-//			"description" : "Test Description"
-//		]) { error, ref in
-//			guard error == nil else {
-//				print("error in sendToken -> updateChildValues (notifications): \(error)")
-//				return
-//			}
-//			
-//			print("error in sendToken -> success")
-//		}
+    static func sendToken(_ token: String) async {
+        guard let currentUserID = currentUserID else {
+            print("error in sendToken -> currentUserID")
+            return
+        }
+        
+        ref.child("users").child(currentUserID).updateChildValues(["token": token]) { error, ref in
+            guard error == nil else {
+                print("error in sendToken -> updateChildValues: \(error)")
+                return
+            }
+            
+            print("sendToken -> success")
+        }
 	}
     
     // MARK: - Authorization
