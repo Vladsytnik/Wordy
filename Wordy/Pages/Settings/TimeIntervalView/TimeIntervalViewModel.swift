@@ -171,7 +171,7 @@ class TimeIntervalViewModel: ObservableObject {
             .sink { [weak self] isOn in
                 guard let self else { return }
                 print("tttttt: \(isOn)")
-                if isOn && !self.subscriptionManager.userHasSubscription() {
+                if isOn && !self.subscriptionManager.userHasSubscription() && !AppValues.shared.isNotificationsFree {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self.notificationsIsOn = false
                     }
@@ -637,7 +637,7 @@ class TimeIntervalViewModel: ObservableObject {
     }
     
     func save() {
-        guard subscriptionManager.userHasSubscription() else {
+        guard subscriptionManager.userHasSubscription() || AppValues.shared.isNotificationsFree else {
             showPaywall.toggle()
             return
         }

@@ -9,16 +9,7 @@ import Foundation
 
 class WordCardViewModel: ObservableObject {
 	
-	@Published var modules: [Module] = []
 	@Published var newAddedExample: String = ""
 	@Published var isAddingExample = false
-	@Published var phraseIndex = 0
-	
-	var index = 0
-	var phrase = Phrase(nativeText: "", translatedText: "", id: "")
-	
-	var thisModule: Module {
-		modules[index]
-	}
 	
 }

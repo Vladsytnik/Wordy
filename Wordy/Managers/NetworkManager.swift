@@ -33,6 +33,8 @@ class NetworkManager {
 	static var currentUserID: String? { Auth.auth().currentUser?.uid }
     static weak var networkDelegate: NetworkDelegate?
     
+    static private let dataManager = DataManager.shared
+    
     // MARK: - Support
     
     static func sendSupportRequest(withData data: [String: String]) async throws {
@@ -288,9 +290,39 @@ class NetworkManager {
         }
         
         let _ = try await ref.child("users").child(currentUserID).child("modules").child(id).child("emoji").setValue(emoji)
-        let _ = try await ref.child("users").child(currentUserID).child("modules").child(id).child("name").setValue(name)
+        let ref = try await ref.child("users").child(currentUserID).child("modules").child(id).child("name").setValue(name)
+        
+        if let moduleId = findModuleIdFromRef(ref) {
+            // это чтобы преобразовать closures в async await
+            return try await withCheckedThrowingContinuation({
+                (continuation: CheckedContinuation<Bool, Error>) in
+                getModule(with: moduleId, fromUser: currentUserID) { changedModule in
+                    dataManager.replaceModule(changedModule)
+                    continuation.resume(returning: true)
+                } errorBlock: { errorText in
+                    let error = NSError(domain: errorText, code: -1)
+                    continuation.resume(throwing: error)
+                }
+            })
+        } else {
+            return false
+        }
     
-        return true
+    }
+    
+    static private func findModuleIdFromRef(_ ref: DatabaseReference) -> String? {
+        let url = URL(string: ref.url)
+        let components = url?.pathComponents
+        guard let components else { return nil }
+        
+        for (i, component) in components.enumerated() {
+            if component == "modules" 
+                && (i + 1) < components.count {
+                return components[i + 1]
+            }
+        }
+        
+        return nil
     }
     
     static func setTeacherModeToModule(id: String) async throws -> Bool {
@@ -312,12 +344,12 @@ class NetworkManager {
         return true
     }
 	
-	static func createModule(name: String, 
+	static func createModule(name: String,
                              emoji: String,
                              phrases: [Phrase]? = nil,
                              acceptedAsStudent: Bool = false,
                              isBlockedFreeFeatures: Bool = false,
-                             success: @escaping (String) -> Void,
+                             success: @escaping (Module) -> Void,
                              errorBlock: @escaping (String) -> Void ) {
 		guard let currentUserID = currentUserID else {
 			errorBlock("error in createModule -> currentUserID")
@@ -341,13 +373,32 @@ class NetworkManager {
 			}
 		}
 
-		ref.child("users").child(currentUserID).child("modules").childByAutoId().updateChildValues(["name" : name, "emoji" : emoji, "acceptedAsStudent" : acceptedAsStudent, "date": date, "phrases": phrasesDict]) { error, ref in
+		ref.child("users").child(currentUserID).child("modules").childByAutoId().updateChildValues([
+            "name" : name,
+            "emoji" : emoji,
+            "acceptedAsStudent" : acceptedAsStudent,
+            "date": date,
+            "phrases": phrasesDict
+        ]) { error, ref in
 			guard error == nil else {
 				errorBlock("error in createModule -> updateChildValues")
 				return
 			}
 			
-			success("success")
+            let moduleId = findModuleIdFromRef(ref)
+            
+            if let moduleId {
+                NetworkManager.getModule(with: moduleId, fromUser: currentUserID) { module in
+                    success(module)
+                } errorBlock: { errorText in
+                    errorBlock(errorText)
+                }
+
+            } else {
+                errorBlock("error in createModule -> moduleId")
+            }
+//
+//			success("success")
 		}
 	}
 	
@@ -422,7 +473,7 @@ class NetworkManager {
 		
 		let queue = DispatchQueue(label: "sytnik.wordy.deleteModule")
 		queue.async {
-			ref.child("users").child(currentUserID).child("modules").child(moduleID).removeValue { error, snap in
+			ref.child("users").child(currentUserID).child("modules").child(moduleID).removeValue { error, ref in
 				if let error = error {
 					DispatchQueue.main.async {
 						errorBlock("error in deleteModule -> getData { error, snap in }" + error.localizedDescription)
@@ -430,21 +481,10 @@ class NetworkManager {
 					}
 					return
 				}
-				
-				success()
-//				if let snapshot = snap {
-//					guard let modules = Module.parse(from: snapshot) else {
-//						DispatchQueue.main.async {
-//							errorBlock("error in getModules -> parse module")
-//						}
-//						return
-//					}
-//
-//					DispatchQueue.main.async {
-//						success()
-//					}
-//				}
-			}
+                
+                dataManager.deleteModule(withId: moduleID)
+                success()
+            }
 		}
 	}
     
@@ -467,7 +507,10 @@ class NetworkManager {
                     return
                 }
                 
-                success()
+                DispatchQueue.main.async {
+                    dataManager.deletePhrase(withId: phraseIndex, inModuleWithId: moduleID)
+                    success()
+                }
             }
         }
     }
@@ -483,6 +526,20 @@ class NetworkManager {
 				errorBlock("error in add(phrase: [String: String] -> updateChildValues")
 				return
 			}
+            
+            let moduleId = findModuleIdFromRef(ref)
+            let phraseId = findPhraseIdFromRef(ref)
+            
+            if let moduleId {
+                getModule(with: moduleId, fromUser: currentUserID) { module in
+                    dataManager.replaceModule(module)
+                    success()
+                    return
+                } errorBlock: { errorText in
+                    errorBlock("error in addNewPhrase(phrase: [String: String] -> getModule \(errorText)")
+                    return
+                }
+            }
 			
 			success()
 		}
@@ -504,10 +561,52 @@ class NetworkManager {
 				errorBlock("error in add(phrase: [String: String] -> updateChildValues")
 				return
 			}
-			
-			success()
+            
+            let moduleId = findModuleIdFromRef(ref)
+            let phraseId = findPhraseIdFromRef(ref)
+            
+            if let moduleId {
+                getModule(with: moduleId, fromUser: currentUserID) { module in
+                    dataManager.replaceModule(module)
+                    success()
+                    return
+                } errorBlock: { errorText in
+                    errorBlock("error in addNewPhrase(phrase: [String: String] -> getModule \(errorText)")
+                    return
+                }
+            }
 		}
 	}
+    
+    static private func findPhraseIdFromRef(_ ref: DatabaseReference) -> String? {
+        let url = URL(string: ref.url)
+        let components = url?.pathComponents
+        guard let components else { return nil }
+        
+        for (i, component) in components.enumerated() {
+            if component == "phrases"
+                && (i + 1) < components.count {
+                return components[i + 1]
+            }
+        }
+        
+        return nil
+    }
+    
+    static private func findGroupIdFromRef(_ ref: DatabaseReference) -> String? {
+        let url = URL(string: ref.url)
+        let components = url?.pathComponents
+        guard let components else { return nil }
+        
+        for (i, component) in components.enumerated() {
+            if component == "groups"
+                && (i + 1) < components.count {
+                return components[i + 1]
+            }
+        }
+        
+        return nil
+    }
 	
 	static func updatePhrase(_ phrase: [String: Any], with phraseIndex: String, from moduleID: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
 		guard let currentUserID = currentUserID else {
@@ -521,7 +620,19 @@ class NetworkManager {
 				return
 			}
 			
-			success()
+            let moduleId = findModuleIdFromRef(ref)
+            let phraseId = findPhraseIdFromRef(ref)
+            
+            if let moduleId {
+                getModule(with: moduleId, fromUser: currentUserID) { module in
+                    dataManager.replaceModule(module)
+                    success()
+                    return
+                } errorBlock: { errorText in
+                    errorBlock("error in addNewPhrase(phrase: [String: String] -> getModule \(errorText)")
+                    return
+                }
+            }
 		}
 	}
     
@@ -543,7 +654,16 @@ class NetworkManager {
 					return
 				}
 				
-				success("success")
+                let df = DateFormatter().getDateFormatter()
+                let strDateToDate = df.date(from: date)
+                let groupId = findGroupIdFromRef(ref)
+                if let groupId {
+                    let newGroup = Group(name: name, id: groupId, modulesID: modulesID, date: strDateToDate)
+                    dataManager.addNewGroup(newGroup)
+                    success("success")
+                } else {
+                    errorBlock("error in createGroup -> groupId")
+                }
 			}
 		} else {
 			ref.child("users").child(currentUserID).child("groups").childByAutoId().updateChildValues(["name": name, "date": date]) { error, ref in
@@ -552,7 +672,16 @@ class NetworkManager {
 					return
 				}
 				
-				success("success")
+                let df = DateFormatter().getDateFormatter()
+                let strDateToDate = df.date(from: date)
+                let groupId = findGroupIdFromRef(ref)
+                if let groupId {
+                    let newGroup = Group(name: name, id: groupId, modulesID: [], date: strDateToDate)
+                    dataManager.addNewGroup(newGroup)
+                    success("success")
+                } else {
+                    errorBlock("error in createGroup -> groupId")
+                }
 			}
 		}
 	}
@@ -590,6 +719,7 @@ class NetworkManager {
 		}
 	}
 	
+    // TODO: поправить
 	static func changeGroup(_ group: Group, modules: [Module]? = nil, success: @escaping (String) -> Void, errorBlock: @escaping (String) -> Void ) {
 		guard let currentUserID = currentUserID else {
 			errorBlock("error in createGroup -> currentUserID")
@@ -606,6 +736,10 @@ class NetworkManager {
 					return
 				}
 				
+                var changedGroup = group
+                changedGroup.modulesID = modulesID
+                dataManager.replaceGroup(with: changedGroup)
+                
 				success("success")
 			}
 		} else {
@@ -615,6 +749,10 @@ class NetworkManager {
 					return
 				}
 				
+                var changedGroup = group
+                changedGroup.modulesID = []
+                dataManager.replaceGroup(with: changedGroup)
+                
 				success("success")
 			}
 		}
@@ -636,6 +774,7 @@ class NetworkManager {
                     return
                 }
                 
+                dataManager.deleteGroup(groupIndex)
                 success()
             }
         }

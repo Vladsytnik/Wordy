@@ -168,8 +168,12 @@
 		CE9425172B4C427400EF7C7C /* Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9425162B4C427400EF7C7C /* Rewards.swift */; };
 		CE9425192B4D990200EF7C7C /* RewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9425182B4D990200EF7C7C /* RewardManager.swift */; };
 		CE94251D2B4DA02600EF7C7C /* reward_firstModule.json in Resources */ = {isa = PBXBuildFile; fileRef = CE94251C2B4DA02600EF7C7C /* reward_firstModule.json */; };
+		CEA5EA8D2B8A18C300AB7EC3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA5EA8C2B8A18C300AB7EC3 /* DataManager.swift */; };
 		CEBE1E742B482E820079A348 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE1E732B482E820079A348 /* ReviewView.swift */; };
 		CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC18A252AD163BB00825749 /* NewModulesScreen.swift */; };
+		CEC836BE2B88BABB0081BFF8 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = CEC836BD2B88BABB0081BFF8 /* FirebaseRemoteConfig */; };
+		CEC836C02B88BABB0081BFF8 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CEC836BF2B88BABB0081BFF8 /* FirebaseRemoteConfigSwift */; };
+		CEC836C32B88C0620081BFF8 /* AppValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC836C22B88C0620081BFF8 /* AppValues.swift */; };
 		CECE48B72AFF9D82002E5507 /* notificationSound1.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */; };
 		CECE48B92AFF9E9A002E5507 /* notificationSound2.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */; };
 		CECE48BB2AFF9F8F002E5507 /* notificationSound3.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48BA2AFF9F8E002E5507 /* notificationSound3.m4r */; };
@@ -331,6 +335,7 @@
 		CE9425162B4C427400EF7C7C /* Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rewards.swift; sourceTree = "<group>"; };
 		CE9425182B4D990200EF7C7C /* RewardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardManager.swift; sourceTree = "<group>"; };
 		CE94251C2B4DA02600EF7C7C /* reward_firstModule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reward_firstModule.json; sourceTree = "<group>"; };
+		CEA5EA8C2B8A18C300AB7EC3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		CEB8A99F2B71327E00A15257 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEB8A9A02B71328500A15257 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEBE1E732B482E820079A348 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
@@ -341,6 +346,7 @@
 		CEC795472B655B590038D4C5 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEC795482B655B670038D4C5 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEC795492B655B910038D4C5 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CEC836C22B88C0620081BFF8 /* AppValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppValues.swift; sourceTree = "<group>"; };
 		CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound1.m4r; sourceTree = "<group>"; };
 		CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound2.m4r; sourceTree = "<group>"; };
 		CECE48BA2AFF9F8E002E5507 /* notificationSound3.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = notificationSound3.m4r; sourceTree = "<group>"; };
@@ -374,12 +380,14 @@
 				012C3E552ACC7364008945CD /* FirebaseCrashlytics in Frameworks */,
 				012C3E652ACC7364008945CD /* FirebaseMessaging in Frameworks */,
 				012C3E5F2ACC7364008945CD /* FirebaseFirestoreSwift in Frameworks */,
+				CEC836BE2B88BABB0081BFF8 /* FirebaseRemoteConfig in Frameworks */,
 				012C3E592ACC7364008945CD /* FirebaseDatabaseSwift in Frameworks */,
 				012C3E572ACC7364008945CD /* FirebaseDatabase in Frameworks */,
 				012C3E4F2ACC7364008945CD /* FirebaseAnalyticsSwift in Frameworks */,
 				012C3E672ACC7364008945CD /* FirebaseStorage in Frameworks */,
 				0192298A2AC462FE002648C4 /* AppsFlyerLib in Frameworks */,
 				54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */,
+				CEC836C02B88BABB0081BFF8 /* FirebaseRemoteConfigSwift in Frameworks */,
 				01978FAB294CBCB600B8EFC3 /* Lottie in Frameworks */,
 				012C3E532ACC7364008945CD /* FirebaseAuthCombine-Community in Frameworks */,
 				012C3E632ACC7364008945CD /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
@@ -660,6 +668,7 @@
 				017642482972FCB30042DB86 /* Helpers */,
 				01780D2A294A10EF004F11AC /* Extensions */,
 				01E4B757294B114700720BE0 /* Managers */,
+				CEC836C12B88C03C0081BFF8 /* Utilities */,
 				01978FAC294CBD4500B8EFC3 /* ActivityView */,
 				0192298D2AC7053B002648C4 /* LaunchScreen */,
 				0190564A2944AA5C0058B566 /* Resources */,
@@ -825,6 +834,7 @@
 		01E4B757294B114700720BE0 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				CEA5EA8C2B8A18C300AB7EC3 /* DataManager.swift */,
 				01E4B758294B119800720BE0 /* NetworkManager.swift */,
 				CEFE41262B7F9D1E00C8ADF1 /* KeychainManager.swift */,
 				CE9425182B4D990200EF7C7C /* RewardManager.swift */,
@@ -951,6 +961,14 @@
 			path = ReviewView;
 			sourceTree = "<group>";
 		};
+		CEC836C12B88C03C0081BFF8 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				CEC836C22B88C0620081BFF8 /* AppValues.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		CECE48BE2B00EDE9002E5507 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -1013,6 +1031,8 @@
 				012C3E642ACC7364008945CD /* FirebaseMessaging */,
 				012C3E662ACC7364008945CD /* FirebaseStorage */,
 				012C3E682ACC7364008945CD /* FirebaseStorageCombine-Community */,
+				CEC836BD2B88BABB0081BFF8 /* FirebaseRemoteConfig */,
+				CEC836BF2B88BABB0081BFF8 /* FirebaseRemoteConfigSwift */,
 			);
 			productName = Wordy;
 			productReference = 019056352944A7140058B566 /* Wordy.app */;
@@ -1223,6 +1243,7 @@
 				019AC1122AB4E60500B31E8F /* TranlatingResponse.swift in Sources */,
 				01978FB3294CBF6600B8EFC3 /* LottieView.swift in Sources */,
 				CEFE412D2B82035A00C8ADF1 /* LoadingPageVC.swift in Sources */,
+				CEC836C32B88C0620081BFF8 /* AppValues.swift in Sources */,
 				019229872AC44BB3002648C4 /* EmptyBGView.swift in Sources */,
 				015713972964607E0022E1FA /* ModuleScreen.swift in Sources */,
 				0101B8A92AA0CB060055DEFB /* MockDataManager.swift in Sources */,
@@ -1273,6 +1294,7 @@
 				CE9299512B0FB7B900E24C7E /* StartViewModel.swift in Sources */,
 				01468115295602290080732C /* InputRoundedTextArea.swift in Sources */,
 				0103FF4A294C58A9004C2EA6 /* AuthViewModel.swift in Sources */,
+				CEA5EA8D2B8A18C300AB7EC3 /* DataManager.swift in Sources */,
 				0109D19C2AB8886600714E55 /* ColorTheme.swift in Sources */,
 				014B767D29E038D10044DF87 /* LearnSelectionPage.swift in Sources */,
 				0101B8B22AA0D54C0055DEFB /* MyArrowShape.swift in Sources */,
@@ -1461,6 +1483,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Wordy/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Wordy.app;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1499,6 +1522,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Wordy/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Wordy.app;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1697,6 +1721,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 01978FA9294CBCB600B8EFC3 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		CEC836BD2B88BABB0081BFF8 /* FirebaseRemoteConfig */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 012C3E4B2ACC7363008945CD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseRemoteConfig;
+		};
+		CEC836BF2B88BABB0081BFF8 /* FirebaseRemoteConfigSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 012C3E4B2ACC7363008945CD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseRemoteConfigSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

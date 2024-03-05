@@ -9,19 +9,6 @@ import SwiftUI
 
 class PhraseEditViewModel: ObservableObject {
 	
-	@Published var modules: [Module] = []
-	@Published var filteredModules: [Module] = []
-	@Published var phraseIndex = 0
-	@Published var modulesIndex = 0
-	@Published var searchedText = ""
-	
-	var currentPhrase: Phrase {
-		filteredModules[modulesIndex].phrases.sorted(by: { $0.date ?? Date() > $1.date ?? Date() })[phraseIndex]
-	}
-	var currentModule: Module {
-		filteredModules[modulesIndex]
-	}
-	
 	@Published var isActivityProccess = false
 	
 	@Published var examplePhrase = ""
@@ -37,7 +24,7 @@ class PhraseEditViewModel: ObservableObject {
 	@Published var examplePhraseIsEmpty = false
 	
 	@Published var closeKeyboards = false
-	var alert = (title: "Упс! Произошла ошибка...", description: "")
+    var alert = (title: "Упс! Произошла ошибка...".localize(), description: "")
 	@Published var showAlert = false
 	
 	func didTapTextField(index: Int) {
@@ -46,7 +33,7 @@ class PhraseEditViewModel: ObservableObject {
 		textFieldThreeIsActive = index == 2
 	}
 	
-	func saveChanges(success: @escaping () -> Void) {
+    func saveChanges(phrase: Phrase, module: Module, success: @escaping () -> Void) {
 		guard !nativePhrase.isEmpty && !translatedPhrase.isEmpty else {
 			shakeTextField()
 			return
@@ -55,7 +42,7 @@ class PhraseEditViewModel: ObservableObject {
 		changeActivityState(toProccess: true)
 		
 		let dateFormatter = DateFormatter().getDateFormatter()
-		let stringDate = dateFormatter.string(from: currentPhrase.date ?? Date())
+		let stringDate = dateFormatter.string(from: phrase.date ?? Date())
 		
 		let newPhrase: [String: Any] = [
 			Constants.nativeText: nativePhrase,
@@ -70,20 +57,20 @@ class PhraseEditViewModel: ObservableObject {
 			guard let self = self else { return }
 			NetworkManager.updatePhrase(
 				newPhrase,
-				with: self.currentPhrase.id,
-				from: self.currentModule.id
+				with: phrase.id,
+				from: module.id
 			) { [weak self] in
 				guard let self = self else { return }
-				NetworkManager.getModules { modules in
+//				NetworkManager.getModules { modules in
 					self.changeActivityState(toProccess: false)
-				//	self.filteredModules = modules.filter{ $0.name.contains("\(self.searchedText)") }
-					self.modules = modules
+				//	self.modules = modules.filter{ $0.name.contains("\(self.searchedText)") }
+//					self.modules = modules
 					success()
-				} errorBlock: { errorText in
-					self.changeActivityState(toProccess: false)
-					self.alert.description = errorText
-					self.showAlertNow()
-				}
+//				} errorBlock: { errorText in
+//					self.changeActivityState(toProccess: false)
+//					self.alert.description = errorText
+//					self.showAlertNow()
+//				}
 			} errorBlock: { [weak self] errorText in
 				guard let self else { return }
 				self.changeActivityState(toProccess: false)

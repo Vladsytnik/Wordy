@@ -156,9 +156,11 @@ struct CreateModuleView: View {
 			self.presentation.wrappedValue.dismiss()
 		} else {
 			showActivity = true
-			NetworkManager.createModule(name: moduleName, emoji: emoji) { successResult in
-				needUpdateData.toggle()
+			NetworkManager.createModule(name: moduleName, emoji: emoji) { addedModule in
+//				needUpdateData.toggle()
 				self.presentation.wrappedValue.dismiss()
+                showActivity = false
+                DataManager.shared.addModule(addedModule)
                 
                 if !isFirstModuleRewardShown {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {

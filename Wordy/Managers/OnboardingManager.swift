@@ -31,6 +31,8 @@ class OnboardingManager: ObservableObject {
 	
 	var countOfSteps = 0
 	@Published var currentStepIndex = 0
+    
+    var onFinish: (() -> Void)?
 	
 	init(screen: ScreenType, countOfSteps: Int) {
 		self.currentScreen = screen
@@ -85,6 +87,7 @@ class OnboardingManager: ObservableObject {
         
 		isShow = false
 		isOnboardingMode = false
+        onFinish?()
 		objectWillChange.send()
 		currentStepIndex = 0
 	}

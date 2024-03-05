@@ -10,14 +10,10 @@ import AVKit
 import ApphudSDK
 import FirebaseAuth
 
-let maxCountOfStartingLearnMode = 3
+let maxCountOfStartingLearnMode = AppValues.shared.learningModeCountForFree
 
 class ModuleScreenViewModel: ObservableObject {
 	
-	var index = 0
-	
-	@Published var modules: [Module] = []
-	@Published var filteredModules: [Module] = []
 	@Published var showAlert = false
 	@Published var words: [String] = []
 	@Published var showActionSheet = false
@@ -35,21 +31,11 @@ class ModuleScreenViewModel: ObservableObject {
 	let synthesizer = AVSpeechSynthesizer()
 	
 	var selectedWordIndex = 0
-	var alert = (title: "Упс! Произошла ошибка...", description: "")
+	var alert = (title: "Упс! Произошла ошибка...".localize(), description: "")
 	
-	var phrases: [Phrase] {
-		filteredModules[index].phrases.sorted { ($0.date ?? Date()) > ($1.date ?? Date()) }
-	}
+//    @Published var module: Module = .init()
 	
-	var phraseCount: Int {
-		phrases.count
-	}
-	
-	var module: Module {
-		filteredModules[index]
-	}
-	
-	func getShareUrl() -> URL {
+    func getShareUrl(module: Module) -> URL {
 		guard let userID = Auth.auth().currentUser?.uid else {
 			return URL(string: "https://4475302.redirect.appmetrica.yandex.com/")!
 		}
@@ -62,7 +48,7 @@ class ModuleScreenViewModel: ObservableObject {
 		}
 	}
     
-    func setToModuleTeacherMode(successCallback: (() -> Void)?) {
+    func setToModuleTeacherMode(module: Module, successCallback: (() -> Void)?) {
         guard SubscriptionManager().userHasSubscription() else {
             return
         }
@@ -92,7 +78,7 @@ class ModuleScreenViewModel: ObservableObject {
 		showWordsCarousel.toggle()
 	}
 	
-	func nowReallyNeedToDeleteModule() {
+	func nowReallyNeedToDeleteModule(module: Module) {
 		showActivity = true
 		NetworkManager.deleteModule(with: module.id) { [weak self] in
 			guard let self = self else { return }
@@ -107,21 +93,20 @@ class ModuleScreenViewModel: ObservableObject {
 
 	}
 	
-	func didTapDeletePhrase(with index: Int) {
-		let phrase = phrases[index]
+    func didTapDeletePhrase(module: Module, phrase: Phrase) {
 		self.showActivity = true
 		NetworkManager.deletePhrase(
 			with: phrase.id,
 			moduleID: module.id) {
-				NetworkManager.getModules { modules in
+//				NetworkManager.getModules { modules in
 					self.showActivity = false
-					self.modules = modules
-				} errorBlock: { errorText in
-					self.showActivity = false
-					self.alert.description = errorText
-					self.showActivity = false
-					self.showDeletingErrorAlert = true
-				}
+//					self.modules = modules
+//				} errorBlock: { errorText in
+//					self.showActivity = false
+//					self.alert.description = errorText
+//					self.showActivity = false
+//					self.showDeletingErrorAlert = true
+//				}
 			} errorBlock: { errorText in
 				self.alert.description = errorText
 				self.showActivity = false
@@ -129,7 +114,7 @@ class ModuleScreenViewModel: ObservableObject {
 			}
 	}
 	
-	func didTapPhraseCountAlert() {
+	func didTapPhraseCountAlert(module: Module) {
 		if module.phrases.count < 4 {
 			let wordsCountDifference = 4 - module.phrases.count
             alert.title = "Для изучения слов необходимо минимум \n4 фразы".localize()
@@ -144,7 +129,7 @@ class ModuleScreenViewModel: ObservableObject {
 		}
 	}
 	
-	func checkSubscriptionAndAccessability(isAllow: ((Bool) -> Void)) {
+	func checkSubscriptionAndAccessability(module: Module, isAllow: ((Bool) -> Void)) {
 		let countOfStartingLearnMode =  UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
 		let subscriptionManager = SubscriptionManager()
 		let test = subscriptionManager.userHasSubscription()
@@ -172,8 +157,7 @@ class ModuleScreenViewModel: ObservableObject {
 		showEditPhrasePage.toggle()
 	}
 	
-	func didTapSpeach(index: Int) {
-		let phrase = phrases[index]
+    func didTapSpeach(phrase: Phrase) {
 		let wordForSpeach = phrase.getAnswer(answerType: .native)
         let langForSpeach = UserDefaultsManager.learnLanguage?.getLangCode() ?? "en-US"
 

@@ -10,7 +10,6 @@ import SwiftUI
 struct SearchTextField: View {
 	
 	@Binding var modules: [Module]
-	@Binding var filteredModules: [Module]
 	@Binding var searchText: String
 	let placeholder: String
 	@EnvironmentObject var themeManager: ThemeManager
@@ -73,14 +72,14 @@ struct SearchTextField: View {
     }
 	
 	func filterModules(text: String) {
-		print(text, modules.count, filteredModules.count)
-		if text.count > 0 {
-			filteredModules = modules.filter({ module in
-				module.name.contains("\(text)")
-			})
-		} else {
-			filteredModules = modules
-		}
+//		print(text, modules.count, filteredModules.count)
+//		if text.count > 0 {
+//			filteredModules = modules.filter({ module in
+//				module.name.contains("\(text)")
+//			})
+//		} else {
+//			filteredModules = modules
+//		}
 	}
 
 //	init(modules: Binding<[Module]>, searchText: Binding<String>, placeholder: String) {
@@ -93,7 +92,7 @@ struct SearchTextField: View {
 
 struct SearchTextField_Previews: PreviewProvider {
     static var previews: some View {
-		SearchTextField(modules: .constant([]), filteredModules: .constant([]), searchText: .constant("test"), placeholder: "Search")
+		SearchTextField(modules: .constant([]), searchText: .constant("test"), placeholder: "Search")
 			.frame(width: 300)
     }
 }

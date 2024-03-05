@@ -11,32 +11,25 @@ import AVKit
 
 class WordsCarouselViewModel: ObservableObject {
 	
-	var index = 0
 	@Published var selectedWordIndex = 0
-	@Published var modules: [Module] = []
-	@Published var filteredModules: [Module] = []
 	@Published var showAlert = false
 	@Published var showLearnPage = false
 	@Published var showActivity = false
 	@Published var isShowPaywall = false
+    
+    @Published var deletePhrase = false
+    @Published var lastTappedPhraseIndexForDelete = 0
+    
 	
 	let synthesizer = AVSpeechSynthesizer()
 	
-	var alert = (title: "Упс! Произошла ошибка...", description: "")
+	var alert = (title: "Упс! Произошла ошибка...".localize(), description: "")
 	
-	var thisModule: Module {
-		filteredModules[index]
-	}
-	var phrases: [Phrase] {
-		thisModule.phrases.sorted(by: { $0.date ?? Date() > $1.date ?? Date() })
-	}
-	var selectedPhrase: Phrase {
-		phrases[selectedWordIndex]
-	}
+    var selectedPhrase: Phrase?
 	
-	func didTapShowLearnPage() {
-		if thisModule.phrases.count < 4 {
-			let wordsCountDifference = 4 - thisModule.phrases.count
+    func didTapShowLearnPage(module: Module) {
+		if module.phrases.count < 4 {
+			let wordsCountDifference = 4 - module.phrases.count
             alert.title = "Для изучения слов необходимо минимум \n4 фразы".localize()
 			if Locale.current.languageCode == Language.ru.getLangCode() {
                 alert.description = "\nОсталось добавить еще".localize() + " \(getCorrectWord(value: wordsCountDifference))!"
@@ -61,22 +54,22 @@ class WordsCarouselViewModel: ObservableObject {
 		}
 	}
 	
-	func didTapDeletePhrase(with index: Int) {
-		let phrase = phrases[index]
+    func didTapDeletePhrase(_ phrase: Phrase, module: Module) {
 		self.showActivity = true
+        self.deletePhrase = false
 		NetworkManager.deletePhrase(
 			with: phrase.id,
-			moduleID: thisModule.id
+			moduleID: module.id
 		) {
-				NetworkManager.getModules { modules in
+//				NetworkManager.getModules { modules in
 					self.showActivity = false
-					self.modules = modules
-				} errorBlock: { errorText in
-					self.showActivity = false
-					self.alert.description = errorText
-					self.showActivity = false
-					self.showAlert = true
-				}
+//					self.modules = modules
+//				} errorBlock: { errorText in
+//					self.showActivity = false
+//					self.alert.description = errorText
+//					self.showActivity = false
+//					self.showAlert = true
+//				}
 			} errorBlock: { errorText in
 				self.alert.description = errorText
 				self.showActivity = false
@@ -96,8 +89,8 @@ class WordsCarouselViewModel: ObservableObject {
 		synthesizer.speak(utterance)
 	}
 	
-	func checkSubscriptionAndAccessability(isAllow: ((Bool) -> Void)) {
-		let countOfStartingLearnMode = UserDefaultsManager.countOfStartingLearnModes[thisModule.id] ?? 0
+    func checkSubscriptionAndAccessability(module: Module, isAllow: ((Bool) -> Void)) {
+		let countOfStartingLearnMode = UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
 		isAllow(SubscriptionManager().userHasSubscription()
 				|| countOfStartingLearnMode < maxCountOfStartingLearnMode)
 	}
