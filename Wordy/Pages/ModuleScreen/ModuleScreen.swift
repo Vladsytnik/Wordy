@@ -143,7 +143,8 @@ struct ModuleScreen: View {
 									}
 									.frame(height: 45)
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
-                                    .mytooltip(onboardingManager.currentStepIndex == 1
+                                    .mytooltip(((onboardingManager.currentStepIndex == 1 && !viewModel.userDidntSeeLearnBtnYet())
+                                                || (onboardingManager.currentStepIndex == 0 && !viewModel.userDidntSeeCreatePhrase()))
                                                && viewModel.userDidntSeeLearnBtnYet()
                                                && module.phrases.count >= 4,
                                                config: nil,
