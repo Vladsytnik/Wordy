@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseDatabase
 
-struct Module: Equatable, Codable {
+struct Module: Hashable, Codable {
 	var name: String = ""
 	var emoji: String = ""
 	var id: String = ""
@@ -18,6 +18,10 @@ struct Module: Equatable, Codable {
     var isSharedByTeacher = false
     var acceptedAsStudent = false
     var isBlockedFreeFeatures = false
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
 extension Module {

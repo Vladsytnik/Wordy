@@ -63,6 +63,7 @@ struct StartView: View {
                             }
 //                            NetworkManager.updateSubscriptionInfo()
                         }
+                        .navigationViewStyle(.stack)
                         
 					} else {
 						SelectLanguagePage()
