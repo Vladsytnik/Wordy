@@ -37,7 +37,6 @@ struct StartView: View {
                         
                         //MARK: – Main Flow
 						NavigationView {
-//                            if #available(iOS 15.0, *) {
                                 NewModulesScreen()
                                 .sheet(isPresented: $rewardManager.showReward, content: {
                                     Rewards()
@@ -51,9 +50,6 @@ struct StartView: View {
                                         print("error in StartView -> .task -> try await NetworkManager.getSubscriptionExpireDateFromServer(): \(error.localizedDescription)")
                                     }
                                 }
-//                            } else {
-//                                Modules()
-//                            }
 						}
 						.transition(transition)
                         .accentColor(themeManager.currentTheme.mainText)
@@ -102,19 +98,10 @@ struct StartView: View {
                 }
             }
         }
-//        .onChange(of: viewModel.showAlert) { _ in
-//            print("Test init view model - changed")
-//        }
 	}
     
     private func initNotifications() {
-//        NotificationCenter.default.publisher(for: NSNotification.Name("reward"), object: nil)
-//            .sink { notif in
-//                if let rewardType = notif.object as? RewardType {
-//                    notificationObserver.showReward(ofType: rewardType)
-//                }
-//            }
-//            .store(in: &cancelable)
+
     }
 }
 
