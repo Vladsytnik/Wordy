@@ -637,7 +637,7 @@ class NetworkManager {
                 let groupId = findGroupIdFromRef(ref)
                 if let groupId {
                     let newGroup = Group(name: name, id: groupId, modulesID: modulesID, date: strDateToDate)
-                    dataManager.addNewGroup(newGroup)
+                    dataManager.replaceGroup(with: newGroup, withNilDate: true)
                     success("success")
                 } else {
                     errorBlock("error in createGroup -> groupId")
@@ -655,7 +655,7 @@ class NetworkManager {
                 let groupId = findGroupIdFromRef(ref)
                 if let groupId {
                     let newGroup = Group(name: name, id: groupId, modulesID: [], date: strDateToDate)
-                    dataManager.addNewGroup(newGroup)
+                    dataManager.replaceGroup(with: newGroup, withNilDate: true)
                     success("success")
                 } else {
                     errorBlock("error in createGroup -> groupId")

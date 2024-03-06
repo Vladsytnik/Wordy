@@ -101,14 +101,15 @@ final class DataManager: ObservableObject {
 //    }
     
     func addNewGroup(_ group: Group) {
-        groups.append(group)
-        allGroups.append(group)
+//        groups.append(group)
+//        allGroups.append(group)
         sortGroups()
     }
     
-    func replaceGroup(with changedGroup: Group) {
-        let findedGroupIndex = allGroups.firstIndex(where: { $0.id == changedGroup.id }).map{ Int($0) }
-        let findedGroupIndex2 = groups.firstIndex(where: { $0.id == changedGroup.id }).map{ Int($0) }
+    func replaceGroup(with changedGroup: Group, withNilDate: Bool = false) {
+        let findedGroupIndex = allGroups.firstIndex(where: { $0.id == changedGroup.id || ($0.date == nil && withNilDate == true) }).map{ Int($0) }
+        let findedGroupIndex2 = groups.firstIndex(where: { $0.id == changedGroup.id || ($0.date == nil && withNilDate == true) }).map{ Int($0) }
+
         if let findedGroupIndex {
             allGroups.remove(at: findedGroupIndex)
             allGroups.append(changedGroup)
@@ -118,6 +119,9 @@ final class DataManager: ObservableObject {
             groups.append(changedGroup)
         }
         sortGroups()
+    }
+    
+    private func reallyReplaceGroup(_ group: Group, withIndex index: Int?) {
     }
     
     func deleteGroup(_ groupId: String) {

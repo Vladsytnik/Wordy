@@ -150,9 +150,7 @@ struct GroupsEditingPage: View {
 				selectedIndexes: $selectedIndexes
 			)
 		}
-		.showAlert(title: "Вы действительно хотите удалить эту группу?", description: "Это действие нельзя будет отменить", isPresented: $showDeleteAlert, titleWithoutAction: "Отменить", titleForAction: "Удалить") {
-            nowReallyNeedToDeleteGroup()
-		}
+        .showAlert(title: "Вы действительно хотите удалить эту группу?", description: "\n" + "Это действие нельзя будет отменить".localize(), isPresented: $showDeleteAlert, titleWithoutAction: "Удалить", titleForAction: "Отменить", withoutButtons: false, okAction: { nowReallyNeedToDeleteGroup() }, repeatAction: {})
 	}
 	
 	func nowReallyNeedToDeleteGroup() {

@@ -240,7 +240,7 @@ struct ModuleSelectPage: View {
 		modulesIndexes.forEach{ addedModules.append(modules[$0]) }
 		NetworkManager.createGroup(name: currentGroup.name, modules: addedModules) { _ in
 			generator?.impactOccurred()
-			needUpdate.toggle()
+//			needUpdate.toggle()
 			showActivity = false
 			isOpened.toggle()
 		} errorBlock: { errorText in

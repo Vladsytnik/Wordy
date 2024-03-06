@@ -143,7 +143,7 @@ struct ModuleScreen: View {
 									}
 									.frame(height: 45)
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
-                                    .mytooltip(onboardingManager.currentStepIndex == 0 
+                                    .mytooltip(onboardingManager.currentStepIndex == 1
                                                && viewModel.userDidntSeeLearnBtnYet()
                                                && module.phrases.count >= 4,
                                                config: nil,
@@ -233,7 +233,7 @@ struct ModuleScreen: View {
 							.transition(AnyTransition.offset() )
 							.offset(y: geo.size.height < 812 ? -16 : 0 )
 							.shadow(color: .white.opacity(0.2), radius: 20)
-                            .mytooltip(onboardingManager.currentStepIndex == 1
+                            .mytooltip(onboardingManager.currentStepIndex == 0
                                        && viewModel.userDidntSeeCreatePhrase(),
                                        side: .top,
                                        offset: 24,
