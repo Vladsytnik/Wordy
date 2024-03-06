@@ -494,7 +494,7 @@ struct NewModulesScreen: View {
             })
             .fullScreenCover(isPresented: $showSelectModulePage, content: {
                 ModuleSelectPage(
-                    modules: dataManager.isMockData ? .constant(MockDataManager().modules) : $dataManager.modules,
+                    modules: dataManager.isMockData ? .constant(MockDataManager().modules) : $dataManager.allModules,
                     isOpened: $showSelectModulePage,
                     groupId: $dataManager.groups[0].id,
                     needUpdate: $needUpdateData,

@@ -113,15 +113,16 @@ final class DataManager: ObservableObject {
         if let findedGroupIndex {
             allGroups.remove(at: findedGroupIndex)
             allGroups.append(changedGroup)
+        } else {
+            allGroups.append(changedGroup)
         }
         if let findedGroupIndex2 {
             groups.remove(at: findedGroupIndex2)
             groups.append(changedGroup)
+        } else {
+            groups.append(changedGroup)
         }
         sortGroups()
-    }
-    
-    private func reallyReplaceGroup(_ group: Group, withIndex index: Int?) {
     }
     
     func deleteGroup(_ groupId: String) {
