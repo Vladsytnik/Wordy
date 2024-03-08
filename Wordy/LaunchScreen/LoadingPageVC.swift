@@ -41,12 +41,17 @@ struct LoadingPage: View {
                 .scaleEffect(animationIndex == intFrom(state: .initial) ? 1 :
                                 animationIndex < intFrom(state: .isEncreasing) ? minimumScaleFactor :
                                 1.1)
+                .shadow(color: .white.opacity(0.5),
+                        radius: animationIndex > intFrom(state: .initial) ? 10 : 0)
             
             YellowCircle()
                 .scaleEffect(animationIndex == intFrom(state: .initial) ? 1 :
                                 animationIndex < intFrom(state: .isEncreasing) ? minimumScaleFactor + 0.1 :
                                 20)
                 .opacity(animationIndex < intFrom(state: .circleAppearing) ? 0 : 1)
+//                .shadow(color: .yellow, radius: 10, x: 0, y: 0)
+                .shadow(color: .white.opacity(0.5),
+                        radius: animationIndex > intFrom(state: .initial) ? 10 : 0)
             
             MainColorCircle()
                 .scaleEffect(animationIndex == intFrom(state: .initial) ? 1 :
@@ -55,7 +60,8 @@ struct LoadingPage: View {
             
             Circle()
                 .frame(width: 100)
-                .offset(x: 8, y: -20)
+//                .offset(x: animationIndex < intFrom(state: .isEncreasing) ? 8 : 0,
+//                        y: animationIndex < intFrom(state: .isEncreasing) ? -20 : 0)
                 .scaleEffect(animationIndex < intFrom(state: .disappearingMask) ? 0 : 20)
                 .blendMode(.destinationOut)
         }
@@ -99,10 +105,10 @@ struct LoadingPage: View {
         withAnimation(.spring(duration: 0.3).delay(0.6)) {
             animationIndex += 1
         }
-        withAnimation(.spring(duration: 0.6).delay(0.9)) {
+        withAnimation(.spring(duration: 0.7).delay(0.9)) {
             animationIndex += 1
         }
-        withAnimation(.spring(duration: 0.9).delay(0.95)) {
+        withAnimation(.spring(duration: 1.0).delay(0.97)) {
             animationIndex += 1
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
@@ -119,7 +125,8 @@ struct LoadingPage: View {
     private func MainColorCircle() -> some View {
         Circle()
         .frame(width: 100)
-        .offset(x: 8, y: -20)
+        .offset(x: animationIndex < intFrom(state: .circleColorChanging) ? 8 : 0,
+                y: animationIndex < intFrom(state: .circleColorChanging) ? -20 : 0)
         .foregroundColor(themeManager.currentTheme.main)
         .opacity(animationIndex < intFrom(state: .circleColorChanging) ? 0 : 1)
     }
@@ -128,7 +135,8 @@ struct LoadingPage: View {
     private func YellowCircle() -> some View {
         Circle()
         .frame(width: 100)
-        .offset(x: 8, y: -20)
+        .offset(x: animationIndex < intFrom(state: .circleColorChanging) ? 8 : 0,
+                y: animationIndex < intFrom(state: .circleColorChanging) ? -20 : 0)
         .foregroundColor(Color(asset: Asset.Colors.wordyYellow))
         .opacity(animationIndex < intFrom(state: .circleColorChanging) ? 1 : 0)
     }
