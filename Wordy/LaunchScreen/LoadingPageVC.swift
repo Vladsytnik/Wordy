@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ImageIO
+import CoreHaptics
 
 enum LoadingPageState: Int {
     case initial = 0
@@ -24,6 +25,7 @@ struct LoadingPage: View {
     
     @State private var animationIndex = 0
     private let minimumScaleFactor: CGFloat = 0.05
+    @State var hapticEngine: CHHapticEngine?
     
     @EnvironmentObject var themeManager: ThemeManager
     
@@ -63,14 +65,29 @@ struct LoadingPage: View {
             }
         })
         .onAppear {
-            if start {
-                
+            do {
+                hapticEngine = try CHHapticEngine()
+            } catch(let error) {
+                print("haptic error: \(error.localizedDescription)")
             }
         }
         .compositingGroup()
     }
     
+    func startHaptic() {
+        do {
+            guard let path = Bundle.main.path(forResource: "haptic_loading", ofType : "ahap")
+            else { return }
+                    
+            try hapticEngine?.start()
+            try hapticEngine?.playPattern(from: URL(fileURLWithPath: path))
+        } catch(let error) {
+            print("haptic error: \(error.localizedDescription)")
+        }
+    }
+    
     func startAnimation() {
+        startHaptic()
         print("loading page test: началась анимация Loading Page")
         withAnimation(.spring.delay(0.3)) {
             animationIndex += 1
@@ -82,13 +99,13 @@ struct LoadingPage: View {
         withAnimation(.spring(duration: 0.3).delay(0.6)) {
             animationIndex += 1
         }
-        withAnimation(.spring(duration: 1.6).delay(0.9)) {
+        withAnimation(.spring(duration: 0.6).delay(0.9)) {
             animationIndex += 1
         }
-        withAnimation(.spring(duration: 1.9).delay(1)) {
+        withAnimation(.spring(duration: 0.9).delay(0.95)) {
             animationIndex += 1
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
             print("loading page test: закрывается экран Loading Page")
             self.onComplete?()
         }

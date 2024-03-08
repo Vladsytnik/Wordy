@@ -149,6 +149,7 @@
 		CE1AF6382B5D028000CF5F08 /* View + Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AF6372B5D028000CF5F08 /* View + Placeholder.swift */; };
 		CE272E1E2B067A6400B2B1E8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE272E1D2B067A6400B2B1E8 /* Notification.swift */; };
 		CE36F1972B98C094006C5EAE /* Pow in Frameworks */ = {isa = PBXBuildFile; productRef = CE36F1962B98C094006C5EAE /* Pow */; };
+		CE3976942B9B4AAA00D09EB4 /* haptic_loading.ahap in Resources */ = {isa = PBXBuildFile; fileRef = CE3976932B9B4AA900D09EB4 /* haptic_loading.ahap */; };
 		CE3C675A2B8395DC0047B94C /* gif1.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE3C67592B8395DC0047B94C /* gif1.gif */; };
 		CE41A7FD2AE3D03C002E9E4A /* TimeIntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41A7FC2AE3D03C002E9E4A /* TimeIntervalView.swift */; };
 		CE41A7FF2AE3D058002E9E4A /* TimeIntervalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */; };
@@ -316,6 +317,7 @@
 		CE1AF6352B5C572000CF5F08 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		CE1AF6372B5D028000CF5F08 /* View + Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View + Placeholder.swift"; sourceTree = "<group>"; };
 		CE272E1D2B067A6400B2B1E8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		CE3976932B9B4AA900D09EB4 /* haptic_loading.ahap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = haptic_loading.ahap; sourceTree = "<group>"; };
 		CE3C67592B8395DC0047B94C /* gif1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif1.gif; sourceTree = "<group>"; };
 		CE41A7FC2AE3D03C002E9E4A /* TimeIntervalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalView.swift; sourceTree = "<group>"; };
 		CE41A7FE2AE3D058002E9E4A /* TimeIntervalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalViewModel.swift; sourceTree = "<group>"; };
@@ -631,6 +633,7 @@
 			isa = PBXGroup;
 			children = (
 				CE4F240B2B51572D00A1A055 /* haptic.ahap */,
+				CE3976932B9B4AA900D09EB4 /* haptic_loading.ahap */,
 				CECE48BA2AFF9F8E002E5507 /* notificationSound3.m4r */,
 				CECE48B82AFF9E99002E5507 /* notificationSound2.m4r */,
 				CECE48B62AFF9D81002E5507 /* notificationSound1.m4r */,
@@ -1110,6 +1113,7 @@
 				CECE48BD2B00EAD8002E5507 /* successFinishedLearning.m4r in Resources */,
 				01978FB7294CC92200B8EFC3 /* loader.json in Resources */,
 				018D01472ABF1793008297CA /* Colors3.xcassets in Resources */,
+				CE3976942B9B4AAA00D09EB4 /* haptic_loading.ahap in Resources */,
 				CE7C1DA62B08D41E00DEB265 /* Colors5.xcassets in Resources */,
 				012D95E2294867DA00165DAF /* SF-Pro-Display-SemiboldItalic.otf in Resources */,
 				01B59DFA2AA24B1B003115E6 /* onboarding.json in Resources */,

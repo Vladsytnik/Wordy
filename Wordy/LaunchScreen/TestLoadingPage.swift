@@ -25,11 +25,11 @@ struct TestLoadingPage: View {
             }
         }
         .onAppear {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + launchScreenAnimationDuration) {
-//                withAnimation {
-//                    isShownLoadingPage.toggle()
-//                }
-//            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                withAnimation {
+                    startLoadingAnimation.toggle()
+                }
+            }
         }
     }
 }
