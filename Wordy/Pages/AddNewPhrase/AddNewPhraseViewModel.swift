@@ -42,6 +42,8 @@ class AddNewPhraseViewModel: ObservableObject {
     
     @Published var onboardingIndex = 0
     
+    @Published var submittedTextFields = [0, 0, 0]
+    
     let countOfFreeApiUsing = 3
 	
 	private var cancellable = Set<AnyCancellable>()
@@ -84,6 +86,14 @@ class AddNewPhraseViewModel: ObservableObject {
                 }
             }
             .store(in: &cancellable)
+        
+//        $textFieldOneIsActive
+//            .sink { val in
+//                if !val {
+//                    self.textFieldTwoIsActive.toggle()
+//                }
+//            }
+//            .store(in: &cancellable)
         
         #if targetEnvironment(simulator)
         self.examples = [

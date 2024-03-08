@@ -58,7 +58,8 @@ struct Settings: View {
 			ScrollView {
 				Rectangle()
 					.foregroundColor(.clear)
-					.frame(height: 32)
+					.frame(height: 16)
+                
 				VStack {
                     HStack {
                         Text("Основные".localize())

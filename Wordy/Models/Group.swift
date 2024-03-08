@@ -8,11 +8,15 @@
 import Foundation
 import FirebaseDatabase
 
-struct Group: Equatable, Codable {
+struct Group: Hashable, Codable {
 	var name: String = ""
 	var id: String = ""
 	var modulesID: [String] = []
 	var date: Date?
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
 extension Group {

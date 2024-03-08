@@ -30,8 +30,8 @@ struct AddNewPhrase: View {
     }
     
 	var body: some View {
-		ZStack {
-			ZStack {
+        ZStack {
+            ZStack {
                 if themeManager.currentTheme.isDark {
                     themeManager.currentTheme.darkMain
                         .ignoresSafeArea()
@@ -40,46 +40,56 @@ struct AddNewPhrase: View {
                         .resizable()
                         .ignoresSafeArea()
                 }
-				VStack(spacing: 20) {
-					HStack {
-						Button {
-							dismiss()
-						} label: {
-							Text("Отменить".localize())
-								.foregroundColor(themeManager.currentTheme.mainText)
-								.font(.system(size: 20, weight: .medium))
-						}
-						.padding(EdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0))
-						Spacer()
-					}
-					
-					CustomTextField(
-						placeholder: "Фраза",
-						text: $nativeText,
-						enableFocuse: true,
-						isFirstResponder: $viewModel.textFieldOneIsActive,
-						closeKeyboard: $viewModel.closeKeyboards,
-						language: UserDefaultsManager.learnLanguage,
-						additionalLangString: UserDefaultsManager.learnLanguage == nil ? "" : "(\(UserDefaultsManager.learnLanguage!.getTitle()))"
-					)
-					.onTapGesture {
-						viewModel.didTapTextField(index: 0)
-					}
-					.offset(x: !viewModel.nativePhraseIsEmpty ? 0 : 10)
-					
-					CustomTextField(
-						placeholder: "Перевод",
-						text: $translatedText,
-						enableFocuse: false,
-						isFirstResponder: $viewModel.textFieldTwoIsActive,
-						closeKeyboard: $viewModel.closeKeyboards,
-						language: UserDefaultsManager.nativeLanguage,
-						additionalLangString: UserDefaultsManager.nativeLanguage == nil ? "" : "(\(UserDefaultsManager.nativeLanguage!.getTitle()))"
-					)
-					.onTapGesture {
-						viewModel.didTapTextField(index: 1)
-					}
-					.offset(x: !viewModel.translatedPhraseIsEmpty ? 0 : 10)
+                VStack(spacing: 20) {
+                    HStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Text("Отменить".localize())
+                                .foregroundColor(themeManager.currentTheme.mainText)
+                                .font(.system(size: 20, weight: .medium))
+                        }
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0))
+                        Spacer()
+                    }
+                    
+                    CustomTextField(
+                        id: 0,
+                        placeholder: "Фраза",
+                        text: $nativeText,
+                        enableFocuse: true,
+                        isFirstResponder: $viewModel.textFieldOneIsActive,
+                        closeKeyboard: $viewModel.closeKeyboards,
+                        language: UserDefaultsManager.learnLanguage,
+                        additionalLangString: UserDefaultsManager.learnLanguage == nil ? "" : "(\(UserDefaultsManager.learnLanguage!.getTitle()))",
+                        onSubmit: { id in
+                            viewModel.textFieldTwoIsActive = true
+                        }
+                    )
+                    .onTapGesture {
+                        viewModel.didTapTextField(index: 0)
+                    }
+                    .offset(x: !viewModel.nativePhraseIsEmpty ? 0 : 10)
+                    
+                    CustomTextField(
+                        id: 1,
+                        placeholder: "Перевод",
+                        text: $translatedText,
+                        enableFocuse: false,
+                        isFirstResponder: $viewModel.textFieldTwoIsActive,
+                        closeKeyboard: $viewModel.closeKeyboards,
+                        language: UserDefaultsManager.nativeLanguage,
+                        additionalLangString: UserDefaultsManager.nativeLanguage == nil ? "" : "(\(UserDefaultsManager.nativeLanguage!.getTitle()))",
+                        onSubmit: { id in
+                            if viewModel.wasTappedAddExample {
+                                viewModel.textFieldThreeIsActive = true
+                            }
+                        }
+                    )
+                    .onTapGesture {
+                        viewModel.didTapTextField(index: 1)
+                    }
+                    .offset(x: !viewModel.translatedPhraseIsEmpty ? 0 : 10)
                     .overlay {
                         if translatedText.count == 0 && !viewModel.isTranslationEnable() {
                             NonWorkableAiIcon {
@@ -89,8 +99,8 @@ struct AddNewPhrase: View {
                             }
                         }
                     }
-					
-					if viewModel.showAutomaticTranslatedView {
+                    
+                    if viewModel.showAutomaticTranslatedView {
                         ZStack {
                             HStack() {
                                 HStack {
@@ -147,27 +157,28 @@ struct AddNewPhrase: View {
                                 Spacer()
                             }
                         }
-						.padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
                         .zIndex(200)
-						
-					}
-					
-					if viewModel.wasTappedAddExample {
+                        
+                    }
+                    
+                    if viewModel.wasTappedAddExample {
                         
                         //MARK: - Examples Text Field
                         
-						CustomTextField(
-							placeholder: "Пример",
-							text: $exampleText,
-							enableFocuse: false,
-							isFirstResponder: $viewModel.textFieldThreeIsActive,
-							closeKeyboard: $viewModel.closeKeyboards,
-							language: UserDefaultsManager.learnLanguage
-						)
-						.onTapGesture {
-							viewModel.didTapTextField(index: 2)
-						}
-						.offset(x: !viewModel.examplePhraseIsEmpty ? 0 : 10)
+                        CustomTextField(
+                            id: 2,
+                            placeholder: "Пример",
+                            text: $exampleText,
+                            enableFocuse: false,
+                            isFirstResponder: $viewModel.textFieldThreeIsActive,
+                            closeKeyboard: $viewModel.closeKeyboards,
+                            language: UserDefaultsManager.learnLanguage
+                        )
+                        .onTapGesture {
+                            viewModel.didTapTextField(index: 2)
+                        }
+                        .offset(x: !viewModel.examplePhraseIsEmpty ? 0 : 10)
                         .overlay {
                             if exampleText.count == 0 && !viewModel.isExampleGeneratingEnable() {
                                 NonWorkableAiIcon {
@@ -250,8 +261,8 @@ struct AddNewPhrase: View {
                             }
                                        .zIndex(viewModel.onboardingManager.currentStepIndex == 1 || viewModel.onboardingManager.currentStepIndex == 2 ? 300 : 100)
                         }
-					} else {
-						HStack {
+                    } else {
+                        HStack {
                             ZStack {
                                 HStack {
                                     Button {
@@ -306,73 +317,73 @@ struct AddNewPhrase: View {
                                     Spacer()
                                 }
                             }
-							Spacer()
-						}
-						.opacity(0.9)
+                            Spacer()
+                        }
+                        .opacity(0.9)
                         .zIndex(viewModel.onboardingManager.currentStepIndex == 0 ? 100 : 300)
                     }
-					
-					Rectangle()
-						.foregroundColor(.clear)
-						.frame(height: viewModel.showAutomaticTranslatedView ? 0 : 30)
-
-					if viewModel.isActivityProccess {
-						LottieView(fileName: "addWordLoader")
-							.frame(width: 80, height: 80)
-							.offset(y: -30)
-							.transition(.scale)
-					} else {
+                    
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .frame(height: viewModel.showAutomaticTranslatedView ? 0 : 30)
+                    
+                    if viewModel.isActivityProccess {
+                        LottieView(fileName: "addWordLoader")
+                            .frame(width: 80, height: 80)
+                            .offset(y: -30)
+                            .transition(.scale)
+                    } else {
                         Button {
                             viewModel.onboardingManager.goToNextStep()
                             addPhraseToModule()
                         } label: {
-							HStack {
-								Image(uiImage: UIImage(systemName: "checkmark") ?? UIImage())
-									.renderingMode(.template)
-									.foregroundColor(themeManager.currentTheme.mainText)
-								Text("Добавить".localize())
-									.foregroundColor(themeManager.currentTheme.mainText)
-									.font(.system(size: 20, weight: .medium))
-							}
-						}
+                            HStack {
+                                Image(uiImage: UIImage(systemName: "checkmark") ?? UIImage())
+                                    .renderingMode(.template)
+                                    .foregroundColor(themeManager.currentTheme.mainText)
+                                Text("Добавить".localize())
+                                    .foregroundColor(themeManager.currentTheme.mainText)
+                                    .font(.system(size: 20, weight: .medium))
+                            }
+                        }
                         .zIndex(100)
-						.transition(.scale)
-					}
-					Spacer()
-				}
-				.onSubmit {
-					return
-				}
-				.padding()
-			}
-			.animation(.spring(), value: viewModel.showAutomaticTranslatedView)
+                        .transition(.scale)
+                    }
+                    Spacer()
+                }
+                .onSubmit {
+                    return
+                }
+                .padding()
+            }
+            .animation(.spring(), value: viewModel.showAutomaticTranslatedView)
             .animation(.spring(), value: viewModel.isShowCreatedExample)
             .animation(.spring(), value: viewModel.wasTappedAddExample)
-
-			.offset(y: viewModel.swipeOffsetValue)
-			.gesture(
-				DragGesture().onEnded{ value in
-					print(value.translation.height)
-					if value.translation.height > 0 {
-						dismiss()
-					}
-				}
-			)
-			.showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showAlert) {
-				addPhraseToModule()
-			}
-			.onChange(of: viewModel.showAlert) { newValue in
-				if !newValue {
-					viewModel.textFieldOneIsActive = false
-					viewModel.textFieldTwoIsActive = false
-				}
-		}
-			if viewModel.isActivityProccess {
-				Rectangle()
-					.frame(maxWidth: .infinity, maxHeight: .infinity)
-					.foregroundColor(.white.opacity(0.00001))
-			}
-		}
+            
+            .offset(y: viewModel.swipeOffsetValue)
+            .gesture(
+                DragGesture().onEnded{ value in
+                    print(value.translation.height)
+                    if value.translation.height > 0 {
+                        dismiss()
+                    }
+                }
+            )
+            .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showAlert) {
+                addPhraseToModule()
+            }
+            .onChange(of: viewModel.showAlert) { newValue in
+                if !newValue {
+                    viewModel.textFieldOneIsActive = false
+                    viewModel.textFieldTwoIsActive = false
+                }
+            }
+            if viewModel.isActivityProccess {
+                Rectangle()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .foregroundColor(.white.opacity(0.00001))
+            }
+        }
         .onTapGesture(perform: {
             UIApplication.shared.endEditing()
         })
@@ -469,6 +480,7 @@ struct AddNewPhrase_Previews: PreviewProvider {
 
 struct CustomTextField: View {
 	
+    let id: Int
 	let placeholder: String
 	
 	@Binding var text: String
@@ -479,6 +491,8 @@ struct CustomTextField: View {
 	var isNotLanguageTextField = false
 	var additionalLangString = ""
 	@EnvironmentObject var themeManager: ThemeManager
+    
+    var onSubmit: ((Int) -> Void)?
 	
 	let fontSize: CGFloat = 20
 	
@@ -512,10 +526,12 @@ struct CustomTextField: View {
 						.keyboardType(.default)
 					} else {
                         ZStack {
-                            LanguageTextField(placeholder: "",
+                            LanguageTextField(id: id, placeholder: "",
                                               text: $text,
                                               isFirstResponder: _isFocused,
-                                              language: language)
+                                              language: language, onSubmit: { id in
+                                self.onSubmit?(id)
+                            })
                             .foregroundColor(themeManager.currentTheme.mainText)
                             .tint(themeManager.currentTheme.mainText)
                             .font(.system(size: fontSize, weight: .medium))
@@ -544,6 +560,7 @@ struct CustomTextField: View {
 				}
 			}
 			.onSubmit {
+                onSubmit?(id)
 				return
 			}
 			.onAppear {
@@ -567,11 +584,14 @@ struct CustomTextField: View {
 
 struct LanguageTextField: UIViewRepresentable {
 	
+    let id: Int
 	var placeholder: String?
 	@Binding var text: String
 	@FocusState var isFirstResponder: Bool
 	var language: Language?
     @EnvironmentObject var themeManager: ThemeManager
+    
+    var onSubmit: ((Int) -> Void)?
 	
 	func makeUIView(context: Context) -> UILanguageTextField {
 		let langTextField = UILanguageTextField(textLanguage: language)
@@ -599,10 +619,15 @@ struct LanguageTextField: UIViewRepresentable {
 	}
 	
 	class Coordinator: NSObject, UITextFieldDelegate {
+        
+        let id: Int
 		let parent: LanguageTextField
+        var onSubmit: ((Int) -> Void)?
 		
 		init(_ parent: LanguageTextField) {
+            self.id = parent.id
 			self.parent = parent
+            self.onSubmit = parent.onSubmit
 		}
 		
 		func textFieldDidChangeSelection(_ textField: UITextField) {
@@ -610,7 +635,8 @@ struct LanguageTextField: UIViewRepresentable {
 		}
         
         func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            textField.resignFirstResponder()
+            onSubmit?(id)
+            return textField.resignFirstResponder()
         }
 	}
 }

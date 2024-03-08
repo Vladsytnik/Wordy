@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct GroupsEditingPage: View {
-	
+    
     @EnvironmentObject var dataManager: DataManager
+    
 	@EnvironmentObject var themeManager: ThemeManager
-	@Environment(\.dismiss) private var dismiss
+//	@Environment(\.dismiss) private var dismiss
 	
 	@State var showActivity = false
 	
@@ -19,19 +20,11 @@ struct GroupsEditingPage: View {
 	@State var alert = (title: "", description: "")
 	@State var selectedGroup = Group()
 	@State var showSheet = false
-	@State var modules: [Module] = []
 	@State var selectedIndexes: [Int] = []
 	@State private var groupId = ""
 	@State private var needUpdateData = false
 	@State var showDeleteAlert = false
 	
-//	let test = [
-//		"Хороший доктор",
-//		"Эйфория",
-//		"Черная весна",
-//		"Группа для изучения английского языка а также для добавления различных слов",
-//		"Мои слова"
-//	]
 	
 	let cellHeight: CGFloat = 50
 	
@@ -44,7 +37,7 @@ struct GroupsEditingPage: View {
 			ScrollView {
                 Rectangle()
                     .foregroundColor(.clear)
-                    .frame(height: 32)
+                    .frame(height: 16)
                 
 				VStack(spacing: 20) {
                     HStack {
@@ -55,28 +48,9 @@ struct GroupsEditingPage: View {
                         Spacer()
                     }
                     .padding(.horizontal)
-//					HStack {
-//						BackButton {
-//							dismiss()
-//						}
-//						Spacer()
-//					}
-//					
-//					HStack {
-//						Text("Группы".localize())
-//							.foregroundColor(themeManager.currentTheme.mainText)
-//							.font(.system(size: 36, weight: .bold))
-//							.multilineTextAlignment(.center)
-//							.padding(EdgeInsets(top: 0, leading: 16, bottom: 20, trailing: 0))
-//						Spacer()
-//					}
-                    
-//                    Rectangle()
-//                        .foregroundColor(.clear)
-//                        .frame(height: 16)
 					
 					VStack {
-						ForEach(dataManager.groups, id: \.id) { group in
+                        ForEach(dataManager.groups, id: \.id) { group in
 							HStack {
 								HStack(alignment: .top, spacing: 12) {
 									Image(systemName: "folder")
@@ -130,36 +104,25 @@ struct GroupsEditingPage: View {
 			
 		}
 		.activity($showActivity)
-//		.navigationBarHidden(true)
-		.onAppear {
-			fetchModules()
-			fetchGroups()
-		}
-		.onChange(of: needUpdateData) { _ in
-			fetchModules()
-			fetchGroups()
-		}
 		.sheet(isPresented: $showSheet) {
 			ModuleSelectPage(
-				modules: $modules,
+                modules: $dataManager.allModules,
 				isOpened: $showSheet,
 				groupId: $groupId,
 				needUpdate: $needUpdateData,
-				groups: $dataManager.groups,
+                groups: $dataManager.groups,
 				isEditMode: .constant(true),
 				selectedIndexes: $selectedIndexes
 			)
 		}
-		.showAlert(title: "Вы действительно хотите удалить эту группу?", description: "Это действие нельзя будет отменить", isPresented: $showDeleteAlert, titleWithoutAction: "Отменить", titleForAction: "Удалить") {
-            nowReallyNeedToDeleteGroup()
-		}
+        .showAlert(title: "Вы действительно хотите удалить эту группу?", description: "\n" + "Это действие нельзя будет отменить".localize(), isPresented: $showDeleteAlert, titleWithoutAction: "Удалить", titleForAction: "Отменить", withoutButtons: false, okAction: { nowReallyNeedToDeleteGroup() }, repeatAction: {})
 	}
 	
 	func nowReallyNeedToDeleteGroup() {
 		showActivity = true
 		NetworkManager.deleteGroup(with: selectedGroup.id) {
 			self.showActivity = false
-//			needUpdateData.toggle()
+            showDeleteAlert.toggle()
 		} errorBlock: { errorText in
             self.alert.title = "Упс, произошла ошибка...".localize()
 			self.alert.description = errorText
@@ -172,7 +135,7 @@ struct GroupsEditingPage: View {
 		var result: [Int] = []
 		
 		for uuid in uuidies {
-			for (i, module) in modules.enumerated() {
+            for (i, module) in dataManager.allModules.enumerated() {
 				if module.id == uuid {
 					result.append(i)
 				}
@@ -180,30 +143,6 @@ struct GroupsEditingPage: View {
 		}
 		
 		return result
-	}
-	
-	private func fetchModules() {
-//		showActivity = true
-//		NetworkManager.getModules { modules in
-//			showActivity = false
-            self.modules = dataManager.allModules
-//		} errorBlock: { errorText in
-//			showActivity = false
-//			guard !errorText.isEmpty else { return }
-//			showAlert(errorText: errorText)
-//		}
-	}
-	
-	private func fetchGroups() {
-//		showActivity = true
-//		NetworkManager.getGroups { groups in
-//			showActivity = false
-//			self.groups = groups
-//		} errorBlock: { errorText in
-//			showActivity = false
-//			guard !errorText.isEmpty else { return }
-//			showAlert(errorText: errorText)
-//		}
 	}
 	
 	private func showAlert(errorText: String) {

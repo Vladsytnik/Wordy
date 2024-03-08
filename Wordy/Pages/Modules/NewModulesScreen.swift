@@ -83,6 +83,7 @@ struct NewModulesScreen: View {
     @State private var isReviewOpened = false
     
     @EnvironmentObject var rewardManager: RewardManager
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     @State var showPopups = false
     
@@ -202,6 +203,7 @@ struct NewModulesScreen: View {
                                     }
                                 }
                                 .padding(.top)
+                                .disabled(showPopups)
                                 .mytooltip(isOnboardingStepNumber(0),
                                            config: nil,
                                            appearingDelayValue: 0.5)
@@ -447,6 +449,10 @@ struct NewModulesScreen: View {
 //                }
                 router.userIsAlreadyLaunched = true
                 
+                if UserDefaultsManager.isNotFirstLaunchOfModulesPage {
+                    appDelegate.sendNotificationPermissionRequest()
+                }
+                
                 print("fevwewev: \(reviewCounter) \(reviewCounterLimit) \(isReviewDidTap)")
                 if reviewCounter >= reviewCounterLimit && !isReviewDidTap {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -489,7 +495,7 @@ struct NewModulesScreen: View {
             })
             .fullScreenCover(isPresented: $showSelectModulePage, content: {
                 ModuleSelectPage(
-                    modules: $dataManager.modules,
+                    modules: dataManager.isMockData ? .constant(MockDataManager().modules) : $dataManager.allModules,
                     isOpened: $showSelectModulePage,
                     groupId: $dataManager.groups[0].id,
                     needUpdate: $needUpdateData,
@@ -499,7 +505,7 @@ struct NewModulesScreen: View {
             })
             .sheet(isPresented: $showEditModulePage, content: {
                 ModuleSelectPage(
-                    modules: $dataManager.allModules,
+                    modules: dataManager.isMockData ? .constant(MockDataManager().modules) : $dataManager.allModules,
                     isOpened: $showEditModulePage,
                     groupId: $groupId,
                     needUpdate: $needUpdateData,
@@ -545,9 +551,22 @@ struct NewModulesScreen: View {
             .popup(allowToShow: $showPopups, currentIndex: $indexOfPopup) {
                 UserDefaultsManager.isMainScreenPopupsShown = true
             }
-//            .onChange(of: dataManager.isLoading) { val in
-//                self.showActivity = val
-//            }
+            .onChange(of: showPopups) { val in
+                if !val {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        appDelegate.sendNotificationPermissionRequest()
+                    }
+                }
+            }
+            .onChange(of: dataManager.isLoading) { val in
+                if !val {
+                    if (dataManager.isInitialized && !dataManager.isLoading)
+                        || UserDefaultsManager.userID == nil {
+                        print("loading page test: все условия совпали и надо запускать анимацию")
+                        dataManager.startLoadingAnimation = true
+                    }
+                }
+            }
     }
     
     init() {

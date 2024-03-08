@@ -50,6 +50,7 @@ struct ModuleScreen: View {
     
     @State var isShared = false
     @State var userIsReallyShared = false
+    @State var showPrePaywallAlert = false
 
     lazy var currentThemeName: String?  = {
         UserDefaultsManager.themeName
@@ -142,7 +143,8 @@ struct ModuleScreen: View {
 									}
 									.frame(height: 45)
 									.padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
-                                    .mytooltip(onboardingManager.currentStepIndex == 0 
+                                    .mytooltip(((onboardingManager.currentStepIndex == 1 && !viewModel.userDidntSeeLearnBtnYet())
+                                                || (onboardingManager.currentStepIndex == 0 && !viewModel.userDidntSeeCreatePhrase()))
                                                && viewModel.userDidntSeeLearnBtnYet()
                                                && module.phrases.count >= 4,
                                                config: nil,
@@ -232,7 +234,7 @@ struct ModuleScreen: View {
 							.transition(AnyTransition.offset() )
 							.offset(y: geo.size.height < 812 ? -16 : 0 )
 							.shadow(color: .white.opacity(0.2), radius: 20)
-                            .mytooltip(onboardingManager.currentStepIndex == 1
+                            .mytooltip(onboardingManager.currentStepIndex == 0
                                        && viewModel.userDidntSeeCreatePhrase(),
                                        side: .top,
                                        offset: 24,
@@ -295,9 +297,7 @@ struct ModuleScreen: View {
                     }
                     .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showErrorAboutPhraseCount, withoutButtons: true) {
                     }
-//					.onChange(of: viewModel.modules) { newValue in
-//						self.modules = newValue
-//					}
+                    .showAlert(title: "Wordy.app", description: "\n" + "Вы достигли лимита по количеству \nслов в одном модуле. \n\nМы не рекомендуем добавлять больше 15 фраз в один модуль. \n\nНо если вы все равно хотите снять все ограничения, то попробуйте \nподписку Wordy PRO".localize(), isPresented: $showPrePaywallAlert, titleWithoutAction: "Попробовать", titleForAction: "Понятно", withoutButtons: false, okAction: { reallyShowPaywall() }, repeatAction: {})
 					.fullScreenCover(isPresented: $viewModel.showActionSheet) {
                         AddNewPhrase(module: $module)
                             .environmentObject(addNewPhraseViewModel)
@@ -305,8 +305,6 @@ struct ModuleScreen: View {
 				}
 //			})
 			.background(BackgroundView())
-//			.navigationBarBackButtonHidden()
-//            .navigationTitle("Module name")
             .navigationBarTitleDisplayMode(.inline)
 			.fullScreenCover(isPresented: $viewModel.showWordsCarousel) {
 				WordsCarouselView(
@@ -429,11 +427,20 @@ struct ModuleScreen: View {
 		}
 	}
 	
+    func reallyShowPaywall() {
+        withAnimation {
+            showPrePaywallAlert = false
+        }
+        viewModel.showPaywall()
+    }
+    
 	func didTapAddNewPhrase() {
 		if module.phrases.count < countOfWordsForFree || SubscriptionManager().userHasSubscription() {
 			viewModel.showActionSheet = true
 		} else {
-			viewModel.showPaywall()
+            withAnimation {
+                showPrePaywallAlert.toggle()
+            }
 		}
 	}
 	

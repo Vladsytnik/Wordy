@@ -24,9 +24,16 @@ final class DataManager: ObservableObject {
     
     @Published private var allGroups: [Group] = []
     
-    private var isMockData = false
+    @Published var isMockData = false
     private var networkProcesses: [Int] = []
     private var filterText = ""
+    
+    @Published var isInitialized = false
+    @Published var startLoadingAnimation = false
+    
+    var onLoadingPageUpdate: (() -> Void)?
+    
+    private let dispatchGroup = DispatchGroup()
     
     private init() {
         loadFromServer()
@@ -101,20 +108,25 @@ final class DataManager: ObservableObject {
 //    }
     
     func addNewGroup(_ group: Group) {
-        groups.append(group)
-        allGroups.append(group)
+//        groups.append(group)
+//        allGroups.append(group)
         sortGroups()
     }
     
-    func replaceGroup(with changedGroup: Group) {
-        let findedGroupIndex = allGroups.firstIndex(where: { $0.id == changedGroup.id }).map{ Int($0) }
-        let findedGroupIndex2 = groups.firstIndex(where: { $0.id == changedGroup.id }).map{ Int($0) }
+    func replaceGroup(with changedGroup: Group, withNilDate: Bool = false) {
+        let findedGroupIndex = allGroups.firstIndex(where: { $0.id == changedGroup.id || ($0.date == nil && withNilDate == true) }).map{ Int($0) }
+        let findedGroupIndex2 = groups.firstIndex(where: { $0.id == changedGroup.id || ($0.date == nil && withNilDate == true) }).map{ Int($0) }
+
         if let findedGroupIndex {
             allGroups.remove(at: findedGroupIndex)
+            allGroups.append(changedGroup)
+        } else {
             allGroups.append(changedGroup)
         }
         if let findedGroupIndex2 {
             groups.remove(at: findedGroupIndex2)
+            groups.append(changedGroup)
+        } else {
             groups.append(changedGroup)
         }
         sortGroups()
@@ -182,39 +194,62 @@ final class DataManager: ObservableObject {
     }
     
     private func loadFromServer() {
+        dispatchGroup.notify(queue: DispatchQueue.global()) { [weak self] in
+            print("loading page test: загрузка данных закончилась")
+            DispatchQueue.main.async {
+                self?.isInitialized = true
+                self?.onLoadingPageUpdate?()
+                print("loading page test: isInitialized = \(self?.isInitialized)")
+            }
+        }
+        print("loading page test: loadFromServer")
         loadModules()
         loadGroups()
     }
     
     private func loadModules() {
+        dispatchGroup.enter()
         addLoadingProcess()
         NetworkManager.getModules { modules in
             Task { @MainActor in
                 self.deleteLoadingProcess()
+                self.leaveAsyncGroup()
                 guard !self.isMockData else { return }
                 self.modules = modules
                 self.allModules = modules
                 self.applyFilterText()
+                print("loading page test: загрузились модули")
             }
         } errorBlock: { [weak self] errorText in
+            print("loading page test: ошибка модулей")
             self?.deleteLoadingProcess()
+            self?.leaveAsyncGroup()
             guard !errorText.isEmpty else { return }
         }
     }
     
     private func loadGroups() {
+        dispatchGroup.enter()
         addLoadingProcess()
         NetworkManager.getGroups { groups in
             Task { @MainActor in
                 self.deleteLoadingProcess()
+                self.leaveAsyncGroup()
+                print("loading page test: загрузились группы")
                 guard !self.isMockData else { return }
                 self.groups = groups
                 self.allGroups = groups
             }
         } errorBlock: { [weak self] errorText in
+            print("loading page test: ошибка групп")
             self?.deleteLoadingProcess()
+            self?.leaveAsyncGroup()
             guard !errorText.isEmpty else { return }
         }
+    }
+    
+    private func leaveAsyncGroup() {
+        self.dispatchGroup.leave()
     }
     
     private func addLoadingProcess() {
@@ -230,6 +265,10 @@ final class DataManager: ObservableObject {
     private func updateLoadingState() {
         Task { @MainActor in
             isLoading = networkProcesses.count > 0
+            print("loading page test: isLoading = \(isLoading)")
+            if !isLoading {
+                self.onLoadingPageUpdate?()
+            }
         }
     }
     

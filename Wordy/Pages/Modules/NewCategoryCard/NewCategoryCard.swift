@@ -41,6 +41,11 @@ struct NewCategoryCard: View {
 				isFocused = false
 				onSubmit(inputText.count > 0, inputText)
 			}
+            .onChange(of: isFocused, perform: { value in
+                if !value {
+                    onSubmit(inputText.count > 0, inputText)
+                }
+            })
 	}
 }
 

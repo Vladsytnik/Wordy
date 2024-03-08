@@ -166,5 +166,6 @@ extension String {
 
 extension String {
     static let KeychainServiceKey = "auth_token"
+    static let KeychainServiceNotificationKey = "notif_token"
     static let KeychainAccountKey = "wordy"
 }

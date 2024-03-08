@@ -130,13 +130,16 @@ struct CustomAlert: View {
 }
 
 struct Alert_Previews: PreviewProvider {
+    
+    
     static var previews: some View {
 		CustomAlert(
-			title: "Упс! Ошибка сети",
-			description: "Проверьте соединение с интернетом",
+			title: "Wordy.app",
+			description: "\nВы достигли лимита по количеству \nслов в одном модуле. \n\nМы не рекомендуем добавлять больше 15 фраз в один модуль. \n\nНо если вы все равно хотите снять все ограничения, то попробуйте \nподписку Wordy PRO \n(или создайте новый модуль, но мы вам об этом не говорили)",
 			isShow: .constant(true),
 			titleWithoutAction: "OK",
 			titleForAction: "Попробовать снова"
 		) {  }
+            .environmentObject(ThemeManager())
     }
 }

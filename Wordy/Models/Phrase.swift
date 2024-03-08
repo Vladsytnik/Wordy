@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Phrase: Equatable, Codable {
+struct Phrase: Hashable, Codable {
 	let nativeText: String
 	let translatedText: String
 	let id: String
@@ -15,6 +15,10 @@ struct Phrase: Equatable, Codable {
 	var example: String?
 	
 	var date: Date?
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
 extension Phrase {

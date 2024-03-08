@@ -176,3 +176,8 @@
 "Теперь вам доступны все возможности приложения без ограничений!" = "Acum aveți acces la toate funcționalitățile aplicației fără restricții!";
 
 "Удалить эту фразу?" = "Ștergeți această frază?";
+
+"\nAdd a few more words" = "\nAdăugați câteva cuvinte";
+
+"Вы достигли лимита по количеству \nслов в одном модуле. \n\nМы не рекомендуем добавлять больше 15 фраз в один модуль. \n\nНо если вы все равно хотите снять все ограничения, то попробуйте \nподписку Wordy PRO" = "Ați atins limita de cuvinte \nîntr-un singur modul. \n\nNu recomandăm adăugarea a mai mult de 15 fraze într-un singur modul. \n\nDar dacă totuși doriți să eliminați toate restricțiile, încercați \nabonamentul Wordy PRO";
+"\n Чтобы включить уведомления, необходимо дать к ним доступ в настройках" = "\n Pentru a activa notificările, trebuie să le acordați acces în setări";
