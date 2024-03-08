@@ -8,21 +8,24 @@
 import SwiftUI
 import ApphudSDK
 import Combine
+import Pow
 
 struct StartView: View {
+    
+    private let launchScreenAnimationDuration: Double = 1.5
 	
 	@EnvironmentObject var deeplinkManager: DeeplinkManager
     @EnvironmentObject var themeManager: ThemeManager
 	@EnvironmentObject var router: Router
     @EnvironmentObject var rewardManager: RewardManager
+    @EnvironmentObject var dataManager: DataManager
+    
 //	let authTransition = AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)).combined(with: .opacity)
 	let authTransition = AnyTransition.opacity
 	let transition = AnyTransition.opacity
 	let opacityTransition = AnyTransition.opacity
     
     @State var isShownLoadingPage = true
-    
-//    @StateObject var viewModel = StartViewModel()
     
     @State private var cancelable = Set<AnyCancellable>()
     
@@ -80,25 +83,27 @@ struct StartView: View {
 					}
 					.ignoresSafeArea()
 				}
-			}
+                
+            }
             .overlay(content: {
                 if isShownLoadingPage {
-                    LoadingPage()
-                        .ignoresSafeArea()
-                }
-            })
-		.environmentObject(router)
-		.accentColor(.white)
-        .onAppear {
-            Task {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    withAnimation {
+                    LoadingPage(duration: launchScreenAnimationDuration,
+                                start: $dataManager.startLoadingAnimation) {
                         isShownLoadingPage.toggle()
                     }
+                                .ignoresSafeArea()
+                }
+            })
+            .accentColor(.white)
+            .onAppear {
+                if (dataManager.isInitialized && !dataManager.isLoading)
+                    || UserDefaultsManager.userID == nil
+                    || !UserDefaultsManager.isMainScreenPopupsShown {
+                    print("loading page test: все условия совпали и надо запускать анимацию")
+                    dataManager.startLoadingAnimation = true
                 }
             }
-        }
-	}
+    }
     
     private func initNotifications() {
 
@@ -112,5 +117,8 @@ struct StartView_Previews: PreviewProvider {
         StartView()
 			.environmentObject(Router())
             .environmentObject(DataManager.shared)
+            .environmentObject(DeeplinkManager())
+            .environmentObject(RewardManager())
+            .environmentObject(ThemeManager())
     }
 }

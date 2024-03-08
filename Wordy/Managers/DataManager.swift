@@ -28,6 +28,13 @@ final class DataManager: ObservableObject {
     private var networkProcesses: [Int] = []
     private var filterText = ""
     
+    @Published var isInitialized = false
+    @Published var startLoadingAnimation = false
+    
+    var onLoadingPageUpdate: (() -> Void)?
+    
+    private let dispatchGroup = DispatchGroup()
+    
     private init() {
         loadFromServer()
     }
@@ -187,39 +194,62 @@ final class DataManager: ObservableObject {
     }
     
     private func loadFromServer() {
+        dispatchGroup.notify(queue: DispatchQueue.global()) { [weak self] in
+            print("loading page test: загрузка данных закончилась")
+            DispatchQueue.main.async {
+                self?.isInitialized = true
+                self?.onLoadingPageUpdate?()
+                print("loading page test: isInitialized = \(self?.isInitialized)")
+            }
+        }
+        print("loading page test: loadFromServer")
         loadModules()
         loadGroups()
     }
     
     private func loadModules() {
+        dispatchGroup.enter()
         addLoadingProcess()
         NetworkManager.getModules { modules in
             Task { @MainActor in
                 self.deleteLoadingProcess()
+                self.leaveAsyncGroup()
                 guard !self.isMockData else { return }
                 self.modules = modules
                 self.allModules = modules
                 self.applyFilterText()
+                print("loading page test: загрузились модули")
             }
         } errorBlock: { [weak self] errorText in
+            print("loading page test: ошибка модулей")
             self?.deleteLoadingProcess()
+            self?.leaveAsyncGroup()
             guard !errorText.isEmpty else { return }
         }
     }
     
     private func loadGroups() {
+        dispatchGroup.enter()
         addLoadingProcess()
         NetworkManager.getGroups { groups in
             Task { @MainActor in
                 self.deleteLoadingProcess()
+                self.leaveAsyncGroup()
+                print("loading page test: загрузились группы")
                 guard !self.isMockData else { return }
                 self.groups = groups
                 self.allGroups = groups
             }
         } errorBlock: { [weak self] errorText in
+            print("loading page test: ошибка групп")
             self?.deleteLoadingProcess()
+            self?.leaveAsyncGroup()
             guard !errorText.isEmpty else { return }
         }
+    }
+    
+    private func leaveAsyncGroup() {
+        self.dispatchGroup.leave()
     }
     
     private func addLoadingProcess() {
@@ -235,6 +265,10 @@ final class DataManager: ObservableObject {
     private func updateLoadingState() {
         Task { @MainActor in
             isLoading = networkProcesses.count > 0
+            print("loading page test: isLoading = \(isLoading)")
+            if !isLoading {
+                self.onLoadingPageUpdate?()
+            }
         }
     }
     

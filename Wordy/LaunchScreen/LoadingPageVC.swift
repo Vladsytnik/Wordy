@@ -8,22 +8,132 @@
 import SwiftUI
 import ImageIO
 
-struct LoadingPage: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> LoadingPageVC {
-        let story = UIStoryboard(name: "LoadingPage", bundle: nil)
-        return story.instantiateViewController(withIdentifier: "LoadingPageVC") as! LoadingPageVC
+enum LoadingPageState: Int {
+    case initial = 0
+    case smallElements = 1
+    case logoRotation = 2
+    case circleAppearing = 3
+    case circleColorChanging = 4
+    case isEncreasing = 5
+    case disappearingMask = 6
+}
+
+struct LoadingPage: View {
+    
+    let duration: Double
+    
+    @State private var animationIndex = 0
+    private let minimumScaleFactor: CGFloat = 0.05
+    
+    @EnvironmentObject var themeManager: ThemeManager
+    
+    @Binding var start: Bool
+    var onComplete: (() -> Void)?
+    
+    var body: some View {
+        ZStack {
+            Color(asset: Asset.Colors.launchScreenBG)
+                .ignoresSafeArea()
+            
+            Logo()
+                .scaleEffect(animationIndex == intFrom(state: .initial) ? 1 :
+                                animationIndex < intFrom(state: .isEncreasing) ? minimumScaleFactor :
+                                1.1)
+            
+            YellowCircle()
+                .scaleEffect(animationIndex == intFrom(state: .initial) ? 1 :
+                                animationIndex < intFrom(state: .isEncreasing) ? minimumScaleFactor + 0.1 :
+                                20)
+                .opacity(animationIndex < intFrom(state: .circleAppearing) ? 0 : 1)
+            
+            MainColorCircle()
+                .scaleEffect(animationIndex == intFrom(state: .initial) ? 1 :
+                                animationIndex < intFrom(state: .isEncreasing) ? minimumScaleFactor + 0.1 :
+                                20)
+            
+            Circle()
+                .frame(width: 100)
+                .offset(x: 8, y: -20)
+                .scaleEffect(animationIndex < intFrom(state: .disappearingMask) ? 0 : 20)
+                .blendMode(.destinationOut)
+        }
+        .onChange(of: start, perform: { value in
+            if value {
+                startAnimation()
+            }
+        })
+        .onAppear {
+            if start {
+                
+            }
+        }
+        .compositingGroup()
     }
     
-    func updateUIViewController(_ uiViewController: LoadingPageVC, context: Context) {
+    func startAnimation() {
+        print("loading page test: началась анимация Loading Page")
+        withAnimation(.spring.delay(0.3)) {
+            animationIndex += 1
+            animationIndex += 1
+        }
+        withAnimation(.spring(duration: 0.5).delay(0.4)) {
+            animationIndex += 1
+        }
+        withAnimation(.spring(duration: 0.3).delay(0.6)) {
+            animationIndex += 1
+        }
+        withAnimation(.spring(duration: 1.6).delay(0.9)) {
+            animationIndex += 1
+        }
+        withAnimation(.spring(duration: 1.9).delay(1)) {
+            animationIndex += 1
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            print("loading page test: закрывается экран Loading Page")
+            self.onComplete?()
+        }
+    }
     
+    func intFrom(state: LoadingPageState) -> Int {
+        state.rawValue
+    }
+    
+    @ViewBuilder
+    private func MainColorCircle() -> some View {
+        Circle()
+        .frame(width: 100)
+        .offset(x: 8, y: -20)
+        .foregroundColor(themeManager.currentTheme.main)
+        .opacity(animationIndex < intFrom(state: .circleColorChanging) ? 0 : 1)
+    }
+    
+    @ViewBuilder
+    private func YellowCircle() -> some View {
+        Circle()
+        .frame(width: 100)
+        .offset(x: 8, y: -20)
+        .foregroundColor(Color(asset: Asset.Colors.wordyYellow))
+        .opacity(animationIndex < intFrom(state: .circleColorChanging) ? 1 : 0)
+    }
+    
+    @ViewBuilder
+    private func Logo() -> some View {
+        Image(asset: Asset.Images.wordyYellow)
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: 100, height: 100)
+        .rotationEffect(animationIndex < intFrom(state: .logoRotation) ? .degrees(0) : .degrees(2160))
+        .offset(x: 8, y: -20)
     }
 }
 
-struct LoadingPage_Previews: PreviewProvider {
-    static var previews: some View {
-       LoadingPage()
-            .ignoresSafeArea()
-    }
+#Preview {
+    TestLoadingPage()
+        .environmentObject(Router())
+        .environmentObject(DataManager.shared)
+        .environmentObject(DeeplinkManager())
+        .environmentObject(RewardManager())
+        .environmentObject(ThemeManager(0))
 }
 
 

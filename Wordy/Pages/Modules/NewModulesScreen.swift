@@ -203,6 +203,7 @@ struct NewModulesScreen: View {
                                     }
                                 }
                                 .padding(.top)
+                                .disabled(showPopups)
                                 .mytooltip(isOnboardingStepNumber(0),
                                            config: nil,
                                            appearingDelayValue: 0.5)
@@ -554,6 +555,15 @@ struct NewModulesScreen: View {
                 if !val {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         appDelegate.sendNotificationPermissionRequest()
+                    }
+                }
+            }
+            .onChange(of: dataManager.isLoading) { val in
+                if !val {
+                    if (dataManager.isInitialized && !dataManager.isLoading)
+                        || UserDefaultsManager.userID == nil {
+                        print("loading page test: все условия совпали и надо запускать анимацию")
+                        dataManager.startLoadingAnimation = true
                     }
                 }
             }

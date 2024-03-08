@@ -46,6 +46,7 @@ internal enum Asset {
     internal static let purchaseBtn = ColorAsset(name: "PurchaseBtn")
     internal static let searchTFBackground = ColorAsset(name: "SearchTFBackground")
     internal static let searchTextFieldTextColor = ColorAsset(name: "SearchTextFieldTextColor")
+    internal static let wordyYellow = ColorAsset(name: "WordyYellow")
     internal static let answer1 = ColorAsset(name: "answer1")
     internal static let answer2 = ColorAsset(name: "answer2")
     internal static let answer3 = ColorAsset(name: "answer3")
