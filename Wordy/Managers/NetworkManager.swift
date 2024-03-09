@@ -736,7 +736,7 @@ class NetworkManager {
 		}
 	}
     
-    static func deleteGroup(with groupIndex: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
+    static func deleteGroup(with groupIndex: String, withoutUpdate: Bool = false, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
         guard let currentUserID = currentUserID else {
             errorBlock("error in getModules -> currentUserID")
             return
@@ -752,7 +752,9 @@ class NetworkManager {
                     return
                 }
                 
-                dataManager.deleteGroup(groupIndex)
+                if !withoutUpdate {
+                    dataManager.deleteGroup(groupIndex)
+                }
                 success()
             }
         }

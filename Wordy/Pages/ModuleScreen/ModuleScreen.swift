@@ -750,6 +750,7 @@ struct AddWordButton: View {
 
 struct DeleteModuleButton: View {
 	
+    var title: String?
 	let action: () -> Void
 	@EnvironmentObject var themeManager: ThemeManager
 	
@@ -757,11 +758,19 @@ struct DeleteModuleButton: View {
 		Button {
 			action()
 		} label: {
-			Text("Удалить модуль".localize())
-				.foregroundColor(themeManager.currentTheme.mainText)
-				.font(.system(size: 16, weight: .regular))
-				.frame(width: 300, height: 50)
-				.offset(y: -15)
+            if let title {
+                Text(title.localize())
+                    .foregroundColor(themeManager.currentTheme.mainText)
+                    .font(.system(size: 16, weight: .regular))
+                    .frame(width: 300, height: 50)
+                    .offset(y: -15)
+            } else {
+                Text("Удалить модуль".localize())
+                    .foregroundColor(themeManager.currentTheme.mainText)
+                    .font(.system(size: 16, weight: .regular))
+                    .frame(width: 300, height: 50)
+                    .offset(y: -15)
+            }
 		}
 		.padding(EdgeInsets(top: 12, leading: 0, bottom: 0, trailing: 0))
 	}
