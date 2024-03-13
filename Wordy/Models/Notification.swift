@@ -8,10 +8,10 @@
 import Foundation
 
 struct Notification: Codable {
-    let isOn: Bool
+    var isOn: Bool
     let isNight: Bool
     let dates: [Date]
     let notificationCount: Int
-    let selectedModulesIds: [String]
+    var selectedModulesIds: [String]
     let phrases: [Phrase]
 }

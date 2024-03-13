@@ -264,8 +264,9 @@ struct NewModulesScreen: View {
                                     .listStyle(.plain)
                                 }
                                 .padding()
+                                
                                 Rectangle()
-                                    .frame(height: 100)
+                                    .frame(height: 132)
                                     .foregroundColor(.clear)
                             }
                         }

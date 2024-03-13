@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftUITooltip
+import Pow
 
 struct ModuleScreen: View {
 	
@@ -51,6 +52,8 @@ struct ModuleScreen: View {
     @State var isShared = false
     @State var userIsReallyShared = false
     @State var showPrePaywallAlert = false
+    
+    @State var isNotificationLoading = false
 
     lazy var currentThemeName: String?  = {
         UserDefaultsManager.themeName
@@ -370,11 +373,25 @@ struct ModuleScreen: View {
             }
             .navigationBarItems(
                 trailing:
-                    Button(action: {
-                        showChangeModuleDataScreen.toggle()
-                    }) {
-                        Image(systemName: "slider.horizontal.3")
-                            .foregroundColor(themeManager.currentTheme.mainText)
+                    HStack {
+                        Button(action: {
+                            toggleNotificationsState()
+                        }) {
+                            Image(systemName: module.isNotificationTurnedOn ? "bell.fill" : "bell")
+                                .foregroundColor(themeManager.currentTheme.mainText)
+//                                .changeEffect(.pulse(shape: Circle(), count: 1), value: module.isNotificationTurnedOn)
+                                .changeEffect(.jump(height: 5), value: isNotificationLoading)
+                                .conditionalEffect(.repeat(.glow(color: themeManager.currentTheme.mainText.opacity(0.8), radius: 10), every: 0.8),
+                                                   condition: isNotificationLoading)
+                        }
+                        .animation(.spring, value: isNotificationLoading)
+                        
+                        Button(action: {
+                            showChangeModuleDataScreen.toggle()
+                        }) {
+                            Image(systemName: "slider.horizontal.3")
+                                .foregroundColor(themeManager.currentTheme.mainText)
+                        }
                     }
             )
             .sheet(isPresented: $showChangeModuleDataScreen) {
@@ -399,20 +416,58 @@ struct ModuleScreen: View {
         self._module = module
 		self._modules = modules
 		self._searchText = searchedText
-        
-//        module = module.wrappedValue
-        
-//        if let currentThemeName {
-//            guard let theme = ThemeManager().allThemes().first(where: { $0.id == currentThemeName })
-//            else { return }
-//            if !theme.isDark {
-//                let navigationBarAppearance = UINavigationBarAppearance()
-//                navigationBarAppearance.backgroundColor = UIColor(theme.main)
-//                UINavigationBar.appearance().standardAppearance = navigationBarAppearance
-//            }
-//        }
     }
-	
+    
+    private func toggleNotificationsState() {
+        isNotificationLoading = true
+        
+        Task {
+            do {
+                if let notification = try await NetworkManager.getNotificationsInfo() {
+                    try await updateNotification(with: notification)
+                } else {
+                    let calendar = Calendar.current
+                    let date1 = calendar.date(bySettingHour: 12, minute: 0, second: 0, of: Date()) ?? Date()
+                    let date2 = calendar.date(bySettingHour: 12, minute: 0, second: 0, of: Date()) ?? Date()
+                    let notification = Notification(isOn: true,
+                                                    isNight: false,
+                                                    dates: [date1, date2],
+                                                    notificationCount: 2,
+                                                    selectedModulesIds: [module.id],
+                                                    phrases: [])
+                    try await updateNotification(with: notification)
+                }
+            } catch (let error) {
+                isNotificationLoading = false
+                print("Error in ModuleScreen -> turnOnNotifications: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func updateNotification(with notif: Notification) async throws {
+        var isOk = false
+        var notification = notif
+        let isOn = module.isNotificationTurnedOn
+        
+        if isOn {
+            if let deletionIndex = notification.selectedModulesIds.firstIndex(where: { $0 == module.id }) {
+                notification.selectedModulesIds.remove(at: Int(deletionIndex))
+                notification.isOn = false
+            }
+        } else {
+            notification.selectedModulesIds.append(module.id)
+            notification.isOn = true
+        }
+
+        try await NetworkManager.updateNotificationsInfo(notification: notification)
+        
+//        if isOk {
+//            module.isNotificationTurnedOn = !isOn
+//        }
+        
+        isNotificationLoading = false
+    }
+    
 	private func calculateScrollDirection() {
 		if scrollOffset > 10 {
 			scrollDirection = scrollOffset - prevScrollOffsetValue

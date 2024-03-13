@@ -19,6 +19,8 @@ struct Module: Hashable, Codable {
     var acceptedAsStudent = false
     var isBlockedFreeFeatures = false
     
+    var isNotificationTurnedOn = false
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
@@ -61,7 +63,8 @@ extension Module {
 								id: moduleID,
                                 isSharedByTeacher: (data[moduleID]?["isSharedByTeacher"] as? Bool) ?? false,
                                 acceptedAsStudent: (data[moduleID]?["acceptedAsStudent"] as? Bool) ?? false,
-                                isBlockedFreeFeatures: (data[moduleID]?["isBlockedFreeFeatures"] as? Bool) ?? false)
+                                isBlockedFreeFeatures: (data[moduleID]?["isBlockedFreeFeatures"] as? Bool) ?? false,
+                                isNotificationTurnedOn: (data[moduleID]?["isNotificationTurnedOn"] as? Bool) ?? false)
 			
 			let date = Date().generateDate(from: data[moduleID]?["date"] as? String)
 			module.date = date
@@ -114,7 +117,8 @@ extension Module {
 							id: moduleID,
                             isSharedByTeacher: (data["isSharedByTeacher"] as? Bool) ?? false,
                             acceptedAsStudent: (data["acceptedAsStudent"] as? Bool) ?? false,
-                            isBlockedFreeFeatures:  (data["isBlockedFreeFeatures"] as? Bool) ?? false)
+                            isBlockedFreeFeatures:  (data["isBlockedFreeFeatures"] as? Bool) ?? false,
+                            isNotificationTurnedOn:  (data["isNotificationTurnedOn"] as? Bool) ?? false)
 		
 		let date = Date().generateDate(from: data["date"] as? String)
 		module.date = date

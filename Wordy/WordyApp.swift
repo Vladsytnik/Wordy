@@ -82,6 +82,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         _ = AppValues.shared
         
+//        Task {
+//            do {
+//                try await NetworkManager.resetAllNotifications(forNotification: Notification(isOn: false, isNight: false, dates: [], notificationCount: 0, selectedModulesIds: [], phrases: []) )
+//            } catch(let error) {
+//                print("error in resetAllNotifications: \(error.localizedDescription)")
+//            }
+//        }
+        
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
         }
