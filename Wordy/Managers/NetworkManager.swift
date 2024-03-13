@@ -135,6 +135,51 @@ class NetworkManager {
     
     // MARK: - Notifications
     
+    enum NotificationsError: Error {
+        case resetAllNotificationsUrl
+        case responseCode
+        case userId
+    }
+    
+    // переименовать в updateNotification
+    static func updateModulesNotificationState(with notification: Notification) async throws {
+        guard let currentUserID = currentUserID else {
+            print("error in resetAllNotifications -> currentUserID")
+            throw NotificationsError.userId
+        }
+        
+        let session = URLSession.shared
+        
+        guard let url = URL(string: "https://functions.yandexcloud.net/d4ebkcngmtrh7cr3b3nr") else {
+            print("error in url [resetAllNotifications method]")
+            throw NotificationsError.resetAllNotificationsUrl
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST";
+        request.allHTTPHeaderFields = [
+            "Content-Type" : "application/json"
+        ]
+        
+        let moduleIds = notification.selectedModulesIds
+        
+        let body = [
+            "userId" : currentUserID,
+            "moduleIds" : moduleIds
+        ] as [String : Any]
+        
+        let httpBody = try JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
+        request.httpBody = httpBody
+        let (data, response) = try await session.data(for: request)
+        
+        print(response)
+        
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            print("NetworkManager -> createExamples status code is not 200: \(response)")
+            throw NotificationsError.responseCode
+        }
+    }
+    
     static func updateNotificationsInfo(notification: Notification) async throws {
         guard let currentUserID = currentUserID else {
             print("error in updateNotificationsInfo -> currentUserID")
@@ -153,6 +198,8 @@ class NetworkManager {
         if let jsonString = String(data: jsonData, encoding: .utf8) {
             // Отправляем JSON в Firebase
             let _ = try await ref.child("users").child(currentUserID).updateChildValues(["notifications": jsonString])
+            try await updateModulesNotificationState(with: notification)
+            DataManager.shared.updateModulesStates(from: notification)
         } else {
             print("error in updateNotificationsInfo -> jsonString")
         }
@@ -318,6 +365,25 @@ class NetworkManager {
         }
         
         let _ = try await ref.child("users").child(currentUserID).child("modules").child(id).child("isSharedByTeacher").setValue(true)
+    
+        return true
+    }
+    
+    static func setNotificationToModule(id: String, isTurnedOn: Bool) async throws -> Bool {
+        guard let currentUserID = currentUserID else {
+            print("error in updateNotificationsInfo -> currentUserID")
+            return false
+        }
+        
+        if NetworkConnectionManager.shared.isConnectedToNetwork() {
+            print("Internet connection test: интернет есть")
+        } else {
+            print("Internet connection test: интернета нет")
+            networkDelegate?.networkError(.turnedOff("\nУпс, отсутствует подключение к интернету..."))
+            return false
+        }
+        
+        let _ = try await ref.child("users").child(currentUserID).child("modules").child(id).child("isNotificationTurnedOn").setValue(isTurnedOn)
     
         return true
     }
@@ -736,7 +802,7 @@ class NetworkManager {
 		}
 	}
     
-    static func deleteGroup(with groupIndex: String, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
+    static func deleteGroup(with groupIndex: String, withoutUpdate: Bool = false, success: @escaping () -> Void, errorBlock: @escaping (String) -> Void) {
         guard let currentUserID = currentUserID else {
             errorBlock("error in getModules -> currentUserID")
             return
@@ -752,7 +818,9 @@ class NetworkManager {
                     return
                 }
                 
-                dataManager.deleteGroup(groupIndex)
+                if !withoutUpdate {
+                    dataManager.deleteGroup(groupIndex)
+                }
                 success()
             }
         }

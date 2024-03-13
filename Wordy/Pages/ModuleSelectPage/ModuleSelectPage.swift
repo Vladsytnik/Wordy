@@ -10,6 +10,7 @@ import Firebase
 
 struct ModuleSelectPage: View {
 	
+    @EnvironmentObject var dataManager: DataManager
 	private let columns = [GridItem(.adaptive(minimum: 150), spacing: 20) ]
 	
 	@Binding var modules: [Module]
@@ -48,6 +49,8 @@ struct ModuleSelectPage: View {
     var onReturnSelectedIndexes: (([Int]) -> Void)?
     
 	@EnvironmentObject var themeManager: ThemeManager
+    
+    @State var showDeleteAlert = false
 	
 	private var currentGroup: Group {
 		groups.first(where: { $0.id == groupId }) ?? Group()
@@ -130,8 +133,9 @@ struct ModuleSelectPage: View {
 									.listStyle(.plain)
 								}
 								.padding()
+                                
 								Rectangle()
-									.frame(height: 100)
+									.frame(height: 140)
 									.foregroundColor(.clear)
 							}
 						}
@@ -148,17 +152,21 @@ struct ModuleSelectPage: View {
 						}
 						BlurNavBar(show: $isInlineNavBar, scrollOffset: $scrollOffset)
                         
-						VStack {
+                        VStack(spacing: 0) {
 							Spacer()
+                            
+                            if currentGroup.id.count > 0 {
+                                DeleteModuleButton(title: "Удалить".localize()) { didTapDeleteGroup() }
+                                    .opacity(createModuleButtonOpacity)
+                                    .padding(EdgeInsets(top: 0, leading: 0, bottom: -8, trailing: 0))
+                            }
                             
 							SaveButton() {
 								createNewGroupOrChangeExisting()
 							}
                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
-                            
 							.frame(width: geometry.size.width - 60)
 							.opacity(createModuleButtonOpacity)
-							.transition(AnyTransition.offset() )
 						}
 						.ignoresSafeArea(.keyboard)
                         
@@ -199,7 +207,28 @@ struct ModuleSelectPage: View {
 				}
 			}
 			.activity($showActivity)
+            .showAlert(title: "Вы действительно хотите удалить эту группу?", description: "\n" + "Это действие нельзя будет отменить".localize(), isPresented: $showDeleteAlert, titleWithoutAction: "Удалить", titleForAction: "Отменить", withoutButtons: false, okAction: { nowReallyNeedToDeleteGroup() }, repeatAction: {})
 	}
+    
+    func didTapDeleteGroup() {
+        withAnimation {
+            showDeleteAlert.toggle()
+        }
+    }
+    
+    func nowReallyNeedToDeleteGroup() {
+        showActivity = true
+        NetworkManager.deleteGroup(with: currentGroup.id) {
+            self.showActivity = false
+            showDeleteAlert.toggle()
+            isOpened.toggle()
+        } errorBlock: { errorText in
+            self.alert.title = "Упс, произошла ошибка...".localize()
+            self.alert.description = errorText
+            self.showActivity = false
+            self.showAlert = true
+        }
+    }
 	
 	func createNewGroupOrChangeExisting() {
         guard !isJustNeedToReturnSelectedModules else {
@@ -335,6 +364,7 @@ struct ModuleSelectPage_Previews: PreviewProvider {
 			groups: .constant([]),
 			isEditMode: .constant(false)
 		)
+        .environmentObject(DataManager.shared)
 	}
 } 
 

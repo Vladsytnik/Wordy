@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Pow
 
 struct GroupsEditingPage: View {
     
@@ -91,7 +92,7 @@ struct GroupsEditingPage: View {
 								print(group.name)
 								showSheet.toggle()
 							}
-						}
+                        }
 					}
                     
                     if (dataManager.groups.count == 0) {
@@ -120,7 +121,10 @@ struct GroupsEditingPage: View {
 	
 	func nowReallyNeedToDeleteGroup() {
 		showActivity = true
-		NetworkManager.deleteGroup(with: selectedGroup.id) {
+		NetworkManager.deleteGroup(with: selectedGroup.id, withoutUpdate: true) {
+            withAnimation {
+                dataManager.deleteGroup(selectedGroup.id)
+            }
 			self.showActivity = false
             showDeleteAlert.toggle()
 		} errorBlock: { errorText in

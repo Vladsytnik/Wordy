@@ -94,6 +94,39 @@ final class DataManager: ObservableObject {
         }
     }
     
+    // вызывать после того как обновили notification объект
+    func updateModulesStates(from notification: Notification) {
+        Task.detached(priority: .userInitiated) { [allModules] in
+            let moduleIds = notification.selectedModulesIds
+            var tempAllModules: [Module] = []
+            
+            for module in allModules {
+                var tempModule = module
+                tempModule.isNotificationTurnedOn = moduleIds.contains(module.id)
+                tempAllModules.append(tempModule)
+            }
+        
+            Task { @MainActor [tempAllModules] in
+                self.allModules = tempAllModules
+            }
+        }
+    }
+    
+    func resetNotificationState(for moduleId: String) {
+        let findedModuleIndex = allModules.firstIndex(where: { $0.id == moduleId }).map{ Int($0) }
+        let findedModuleIndex2 = modules.firstIndex(where: { $0.id == moduleId }).map{ Int($0) }
+        if let findedModuleIndex {
+            var module = allModules[findedModuleIndex]
+            module.isNotificationTurnedOn = false
+            replaceModule(module)
+        }
+        if let findedModuleIndex2 {
+            var module = modules[findedModuleIndex2]
+            modules[findedModuleIndex2].isNotificationTurnedOn = false
+            replaceModule(module)
+        }
+    }
+    
 //    func addPhrase(_ phrase: Phrase, toModuleWithId moduleId: String) {
 //        let findedModule = allModules.first(where: { $0.id == moduleId })
 //        if var findedModule {
