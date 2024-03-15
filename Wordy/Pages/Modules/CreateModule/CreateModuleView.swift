@@ -107,6 +107,7 @@ struct CreateModuleView: View {
 //							EmojiView(show: $showEmojiView, txt: $emoji)
 							ZStack {
 								EmojiPopoverView(showEmojiView: $showEmojiView, emoji: $emoji)
+                                    .onAppear { AnalyticsManager.shared.trackEvent(.didTapOnChangeEmoji(.CreateNewModulePage)) }
 								VStack(alignment: .trailing) {
 									Spacer()
 									Button {
@@ -148,6 +149,7 @@ struct CreateModuleView: View {
             }
             .onAppear {
 //                isFirstModuleRewardShown = false
+                AnalyticsManager.shared.trackEvent(.openCreateNewModulePage)
             }
     }
 	
