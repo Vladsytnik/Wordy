@@ -264,6 +264,7 @@ struct ModuleSelectPage: View {
 	}
 	
 	private func createNewGroup() {
+        AnalyticsManager.shared.trackEvent(.createdNewGroup)
 		showActivity = true
 		let modulesIndexes = modulesStates.filter{ $0.value == true && $0.key >= 0 }.keys.map{ Int($0) }
 		modulesIndexes.forEach{ addedModules.append(modules[$0]) }

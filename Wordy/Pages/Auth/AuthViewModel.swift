@@ -32,6 +32,7 @@ class AuthViewModel: NSObject, ObservableObject {
 	
 	func signIn() {
 		showActivity = true
+        AnalyticsManager.shared.trackEvent(.signIn(.email))
 		NetworkManager.signIn(email: email, password: password) { [weak self] resultText in
 			guard let self = self else { return }
 			self.hideActivity()
@@ -57,6 +58,7 @@ class AuthViewModel: NSObject, ObservableObject {
 	
 	func register() {
 		showActivity = true
+        AnalyticsManager.shared.trackEvent(.registerViaEmail)
 		NetworkManager.register(email: email, password: password) { [weak self] resultText in
 			guard let self = self else { return }
 			self.hideActivity()
@@ -98,6 +100,7 @@ class AuthViewModel: NSObject, ObservableObject {
 extension AuthViewModel: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
 	
 	func startSignInWithAppleFlow() {
+        AnalyticsManager.shared.trackEvent(.signIn(.appleId))
 		let nonce = randomNonceString()
 		currentNonce = nonce
 		let appleIDProvider = ASAuthorizationAppleIDProvider()

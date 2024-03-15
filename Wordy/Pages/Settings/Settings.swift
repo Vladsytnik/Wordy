@@ -198,6 +198,9 @@ struct Settings: View {
 					NavigationLink {
 						SelectLanguagePage(isFromSettings: true)
 							.navigationTitle("Язык")
+                            .onAppear {
+                                AnalyticsManager.shared.trackEvent(.openChangeLanguagePageFromSettings)
+                            }
 					} label: {
 						GeneralSettingsRow(cellHeight: cellHeight,
 										   cellText: "Сменить язык",
@@ -208,6 +211,9 @@ struct Settings: View {
                     
                     NavigationLink {
                         TimeIntervalView()
+                            .onAppear {
+                                AnalyticsManager.shared.trackEvent(.openNotificationSettingsScreen)
+                            }
                     } label: {
                         GeneralSettingsRow(cellHeight: cellHeight,
                                            cellText: "Уведомления",
@@ -239,6 +245,7 @@ struct Settings: View {
                                            isOpenable: false,
                                            isOpened: .constant(false),
                                            didTapOnRow: {
+                            AnalyticsManager.shared.trackEvent(.tapOnGetProFromSettings)
                             isShowPaywall = true
                         })
                     }
@@ -273,6 +280,7 @@ struct Settings: View {
                     })
 					
 					LogOutRow(cellHeight: cellHeight) {
+                        AnalyticsManager.shared.trackEvent(.didTapLogout)
 						self.presentationMode.wrappedValue.dismiss()
 						Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { _ in
 							withAnimation { self.logOut() }

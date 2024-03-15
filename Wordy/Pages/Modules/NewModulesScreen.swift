@@ -122,6 +122,7 @@ struct NewModulesScreen: View {
                                                 .foregroundColor(.clear)
                                                 .frame(width: 12)
                                             Button {
+                                                AnalyticsManager.shared.trackEvent(.didTapOnCreateNewGroupPlusButton)
                                                 withAnimation {
                                                     checkSubscriptionAndCountOfGroups { isAllow in
                                                         if isAllow {
@@ -192,6 +193,7 @@ struct NewModulesScreen: View {
                                                             selectedIndexes = translateUuidies(dataManager.groups[j].modulesID)
                                                             showEditModulePage.toggle()
                                                             generator2?.impactOccurred()
+                                                            AnalyticsManager.shared.trackEvent(.didLongTappedForChangeGroup)
                                                         }
                                                         .modifier(CategoryLongTapModifier())
                                                 }
@@ -289,6 +291,7 @@ struct NewModulesScreen: View {
                             disabled: (onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
                             || (showPopups && indexOfPopup != 2),
                             onSkip: {
+                                AnalyticsManager.shared.trackEvent(.skippedFirstOnboarding)
                                 onboardingManager.finish()
                             },
                             completion: {
@@ -550,6 +553,7 @@ struct NewModulesScreen: View {
             .animation(.spring(), value: showPopups)
             .preferredColorScheme(themeManager.currentTheme.isDark ? (themeManager.currentTheme.id != "MainColor" ? .dark : nil) : .light)
             .popup(allowToShow: $showPopups, currentIndex: $indexOfPopup) {
+                AnalyticsManager.shared.trackEvent(.skippedSecondPopupOnboarding)
                 UserDefaultsManager.isMainScreenPopupsShown = true
             }
             .onChange(of: showPopups) { val in

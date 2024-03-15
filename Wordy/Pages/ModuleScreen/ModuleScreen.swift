@@ -134,13 +134,16 @@ struct ModuleScreen: View {
 										if module.phrases.count >= 4 {
                                             viewModel.checkSubscriptionAndAccessability(module: module) { isAllow in
 												if isAllow {
+                                                    AnalyticsManager.shared.trackEvent(.tapOnLearnModule(.Available))
 													learnPageViewModel.module = module
 													showLearnPage.toggle()
 												} else {
+                                                    AnalyticsManager.shared.trackEvent(.tapOnLearnModule(.DisabledBecauseNeedSubscription))
 													viewModel.showPaywall()
 												}
 											}
 										} else {
+                                            AnalyticsManager.shared.trackEvent(.tapOnLearnModule(.DisabledBecauseLessThanRequiredCount))
 											viewModel.didTapPhraseCountAlert(module: module)
 										}
 									}
@@ -180,12 +183,14 @@ struct ModuleScreen: View {
 											module: $module,
 											phraseIndex: i,
 											onAddExampleTap: { index in
+                                                AnalyticsManager.shared.trackEvent(.didTapAddExample(.ModulePage))
 												viewModel.didTapAddExample(index: index)
 											},
 											onEditTap: { index in
 												currentEditPhraseIndex = index
 												showEditAlert.toggle()
 											}, onSpeachTap: { index in
+                                                AnalyticsManager.shared.trackEvent(.didTapOnSpeechButton)
                                                 viewModel.didTapSpeach(phrase: module.phrases[i])
 											} )
                                         .onTapGesture {
@@ -370,11 +375,13 @@ struct ModuleScreen: View {
             .onAppear {
                 self.emoji = module.emoji
                 self.moduleName = module.name
+                AnalyticsManager.shared.trackEvent(.openedModule)
             }
             .navigationBarItems(
                 trailing:
                     HStack {
                         Button(action: {
+                            AnalyticsManager.shared.trackEvent(.toggleNotificationButtonInsideModule)
                             toggleNotificationsState()
                         }) {
                             Image(systemName: module.isNotificationTurnedOn ? "bell.fill" : "bell")
@@ -491,8 +498,10 @@ struct ModuleScreen: View {
     
 	func didTapAddNewPhrase() {
 		if module.phrases.count < countOfWordsForFree || SubscriptionManager().userHasSubscription() {
+            AnalyticsManager.shared.trackEvent(.didTapAddNewPhrase(.DisabledBecauseMoreThanAllowedCount))
 			viewModel.showActionSheet = true
 		} else {
+            AnalyticsManager.shared.trackEvent(.didTapAddNewPhrase(.Available))
             withAnimation {
                 showPrePaywallAlert.toggle()
             }
@@ -702,6 +711,7 @@ struct UIKitActivityView: UIViewControllerRepresentable {
 		)
 		
 		if isPresented && uiViewController.presentedViewController == nil {
+            AnalyticsManager.shared.trackEvent(.didTapShareModule)
 			uiViewController.present(activityViewController, animated: true)
 		}
 		
