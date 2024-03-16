@@ -65,7 +65,7 @@ struct AuthPage: View {
 										  text: $viewModel.email,
 										  isFocused: $isFocused,
                                           isEmail: true)
-                            AuthTextField(placeholder: "Пароль",
+                            SecureAuthTextField(placeholder: "Пароль",
 										  text: $viewModel.password,
 										  isFocused: $isFocused,
                                           isEmail: false)
@@ -109,6 +109,9 @@ struct AuthPage: View {
 				}
 				.activity($viewModel.showActivity)
 			}
+            .onTapGesture {
+                UIApplication.shared.endEditing()
+            }
 		}
 		.alert(isPresented: $viewModel.showAlert) {
 			.init(title: Text(viewModel.alertText))
@@ -206,5 +209,34 @@ struct AuthTextField: View {
             }
             .tint(themeManager.currentTheme.accent)
 	}
+}
+
+struct SecureAuthTextField: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    var placeholder: String
+    @Binding var text: String
+    @Binding var isFocused: Bool
+    private let cornerRadius: CGFloat = 12
+    @FocusState var textFieldIsFocused: Bool
+    let isEmail: Bool
+    @EnvironmentObject var themeManager: ThemeManager
+    
+    var body: some View {
+        SecureField(placeholder.localize(), text: $text)
+            .offset(x: -16)
+            .textFieldStyle(.plain)
+            .padding()
+            .focused($textFieldIsFocused)
+            .background {
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .border(width: 0.5, edges: [.bottom], color: colorScheme == .dark ? .white : .black)
+                    .foregroundColor(.clear)
+            }
+            .onChange(of: textFieldIsFocused) { newValue in
+                isFocused = newValue
+            }
+            .tint(themeManager.currentTheme.accent)
+    }
 }
 
