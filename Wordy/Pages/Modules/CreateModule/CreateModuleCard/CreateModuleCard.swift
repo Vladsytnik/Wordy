@@ -156,6 +156,11 @@ struct CreateModuleCard: View {
                     }
             }
         }
+        .onChange(of: showEmojiView, perform: { value in
+            if showEmojiView {
+                AnalyticsManager.shared.trackEvent(.didTapOnChangeEmoji(.CreateNewModulePage))
+            }
+        })
 //		.offset(y: needAnimate ? 0 : 200)
 	}
     
