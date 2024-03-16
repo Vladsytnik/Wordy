@@ -34,32 +34,45 @@ struct InputRoundedTextArea: View {
 		ZStack {
 			Background(width: width, height: height)
 			VStack(alignment: .leading) {
-				TextField("Модуль".localize(), text: $moduleName)
-					.font(.system(size: 28, weight: .bold))
-					.focused($moduleNameIsFocused)
-                    .tint(themeManager.currentTheme.mainText)
-					.onSubmit {
-						guard !moduleName.isEmpty else {
-							self.presentation.wrappedValue.dismiss()
-							return
-						}
-//						NetworkManager.createModule(name: moduleName)
-						action()
-					}
-					.disabled(withoutKeyboard)
+                ZStack {
+                    TextField("", text: $moduleName)
+                        .font(.system(size: 28, weight: .bold))
+                        .focused($moduleNameIsFocused)
+                        .tint(themeManager.currentTheme.mainText)
+                        .onSubmit {
+                            guard !moduleName.isEmpty else {
+                                self.presentation.wrappedValue.dismiss()
+                                return
+                            }
+                            action()
+                        }
+                        .disabled(withoutKeyboard)
+                    
+                    HStack() {
+                        Text("Модуль".localize())
+                            .font(.system(size: 28, weight: .bold))
+                            .opacity(moduleName.count == 0 ? 1 : 0)
+                            .foregroundColor(themeManager.currentTheme.mainText.opacity(0.5))
+                            .onTapGesture {
+                                moduleNameIsFocused = true
+                            }
+                            .offset(x: 2)
+                        Spacer()
+                    }
+                }
 				Spacer()
-				HStack(alignment: .bottom) {
-					VStack(alignment: .leading, spacing: 10) {
-						Text(Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? "")
-						Text((Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? "") + ".app")
-					}
-					.font(.system(size: 12, weight: .medium))
-					.opacity(0.2)
-					Spacer()
-					Text("11/15")
-						.foregroundColor(Color(asset: Asset.Colors.moduleCardLightGray))
-						.opacity(0)
-				}
+//				HStack(alignment: .bottom) {
+//					VStack(alignment: .leading, spacing: 10) {
+//						Text(Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? "")
+//						Text((Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String ?? "") + ".app")
+//					}
+//					.font(.system(size: 12, weight: .medium))
+//					.opacity(0.2)
+//					Spacer()
+//					Text("11/15")
+//						.foregroundColor(Color(asset: Asset.Colors.moduleCardLightGray))
+//						.opacity(0)
+//				}
 			}
 			.foregroundColor(themeManager.currentTheme.mainText)
 			.offset(y: -5)

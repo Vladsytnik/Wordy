@@ -1595,16 +1595,16 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apphud/ApphudSDK";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
+				kind = exactVersion;
+				version = 3.0.0;
 			};
 		};
 		010C7E8F29AE7EA900133179 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/izyumkin/MCEmojiPicker";
 			requirement = {
-				kind = exactVersion;
-				version = 1.1.1;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
 			};
 		};
 		0113F9572A96799800566EAC /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */ = {

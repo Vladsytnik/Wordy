@@ -103,35 +103,66 @@ struct CreateModuleView: View {
 							}
 							Spacer()
 						}
-						if showEmojiView {
-//							EmojiView(show: $showEmojiView, txt: $emoji)
-							ZStack {
-								EmojiPopoverView(showEmojiView: $showEmojiView, emoji: $emoji)
-                                    .onAppear { AnalyticsManager.shared.trackEvent(.didTapOnChangeEmoji(.CreateNewModulePage)) }
-								VStack(alignment: .trailing) {
-									Spacer()
-									Button {
-										withAnimation {
-											showEmojiView.toggle()
-										}
-                                        isNeedOpenKeyboard = true
-									} label: {
-                                        Text("Готово".localize())
-											.bold()
-											.padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
-											.foregroundColor(themeManager.currentTheme.mainText)
-											.background {
-												RoundedRectangle(cornerRadius: 15)
-													.foregroundColor(themeManager.currentTheme.accent)
-											}
-											.opacity(0.95)
-									}
-								}
-								.padding()
-								.offset(y: -64)
-							}
-						}
-					}
+//						if showEmojiView {
+////							EmojiView(show: $showEmojiView, txt: $emoji)
+//							ZStack {
+//								EmojiPopoverView(showEmojiView: $showEmojiView, emoji: $emoji)
+//                                    .onAppear { AnalyticsManager.shared.trackEvent(.didTapOnChangeEmoji(.CreateNewModulePage)) }
+//								VStack(alignment: .trailing) {
+//									Spacer()
+//									Button {
+//										withAnimation {
+//											showEmojiView.toggle()
+//										}
+//                                        isNeedOpenKeyboard = true
+//									} label: {
+//                                        Text("Готово".localize())
+//											.bold()
+//											.padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
+//											.foregroundColor(themeManager.currentTheme.mainText)
+//											.background {
+//												RoundedRectangle(cornerRadius: 15)
+//													.foregroundColor(themeManager.currentTheme.accent)
+//											}
+//											.opacity(0.95)
+//									}
+//								}
+//								.padding()
+//								.offset(y: -64)
+//							}
+//						}
+                        
+                        
+//                        if showEmojiView {
+////                            EmojiView(show: $showEmojiView, txt: $emoji)
+//                            
+//                            ZStack {
+////                                EmojiPopoverView(showEmojiView: $showEmojiView, emoji: $emoji)
+////                                    .onAppear { AnalyticsManager.shared.trackEvent(.didTapOnChangeEmoji(.CreateNewModulePage)) }
+//                                VStack(alignment: .trailing) {
+//                                    Spacer()
+//                                    Button {
+//                                        withAnimation {
+//                                            showEmojiView.toggle()
+//                                        }
+//                                        isNeedOpenKeyboard = true
+//                                    } label: {
+//                                        Text("Готово".localize())
+//                                            .bold()
+//                                            .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
+//                                            .foregroundColor(themeManager.currentTheme.mainText)
+//                                            .background {
+//                                                RoundedRectangle(cornerRadius: 15)
+//                                                    .foregroundColor(themeManager.currentTheme.accent)
+//                                            }
+//                                            .opacity(0.95)
+//                                    }
+//                                }
+//                                .padding()
+//                                .offset(y: -64)
+//                            }
+//                        }
+                    }
 					.frame(width: geo.size.width, height: geo.size.height)
 					.onAppear{
 						withAnimation(.spring()) {
@@ -141,16 +172,31 @@ struct CreateModuleView: View {
 				}
 //			}
 			.activity($showActivity)
-			.interactiveDismissDisabled(showEmojiView)
+//			.interactiveDismissDisabled(showEmojiView)
             .onChange(of: emoji) { _ in
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     self.isNeedOpenKeyboard.toggle()
-//                }
+                }
+            }
+            .onChange(of: showEmojiView) { _ in
+                if !showEmojiView {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.isNeedOpenKeyboard.toggle()
+                    }
+                }
             }
             .onAppear {
 //                isFirstModuleRewardShown = false
                 AnalyticsManager.shared.trackEvent(.openCreateNewModulePage)
             }
+//            .overlay {
+//                MCEmojiPickerRepresentableController(
+//                    isPresented: $showEmojiView,
+//                    selectedEmoji: $emoji,
+//                    arrowDirection: .none
+//                )
+//                .allowsHitTesting(false)
+//            }
     }
 	
 	private func createModule() {

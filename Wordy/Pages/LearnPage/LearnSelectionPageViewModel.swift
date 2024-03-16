@@ -285,6 +285,13 @@ class LearnSelectionPageViewModel: ObservableObject {
 	func highlightDifferences2(original: String, answer response: String, attr: NSMutableAttributedString? = nil ) -> AttributedString {
 		var result = attr == nil ? NSMutableAttributedString() : attr!
 		originalAttributedPhrase = AttributedString(stringLiteral: original)
+        
+        let distance = getDistance(original, response)
+        let percentageOfFailureInWords = Int((CGFloat(distance) / CGFloat(original.count)) * 100)
+        if percentageOfFailureInWords >= 50 {
+            // если процент ошибок во фразе больше 50, то просто выводим то что написали
+            return AttributedString(response, attributes: .init([NSAttributedString.Key.foregroundColor : UIColor.red]))
+        }
 		
 		// Устанавливаем атрибуты
 		let regularAttributes: [NSAttributedString.Key: Any] = [
@@ -525,237 +532,237 @@ class LearnSelectionPageViewModel: ObservableObject {
 	}
 
 	
-	func highlightDifferences(original: String, answer response: String) -> AttributedString {
-		var result = NSMutableAttributedString()
-		answeredAttributedPhrase = AttributedString(stringLiteral: response)
-		
-		// Устанавливаем атрибуты
-		let regularAttributes: [NSAttributedString.Key: Any] = [
-			.foregroundColor: themeManager.currentTheme.mainText
-		]
-		
-		let highlightAttributes: [NSAttributedString.Key: Any] = [
-			.foregroundColor: UIColor.red
-		]
-		
-		// Максимальная длина
-		let originalWords = original.components(separatedBy: " ")
-		let responseWords = response.components(separatedBy: " ")
-		
-		let maxCount = max(originalWords.count, responseWords.count)
-		
-		if responseWords.count == originalWords.count {
-			for index in 0..<maxCount {
-				var originalWord = ""
-				var responseWord = ""
-				
-				if index < originalWords.count {
-					originalWord = originalWords[index]
-				}
-				
-				if index < responseWords.count {
-					responseWord = responseWords[index]
-				}
-				
-				var isMainPartOfWordIsTheSame = true
-				
-				for charIndex in 0..<max(maxCount, originalWord.count, responseWord.count) {
-					var attributes = regularAttributes
-					
-					if charIndex < originalWord.count, charIndex < responseWord.count {
-						let originalIndex = originalWord.index(originalWord.startIndex, offsetBy: charIndex)
-						let responseIndex = responseWord.index(responseWord.startIndex, offsetBy: charIndex)
-						
-						let originalChar = originalWord[originalIndex]
-						let responseChar = responseWord[responseIndex]
-						
-						if originalChar.lowercased() != responseChar.lowercased()
-						//						|| responseWord.count > originalWord.count
-						{
-							attributes = highlightAttributes
-						}
-						
-						if originalChar.lowercased() != responseChar.lowercased() {
-							isMainPartOfWordIsTheSame = false
-						}
-						
-						let attributedChar = NSAttributedString(string: String(originalChar), attributes: attributes)
-						result.append(attributedChar)
-					} else if charIndex < originalWord.count {
-						let originalIndex = originalWord.index(originalWord.startIndex, offsetBy: charIndex)
-						let originalChar = originalWord[originalIndex]
-						
-						let attributedChar = NSAttributedString(string: String(originalChar), attributes: highlightAttributes)
-						result.append(attributedChar)
-					} else if charIndex < responseWord.count {
-						// эта часть добавляет в конец слова часть ответа
-						
-						if isMainPartOfWordIsTheSame {
-							// если в ответ входит полностью слово, но еще есть после него что-то
-							// то мы выделяем лишь оставшуюся часть
-							let responseIndex = responseWord.index(responseWord.startIndex, offsetBy: charIndex)
-							let responseChar = responseWord[responseIndex]
-							
-							let attributedChar = NSAttributedString(string: String(responseChar), attributes: highlightAttributes)
-							result.append(attributedChar)
-						} else {
-							// инчае мы выделяем красным все слово
-//							let responseIndex = originalWord.index(originalWord.index(originalWord.startIndex, offsetBy: charIndex), offsetBy: originalWord.count - 1 - charIndex)
-//							let responseChar = originalWord[responseIndex]
+//	func highlightDifferences(original: String, answer response: String) -> AttributedString {
+//		var result = NSMutableAttributedString()
+//		answeredAttributedPhrase = AttributedString(stringLiteral: response)
+//		
+//		// Устанавливаем атрибуты
+//		let regularAttributes: [NSAttributedString.Key: Any] = [
+//			.foregroundColor: themeManager.currentTheme.mainText
+//		]
+//		
+//		let highlightAttributes: [NSAttributedString.Key: Any] = [
+//			.foregroundColor: UIColor.red
+//		]
+//		
+//		// Максимальная длина
+//		let originalWords = original.components(separatedBy: " ")
+//		let responseWords = response.components(separatedBy: " ")
+//		
+//		let maxCount = max(originalWords.count, responseWords.count)
+//		
+//		if responseWords.count == originalWords.count {
+//			for index in 0..<maxCount {
+//				var originalWord = ""
+//				var responseWord = ""
+//				
+//				if index < originalWords.count {
+//					originalWord = originalWords[index]
+//				}
+//				
+//				if index < responseWords.count {
+//					responseWord = responseWords[index]
+//				}
+//				
+//				var isMainPartOfWordIsTheSame = true
+//				
+//				for charIndex in 0..<max(maxCount, originalWord.count, responseWord.count) {
+//					var attributes = regularAttributes
+//					
+//					if charIndex < originalWord.count, charIndex < responseWord.count {
+//						let originalIndex = originalWord.index(originalWord.startIndex, offsetBy: charIndex)
+//						let responseIndex = responseWord.index(responseWord.startIndex, offsetBy: charIndex)
+//						
+//						let originalChar = originalWord[originalIndex]
+//						let responseChar = responseWord[responseIndex]
+//						
+//						if originalChar.lowercased() != responseChar.lowercased()
+//						//						|| responseWord.count > originalWord.count
+//						{
+//							attributes = highlightAttributes
+//						}
+//						
+//						if originalChar.lowercased() != responseChar.lowercased() {
+//							isMainPartOfWordIsTheSame = false
+//						}
+//						
+//						let attributedChar = NSAttributedString(string: String(originalChar), attributes: attributes)
+//						result.append(attributedChar)
+//					} else if charIndex < originalWord.count {
+//						let originalIndex = originalWord.index(originalWord.startIndex, offsetBy: charIndex)
+//						let originalChar = originalWord[originalIndex]
+//						
+//						let attributedChar = NSAttributedString(string: String(originalChar), attributes: highlightAttributes)
+//						result.append(attributedChar)
+//					} else if charIndex < responseWord.count {
+//						// эта часть добавляет в конец слова часть ответа
+//						
+//						if isMainPartOfWordIsTheSame {
+//							// если в ответ входит полностью слово, но еще есть после него что-то
+//							// то мы выделяем лишь оставшуюся часть
+//							let responseIndex = responseWord.index(responseWord.startIndex, offsetBy: charIndex)
+//							let responseChar = responseWord[responseIndex]
+//							
 //							let attributedChar = NSAttributedString(string: String(responseChar), attributes: highlightAttributes)
 //							result.append(attributedChar)
-							
-//							let newResult = result
-//							for charIndex2 in 0..<originalWord.count {
-//								let originalIndex = originalWord.index(originalWord.startIndex, offsetBy: charIndex2)
-//								let originalChar = originalWord[originalIndex]
-//								let attributedChar = NSAttributedString(string: String(originalChar), attributes: highlightAttributes)
-//								newResult.append(attributedChar)
-//							}
-//							result = newResult
-						}
-					}
-				}
-				
-				// Add a space between words
-				if index != maxCount - 1 {
-					let attributedSpace = NSAttributedString(string: " ", attributes: regularAttributes)
-					result.append(attributedSpace)
-				}
-			}
-		} else if responseWords.count < originalWords.count {
-			// если в ответе меньше слов чем должно быть
-//			var newResult = NSMutableAttributedString()
-			var notLastDifference = false
-			var diffWords: [String] = findMissingWords(original, response)
-			
-//			var index = 0
-//			for word in originalWords {
-//				if index < responseWords.count, responseWords[index] != word {
-//					diffWords.append(word)
-//				} else if index < responseWords.count, responseWords[index] == word {
-//					index += 1
+//						} else {
+//							// инчае мы выделяем красным все слово
+////							let responseIndex = originalWord.index(originalWord.index(originalWord.startIndex, offsetBy: charIndex), offsetBy: originalWord.count - 1 - charIndex)
+////							let responseChar = originalWord[responseIndex]
+////							let attributedChar = NSAttributedString(string: String(responseChar), attributes: highlightAttributes)
+////							result.append(attributedChar)
+//							
+////							let newResult = result
+////							for charIndex2 in 0..<originalWord.count {
+////								let originalIndex = originalWord.index(originalWord.startIndex, offsetBy: charIndex2)
+////								let originalChar = originalWord[originalIndex]
+////								let attributedChar = NSAttributedString(string: String(originalChar), attributes: highlightAttributes)
+////								newResult.append(attributedChar)
+////							}
+////							result = newResult
+//						}
+//					}
+//				}
+//				
+//				// Add a space between words
+//				if index != maxCount - 1 {
+//					let attributedSpace = NSAttributedString(string: " ", attributes: regularAttributes)
+//					result.append(attributedSpace)
 //				}
 //			}
-			
-			for word in originalWords {
-				if diffWords.contains(where: { $0 == word }) {
-					let attributed = NSAttributedString(string: word, attributes: highlightAttributes)
-					result.append(attributed)
-					let attributedSpace = NSAttributedString(string: " ", attributes: regularAttributes)
-					result.append(attributedSpace)
-				} else {
-					let attributed = NSAttributedString(string: word)
-					result.append(attributed)
-					let attributedSpace = NSAttributedString(string: " ")
-					result.append(attributedSpace)
-				}
-			}
-			
-//			for (responseWord, origWord) in zip(responseWords, originalWords) {
-//				if responseWord != origWord {
-//					let attributed = NSAttributedString(string: responseWord, attributes: highlightAttributes)
+//		} else if responseWords.count < originalWords.count {
+//			// если в ответе меньше слов чем должно быть
+////			var newResult = NSMutableAttributedString()
+//			var notLastDifference = false
+//			var diffWords: [String] = findMissingWords(original, response)
+//			
+////			var index = 0
+////			for word in originalWords {
+////				if index < responseWords.count, responseWords[index] != word {
+////					diffWords.append(word)
+////				} else if index < responseWords.count, responseWords[index] == word {
+////					index += 1
+////				}
+////			}
+//			
+//			for word in originalWords {
+//				if diffWords.contains(where: { $0 == word }) {
+//					let attributed = NSAttributedString(string: word, attributes: highlightAttributes)
 //					result.append(attributed)
-//					notLastDifference = true
+//					let attributedSpace = NSAttributedString(string: " ", attributes: regularAttributes)
+//					result.append(attributedSpace)
 //				} else {
-//					let attributed = NSAttributedString(string: responseWord)
+//					let attributed = NSAttributedString(string: word)
 //					result.append(attributed)
+//					let attributedSpace = NSAttributedString(string: " ")
+//					result.append(attributedSpace)
 //				}
+//			}
+//			
+////			for (responseWord, origWord) in zip(responseWords, originalWords) {
+////				if responseWord != origWord {
+////					let attributed = NSAttributedString(string: responseWord, attributes: highlightAttributes)
+////					result.append(attributed)
+////					notLastDifference = true
+////				} else {
+////					let attributed = NSAttributedString(string: responseWord)
+////					result.append(attributed)
+////				}
+////				let attributedSpace = NSAttributedString(string: " ", attributes: regularAttributes)
+////				result.append(attributedSpace)
+////			}
+////
+////			if !notLastDifference {
+////				let attributed = NSAttributedString(string: originalWords.last ?? "", attributes: highlightAttributes)
+////				result.append(attributed)
+////			}
+//		} else {
+//			// если в ответе больше слов, чем должно быть, то просто выделяем красным лишние слова в ответе
+//			
+//			var answeredAttributedResult = NSMutableAttributedString()
+//			let diffWords: [String] = findMissingWords(response, original)
+//			
+//			for word in responseWords {
+//				if diffWords.contains(where: { $0 == word }) {
+//					let attributed = NSAttributedString(string: word, attributes: highlightAttributes)
+//					answeredAttributedResult.append(attributed)
+//					let attributedSpace = NSAttributedString(string: " ", attributes: regularAttributes)
+//					answeredAttributedResult.append(attributedSpace)
+//				} else {
+//					let attributed = NSAttributedString(string: word)
+//					answeredAttributedResult.append(attributed)
+//					let attributedSpace = NSAttributedString(string: " ")
+//					answeredAttributedResult.append(attributedSpace)
+//				}
+//			}
+//			
+//			self.answeredAttributedPhrase = AttributedString(answeredAttributedResult)
+//			
+//			// аттрибутируем ориг фразу
+//			
+//			for index in 0..<originalWords.count {
+//				var originalWord = ""
+//				originalWord = originalWords[index]
+//
+//				for charIndex in 0..<originalWord.count {
+//					let originalIndex = originalWord.index(originalWord.startIndex, offsetBy: charIndex)
+//					let originalChar = originalWord[originalIndex]
+////					let attributedChar = NSAttributedString(string: String(originalChar), attributes: highlightAttributes)
+//					let attributedChar = NSAttributedString(string: String(originalChar))
+//					result.append(attributedChar)
+//				}
+//			}
+//		}
+//		
+//		return AttributedString(result)
+//
+//		
+//		/*
+//		let result = NSMutableAttributedString()
+//		
+//		let regularAttributes: [NSAttributedString.Key: Any] = [
+//			.foregroundColor: themeManager.currentTheme.mainText
+//		]
+//		
+//		let highlightAttributes: [NSAttributedString.Key: Any] = [
+//			.foregroundColor: UIColor.red,
+//			.font: UIFont.systemFont(ofSize: 14)
+//		]
+//		
+//		let originalWords = original.components(separatedBy: " ")
+//		let responseWords = response.components(separatedBy: " ")
+//		
+//		let maxCount = max(originalWords.count, responseWords.count)
+//		
+//		for index in 0..<maxCount {
+//			var originalWord = ""
+//			var responseWord = ""
+//			
+//			if index < originalWords.count {
+//				originalWord = originalWords[index]
+//			}
+//			
+//			if index < responseWords.count {
+//				responseWord = responseWords[index]
+//			}
+//			
+//			if originalWord == responseWord {
+//				let attributedWord = NSAttributedString(string: originalWord, attributes: regularAttributes)
+//				result.append(attributedWord)
+//			} else {
+//				let attributedWord = NSAttributedString(string: originalWord, attributes: highlightAttributes)
+//				result.append(attributedWord)
+//			}
+//			
+//			if index != maxCount - 1 {
 //				let attributedSpace = NSAttributedString(string: " ", attributes: regularAttributes)
 //				result.append(attributedSpace)
 //			}
-//
-//			if !notLastDifference {
-//				let attributed = NSAttributedString(string: originalWords.last ?? "", attributes: highlightAttributes)
-//				result.append(attributed)
-//			}
-		} else {
-			// если в ответе больше слов, чем должно быть, то просто выделяем красным лишние слова в ответе
-			
-			var answeredAttributedResult = NSMutableAttributedString()
-			let diffWords: [String] = findMissingWords(response, original)
-			
-			for word in responseWords {
-				if diffWords.contains(where: { $0 == word }) {
-					let attributed = NSAttributedString(string: word, attributes: highlightAttributes)
-					answeredAttributedResult.append(attributed)
-					let attributedSpace = NSAttributedString(string: " ", attributes: regularAttributes)
-					answeredAttributedResult.append(attributedSpace)
-				} else {
-					let attributed = NSAttributedString(string: word)
-					answeredAttributedResult.append(attributed)
-					let attributedSpace = NSAttributedString(string: " ")
-					answeredAttributedResult.append(attributedSpace)
-				}
-			}
-			
-			self.answeredAttributedPhrase = AttributedString(answeredAttributedResult)
-			
-			// аттрибутируем ориг фразу
-			
-			for index in 0..<originalWords.count {
-				var originalWord = ""
-				originalWord = originalWords[index]
-
-				for charIndex in 0..<originalWord.count {
-					let originalIndex = originalWord.index(originalWord.startIndex, offsetBy: charIndex)
-					let originalChar = originalWord[originalIndex]
-//					let attributedChar = NSAttributedString(string: String(originalChar), attributes: highlightAttributes)
-					let attributedChar = NSAttributedString(string: String(originalChar))
-					result.append(attributedChar)
-				}
-			}
-		}
-		
-		return AttributedString(result)
-
-		
-		/*
-		let result = NSMutableAttributedString()
-		
-		let regularAttributes: [NSAttributedString.Key: Any] = [
-			.foregroundColor: themeManager.currentTheme.mainText
-		]
-		
-		let highlightAttributes: [NSAttributedString.Key: Any] = [
-			.foregroundColor: UIColor.red,
-			.font: UIFont.systemFont(ofSize: 14)
-		]
-		
-		let originalWords = original.components(separatedBy: " ")
-		let responseWords = response.components(separatedBy: " ")
-		
-		let maxCount = max(originalWords.count, responseWords.count)
-		
-		for index in 0..<maxCount {
-			var originalWord = ""
-			var responseWord = ""
-			
-			if index < originalWords.count {
-				originalWord = originalWords[index]
-			}
-			
-			if index < responseWords.count {
-				responseWord = responseWords[index]
-			}
-			
-			if originalWord == responseWord {
-				let attributedWord = NSAttributedString(string: originalWord, attributes: regularAttributes)
-				result.append(attributedWord)
-			} else {
-				let attributedWord = NSAttributedString(string: originalWord, attributes: highlightAttributes)
-				result.append(attributedWord)
-			}
-			
-			if index != maxCount - 1 {
-				let attributedSpace = NSAttributedString(string: " ", attributes: regularAttributes)
-				result.append(attributedSpace)
-			}
-		}
-		
-		return AttributedString(result)
-*/
-	}
+//		}
+//		
+//		return AttributedString(result)
+//*/
+//	}
 	
 	func findMissingWords(_ firstString: String, _ secondString: String) -> [String] {
 		// Преобразуйте вторую строку в нижний регистр и разделите ее на слова

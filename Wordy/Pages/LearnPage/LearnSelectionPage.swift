@@ -372,12 +372,14 @@ struct LearnTextField: View {
 							.foregroundColor(themeManager.currentTheme.mainText.opacity(0.3))
 							.font(.system(size: fontSize, weight: .medium))
 							.opacity(text.isEmpty ? 1 : 0)
+                            .padding(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 0))
 					} else {
 						Text(placeholder)
 							.foregroundColor(themeManager.currentTheme.mainText.opacity(0.3))
 							.font(.system(size: fontSize, weight: .medium))
 							.opacity(text.isEmpty ? 1 : 0)
 							.lineLimit(1)
+                            .padding(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 0))
 					}
 					
 					Spacer()

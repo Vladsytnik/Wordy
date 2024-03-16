@@ -6,6 +6,38 @@
 //
 
 import SwiftUI
+import MCEmojiPicker
+
+
+extension View {
+    @ViewBuilder public func myEmojiPicker(
+        isPresented: Binding<Bool>,
+        selectedEmoji: Binding<String>,
+        arrowDirection: MCPickerArrowDirection? = nil,
+        customHeight: CGFloat? = nil,
+        horizontalInset: CGFloat? = nil,
+        isDismissAfterChoosing: Bool? = nil,
+        selectedEmojiCategoryTintColor: UIColor? = nil,
+        feedBackGeneratorStyle: UIImpactFeedbackGenerator.FeedbackStyle? = nil,
+        colorScheme: ColorScheme
+    ) -> some View {
+        self.overlay(
+            MCEmojiPickerRepresentableController(
+                isPresented: isPresented,
+                selectedEmoji: selectedEmoji,
+                arrowDirection: arrowDirection,
+                customHeight: customHeight,
+                horizontalInset: horizontalInset,
+                isDismissAfterChoosing: isDismissAfterChoosing,
+                selectedEmojiCategoryTintColor: selectedEmojiCategoryTintColor,
+                feedBackGeneratorStyle: feedBackGeneratorStyle
+            )
+                .allowsHitTesting(false)
+                .colorScheme(colorScheme)
+        )
+    }
+}
+
 
 struct CreateModuleCard: View {
     
@@ -17,6 +49,8 @@ struct CreateModuleCard: View {
 	@Binding var emoji: String
 	@Binding var moduleName: String
     @Binding var isNeedOpenKeyboard: Bool
+    
+    @State var internalShowEmojiView = false
     
     var isNotAbleToChangeIcon = false
     
@@ -36,6 +70,7 @@ struct CreateModuleCard: View {
 		width / 0.9268
 	}
     
+    @Environment(\.colorScheme) var colorScheme
 
     @StateObject private var onboardingManager = OnboardingManager(screen: .moduleScreen,
                                                                    countOfSteps: 1)
@@ -55,18 +90,31 @@ struct CreateModuleCard: View {
 					withAnimation(.spring()) {
 						UIApplication.shared.endEditing()
 						showEmojiView = true
+//                        internalShowEmojiView = true
 					}
 				} label: {
 					ZStack(alignment: .topTrailing) {
 						Text(emoji)
 							.font(.system(size: width / 3.16666))
 						Image(asset: Asset.Images.plusIcon)
+//                        Image(systemName: "ellipsis.circle.fill")
 							.resizable()
-							.frame(width: 30, height: 30)
+							.frame(width: 24, height: 24)
+                            .background {
+                                Circle()
+                                    .foregroundColor(isDark() ? .black : .white)
+                                    .frame(width: 16, height: 16)
+                            }
 							.padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 8))
-							.opacity(emoji == "📄" && !isNotAbleToChangeIcon ? 1 : 0)
+                            .opacity(emoji == "📄" && !isNotAbleToChangeIcon ? 1 : 0)
 					}
 				}
+                .myEmojiPicker(
+                    isPresented: $showEmojiView,
+                    selectedEmoji: $emoji,
+                    selectedEmojiCategoryTintColor: UIColor(themeManager.currentTheme.accent),
+                    colorScheme: isDark() ? .light : .dark
+                )
                 .mytooltip(onboardingManager.currentStepIndex == 0
                           && !UserDefaultsManager.isUserSawCreateNewModule
                            && !isDisabledOnboarding,
@@ -108,8 +156,19 @@ struct CreateModuleCard: View {
                     }
             }
         }
+        .onChange(of: showEmojiView, perform: { value in
+            if showEmojiView {
+                AnalyticsManager.shared.trackEvent(.didTapOnChangeEmoji(.CreateNewModulePage))
+            }
+        })
 //		.offset(y: needAnimate ? 0 : 200)
 	}
+    
+    private func isDark() -> Bool {
+        themeManager.currentTheme.isSupportLightTheme
+        ? colorScheme != .light
+        : themeManager.currentTheme.isDark
+    }
 }
 
 struct CreateModuleCard_Previews: PreviewProvider {

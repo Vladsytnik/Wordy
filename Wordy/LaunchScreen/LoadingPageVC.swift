@@ -8,6 +8,7 @@
 import SwiftUI
 import ImageIO
 import CoreHaptics
+import Pow
 
 enum LoadingPageState: Int {
     case initial = 0
@@ -43,6 +44,8 @@ struct LoadingPage: View {
                                 1.1)
                 .shadow(color: .white.opacity(0.5),
                         radius: animationIndex > intFrom(state: .initial) ? 10 : 0)
+                .conditionalEffect(.repeat(.glow(color: themeManager.currentTheme.mainText.opacity(0.8), radius: 16), every: 1.3),
+                                   condition:  animationIndex < intFrom(state: .isEncreasing))
             
             YellowCircle()
                 .scaleEffect(animationIndex == intFrom(state: .initial) ? 1 :
@@ -94,6 +97,7 @@ struct LoadingPage: View {
     
     func startAnimation() {
         startHaptic()
+        
         print("loading page test: началась анимация Loading Page")
         withAnimation(.spring.delay(0.3)) {
             animationIndex += 1
