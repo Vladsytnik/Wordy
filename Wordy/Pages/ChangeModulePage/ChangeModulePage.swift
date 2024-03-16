@@ -119,33 +119,33 @@ struct ChangeModulePage: View {
                             
                             Spacer()
                         }
-                        if showEmojiView {
-//                            EmojiView(show: $showEmojiView, txt: $emoji)
-                            ZStack {
-                                EmojiPopoverView(showEmojiView: $showEmojiView, emoji: $currentEmoji)
-                                VStack(alignment: .trailing) {
-                                    Spacer()
-                                    Button {
-//                                        withAnimation {
-                                            showEmojiView.toggle()
-//                                        }
-//                                        isNeedOpenKeyboard = true
-                                    } label: {
-                                        Text("Готово".localize())
-                                            .bold()
-                                            .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
-                                            .foregroundColor(themeManager.currentTheme.mainText)
-                                            .background {
-                                                RoundedRectangle(cornerRadius: 15)
-                                                    .foregroundColor(themeManager.currentTheme.accent)
-                                            }
-                                            .opacity(0.95)
-                                    }
-                                }
-                                .padding()
-                                .offset(y: -64)
-                            }
-                        }
+//                        if showEmojiView {
+////                            EmojiView(show: $showEmojiView, txt: $emoji)
+//                            ZStack {
+//                                EmojiPopoverView(showEmojiView: $showEmojiView, emoji: $currentEmoji)
+//                                VStack(alignment: .trailing) {
+//                                    Spacer()
+//                                    Button {
+////                                        withAnimation {
+//                                            showEmojiView.toggle()
+////                                        }
+////                                        isNeedOpenKeyboard = true
+//                                    } label: {
+//                                        Text("Готово".localize())
+//                                            .bold()
+//                                            .padding(EdgeInsets(top: 12, leading: 30, bottom: 12, trailing: 30))
+//                                            .foregroundColor(themeManager.currentTheme.mainText)
+//                                            .background {
+//                                                RoundedRectangle(cornerRadius: 15)
+//                                                    .foregroundColor(themeManager.currentTheme.accent)
+//                                            }
+//                                            .opacity(0.95)
+//                                    }
+//                                }
+//                                .padding()
+//                                .offset(y: -64)
+//                            }
+//                        }
                     }
                     .frame(width: geo.size.width, height: geo.size.height)
                     .onAppear{
@@ -156,11 +156,11 @@ struct ChangeModulePage: View {
                 }
 //            }
             .activity($showActivity)
-            .interactiveDismissDisabled(showEmojiView)
+//            .interactiveDismissDisabled(showEmojiView)
             .onChange(of: currentEmoji) { _ in
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                    self.isNeedOpenKeyboard.toggle()
-//                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.isNeedOpenKeyboard.toggle()
+                }
             }
             .onAppear {
                 currentEmoji = emoji

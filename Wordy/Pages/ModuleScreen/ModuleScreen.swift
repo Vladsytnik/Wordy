@@ -406,7 +406,7 @@ struct ModuleScreen: View {
                     ChangeModulePage(module:module,
                                      moduleName: $moduleName,
                                      emoji: $emoji)
-                    .presentationDetents([.medium])
+//                    .presentationDetents([.medium])
                 } else {
                     ChangeModulePage(module:module,
                                      moduleName: $moduleName,

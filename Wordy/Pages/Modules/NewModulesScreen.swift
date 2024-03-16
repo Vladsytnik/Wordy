@@ -99,13 +99,16 @@ struct NewModulesScreen: View {
                             VStack {
 //                                RefreshControl(coordinateSpace: .named("RefreshControl")) { pullDownToRefresh() }
                                 
-                                HStack {
-                                    Text("Модули".localize())
-                                        .font(.title)
-                                        .bold()
-                                        .padding(.horizontal)
-                                    Spacer()
-                                }
+//                                HStack {
+//                                    Text("Модули".localize())
+//                                        .font(.title)
+//                                        .bold()
+//                                        .padding(.horizontal)
+//                                    Spacer()
+//                                }
+                                Rectangle()
+                                    .foregroundColor(.clear)
+                                    .frame(height: 16)
                                 
                                 if (!onboardingManager.isOnboardingMode || UserDefaultsManager.isNotFirstLaunchOfModulesPage)
                                     && UserDefaultsManager.isMainScreenPopupsShown {
