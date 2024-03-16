@@ -58,8 +58,19 @@ struct SearchTextField: View {
 											Spacer()
 										}
 									}
-								}
-							}
+                                    
+                                    Image(systemName: "plus")
+                                        .rotationEffect(.degrees(45))
+                                        .scaleEffect(1.3)
+                                        .foregroundColor(themeManager.currentTheme.mainText.opacity(0.8))
+                                        .opacity(searchText.count > 0 ? 1 : 0)
+                                        .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 10))
+                                        .onTapGesture {
+                                            searchText = ""
+                                        }
+                                        .animation(.spring, value: searchText.count)
+                                }
+                            }
 					}
 				}
 			}
