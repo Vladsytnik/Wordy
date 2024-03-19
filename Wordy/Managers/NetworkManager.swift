@@ -918,7 +918,7 @@ class NetworkManager {
 		request.httpMethod = "POST";
 		request.allHTTPHeaderFields = [
 			"Content-Type" : "application/json",
-			"Authorization" : "Api-Key AQVN0OEuE0aqTVasJb1JxIBXZpsvwCUx2xiZCSk7"
+            "Authorization" : ApiKeys.YandexKey.value()
 		]
 		
 		let body = [
