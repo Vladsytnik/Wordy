@@ -726,7 +726,7 @@ struct NewModulesScreen: View {
     }
     
     private func checkSubscriptionAndCountOfGroups(isAllow: ((Bool) -> Void)) {
-        isAllow(subscriptionManager.userHasSubscription()
+        isAllow(subscriptionManager.isUserHasSubscription
                 || dataManager.groups.count < macCountOfFreeGroups)
     }
 }
@@ -739,7 +739,7 @@ struct NewModulesScreen_Previews: PreviewProvider {
                 .environmentObject(Router())
                 .environmentObject(DeeplinkManager())
                 .environmentObject(ThemeManager())
-                .environmentObject(SubscriptionManager())
+                .environmentObject(SubscriptionManager.shared)
         }
     }
 }

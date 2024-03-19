@@ -12,6 +12,7 @@ struct Paywall: View {
 	
 	@EnvironmentObject var themeManager: ThemeManager
 	@ObservedObject var viewModel = PaywallViewModel()
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
 	@Binding var isOpened: Bool
 	@State var isOnAppear = false
 	
@@ -212,7 +213,8 @@ struct Paywall: View {
                 print("Subscr print: ", result)
                 if result.success {
                     print("Subscr print: success")
-                    NetworkManager.updateSubscriptionInfo()
+                    subscriptionManager.updateDate()
+                    subscriptionManager.isUserHasSubscription = true
                     viewModel.isNeedToClosePaywall = true
                     showCongratsAlert()
                 } else {
@@ -224,9 +226,10 @@ struct Paywall: View {
     }
     
     private func showCongratsAlert() {
-        viewModel.alertTitle = "Поздравляем, оплата прошла успешно!".localize() + "\n"
-        viewModel.alertText = "Спасибо, что поддерживаете нас! <3".localize() + "\n\n" + "Теперь вам доступны все возможности приложения без ограничений!".localize()
-        viewModel.showAlert.toggle()
+//        viewModel.alertTitle = "Поздравляем, оплата прошла успешно!".localize() + "\n"
+//        viewModel.alertText = "Спасибо, что поддерживаете нас! <3".localize() + "\n\n" + "Теперь вам доступны все возможности приложения без ограничений!".localize()
+//        viewModel.showAlert.toggle()
+        closePaywall()
     }
     
     private func closePaywall() {
@@ -237,6 +240,7 @@ struct Paywall: View {
 struct Paywall_Previews: PreviewProvider {
     static var previews: some View {
 		Paywall(isOpened: .constant(true))
+            .environmentObject(SubscriptionManager.shared)
     }
 }
 

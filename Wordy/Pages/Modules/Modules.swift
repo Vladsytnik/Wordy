@@ -539,10 +539,6 @@ class ScrollToModel: ObservableObject {
 //		}
 //	}
 //	
-//	private func checkSubscriptionAndCountOfGroups(isAllow: ((Bool) -> Void)) {
-//		isAllow(SubscriptionManager().userHasSubscription()
-//				|| groups.count < macCountOfFreeGroups)
-//	}
 //}
 
 struct BlurNavBar: View {

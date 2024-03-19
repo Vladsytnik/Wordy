@@ -29,6 +29,8 @@ class ModuleScreenViewModel: ObservableObject {
 	@Published var phraseIndexForEdit = 0
 	
 	let synthesizer = AVSpeechSynthesizer()
+    
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
 	
 	var selectedWordIndex = 0
 	var alert = (title: "Упс! Произошла ошибка...".localize(), description: "")
@@ -49,7 +51,7 @@ class ModuleScreenViewModel: ObservableObject {
 	}
     
     func setToModuleTeacherMode(module: Module, successCallback: (() -> Void)?) {
-        guard SubscriptionManager().userHasSubscription() else {
+        guard subscriptionManager.isUserHasSubscription else {
             return
         }
         
@@ -131,9 +133,7 @@ class ModuleScreenViewModel: ObservableObject {
 	
 	func checkSubscriptionAndAccessability(module: Module, isAllow: ((Bool) -> Void)) {
 		let countOfStartingLearnMode =  UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
-		let subscriptionManager = SubscriptionManager()
-		let test = subscriptionManager.userHasSubscription()
-		isAllow(subscriptionManager.userHasSubscription()
+		isAllow(subscriptionManager.isUserHasSubscription
 				|| (countOfStartingLearnMode < maxCountOfStartingLearnMode
                     && !module.isBlockedFreeFeatures)
                 || module.acceptedAsStudent)

@@ -46,6 +46,8 @@ class PaywallViewModel: ObservableObject {
     @Published var alertText = ""
     @Published var alertTitle = "Wordy.app"
     @Published var isNeedToClosePaywall = false
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
+
     
     var popularIndex = 0
 	
@@ -141,7 +143,7 @@ class PaywallViewModel: ObservableObject {
             if let error  {
                 showErrorRestore()
                 print("Apphud error: restorePurchase: \(error)")
-            } else if !SubscriptionManager().userHasSubscription() {
+            } else if !subscriptionManager.isUserHasSubscription {
                 showErrorRestore()
             } else {
                 showSuccessRestore()

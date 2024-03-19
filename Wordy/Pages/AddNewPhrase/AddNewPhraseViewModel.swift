@@ -59,6 +59,7 @@ class AddNewPhraseViewModel: ObservableObject {
     var module: Module = .init()
 	
 	@Published var closeKeyboards = false
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
 	
 	init() {
         getTooltipConfig()
@@ -205,7 +206,7 @@ class AddNewPhraseViewModel: ObservableObject {
         // ИЗ ЗА ЭТОГО МЕТОДА ПАДАЕТ (хз почему, мб из за UserDefaultsManager)
         return (countOfGeneratingExamplesDict[self.module.id] ?? 0 < countOfFreeApiUsing
                 && !module.acceptedAsStudent)
-        || SubscriptionManager().userHasSubscription()
+        || subscriptionManager.isUserHasSubscription
     }
     
      func isTranslationEnable() -> Bool {
@@ -213,7 +214,7 @@ class AddNewPhraseViewModel: ObservableObject {
          print("Translate test count: for module \(self.module.id) \(countOfTranslatesDict[self.module.id])")
         return (countOfTranslatesDict[self.module.id] ?? 0 < countOfFreeApiUsing
                 && !module.acceptedAsStudent)
-        || SubscriptionManager().userHasSubscription()
+        || subscriptionManager.isUserHasSubscription
     }
     
     private func updateTranslatedCount() {

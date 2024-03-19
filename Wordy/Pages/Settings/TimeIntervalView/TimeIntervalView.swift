@@ -949,7 +949,7 @@ struct TimeIntervalView_Previews: PreviewProvider {
             TimeIntervalView()
                 .environmentObject(ThemeManager(2))
                 .preferredColorScheme(.dark)
-                .environmentObject(SubscriptionManager())
+                .environmentObject(SubscriptionManager.shared)
         }
     }
 }

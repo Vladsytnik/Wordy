@@ -11,6 +11,7 @@ import AVFoundation
 struct LearnSelectionPage: View {
 	
 	@EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
 	@StateObject var viewModel: LearnSelectionPageViewModel
 	@Environment(\.dismiss) private var dismiss
 	
@@ -300,7 +301,7 @@ struct LearnSelectionPage: View {
 	}
 	
 	private func upCountOfFreeLearnMode() {
-		guard !SubscriptionManager().userHasSubscription() else { return }
+		guard !subscriptionManager.isUserHasSubscription else { return }
 		
 		if let value = UserDefaultsManager.countOfStartingLearnModes[self.viewModel.module.id] {
 			UserDefaultsManager.countOfStartingLearnModes[self.viewModel.module.id] = value + 1
@@ -466,6 +467,7 @@ struct LearnSelectionPage_Previews: PreviewProvider {
 			.init(nativeText: "хорошо ладить с кем то", translatedText: "Get on well with smbd", id: "")
 		]), viewModel: .init())
 		.environmentObject(ThemeManager())
+        .environmentObject(SubscriptionManager.shared)
 	}
 }
 

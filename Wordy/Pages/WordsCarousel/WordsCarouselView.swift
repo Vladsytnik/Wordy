@@ -19,6 +19,8 @@ struct WordsCarouselView: View {
 	
 	@StateObject var learnPageViewModel = LearnSelectionPageViewModel()
 	@State var showLearnPage = false
+    
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
 	
 	var body: some View {
 		ZStack {
@@ -137,9 +139,7 @@ struct WordsCarouselView: View {
     
     func isUserCanLearnModule(isAllow: ((Bool) -> Void)) {
         let countOfStartingLearnMode =  UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
-        let subscriptionManager = SubscriptionManager()
-        let test = subscriptionManager.userHasSubscription()
-        isAllow(subscriptionManager.userHasSubscription()
+        isAllow(subscriptionManager.isUserHasSubscription
                 || (countOfStartingLearnMode < maxCountOfStartingLearnMode
                     && !module.isBlockedFreeFeatures)
                 || module.acceptedAsStudent)
@@ -193,6 +193,7 @@ struct WordsCarouselView_Previews: PreviewProvider {
 					Phrase(nativeText: "Test", translatedText: "Test", id: "", date: Date())
 				   ])
 		), selectedWordIndex: 0)
+        .environmentObject(SubscriptionManager.shared)
 	}
 }
 

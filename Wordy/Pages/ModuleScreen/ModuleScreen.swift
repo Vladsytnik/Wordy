@@ -497,7 +497,7 @@ struct ModuleScreen: View {
     }
     
 	func didTapAddNewPhrase() {
-		if module.phrases.count < countOfWordsForFree || SubscriptionManager().userHasSubscription() {
+		if module.phrases.count < countOfWordsForFree || subscriptionManager.isUserHasSubscription {
             AnalyticsManager.shared.trackEvent(.didTapAddNewPhrase(.DisabledBecauseMoreThanAllowedCount))
 			viewModel.showActionSheet = true
 		} else {
@@ -535,7 +535,7 @@ struct ModuleScreen_Previews: PreviewProvider {
 			index: 0
 		)
 		.environmentObject(ThemeManager())
-		.environmentObject(SubscriptionManager())
+        .environmentObject(SubscriptionManager.shared)
 	}
 }
 

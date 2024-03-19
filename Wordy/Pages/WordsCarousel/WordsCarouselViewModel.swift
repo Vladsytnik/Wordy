@@ -19,7 +19,7 @@ class WordsCarouselViewModel: ObservableObject {
     
     @Published var deletePhrase = false
     @Published var lastTappedPhraseIndexForDelete = 0
-    
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
 	
 	let synthesizer = AVSpeechSynthesizer()
 	
@@ -91,7 +91,7 @@ class WordsCarouselViewModel: ObservableObject {
 	
     func checkSubscriptionAndAccessability(module: Module, isAllow: ((Bool) -> Void)) {
 		let countOfStartingLearnMode = UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
-		isAllow(SubscriptionManager().userHasSubscription()
+		isAllow(subscriptionManager.isUserHasSubscription
 				|| countOfStartingLearnMode < maxCountOfStartingLearnMode)
 	}
 	

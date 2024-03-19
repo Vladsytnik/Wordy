@@ -25,6 +25,9 @@ struct Settings: View {
 	@State var showAcivity = false
 	@State var isTestPro = false
     
+    @State var alertText = ""
+    @State var alertTitle = "Wordy.app"
+    
     @State private var userHasSubscription = false
 	
 	@State var isThemeSelecting = false
@@ -50,6 +53,7 @@ struct Settings: View {
     @State var isShowPaywall = false
     
     @State var showCongrats = false
+    @State var showThanksAlert = false
 	
 	var body: some View {
 		ZStack {
@@ -377,7 +381,6 @@ struct Settings: View {
         .onAppear {
             userHasSubscription = subscriptionManager.isUserHasSubscription
             subscriptionManager.printSubscriptionInfo()
-            subscriptionManager.userHasSubscription()
             subscriptionManager.onSubscriptionUpdate = { hasSubscr in
                 self.userHasSubscription = hasSubscr
             }
@@ -387,9 +390,14 @@ struct Settings: View {
         })
         .onChange(of: isShowPaywall, perform: { val in
             if !val {
-                if subscriptionManager.userHasSubscription() {
+                if subscriptionManager.isUserHasSubscription {
                     showCongrats = true
                 }
+            }
+        })
+        .onChange(of: showCongrats, perform: { val in
+            if !val {
+                showCongratsAlert()
             }
         })
         .sheet(isPresented: $isShowPaywall, content: {
@@ -402,9 +410,27 @@ struct Settings: View {
                 Text("Скопировать".localize())
             }
         }
+        .alert(isPresented: $showThanksAlert) {
+            let btnText = "ОК".localize()
+            return Alert(
+                title: Text(alertTitle),
+                message: Text(alertText),
+                dismissButton: .default(Text(btnText), action: {
+//                    if viewModel.isNeedToClosePaywall {
+//                        closePaywall()
+//                    }
+                })
+            )
+        }
 	}
 
 	// MARK: - Helpers
+    
+    private func showCongratsAlert() {
+        alertTitle = "Поздравляем, оплата прошла успешно!".localize() + "\n"
+        alertText = "Спасибо, что поддерживаете нас! <3".localize() + "\n\n" + "Теперь вам доступны все возможности приложения без ограничений!".localize()
+        showThanksAlert.toggle()
+    }
 	
 	private func deleteAccount() {
         showAcivity = true
@@ -545,7 +571,7 @@ struct Settings_Previews: PreviewProvider {
         Settings()
 			.environmentObject(Router())
 			.environmentObject(ThemeManager())
-            .environmentObject(SubscriptionManager())
+            .environmentObject(SubscriptionManager.shared)
     }
 }
 

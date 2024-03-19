@@ -161,6 +161,7 @@
 		CE52764C2ADAE80A009F30FB /* BadgeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */; };
 		CE5786E92BA99B5200E4F40D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE5786E82BA99B5200E4F40D /* PrivacyInfo.xcprivacy */; };
 		CE5786EB2BA9C74200E4F40D /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5786EA2BA9C74200E4F40D /* ApiKeys.swift */; };
+		CE5786ED2BA9E5EA00E4F40D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5786EC2BA9E5EA00E4F40D /* SceneDelegate.swift */; };
 		CE5981CA2B6E700500950FB6 /* String + GlobalValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5981C92B6E700500950FB6 /* String + GlobalValues.swift */; };
 		CE5CACFF2B2D9E1D00009FF8 /* loader2.json in Resources */ = {isa = PBXBuildFile; fileRef = CE5CACFE2B2D9E1C00009FF8 /* loader2.json */; };
 		CE6BD5B02AFBCF4900C4379F /* PrePaywallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */; };
@@ -333,6 +334,7 @@
 		CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBackground.swift; sourceTree = "<group>"; };
 		CE5786E82BA99B5200E4F40D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		CE5786EA2BA9C74200E4F40D /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
+		CE5786EC2BA9E5EA00E4F40D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CE5981C92B6E700500950FB6 /* String + GlobalValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + GlobalValues.swift"; sourceTree = "<group>"; };
 		CE5981CB2B6FD1C700950FB6 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		CE5CACFE2B2D9E1C00009FF8 /* loader2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader2.json; sourceTree = "<group>"; };
@@ -675,6 +677,7 @@
 				0109D1972AB5D7FC00714E55 /* Info.plist */,
 				0130B01B2A0A57E9001391FC /* Wordy.entitlements */,
 				019056382944A7140058B566 /* WordyApp.swift */,
+				CE5786EC2BA9E5EA00E4F40D /* SceneDelegate.swift */,
 				0103FF4D294C76CB004C2EA6 /* StartView.swift */,
 				CE9299502B0FB7B900E24C7E /* StartViewModel.swift */,
 				0103FF55294C9E75004C2EA6 /* Router.swift */,
@@ -1329,6 +1332,7 @@
 				011B13912A001DB300D4CCBF /* SignInWithAppleDelegates.swift in Sources */,
 				CE1AF6382B5D028000CF5F08 /* View + Placeholder.swift in Sources */,
 				CE1A63712B1E150F0090850B /* ChangeModulePage.swift in Sources */,
+				CE5786ED2BA9E5EA00E4F40D /* SceneDelegate.swift in Sources */,
 				CE1AF6362B5C572000CF5F08 /* UIDeviceExtension.swift in Sources */,
 				019160BC29D098DD0094F36D /* ModuleSelectPage.swift in Sources */,
 				CE92994F2B0FAF9B00E24C7E /* NetworkConnectionManager.swift in Sources */,
