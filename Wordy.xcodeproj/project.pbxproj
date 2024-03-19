@@ -159,6 +159,7 @@
 		CE4F240E2B51670200A1A055 /* reward.json in Resources */ = {isa = PBXBuildFile; fileRef = CE4F240D2B51670200A1A055 /* reward.json */; };
 		CE52764A2ADAD7D9009F30FB /* ExampleCreatingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */; };
 		CE52764C2ADAE80A009F30FB /* BadgeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */; };
+		CE5786E92BA99B5200E4F40D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE5786E82BA99B5200E4F40D /* PrivacyInfo.xcprivacy */; };
 		CE5981CA2B6E700500950FB6 /* String + GlobalValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5981C92B6E700500950FB6 /* String + GlobalValues.swift */; };
 		CE5CACFF2B2D9E1D00009FF8 /* loader2.json in Resources */ = {isa = PBXBuildFile; fileRef = CE5CACFE2B2D9E1C00009FF8 /* loader2.json */; };
 		CE6BD5B02AFBCF4900C4379F /* PrePaywallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */; };
@@ -329,6 +330,7 @@
 		CE4F240D2B51670200A1A055 /* reward.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reward.json; sourceTree = "<group>"; };
 		CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCreatingResponse.swift; sourceTree = "<group>"; };
 		CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBackground.swift; sourceTree = "<group>"; };
+		CE5786E82BA99B5200E4F40D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		CE5981C92B6E700500950FB6 /* String + GlobalValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + GlobalValues.swift"; sourceTree = "<group>"; };
 		CE5981CB2B6FD1C700950FB6 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		CE5CACFE2B2D9E1C00009FF8 /* loader2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader2.json; sourceTree = "<group>"; };
@@ -637,6 +639,7 @@
 		0190562C2944A7140058B566 = {
 			isa = PBXGroup;
 			children = (
+				CE5786E82BA99B5200E4F40D /* PrivacyInfo.xcprivacy */,
 				CE4F240B2B51572D00A1A055 /* haptic.ahap */,
 				CE3976932B9B4AA900D09EB4 /* haptic_loading.ahap */,
 				CECE48BA2AFF9F8E002E5507 /* notificationSound3.m4r */,
@@ -1128,6 +1131,7 @@
 				012D95E0294867DA00165DAF /* SF-Pro-Display-MediumItalic.otf in Resources */,
 				014955A829E855FE000BC30F /* congeralations.json in Resources */,
 				CE4F240C2B51572E00A1A055 /* haptic.ahap in Resources */,
+				CE5786E92BA99B5200E4F40D /* PrivacyInfo.xcprivacy in Resources */,
 				CE3C675A2B8395DC0047B94C /* gif1.gif in Resources */,
 				012D95D7294867DA00165DAF /* SF-Pro-Display-ThinItalic.otf in Resources */,
 				019056562944D0DE0058B566 /* Colors.xcassets in Resources */,
@@ -1619,8 +1623,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
-				kind = exactVersion;
-				version = 10.15.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.22.0;
 			};
 		};
 		019229882AC462FE002648C4 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */ = {
