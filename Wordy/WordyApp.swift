@@ -91,7 +91,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 //        }
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .voicePrompt, options: [.mixWithOthers])
         }
         catch let error as NSError {
             print("Error: Could not set audio category: \(error), \(error.userInfo)")
