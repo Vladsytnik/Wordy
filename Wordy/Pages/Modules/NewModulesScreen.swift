@@ -461,14 +461,7 @@ struct NewModulesScreen: View {
                     appDelegate.sendNotificationPermissionRequest()
                 }
                 
-                print("fevwewev: \(reviewCounter) \(reviewCounterLimit) \(isReviewDidTap)")
-                if reviewCounter >= reviewCounterLimit && !isReviewDidTap {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        isReviewOpened = true
-                    }
-                    reviewCounter = 0
-                    reviewCounterLimit += 50
-                } else {
+                if !(reviewCounter >= reviewCounterLimit && !isReviewDidTap && dataManager.modules.count > 2) {
                     reviewCounter += 1
                 }
                 
@@ -499,6 +492,11 @@ struct NewModulesScreen: View {
             .onChange(of: onboardingManager.isOnboardingMode, perform: { newValue in
                 if !newValue {
                     fetchDataFromServer()
+                }
+            })
+            .onChange(of: showCreateModuleSheet, perform: { isOpened in
+                if !isOpened {
+                    showReviewIfNeeded()
                 }
             })
             .fullScreenCover(isPresented: $showSelectModulePage, content: {
@@ -582,6 +580,19 @@ struct NewModulesScreen: View {
     init() {
         configNavBarStyle()
         configTooltip()
+    }
+    
+    private func showReviewIfNeeded() {
+        print("fevwewev: \(reviewCounter) \(reviewCounterLimit) \(isReviewDidTap)")
+        if reviewCounter >= reviewCounterLimit && !isReviewDidTap && dataManager.modules.count > 1 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                isReviewOpened = true
+            }
+            reviewCounter = 0
+            reviewCounterLimit += 50
+        } else {
+            reviewCounter += 1
+        }
     }
     
     private func startPopupsIfNeeded() {

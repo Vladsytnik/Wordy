@@ -33,6 +33,7 @@ struct WordsCarouselView: View {
 						BackButton {
 							dismiss()
 						}
+                        .padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
 						Spacer()
 					}
 					Text("\(viewModel.selectedWordIndex + 1)/\(module.phrases.count)")
