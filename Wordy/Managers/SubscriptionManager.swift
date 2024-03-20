@@ -24,8 +24,8 @@ class SubscriptionManager: ObservableObject {
     }
     
     func updateDate() {
-        if let date = expiredAt() {
-            KeychainHelper.standard.save(date, service: .KeychainServiceSubscriptionDateKey, account: .KeychainAccountKey)
+        if let date = expiredAt(), let userId = UserDefaultsManager.userID {
+            KeychainHelper.standard.save(date, service: .KeychainServiceSubscriptionDateKey, account: userId)
             NetworkManager.updateSubscriptionInfo(withDate: date)
         }
     }
@@ -36,10 +36,10 @@ class SubscriptionManager: ObservableObject {
     }
     
     private func checkCachedSubscriptionDate() {
-        if let expireSubscrDate = KeychainHelper.standard.read(service: .KeychainServiceSubscriptionDateKey, account: .KeychainAccountKey, type: Date.self) {
+        guard let userId = UserDefaultsManager.userID else { return }
+        
+        if let expireSubscrDate = KeychainHelper.standard.read(service: .KeychainServiceSubscriptionDateKey, account: userId, type: Date.self) {
             isUserHasSubscription = Date() < expireSubscrDate
-        } else {
-            isUserHasSubscription = false
         }
     }
     

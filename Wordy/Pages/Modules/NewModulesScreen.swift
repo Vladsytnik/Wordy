@@ -701,16 +701,35 @@ struct NewModulesScreen: View {
             if let user = user {
                 // User is signed in.
                 print("USER IS signed in")
+                updateSubscriptionDateFromFirebase()
             } else {
                 // No user is signed in.
+                subscriptionManager.isUserHasSubscription = false
+                
                 withAnimation {
                     router.userIsLoggedIn = false
                     UserDefaultsManager.userID = nil
+                    
                     Apphud.logout()
                 }
+                
                 print("USER IS signed out")
             }
             print("Current user:", auth.currentUser?.email)
+        }
+    }
+    
+    private func updateSubscriptionDateFromFirebase() {
+        Task {
+            do {
+                let expireSubscriptionDateFromServer = try await NetworkManager.getSubscriptionExpireDateFromServer()
+                UserDefaultsManager.serverSubscrExpireDate = expireSubscriptionDateFromServer
+                subscriptionManager.forceUpdateSubscriptionInfo()
+                print("expire date from server: \(expireSubscriptionDateFromServer)")
+            } catch (let error) {
+                print("error in NewModulesSreen -> .task -> try await NetworkManager.getSubscriptionExpireDateFromServer(): \(error.localizedDescription)")
+                subscriptionManager.forceUpdateSubscriptionInfo()
+            }
         }
     }
     
