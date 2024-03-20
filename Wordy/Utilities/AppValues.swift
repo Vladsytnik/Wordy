@@ -12,6 +12,7 @@ enum ValueKey: String {
     case CountOfFreeExampleGeneratingUsing
     case CountOfFreeTranslateUsing
     case LearningModeCountForFree
+    case IsAutotranslatingFree
     case IsNotificationsFree
     case TestValue
 }
@@ -39,6 +40,9 @@ class AppValues {
     var countOfFreeExampleGeneratingUsing: Int {
         self.int(forKey: ValueKey.CountOfFreeExampleGeneratingUsing.rawValue)
     }
+    var isAutotranslatingFree: Bool {
+        self.bool(forKey: ValueKey.IsAutotranslatingFree.rawValue)
+    }
     
     // MARK: -
     
@@ -49,9 +53,10 @@ class AppValues {
     
     private func loadDefaultValues() {
         let appDefaults: [String: Any?] = [
-            ValueKey.LearningModeCountForFree.rawValue : 5,
-            ValueKey.IsNotificationsFree.rawValue : false,
             ValueKey.TestValue.rawValue : "Test",
+            ValueKey.IsNotificationsFree.rawValue : false,
+            ValueKey.IsAutotranslatingFree.rawValue : true,
+            ValueKey.LearningModeCountForFree.rawValue : 5,
             ValueKey.CountOfFreeTranslateUsing.rawValue : 15,
             ValueKey.CountOfFreeExampleGeneratingUsing.rawValue : 3
         ]

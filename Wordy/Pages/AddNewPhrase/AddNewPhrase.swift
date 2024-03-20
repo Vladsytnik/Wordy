@@ -145,12 +145,12 @@ struct AddNewPhrase: View {
                                                config: viewModel.tooltipConfig,
                                                appearingDelayValue: 0.5) {
                                         let text = "Нажмите, чтобы применить".localize()
-                                        let descr = "Без подписки доступно \n".localize() + "\(viewModel.countOfFreeApiUsing)" + " перевода".localize()
+                                        let descr = "Без подписки доступно \n".localize() + "\(viewModel.countOfFreeTranslateUsing)" + " перевода".localize()
                                         TooltipView(text: text,
                                                     stepNumber: 0,
                                                     allStepCount: 0,
                                                     withoutSteps: true,
-                                                    description: descr,
+                                                    description: viewModel.isAutotransaltingFree ? nil : descr,
                                                     onDisappear: {
                                             UserDefaultsManager.userAlreaySawTranslate = true
                                         }) {
@@ -249,7 +249,7 @@ struct AddNewPhrase: View {
                                        config: viewModel.tooltipConfig,
                                        appearingDelayValue: 0.5) {
                                 let text = "Нажмите, чтобы применить".localize()
-                                let descr = "Без подписки доступно \n".localize() + "\(viewModel.countOfFreeApiUsing) " + "генерации примеров".localize()
+                                let descr = "Без подписки доступно \n".localize() + "\(viewModel.countOfFreeExampleGeneratingUsing) " + "генерации примеров".localize()
                                 TooltipView(text: text,
                                             stepNumber: 0,
                                             allStepCount: 0,

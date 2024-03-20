@@ -48,6 +48,7 @@ class AddNewPhraseViewModel: ObservableObject {
     
     let countOfFreeTranslateUsing = AppValues.shared.countOfFreeTranslateUsing
     let countOfFreeExampleGeneratingUsing = AppValues.shared.countOfFreeExampleGeneratingUsing
+    let isAutotransaltingFree = AppValues.shared.isAutotranslatingFree
 	
 	private var cancellable = Set<AnyCancellable>()
 	private var networkTask: Task<(), Never>?
@@ -246,7 +247,8 @@ class AddNewPhraseViewModel: ObservableObject {
 //        print("Translate test count: for module \(self.module.id) \(viewModel.countOfTranslatesDict[self.module.id])")
         let isEnabled = (countOfTranslatesDict[self.module.id] ?? 0 < countOfFreeTranslateUsing
                          && !module.acceptedAsStudent)
-                 || isUserHasSubscription
+                        || isUserHasSubscription
+                        || isAutotransaltingFree
         return isEnabled
    }
 	
