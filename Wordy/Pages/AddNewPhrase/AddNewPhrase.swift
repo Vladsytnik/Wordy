@@ -21,6 +21,8 @@ struct AddNewPhrase: View {
     @StateObject var viewModel = AddNewPhraseViewModel()
 	@EnvironmentObject var themeManager: ThemeManager
     
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
+    
     @State var isShowLimitAlert = false
     @State var isShowPaywall = false
     
@@ -397,6 +399,8 @@ struct AddNewPhrase: View {
             viewModel.translatedPhrase = translatedText
             viewModel.examplePhrase = exampleText
             
+            viewModel.isUserHasSubscription = subscriptionManager.isUserHasSubscription
+            
             viewModel.countOfTranslatesDict = UserDefaultsManager.countOfTranslatesInModules
             viewModel.countOfGeneratingExamplesDict = UserDefaultsManager.countOfGeneratingExamplesInModules
 //            UserDefaultsManager.userAlreaySawExample = false
@@ -419,6 +423,9 @@ struct AddNewPhrase: View {
 		.onChange(of: nativeText) { newValue in
 			viewModel.userDidWriteNativeText(newValue)
 		}
+        .onChange(of: subscriptionManager.isUserHasSubscription) { newValue in
+            viewModel.isUserHasSubscription = newValue
+        }
         .showAlert(title: viewModel.alert.title,
                    description: viewModel.alert.description,
                    isPresented: $isShowLimitAlert,
@@ -478,6 +485,7 @@ struct AddNewPhrase_Previews: PreviewProvider {
 		)
         .environmentObject(ThemeManager())
         .environmentObject(AddNewPhraseViewModel())
+        .environmentObject(SubscriptionManager.shared)
 	}
 }
 

@@ -46,8 +46,6 @@ class PaywallViewModel: ObservableObject {
     @Published var alertText = ""
     @Published var alertTitle = "Wordy.app"
     @Published var isNeedToClosePaywall = false
-    @EnvironmentObject var subscriptionManager: SubscriptionManager
-
     
     var popularIndex = 0
 	
@@ -139,22 +137,6 @@ class PaywallViewModel: ObservableObject {
     func getSubscriptionPeriodFor(index: Int) -> SubscriptionPeriod? {
         guard let period = SubscriptionPeriod.fetch(from: products[index].id) else { return nil }
         return period
-    }
-    
-    func restorePurchase() {
-        isInProgress = true
-        Task { @MainActor in
-            let error = await Apphud.restorePurchases()
-            if let error  {
-                showErrorRestore()
-                print("Apphud error: restorePurchase: \(error)")
-            } else if !subscriptionManager.isUserHasSubscription {
-                showErrorRestore()
-            } else {
-                showSuccessRestore()
-            }
-            isInProgress = false
-        }
     }
     
     func showErrorRestore() {

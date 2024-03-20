@@ -149,7 +149,7 @@ struct Paywall: View {
                         
                         Button(action: {
                             AnalyticsManager.shared.trackEvent(.didTapOnPaywallRestoreBtn)
-                            viewModel.restorePurchase()
+                            restorePurchase()
                         }, label: {
                             Text("Возобновить покупку".localize())
                                 .foregroundColor(themeManager.currentTheme.mainText.opacity(0.8))
@@ -243,6 +243,22 @@ struct Paywall: View {
                 }
                 viewModel.isInProgress = false
             }
+        }
+    }
+    
+    func restorePurchase() {
+        viewModel.isInProgress = true
+        Task { @MainActor in
+            let error = await Apphud.restorePurchases()
+            if let error  {
+                viewModel.showErrorRestore()
+                print("Apphud error: restorePurchase: \(error)")
+            } else if !subscriptionManager.isUserHasSubscription {
+                viewModel.showErrorRestore()
+            } else {
+                viewModel.showSuccessRestore()
+            }
+            viewModel.isInProgress = false
         }
     }
     

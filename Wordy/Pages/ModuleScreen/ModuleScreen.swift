@@ -132,7 +132,7 @@ struct ModuleScreen: View {
 									LearnModuleButton {
                                         onboardingManager.goToNextStep()
 										if module.phrases.count >= 4 {
-                                            viewModel.checkSubscriptionAndAccessability(module: module) { isAllow in
+                                            checkSubscriptionAndAccessability(module: module) { isAllow in
 												if isAllow {
                                                     AnalyticsManager.shared.trackEvent(.tapOnLearnModule(.Available))
 													learnPageViewModel.module = module
@@ -425,6 +425,23 @@ struct ModuleScreen: View {
 		self._searchText = searchedText
     }
     
+    func setToModuleTeacherMode(module: Module, successCallback: (() -> Void)?) {
+        guard subscriptionManager.isUserHasSubscription else {
+            return
+        }
+        
+        Task { @MainActor in
+            do {
+               let isSuccess = try await NetworkManager.setTeacherModeToModule(id: module.id)
+                if isSuccess {
+                    successCallback?()
+                }
+            } catch (let error) {
+                print("Error in ModuleScreenViewModel -> setToModuleTeacherMode: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     private func toggleNotificationsState() {
         isNotificationLoading = true
         
@@ -488,6 +505,14 @@ struct ModuleScreen: View {
 			}
 		}
 	}
+    
+    func checkSubscriptionAndAccessability(module: Module, isAllow: ((Bool) -> Void)) {
+        let countOfStartingLearnMode = UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
+        isAllow(subscriptionManager.isUserHasSubscription
+                || (countOfStartingLearnMode < maxCountOfStartingLearnMode
+                    && !module.isBlockedFreeFeatures)
+                || module.acceptedAsStudent)
+    }
 	
     func reallyShowPaywall() {
         withAnimation {
@@ -514,12 +539,9 @@ struct ModuleScreen: View {
     
     func needToUpdateTeacherMode() {
         userIsReallyShared = false
-        viewModel.setToModuleTeacherMode(module: module) {
+        setToModuleTeacherMode(module: module) {
             module.isSharedByTeacher = true
             isShared = true
-//            viewModel.setToModuleTeacherMode(module: module) {
-//                isShared = true
-//            }
         }
     }
 }

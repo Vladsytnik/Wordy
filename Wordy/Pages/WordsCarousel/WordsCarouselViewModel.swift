@@ -19,7 +19,6 @@ class WordsCarouselViewModel: ObservableObject {
     
     @Published var deletePhrase = false
     @Published var lastTappedPhraseIndexForDelete = 0
-    @EnvironmentObject var subscriptionManager: SubscriptionManager
 	
 	let synthesizer = AVSpeechSynthesizer()
 	
@@ -87,12 +86,6 @@ class WordsCarouselViewModel: ObservableObject {
 		utterance.voice = AVSpeechSynthesisVoice(language: langForSpeach)
 		
 		synthesizer.speak(utterance)
-	}
-	
-    func checkSubscriptionAndAccessability(module: Module, isAllow: ((Bool) -> Void)) {
-		let countOfStartingLearnMode = UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
-		isAllow(subscriptionManager.isUserHasSubscription
-				|| countOfStartingLearnMode < maxCountOfStartingLearnMode)
 	}
 	
 	func showPaywall() {

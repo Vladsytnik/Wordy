@@ -29,8 +29,6 @@ class ModuleScreenViewModel: ObservableObject {
 	@Published var phraseIndexForEdit = 0
 	
 	let synthesizer = AVSpeechSynthesizer()
-    
-    @EnvironmentObject var subscriptionManager: SubscriptionManager
 	
 	var selectedWordIndex = 0
 	var alert = (title: "Упс! Произошла ошибка...".localize(), description: "")
@@ -49,31 +47,6 @@ class ModuleScreenViewModel: ObservableObject {
 			showAlert.toggle()
 		}
 	}
-    
-    func setToModuleTeacherMode(module: Module, successCallback: (() -> Void)?) {
-        guard subscriptionManager.isUserHasSubscription else {
-            return
-        }
-        
-        Task { @MainActor in
-            do {
-               let isSuccess = try await NetworkManager.setTeacherModeToModule(id: module.id)
-                if isSuccess {
-                    successCallback?()
-                } 
-//                else {
-//                    alert.description = "Попробуйте еще раз"
-//                    withAnimation {
-//                        self.showOkAlert = true
-//                    }
-//                }
-//                self.showActivity = false
-            } catch (let error) {
-                print("Error in ModuleScreenViewModel -> setToModuleTeacherMode: \(error.localizedDescription)")
-//                self.showActivity = false
-            }
-        }
-    }
 	
 	func didTapWord(with index: Int) {
 		selectedWordIndex = index
@@ -129,14 +102,6 @@ class ModuleScreenViewModel: ObservableObject {
 				self.showErrorAboutPhraseCount = true
 			}
 		}
-	}
-	
-	func checkSubscriptionAndAccessability(module: Module, isAllow: ((Bool) -> Void)) {
-		let countOfStartingLearnMode =  UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
-		isAllow(subscriptionManager.isUserHasSubscription
-				|| (countOfStartingLearnMode < maxCountOfStartingLearnMode
-                    && !module.isBlockedFreeFeatures)
-                || module.acceptedAsStudent)
 	}
 	
 	func getCorrectWord(value: Int) -> String {

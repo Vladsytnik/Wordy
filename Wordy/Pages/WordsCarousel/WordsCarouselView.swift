@@ -67,7 +67,7 @@ struct WordsCarouselView: View {
 				Spacer(minLength: 50)
                 LearnModuleButton(customBgColor: themeManager.currentTheme.carouselLearnBtnColor) {
 					if module.phrases.count >= 4 {
-						viewModel.checkSubscriptionAndAccessability(module: module) { isAllow in
+						checkSubscriptionAndAccessability(module: module) { isAllow in
 							if isAllow {
 								learnPageViewModel.module = module
 								showLearnPage.toggle()
@@ -117,7 +117,12 @@ struct WordsCarouselView: View {
         self.selectedWordIndex = selectedWordIndex
 	}
 	
-	
+    func checkSubscriptionAndAccessability(module: Module, isAllow: ((Bool) -> Void)) {
+        let countOfStartingLearnMode = UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
+        isAllow(subscriptionManager.isUserHasSubscription
+                || countOfStartingLearnMode < maxCountOfStartingLearnMode)
+    }
+    
 	func didTapShowLearnPage() {
 		if module.phrases.count >= 4 {
             isUserCanLearnModule { isAllow in
