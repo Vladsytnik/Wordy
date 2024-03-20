@@ -46,7 +46,8 @@ class AddNewPhraseViewModel: ObservableObject {
     
     @Published var submittedTextFields = [0, 0, 0]
     
-    let countOfFreeApiUsing = 3
+    let countOfFreeTranslateUsing = AppValues.shared.countOfFreeTranslateUsing
+    let countOfFreeExampleGeneratingUsing = AppValues.shared.countOfFreeExampleGeneratingUsing
 	
 	private var cancellable = Set<AnyCancellable>()
 	private var networkTask: Task<(), Never>?
@@ -234,7 +235,7 @@ class AddNewPhraseViewModel: ObservableObject {
     
     func isExampleGeneratingEnable() -> Bool {
         // ИЗ ЗА ЭТОГО МЕТОДА ПАДАЕТ (хз почему, мб из за UserDefaultsManager)
-        let isEnabled = (countOfGeneratingExamplesDict[self.module.id] ?? 0 < countOfFreeApiUsing
+        let isEnabled = (countOfGeneratingExamplesDict[self.module.id] ?? 0 < countOfFreeExampleGeneratingUsing
                          && !module.acceptedAsStudent)
                  || isUserHasSubscription
         return isEnabled
@@ -243,7 +244,7 @@ class AddNewPhraseViewModel: ObservableObject {
     func isTranslationEnable() -> Bool {
         // ИЗ ЗА ЭТОГО МЕТОДА  ПАДАЕТ (хз почему, мб из за UserDefaultsManager)
 //        print("Translate test count: for module \(self.module.id) \(viewModel.countOfTranslatesDict[self.module.id])")
-        let isEnabled = (countOfTranslatesDict[self.module.id] ?? 0 < countOfFreeApiUsing
+        let isEnabled = (countOfTranslatesDict[self.module.id] ?? 0 < countOfFreeTranslateUsing
                          && !module.acceptedAsStudent)
                  || isUserHasSubscription
         return isEnabled

@@ -11,6 +11,7 @@ class WordySceneDelegate: NSObject, UIWindowSceneDelegate {
     
     func sceneWillEnterForeground(_ scene: UIScene) {
         SubscriptionManager.shared.forceUpdateSubscriptionInfo()
+        AppValues.shared.fetchCloudValues()
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
