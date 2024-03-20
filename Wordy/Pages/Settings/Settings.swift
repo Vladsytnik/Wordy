@@ -77,7 +77,6 @@ struct Settings: View {
 					NavigationLink {
 						GroupsEditingPage()
                             .navigationTitle("Группы".localize())
-//                            .navigationBarTitleDisplayMode(.large)
 					} label: {
 						EditFolderRow(cellHeight: cellHeight) {
 							print("Редактировать группы")
@@ -293,6 +292,7 @@ struct Settings: View {
                     
                     LogOutRow(cellHeight: cellHeight, imageName: "trash", titleText: "Удалить аккаунт") {
                         withAnimation {
+                            AnalyticsManager.shared.trackEvent(.didTapDeleteAccount)
                             showDeleteAccountAlert.toggle()
                         }
                     }

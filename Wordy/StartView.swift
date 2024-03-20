@@ -45,6 +45,7 @@ struct StartView: View {
                                     Rewards()
                                 })
                                 .task {
+                                    AnalyticsManager.shared.trackEvent(.openedModulesScreen)
                                     do {
                                         let expireSubscriptionDateFromServer = try await NetworkManager.getSubscriptionExpireDateFromServer()
                                         UserDefaultsManager.serverSubscrExpireDate = expireSubscriptionDateFromServer

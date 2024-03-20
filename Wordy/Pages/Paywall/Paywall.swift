@@ -21,6 +21,8 @@ struct Paywall: View {
     @State var alertTitle = "Wordy.app"
     @State var alertMessage = ""
     @State var isCongratsAlertShown = false
+    
+    @State var isFirstOpen = false
 	
 	var isNothingSelected: Bool {
 		viewModel.selectedIndex == nil
@@ -127,6 +129,7 @@ struct Paywall: View {
 							.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: Alignment.topLeading)
                         
 						Button {
+                            AnalyticsManager.shared.trackEvent(.didTapOnPaywallBuyBtn)
                             didTapBuy()
 						} label: {
 							RoundedRectangle(cornerRadius: 28)
@@ -145,6 +148,7 @@ struct Paywall: View {
 						.animation(.spring(), value: isNothingSelected)
                         
                         Button(action: {
+                            AnalyticsManager.shared.trackEvent(.didTapOnPaywallRestoreBtn)
                             viewModel.restorePurchase()
                         }, label: {
                             Text("Возобновить покупку".localize())
@@ -179,7 +183,13 @@ struct Paywall: View {
 				}
 			}
 		}
-		.onAppear { isOnAppear = true }
+        .onAppear {
+            isOnAppear = true
+            if isFirstOpen {
+                isFirstOpen = false
+                AnalyticsManager.shared.trackEvent(.sawPaywall)
+            }
+        }
         .activity($viewModel.isInProgress)
 //        .alert(isPresented: $isCongratsAlertShown) {
 //            let btnText = "Got it!".localize()
@@ -206,18 +216,29 @@ struct Paywall: View {
     }
     
     private func didTapBuy() {
+        if let subscrObject = viewModel.getSubscriptionPeriodFor(index: viewModel.selectedIndex) {
+            switch subscrObject {
+            case .OneMonth:
+                AnalyticsManager.shared.trackEvent(.didTapOnOneMonthPeriodBtn)
+            case .OneYear:
+                AnalyticsManager.shared.trackEvent(.didTapOnOneYearPeriodBtn)
+            }
+        }
+        
         if viewModel.selectedIndex < viewModel.products.count {
             viewModel.isInProgress = true
             Task { @MainActor in
                 let result = await Apphud.purchase(viewModel.getSelectedProduct(), isPurchasing: $isPurchasing)
                 print("Subscr print: ", result)
                 if result.success {
+                    AnalyticsManager.shared.trackEvent(.subscriptionBuyProcessFinishedWithSuccess)
                     print("Subscr print: success")
                     subscriptionManager.updateDate()
                     subscriptionManager.isUserHasSubscription = true
                     viewModel.isNeedToClosePaywall = true
                     showCongratsAlert()
                 } else {
+                    AnalyticsManager.shared.trackEvent(.subscriptionBuyProcessFinishedWithError)
                     print("Subscr print: not success")
                 }
                 viewModel.isInProgress = false

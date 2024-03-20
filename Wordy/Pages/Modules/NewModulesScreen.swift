@@ -236,6 +236,7 @@ struct NewModulesScreen: View {
                                         onDisappear: { },
                                         onNextDidTap: {
                                             self.onboardingManager.goToNextStep()
+                                            AnalyticsManager.shared.trackEvent(.finishFirstOnboarding)
                                         }
                                     )
                                 }
@@ -558,6 +559,7 @@ struct NewModulesScreen: View {
             .popup(allowToShow: $showPopups, currentIndex: $indexOfPopup) {
                 AnalyticsManager.shared.trackEvent(.skippedSecondPopupOnboarding)
                 UserDefaultsManager.isMainScreenPopupsShown = true
+                AnalyticsManager.shared.trackEvent(.finishSecondPopupsOnboarding)
             }
             .onChange(of: showPopups) { val in
                 if !val {

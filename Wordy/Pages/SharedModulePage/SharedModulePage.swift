@@ -179,12 +179,8 @@ struct SharedModulePage: View {
 			.activity($isActivity)
 //			.interactiveDismissDisabled(showEmojiView)
 			.onAppear {
-//				DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-					onAppear = true
-//				}
-			}
-			.onChange(of: showEmojiView) { newValue in
-				
+                AnalyticsManager.shared.trackEvent(.openedSharedByOtherUsersSheet)
+                onAppear = true
 			}
 			.animation(.default, value: isNeedToShowTitle)
 	}
