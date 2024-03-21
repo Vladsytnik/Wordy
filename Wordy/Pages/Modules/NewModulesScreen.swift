@@ -726,6 +726,8 @@ struct NewModulesScreen: View {
                     Apphud.logout()
                 }
                 
+                dataManager.groups = []
+                dataManager.modules = []
                 print("USER IS signed out")
             }
             print("Current user:", auth.currentUser?.email)
