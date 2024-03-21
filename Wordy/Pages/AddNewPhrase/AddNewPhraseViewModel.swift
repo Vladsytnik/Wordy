@@ -42,9 +42,13 @@ class AddNewPhraseViewModel: ObservableObject {
     
     @Published var onboardingIndex = 0
     
+    @Published var isUserHasSubscription = false
+    
     @Published var submittedTextFields = [0, 0, 0]
     
-    let countOfFreeApiUsing = 3
+    let countOfFreeTranslateUsing = AppValues.shared.countOfFreeTranslateUsing
+    let countOfFreeExampleGeneratingUsing = AppValues.shared.countOfFreeExampleGeneratingUsing
+    let isAutotransaltingFree = AppValues.shared.isAutotranslatingFree
 	
 	private var cancellable = Set<AnyCancellable>()
 	private var networkTask: Task<(), Never>?
@@ -59,6 +63,9 @@ class AddNewPhraseViewModel: ObservableObject {
     var module: Module = .init()
 	
 	@Published var closeKeyboards = false
+    
+//    @Published var isTranslationEnable = false
+//    @Published var isExampleGeneratingEnable = false
 	
 	init() {
         getTooltipConfig()
@@ -201,21 +208,6 @@ class AddNewPhraseViewModel: ObservableObject {
         return !UserDefaultsManager.userAlreaySawAddExampleBtn
     }
     
-    func isExampleGeneratingEnable() -> Bool {
-        // ИЗ ЗА ЭТОГО МЕТОДА ПАДАЕТ (хз почему, мб из за UserDefaultsManager)
-        return (countOfGeneratingExamplesDict[self.module.id] ?? 0 < countOfFreeApiUsing
-                && !module.acceptedAsStudent)
-        || SubscriptionManager().userHasSubscription()
-    }
-    
-     func isTranslationEnable() -> Bool {
-         // ИЗ ЗА ЭТОГО МЕТОДА  ПАДАЕТ (хз почему, мб из за UserDefaultsManager)
-         print("Translate test count: for module \(self.module.id) \(countOfTranslatesDict[self.module.id])")
-        return (countOfTranslatesDict[self.module.id] ?? 0 < countOfFreeApiUsing
-                && !module.acceptedAsStudent)
-        || SubscriptionManager().userHasSubscription()
-    }
-    
     private func updateTranslatedCount() {
         if let count = countOfTranslatesDict[self.module.id] {
             countOfTranslatesDict[self.module.id] = count + 1
@@ -241,6 +233,24 @@ class AddNewPhraseViewModel: ObservableObject {
 		textFieldTwoIsActive = index == 1
 		textFieldThreeIsActive = index == 2
 	}
+    
+    func isExampleGeneratingEnable() -> Bool {
+        // ИЗ ЗА ЭТОГО МЕТОДА ПАДАЕТ (хз почему, мб из за UserDefaultsManager)
+        let isEnabled = (countOfGeneratingExamplesDict[self.module.id] ?? 0 < countOfFreeExampleGeneratingUsing
+                         && !module.acceptedAsStudent)
+                 || isUserHasSubscription
+        return isEnabled
+    }
+    
+    func isTranslationEnable() -> Bool {
+        // ИЗ ЗА ЭТОГО МЕТОДА  ПАДАЕТ (хз почему, мб из за UserDefaultsManager)
+//        print("Translate test count: for module \(self.module.id) \(viewModel.countOfTranslatesDict[self.module.id])")
+        let isEnabled = (countOfTranslatesDict[self.module.id] ?? 0 < countOfFreeTranslateUsing
+                         && !module.acceptedAsStudent)
+                        || isUserHasSubscription
+                        || isAutotransaltingFree
+        return isEnabled
+   }
 	
 	func addWordToCurrentModule(native: String, translated: String, example: String, success: @escaping () -> Void) {
 		nativePhrase = native

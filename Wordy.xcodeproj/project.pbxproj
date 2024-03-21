@@ -159,6 +159,9 @@
 		CE4F240E2B51670200A1A055 /* reward.json in Resources */ = {isa = PBXBuildFile; fileRef = CE4F240D2B51670200A1A055 /* reward.json */; };
 		CE52764A2ADAD7D9009F30FB /* ExampleCreatingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */; };
 		CE52764C2ADAE80A009F30FB /* BadgeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */; };
+		CE5786E92BA99B5200E4F40D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CE5786E82BA99B5200E4F40D /* PrivacyInfo.xcprivacy */; };
+		CE5786EB2BA9C74200E4F40D /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5786EA2BA9C74200E4F40D /* ApiKeys.swift */; };
+		CE5786ED2BA9E5EA00E4F40D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5786EC2BA9E5EA00E4F40D /* SceneDelegate.swift */; };
 		CE5981CA2B6E700500950FB6 /* String + GlobalValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5981C92B6E700500950FB6 /* String + GlobalValues.swift */; };
 		CE5CACFF2B2D9E1D00009FF8 /* loader2.json in Resources */ = {isa = PBXBuildFile; fileRef = CE5CACFE2B2D9E1C00009FF8 /* loader2.json */; };
 		CE6BD5B02AFBCF4900C4379F /* PrePaywallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6BD5AF2AFBCF4900C4379F /* PrePaywallManager.swift */; };
@@ -329,6 +332,9 @@
 		CE4F240D2B51670200A1A055 /* reward.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reward.json; sourceTree = "<group>"; };
 		CE5276492ADAD7D9009F30FB /* ExampleCreatingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCreatingResponse.swift; sourceTree = "<group>"; };
 		CE52764B2ADAE80A009F30FB /* BadgeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBackground.swift; sourceTree = "<group>"; };
+		CE5786E82BA99B5200E4F40D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		CE5786EA2BA9C74200E4F40D /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
+		CE5786EC2BA9E5EA00E4F40D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CE5981C92B6E700500950FB6 /* String + GlobalValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + GlobalValues.swift"; sourceTree = "<group>"; };
 		CE5981CB2B6FD1C700950FB6 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		CE5CACFE2B2D9E1C00009FF8 /* loader2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loader2.json; sourceTree = "<group>"; };
@@ -637,6 +643,7 @@
 		0190562C2944A7140058B566 = {
 			isa = PBXGroup;
 			children = (
+				CE5786E82BA99B5200E4F40D /* PrivacyInfo.xcprivacy */,
 				CE4F240B2B51572D00A1A055 /* haptic.ahap */,
 				CE3976932B9B4AA900D09EB4 /* haptic_loading.ahap */,
 				CECE48BA2AFF9F8E002E5507 /* notificationSound3.m4r */,
@@ -670,6 +677,7 @@
 				0109D1972AB5D7FC00714E55 /* Info.plist */,
 				0130B01B2A0A57E9001391FC /* Wordy.entitlements */,
 				019056382944A7140058B566 /* WordyApp.swift */,
+				CE5786EC2BA9E5EA00E4F40D /* SceneDelegate.swift */,
 				0103FF4D294C76CB004C2EA6 /* StartView.swift */,
 				CE9299502B0FB7B900E24C7E /* StartViewModel.swift */,
 				0103FF55294C9E75004C2EA6 /* Router.swift */,
@@ -979,6 +987,7 @@
 			isa = PBXGroup;
 			children = (
 				CEC836C22B88C0620081BFF8 /* AppValues.swift */,
+				CE5786EA2BA9C74200E4F40D /* ApiKeys.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1128,6 +1137,7 @@
 				012D95E0294867DA00165DAF /* SF-Pro-Display-MediumItalic.otf in Resources */,
 				014955A829E855FE000BC30F /* congeralations.json in Resources */,
 				CE4F240C2B51572E00A1A055 /* haptic.ahap in Resources */,
+				CE5786E92BA99B5200E4F40D /* PrivacyInfo.xcprivacy in Resources */,
 				CE3C675A2B8395DC0047B94C /* gif1.gif in Resources */,
 				012D95D7294867DA00165DAF /* SF-Pro-Display-ThinItalic.otf in Resources */,
 				019056562944D0DE0058B566 /* Colors.xcassets in Resources */,
@@ -1255,6 +1265,7 @@
 				0103FF48294C5035004C2EA6 /* AuthPage.swift in Sources */,
 				014681132955FF9C0080732C /* CreateModuleCard.swift in Sources */,
 				CE6ECC842B9AEAB50032367E /* TestLoadingPage.swift in Sources */,
+				CE5786EB2BA9C74200E4F40D /* ApiKeys.swift in Sources */,
 				014A46522964646300E43508 /* ModuleScreenViewModel.swift in Sources */,
 				017A6F742969CF4B001C1855 /* AddNewPhrase.swift in Sources */,
 				017642432972E7250042DB86 /* WordCardViewModel.swift in Sources */,
@@ -1321,6 +1332,7 @@
 				011B13912A001DB300D4CCBF /* SignInWithAppleDelegates.swift in Sources */,
 				CE1AF6382B5D028000CF5F08 /* View + Placeholder.swift in Sources */,
 				CE1A63712B1E150F0090850B /* ChangeModulePage.swift in Sources */,
+				CE5786ED2BA9E5EA00E4F40D /* SceneDelegate.swift in Sources */,
 				CE1AF6362B5C572000CF5F08 /* UIDeviceExtension.swift in Sources */,
 				019160BC29D098DD0094F36D /* ModuleSelectPage.swift in Sources */,
 				CE92994F2B0FAF9B00E24C7E /* NetworkConnectionManager.swift in Sources */,
@@ -1619,8 +1631,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
-				kind = exactVersion;
-				version = 10.15.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.22.0;
 			};
 		};
 		019229882AC462FE002648C4 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */ = {

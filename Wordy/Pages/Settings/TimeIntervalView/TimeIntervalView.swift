@@ -29,6 +29,7 @@ struct TimeIntervalView: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel = TimeIntervalViewModel()
     @EnvironmentObject var themeManager: ThemeManager
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
     
     var sucessGenerator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
     
@@ -77,6 +78,12 @@ struct TimeIntervalView: View {
 //                }
 //                .padding()
 //            }
+        }
+        .onChange(of: subscriptionManager.isUserHasSubscription) { newValue in
+            viewModel.isUserHasSubscription = newValue
+        }
+        .onAppear {
+            viewModel.isUserHasSubscription = subscriptionManager.isUserHasSubscription
         }
     }
     
@@ -949,7 +956,7 @@ struct TimeIntervalView_Previews: PreviewProvider {
             TimeIntervalView()
                 .environmentObject(ThemeManager(2))
                 .preferredColorScheme(.dark)
-                .environmentObject(SubscriptionManager())
+                .environmentObject(SubscriptionManager.shared)
         }
     }
 }

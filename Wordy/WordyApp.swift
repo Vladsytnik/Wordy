@@ -25,7 +25,7 @@ struct WordyApp: App {
     
 	@StateObject var router = Router()
 	@StateObject var themeManager = ThemeManager()
-	@StateObject var subsriptionManager = SubscriptionManager()
+    @StateObject var subsriptionManager = SubscriptionManager.shared
 	@StateObject var deeplinkManager = DeeplinkManager()
     @StateObject var rewardManager = RewardManager()
     @StateObject var dataManager = DataManager.shared
@@ -91,7 +91,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 //        }
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .voicePrompt, options: [.mixWithOthers])
         }
         catch let error as NSError {
             print("Error: Could not set audio category: \(error), \(error.userInfo)")
@@ -151,6 +151,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		
 		completionHandler(UIBackgroundFetchResult.newData)
 	}
+    
+    func application(
+        _ application: UIApplication,
+        configurationForConnecting connectingSceneSession: UISceneSession,
+        options: UIScene.ConnectionOptions
+      ) -> UISceneConfiguration {
+        let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
+        sceneConfig.delegateClass = WordySceneDelegate.self // 👈🏻
+        return sceneConfig
+      }
 }
 
 extension AppDelegate: MessagingDelegate {

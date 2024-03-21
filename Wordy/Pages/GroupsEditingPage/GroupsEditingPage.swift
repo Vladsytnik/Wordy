@@ -101,6 +101,9 @@ struct GroupsEditingPage: View {
 				}
 			}
 		}
+        .onAppear {
+            AnalyticsManager.shared.trackEvent(.openedEditGroupsPageFromSettings)
+        }
 		.showAlert(title: alert.title, description: alert.description, isPresented: $showAlert) {
 			
 		}

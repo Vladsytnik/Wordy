@@ -21,6 +21,8 @@ struct AddNewPhrase: View {
     @StateObject var viewModel = AddNewPhraseViewModel()
 	@EnvironmentObject var themeManager: ThemeManager
     
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
+    
     @State var isShowLimitAlert = false
     @State var isShowPaywall = false
     
@@ -143,12 +145,12 @@ struct AddNewPhrase: View {
                                                config: viewModel.tooltipConfig,
                                                appearingDelayValue: 0.5) {
                                         let text = "Нажмите, чтобы применить".localize()
-                                        let descr = "Без подписки доступно \n".localize() + "\(viewModel.countOfFreeApiUsing)" + " перевода".localize()
+                                        let descr = "Без подписки доступно \n".localize() + "\(viewModel.countOfFreeTranslateUsing)" + " перевода".localize()
                                         TooltipView(text: text,
                                                     stepNumber: 0,
                                                     allStepCount: 0,
                                                     withoutSteps: true,
-                                                    description: descr,
+                                                    description: viewModel.isAutotransaltingFree ? nil : descr,
                                                     onDisappear: {
                                             UserDefaultsManager.userAlreaySawTranslate = true
                                         }) {
@@ -247,7 +249,7 @@ struct AddNewPhrase: View {
                                        config: viewModel.tooltipConfig,
                                        appearingDelayValue: 0.5) {
                                 let text = "Нажмите, чтобы применить".localize()
-                                let descr = "Без подписки доступно \n".localize() + "\(viewModel.countOfFreeApiUsing) " + "генерации примеров".localize()
+                                let descr = "Без подписки доступно \n".localize() + "\(viewModel.countOfFreeExampleGeneratingUsing) " + "генерации примеров".localize()
                                 TooltipView(text: text,
                                             stepNumber: 0,
                                             allStepCount: 0,
@@ -397,6 +399,8 @@ struct AddNewPhrase: View {
             viewModel.translatedPhrase = translatedText
             viewModel.examplePhrase = exampleText
             
+            viewModel.isUserHasSubscription = subscriptionManager.isUserHasSubscription
+            
             viewModel.countOfTranslatesDict = UserDefaultsManager.countOfTranslatesInModules
             viewModel.countOfGeneratingExamplesDict = UserDefaultsManager.countOfGeneratingExamplesInModules
 //            UserDefaultsManager.userAlreaySawExample = false
@@ -419,6 +423,9 @@ struct AddNewPhrase: View {
 		.onChange(of: nativeText) { newValue in
 			viewModel.userDidWriteNativeText(newValue)
 		}
+        .onChange(of: subscriptionManager.isUserHasSubscription) { newValue in
+            viewModel.isUserHasSubscription = newValue
+        }
         .showAlert(title: viewModel.alert.title,
                    description: viewModel.alert.description,
                    isPresented: $isShowLimitAlert,
@@ -478,6 +485,7 @@ struct AddNewPhrase_Previews: PreviewProvider {
 		)
         .environmentObject(ThemeManager())
         .environmentObject(AddNewPhraseViewModel())
+        .environmentObject(SubscriptionManager.shared)
 	}
 }
 

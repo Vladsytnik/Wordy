@@ -108,22 +108,22 @@ class PaywallViewModel: ObservableObject {
 		selectedIndex = index
 	}
 	
-	func userDidBuyProduct(_ product: Product) {
-		if selectedIndex < products.count {
-			isInProgress = true
-			Task { @MainActor in
-				// productStruct is Product struct model from StoreKit2
-				// $isPurchasing should be used only in SwiftUI apps, otherwise don't use this parameter
-				let result = await Apphud.purchase(product, isPurchasing: $isPurchasing)
-				isInProgress = false
-				if result.success {
-					// handle successful purchase
-//                    alertText = "Поздравляем, оплата прошла успешно! \n\nСпасибо, что поддерживаете нас! <3. Теперь вам доступны все возможности приложения без ограничений!".localize()
-//                    showAlert.toggle()
-				}
-			}
-		}
-	}
+//	func userDidBuyProduct(_ product: Product) {
+//		if selectedIndex < products.count {
+//			isInProgress = true
+//			Task { @MainActor in
+//				// productStruct is Product struct model from StoreKit2
+//				// $isPurchasing should be used only in SwiftUI apps, otherwise don't use this parameter
+//				let result = await Apphud.purchase(product, isPurchasing: $isPurchasing)
+//				isInProgress = false
+//				if result.success {
+//					// handle successful purchase
+////                    alertText = "Поздравляем, оплата прошла успешно! \n\nСпасибо, что поддерживаете нас! <3. Теперь вам доступны все возможности приложения без ограничений!".localize()
+////                    showAlert.toggle()
+//				}
+//			}
+//		}
+//	}
 	
 	func getPriceTitleFor(index: Int) -> String {
         print(products[index])
@@ -134,20 +134,9 @@ class PaywallViewModel: ObservableObject {
         return products[index].displayPrice + " / " + period.getPeriodText()
 	}
     
-    func restorePurchase() {
-        isInProgress = true
-        Task { @MainActor in
-            let error = await Apphud.restorePurchases()
-            if let error  {
-                showErrorRestore()
-                print("Apphud error: restorePurchase: \(error)")
-            } else if !SubscriptionManager().userHasSubscription() {
-                showErrorRestore()
-            } else {
-                showSuccessRestore()
-            }
-            isInProgress = false
-        }
+    func getSubscriptionPeriodFor(index: Int) -> SubscriptionPeriod? {
+        guard let period = SubscriptionPeriod.fetch(from: products[index].id) else { return nil }
+        return period
     }
     
     func showErrorRestore() {

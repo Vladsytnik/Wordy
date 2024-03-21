@@ -19,6 +19,8 @@ struct WordsCarouselView: View {
 	
 	@StateObject var learnPageViewModel = LearnSelectionPageViewModel()
 	@State var showLearnPage = false
+    
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
 	
 	var body: some View {
 		ZStack {
@@ -31,6 +33,7 @@ struct WordsCarouselView: View {
 						BackButton {
 							dismiss()
 						}
+                        .padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
 						Spacer()
 					}
 					Text("\(viewModel.selectedWordIndex + 1)/\(module.phrases.count)")
@@ -65,7 +68,7 @@ struct WordsCarouselView: View {
 				Spacer(minLength: 50)
                 LearnModuleButton(customBgColor: themeManager.currentTheme.carouselLearnBtnColor) {
 					if module.phrases.count >= 4 {
-						viewModel.checkSubscriptionAndAccessability(module: module) { isAllow in
+						checkSubscriptionAndAccessability(module: module) { isAllow in
 							if isAllow {
 								learnPageViewModel.module = module
 								showLearnPage.toggle()
@@ -115,7 +118,12 @@ struct WordsCarouselView: View {
         self.selectedWordIndex = selectedWordIndex
 	}
 	
-	
+    func checkSubscriptionAndAccessability(module: Module, isAllow: ((Bool) -> Void)) {
+        let countOfStartingLearnMode = UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
+        isAllow(subscriptionManager.isUserHasSubscription
+                || countOfStartingLearnMode < maxCountOfStartingLearnMode)
+    }
+    
 	func didTapShowLearnPage() {
 		if module.phrases.count >= 4 {
             isUserCanLearnModule { isAllow in
@@ -137,9 +145,7 @@ struct WordsCarouselView: View {
     
     func isUserCanLearnModule(isAllow: ((Bool) -> Void)) {
         let countOfStartingLearnMode =  UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
-        let subscriptionManager = SubscriptionManager()
-        let test = subscriptionManager.userHasSubscription()
-        isAllow(subscriptionManager.userHasSubscription()
+        isAllow(subscriptionManager.isUserHasSubscription
                 || (countOfStartingLearnMode < maxCountOfStartingLearnMode
                     && !module.isBlockedFreeFeatures)
                 || module.acceptedAsStudent)
@@ -193,6 +199,7 @@ struct WordsCarouselView_Previews: PreviewProvider {
 					Phrase(nativeText: "Test", translatedText: "Test", id: "", date: Date())
 				   ])
 		), selectedWordIndex: 0)
+        .environmentObject(SubscriptionManager.shared)
 	}
 }
 

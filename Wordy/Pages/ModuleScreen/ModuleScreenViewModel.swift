@@ -47,31 +47,6 @@ class ModuleScreenViewModel: ObservableObject {
 			showAlert.toggle()
 		}
 	}
-    
-    func setToModuleTeacherMode(module: Module, successCallback: (() -> Void)?) {
-        guard SubscriptionManager().userHasSubscription() else {
-            return
-        }
-        
-        Task { @MainActor in
-            do {
-               let isSuccess = try await NetworkManager.setTeacherModeToModule(id: module.id)
-                if isSuccess {
-                    successCallback?()
-                } 
-//                else {
-//                    alert.description = "Попробуйте еще раз"
-//                    withAnimation {
-//                        self.showOkAlert = true
-//                    }
-//                }
-//                self.showActivity = false
-            } catch (let error) {
-                print("Error in ModuleScreenViewModel -> setToModuleTeacherMode: \(error.localizedDescription)")
-//                self.showActivity = false
-            }
-        }
-    }
 	
 	func didTapWord(with index: Int) {
 		selectedWordIndex = index
@@ -127,16 +102,6 @@ class ModuleScreenViewModel: ObservableObject {
 				self.showErrorAboutPhraseCount = true
 			}
 		}
-	}
-	
-	func checkSubscriptionAndAccessability(module: Module, isAllow: ((Bool) -> Void)) {
-		let countOfStartingLearnMode =  UserDefaultsManager.countOfStartingLearnModes[module.id] ?? 0
-		let subscriptionManager = SubscriptionManager()
-		let test = subscriptionManager.userHasSubscription()
-		isAllow(subscriptionManager.userHasSubscription()
-				|| (countOfStartingLearnMode < maxCountOfStartingLearnMode
-                    && !module.isBlockedFreeFeatures)
-                || module.acceptedAsStudent)
 	}
 	
 	func getCorrectWord(value: Int) -> String {

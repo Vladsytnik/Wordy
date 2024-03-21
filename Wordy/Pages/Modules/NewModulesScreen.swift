@@ -236,6 +236,7 @@ struct NewModulesScreen: View {
                                         onDisappear: { },
                                         onNextDidTap: {
                                             self.onboardingManager.goToNextStep()
+                                            AnalyticsManager.shared.trackEvent(.finishFirstOnboarding)
                                         }
                                     )
                                 }
@@ -460,14 +461,7 @@ struct NewModulesScreen: View {
                     appDelegate.sendNotificationPermissionRequest()
                 }
                 
-                print("fevwewev: \(reviewCounter) \(reviewCounterLimit) \(isReviewDidTap)")
-                if reviewCounter >= reviewCounterLimit && !isReviewDidTap {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        isReviewOpened = true
-                    }
-                    reviewCounter = 0
-                    reviewCounterLimit += 50
-                } else {
+                if !(reviewCounter >= reviewCounterLimit && !isReviewDidTap && dataManager.modules.count > 2) {
                     reviewCounter += 1
                 }
                 
@@ -498,6 +492,11 @@ struct NewModulesScreen: View {
             .onChange(of: onboardingManager.isOnboardingMode, perform: { newValue in
                 if !newValue {
                     fetchDataFromServer()
+                }
+            })
+            .onChange(of: showCreateModuleSheet, perform: { isOpened in
+                if !isOpened {
+                    showReviewIfNeeded()
                 }
             })
             .fullScreenCover(isPresented: $showSelectModulePage, content: {
@@ -558,6 +557,7 @@ struct NewModulesScreen: View {
             .popup(allowToShow: $showPopups, currentIndex: $indexOfPopup) {
                 AnalyticsManager.shared.trackEvent(.skippedSecondPopupOnboarding)
                 UserDefaultsManager.isMainScreenPopupsShown = true
+                AnalyticsManager.shared.trackEvent(.finishSecondPopupsOnboarding)
             }
             .onChange(of: showPopups) { val in
                 if !val {
@@ -580,6 +580,19 @@ struct NewModulesScreen: View {
     init() {
         configNavBarStyle()
         configTooltip()
+    }
+    
+    private func showReviewIfNeeded() {
+        print("fevwewev: \(reviewCounter) \(reviewCounterLimit) \(isReviewDidTap)")
+        if reviewCounter >= reviewCounterLimit && !isReviewDidTap && dataManager.modules.count > 1 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                isReviewOpened = true
+            }
+            reviewCounter = 0
+            reviewCounterLimit += 50
+        } else {
+            reviewCounter += 1
+        }
     }
     
     private func startPopupsIfNeeded() {
@@ -701,16 +714,37 @@ struct NewModulesScreen: View {
             if let user = user {
                 // User is signed in.
                 print("USER IS signed in")
+                updateSubscriptionDateFromFirebase()
             } else {
                 // No user is signed in.
+                subscriptionManager.isUserHasSubscription = false
+                
                 withAnimation {
                     router.userIsLoggedIn = false
                     UserDefaultsManager.userID = nil
+                    
                     Apphud.logout()
                 }
+                
+                dataManager.groups = []
+                dataManager.modules = []
                 print("USER IS signed out")
             }
             print("Current user:", auth.currentUser?.email)
+        }
+    }
+    
+    private func updateSubscriptionDateFromFirebase() {
+        Task {
+            do {
+                let expireSubscriptionDateFromServer = try await NetworkManager.getSubscriptionExpireDateFromServer()
+                UserDefaultsManager.serverSubscrExpireDate = expireSubscriptionDateFromServer
+                subscriptionManager.forceUpdateSubscriptionInfo()
+                print("expire date from server: \(expireSubscriptionDateFromServer)")
+            } catch (let error) {
+                print("error in NewModulesSreen -> .task -> try await NetworkManager.getSubscriptionExpireDateFromServer(): \(error.localizedDescription)")
+                subscriptionManager.forceUpdateSubscriptionInfo()
+            }
         }
     }
     
@@ -726,7 +760,7 @@ struct NewModulesScreen: View {
     }
     
     private func checkSubscriptionAndCountOfGroups(isAllow: ((Bool) -> Void)) {
-        isAllow(subscriptionManager.userHasSubscription()
+        isAllow(subscriptionManager.isUserHasSubscription
                 || dataManager.groups.count < macCountOfFreeGroups)
     }
 }
@@ -739,7 +773,7 @@ struct NewModulesScreen_Previews: PreviewProvider {
                 .environmentObject(Router())
                 .environmentObject(DeeplinkManager())
                 .environmentObject(ThemeManager())
-                .environmentObject(SubscriptionManager())
+                .environmentObject(SubscriptionManager.shared)
         }
     }
 }

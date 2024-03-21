@@ -56,6 +56,9 @@ class ThemeManager: ObservableObject {
 	func setNewTheme(with index: Int) {
 		let newName = allThemes()[index].id
 		UserDefaultsManager.themeName = newName
+        if currentThemeName != newName {
+            AnalyticsManager.shared.trackEvent(.didChangeColorTheme)
+        }
 		currentThemeName = newName
 		let newTheme = Themes.availableThemes[index]
 		withAnimation {

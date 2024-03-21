@@ -18,6 +18,9 @@ struct AuthPage: View {
 	@State var isFocused = false
 	@State var loginWithEmail = false
     
+    @State var testEmail = ""
+    @State var testPassword = ""
+    
     @Environment(\.colorScheme) var colorScheme
 	
 	var body: some View {
@@ -200,13 +203,14 @@ struct AuthTextField: View {
 				RoundedRectangle(cornerRadius: cornerRadius)
 					.border(width: 0.5, edges: [.bottom], color: colorScheme == .dark ? .white : .black)
 					.foregroundColor(.clear)
+                    .onTapGesture {
+                        textFieldIsFocused = true
+                    }
 			}
 			.onChange(of: textFieldIsFocused) { newValue in
 				isFocused = newValue
 			}
-            .if(isEmail) { v in
-                v.keyboardType(.emailAddress)
-            }
+            .keyboardType(.emailAddress)
             .tint(themeManager.currentTheme.accent)
 	}
 }
@@ -232,6 +236,9 @@ struct SecureAuthTextField: View {
                 RoundedRectangle(cornerRadius: cornerRadius)
                     .border(width: 0.5, edges: [.bottom], color: colorScheme == .dark ? .white : .black)
                     .foregroundColor(.clear)
+                    .onTapGesture {
+                        textFieldIsFocused = true
+                    }
             }
             .onChange(of: textFieldIsFocused) { newValue in
                 isFocused = newValue

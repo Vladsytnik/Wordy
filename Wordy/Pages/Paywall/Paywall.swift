@@ -12,6 +12,7 @@ struct Paywall: View {
 	
 	@EnvironmentObject var themeManager: ThemeManager
 	@ObservedObject var viewModel = PaywallViewModel()
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
 	@Binding var isOpened: Bool
 	@State var isOnAppear = false
 	
@@ -20,6 +21,8 @@ struct Paywall: View {
     @State var alertTitle = "Wordy.app"
     @State var alertMessage = ""
     @State var isCongratsAlertShown = false
+    
+    @State var isFirstOpen = false
 	
 	var isNothingSelected: Bool {
 		viewModel.selectedIndex == nil
@@ -126,6 +129,7 @@ struct Paywall: View {
 							.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: Alignment.topLeading)
                         
 						Button {
+                            AnalyticsManager.shared.trackEvent(.didTapOnPaywallBuyBtn)
                             didTapBuy()
 						} label: {
 							RoundedRectangle(cornerRadius: 28)
@@ -144,7 +148,8 @@ struct Paywall: View {
 						.animation(.spring(), value: isNothingSelected)
                         
                         Button(action: {
-                            viewModel.restorePurchase()
+                            AnalyticsManager.shared.trackEvent(.didTapOnPaywallRestoreBtn)
+                            restorePurchase()
                         }, label: {
                             Text("Возобновить покупку".localize())
                                 .foregroundColor(themeManager.currentTheme.mainText.opacity(0.8))
@@ -178,7 +183,13 @@ struct Paywall: View {
 				}
 			}
 		}
-		.onAppear { isOnAppear = true }
+        .onAppear {
+            isOnAppear = true
+            if isFirstOpen {
+                isFirstOpen = false
+                AnalyticsManager.shared.trackEvent(.sawPaywall)
+            }
+        }
         .activity($viewModel.isInProgress)
 //        .alert(isPresented: $isCongratsAlertShown) {
 //            let btnText = "Got it!".localize()
@@ -205,17 +216,29 @@ struct Paywall: View {
     }
     
     private func didTapBuy() {
+        if let subscrObject = viewModel.getSubscriptionPeriodFor(index: viewModel.selectedIndex) {
+            switch subscrObject {
+            case .OneMonth:
+                AnalyticsManager.shared.trackEvent(.didTapOnOneMonthPeriodBtn)
+            case .OneYear:
+                AnalyticsManager.shared.trackEvent(.didTapOnOneYearPeriodBtn)
+            }
+        }
+        
         if viewModel.selectedIndex < viewModel.products.count {
             viewModel.isInProgress = true
             Task { @MainActor in
                 let result = await Apphud.purchase(viewModel.getSelectedProduct(), isPurchasing: $isPurchasing)
                 print("Subscr print: ", result)
                 if result.success {
+                    AnalyticsManager.shared.trackEvent(.subscriptionBuyProcessFinishedWithSuccess)
                     print("Subscr print: success")
-                    NetworkManager.updateSubscriptionInfo()
+                    subscriptionManager.updateDate()
+                    subscriptionManager.isUserHasSubscription = true
                     viewModel.isNeedToClosePaywall = true
                     showCongratsAlert()
                 } else {
+                    AnalyticsManager.shared.trackEvent(.subscriptionBuyProcessFinishedWithError)
                     print("Subscr print: not success")
                 }
                 viewModel.isInProgress = false
@@ -223,10 +246,27 @@ struct Paywall: View {
         }
     }
     
+    func restorePurchase() {
+        viewModel.isInProgress = true
+        Task { @MainActor in
+            let error = await Apphud.restorePurchases()
+            if let error  {
+                viewModel.showErrorRestore()
+                print("Apphud error: restorePurchase: \(error)")
+            } else if !subscriptionManager.isUserHasSubscription {
+                viewModel.showErrorRestore()
+            } else {
+                viewModel.showSuccessRestore()
+            }
+            viewModel.isInProgress = false
+        }
+    }
+    
     private func showCongratsAlert() {
-        viewModel.alertTitle = "Поздравляем, оплата прошла успешно!".localize() + "\n"
-        viewModel.alertText = "Спасибо, что поддерживаете нас! <3".localize() + "\n\n" + "Теперь вам доступны все возможности приложения без ограничений!".localize()
-        viewModel.showAlert.toggle()
+//        viewModel.alertTitle = "Поздравляем, оплата прошла успешно!".localize() + "\n"
+//        viewModel.alertText = "Спасибо, что поддерживаете нас! <3".localize() + "\n\n" + "Теперь вам доступны все возможности приложения без ограничений!".localize()
+//        viewModel.showAlert.toggle()
+        closePaywall()
     }
     
     private func closePaywall() {
@@ -237,6 +277,7 @@ struct Paywall: View {
 struct Paywall_Previews: PreviewProvider {
     static var previews: some View {
 		Paywall(isOpened: .constant(true))
+            .environmentObject(SubscriptionManager.shared)
     }
 }
 

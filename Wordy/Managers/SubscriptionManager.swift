@@ -9,24 +9,43 @@ import SwiftUI
 import ApphudSDK
 
 class SubscriptionManager: ObservableObject {
-	
-//	lazy var userHasSubscription: Bool = {
-//		Apphud.hasPremiumAccess()
-//	}()
     
+    static let shared = SubscriptionManager()
     @Published var isUserHasSubscription = false
+    
     var onSubscriptionUpdate: ((Bool) -> Void)?
     
     static private var lastServerSubscrUpdatedDate: Date?
+    private var cachedSubscriptionDate: Date? = nil
     
-    init() {
-        isUserHasSubscription = userHasSubscription()
+    private init() {
+        print("Subscription Manager debug: init")
+        forceUpdateSubscriptionInfo()
     }
     
-    @discardableResult
-    func userHasSubscription() -> Bool {
+    func updateDate() {
+        if let date = expiredAt(), let userId = UserDefaultsManager.userID {
+            KeychainHelper.standard.save(date, service: .KeychainServiceSubscriptionDateKey, account: userId)
+            NetworkManager.updateSubscriptionInfo(withDate: date)
+        }
+    }
+    
+    func forceUpdateSubscriptionInfo() {
+        checkCachedSubscriptionDate()
+        updateSubscriptionDateFromServer()
+    }
+    
+    private func checkCachedSubscriptionDate() {
+        guard let userId = UserDefaultsManager.userID else { return }
+        
+        if let expireSubscrDate = KeychainHelper.standard.read(service: .KeychainServiceSubscriptionDateKey, account: userId, type: Date.self) {
+            isUserHasSubscription = Date() < expireSubscrDate
+        }
+    }
+    
+    private func updateSubscriptionDateFromServer() {
         if let userId = UserDefaultsManager.userID  {
-            Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr", userID: userId)
+            Apphud.start(apiKey: ApiKeys.AppHudKey.value(), userID: userId)
             let hasSubscr = Apphud.hasPremiumAccess()
             || UserDefaultsManager.userHasTestSubscription
             || userHasServerSubscription()
@@ -35,24 +54,22 @@ class SubscriptionManager: ObservableObject {
             }
             onSubscriptionUpdate?(hasSubscr)
             printSubscriptionInfo()
-            updateServerSubscrDateIfNeeded()
-            return hasSubscr
+            // updateServerSubscrDateIfNeeded()
         } else {
             isUserHasSubscription = false
             onSubscriptionUpdate?(false)
             printSubscriptionInfo()
-            return false
         }
     }
     
-    private func updateServerSubscrDateIfNeeded() {
-        let now = Date()
-        let interval = abs(now.timeIntervalSince(SubscriptionManager.lastServerSubscrUpdatedDate ?? now))
-        if SubscriptionManager.lastServerSubscrUpdatedDate == nil || interval > 60 {
-            NetworkManager.updateSubscriptionInfo()
-            SubscriptionManager.lastServerSubscrUpdatedDate = Date()
-        }
-    }
+//    private func updateServerSubscrDateIfNeeded() {
+//        let now = Date()
+//        let interval = abs(now.timeIntervalSince(SubscriptionManager.lastServerSubscrUpdatedDate ?? now))
+//        if SubscriptionManager.lastServerSubscrUpdatedDate == nil || interval > 60 {
+//            NetworkManager.updateSubscriptionInfo()
+//            SubscriptionManager.lastServerSubscrUpdatedDate = Date()
+//        }
+//    }
 	
     func printSubscriptionInfo() {
         let subscriptionObject = Apphud.subscription()
@@ -74,15 +91,4 @@ class SubscriptionManager: ObservableObject {
         let subscrIsActive = currentDate < serverDate
         return subscrIsActive
     }
-    
-//    func getServerSubscr() {
-//        Task {
-//            do {
-//                let expireSubscriptionDateFromServer = try await NetworkManager.getSubscriptionExpireDateFromServer()
-//                UserDefaultsManager.serverSubscrExpireDate = expireSubscriptionDateFromServer
-//            } catch (let error) {
-//                print("error in SubscriptionManager -> getServerSubscr -> try await NetworkManager.getSubscriptionExpireDateFromServer(): \(error.localizedDescription)")
-//            }
-//        }
-//    }
 }

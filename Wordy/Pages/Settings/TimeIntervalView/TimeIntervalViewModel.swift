@@ -52,8 +52,6 @@ class TimeIntervalViewModel: ObservableObject {
     private var toProgressDefault: Double = 0.5
     private var timeDifferenceDefault = 6
     
-    private var subscriptionManager = SubscriptionManager()
-    
     var cancelations = Set<AnyCancellable>()
     
     var isFromDrag = false
@@ -79,6 +77,8 @@ class TimeIntervalViewModel: ObservableObject {
     @Published var toDatePicker = Date()
     @Published var isShowDatePicker = false
     @Published var isShowEndDatePicker = false
+    
+    @Published var isUserHasSubscription = false
     
     private func updateView() {
         self.forceUpdateView += 1
@@ -171,7 +171,7 @@ class TimeIntervalViewModel: ObservableObject {
             .sink { [weak self] isOn in
                 guard let self else { return }
                 print("tttttt: \(isOn)")
-                if isOn && !self.subscriptionManager.userHasSubscription() && !AppValues.shared.isNotificationsFree {
+                if isOn && !isUserHasSubscription && !AppValues.shared.isNotificationsFree {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self.notificationsIsOn = false
                     }
@@ -637,7 +637,7 @@ class TimeIntervalViewModel: ObservableObject {
     }
     
     func save() {
-        guard subscriptionManager.userHasSubscription() || AppValues.shared.isNotificationsFree else {
+        guard isUserHasSubscription || AppValues.shared.isNotificationsFree else {
             showPaywall.toggle()
             return
         }

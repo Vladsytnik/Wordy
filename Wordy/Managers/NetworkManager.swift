@@ -77,21 +77,18 @@ class NetworkManager {
     
     // MARK: - Subscription
     
-    static func updateSubscriptionInfo(isTestPro: Bool = false) {
+    static func updateSubscriptionInfo(withDate date: Date, isTestPro: Bool = false) {
         guard let currentUserID = currentUserID else {
             print("error in updateSubscriptionInfo -> currentUserID")
             return
         }
         
         Task {
-            let date = SubscriptionManager().expiredAt()
             var dateStr = ""
             
-            if let date {
-                let dateFormatter = DateFormatter().getDateFormatter()
-                dateFormatter.timeZone = TimeZone(identifier: "UTC")
-                dateStr = dateFormatter.string(from: date)
-            }
+            let dateFormatter = DateFormatter().getDateFormatter()
+            dateFormatter.timeZone = TimeZone(identifier: "UTC")
+            dateStr = dateFormatter.string(from: date)
             
             if isTestPro {
                 if let futureDate = Calendar.current.date(byAdding: .year, value: 10, to: Date()) {
@@ -918,7 +915,7 @@ class NetworkManager {
 		request.httpMethod = "POST";
 		request.allHTTPHeaderFields = [
 			"Content-Type" : "application/json",
-			"Authorization" : "Api-Key AQVN0OEuE0aqTVasJb1JxIBXZpsvwCUx2xiZCSk7"
+            "Authorization" : ApiKeys.YandexKey.value()
 		]
 		
 		let body = [

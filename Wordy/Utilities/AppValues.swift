@@ -9,7 +9,10 @@ import Foundation
 import FirebaseRemoteConfig
 
 enum ValueKey: String {
+    case CountOfFreeExampleGeneratingUsing
+    case CountOfFreeTranslateUsing
     case LearningModeCountForFree
+    case IsAutotranslatingFree
     case IsNotificationsFree
     case TestValue
 }
@@ -31,6 +34,15 @@ class AppValues {
     var testValue: String {
         self.str(forKey: ValueKey.TestValue.rawValue)
     }
+    var countOfFreeTranslateUsing: Int {
+        self.int(forKey: ValueKey.CountOfFreeTranslateUsing.rawValue)
+    }
+    var countOfFreeExampleGeneratingUsing: Int {
+        self.int(forKey: ValueKey.CountOfFreeExampleGeneratingUsing.rawValue)
+    }
+    var isAutotranslatingFree: Bool {
+        self.bool(forKey: ValueKey.IsAutotranslatingFree.rawValue)
+    }
     
     // MARK: -
     
@@ -41,15 +53,18 @@ class AppValues {
     
     private func loadDefaultValues() {
         let appDefaults: [String: Any?] = [
-            ValueKey.LearningModeCountForFree.rawValue : 5,
+            ValueKey.TestValue.rawValue : "Test",
             ValueKey.IsNotificationsFree.rawValue : false,
-            ValueKey.TestValue.rawValue : "Test"
+            ValueKey.IsAutotranslatingFree.rawValue : true,
+            ValueKey.LearningModeCountForFree.rawValue : 5,
+            ValueKey.CountOfFreeTranslateUsing.rawValue : 15,
+            ValueKey.CountOfFreeExampleGeneratingUsing.rawValue : 3
         ]
         
         RemoteConfig.remoteConfig().setDefaults(appDefaults as? [String: NSObject])
     }
     
-    private func fetchCloudValues() {
+    func fetchCloudValues() {
         let settings = RemoteConfigSettings()
         settings.minimumFetchInterval = 43200 // каждые 12 часов
         RemoteConfig.remoteConfig().configSettings = settings
