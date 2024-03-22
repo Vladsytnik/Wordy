@@ -38,6 +38,8 @@ final class AnalyticsManager {
             break
         }
         
+//        guard TrackingManager.shared.isUserAllowed else { return }
+        
         DispatchQueue.global(qos: .default).async {
             Analytics.logEvent(event.eventName, parameters: parameters)
         }

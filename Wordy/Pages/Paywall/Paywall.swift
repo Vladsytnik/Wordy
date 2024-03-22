@@ -179,6 +179,12 @@ struct Paywall: View {
 						.foregroundColor(themeManager.currentTheme.mainText.opacity(0.8))
 						.padding()
 						.offset(y: -16)
+                        
+                        Text("Ваша подписка автоматически продлевается на прежних условиях, если вы не отмените её минимум за 24 часа до окончания текущего периода. Вы можете в любой момент и без дополнительной оплаты отменить подписку в App Store, и она завершится в конце текущего периода.".localize())
+                            .font(.system(size: 11))
+                            .foregroundColor(themeManager.currentTheme.mainText.opacity(0.5))
+                            .padding()
+                            .multilineTextAlignment(.center)
 					}
 				}
 			}

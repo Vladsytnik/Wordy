@@ -457,9 +457,9 @@ struct NewModulesScreen: View {
 //                }
                 router.userIsAlreadyLaunched = true
                 
-                if UserDefaultsManager.isNotFirstLaunchOfModulesPage {
-                    appDelegate.sendNotificationPermissionRequest()
-                }
+//                if UserDefaultsManager.isNotFirstLaunchOfModulesPage {
+//                    appDelegate.sendNotificationPermissionRequest()
+//                }
                 
                 if !(reviewCounter >= reviewCounterLimit && !isReviewDidTap && dataManager.modules.count > 2) {
                     reviewCounter += 1
@@ -561,9 +561,9 @@ struct NewModulesScreen: View {
             }
             .onChange(of: showPopups) { val in
                 if !val {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        appDelegate.sendNotificationPermissionRequest()
-                    }
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                        appDelegate.sendNotificationPermissionRequest()
+//                    }
                 }
             }
             .onChange(of: dataManager.isLoading) { val in

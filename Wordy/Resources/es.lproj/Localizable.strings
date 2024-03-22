@@ -178,3 +178,5 @@
 
 "Вы достигли лимита по количеству \nслов в одном модуле. \n\nМы не рекомендуем добавлять больше 15 фраз в один модуль. \n\nНо если вы все равно хотите снять все ограничения, то попробуйте \nподписку Wordy PRO" = "Has alcanzado el límite de palabras \nen un módulo. \n\nNo recomendamos agregar más de 15 frases en un módulo. \n\nPero si aún deseas quitar todas las restricciones, prueba \nla suscripción Wordy PRO";
 "\n Чтобы включить уведомления, необходимо дать к ним доступ в настройках" = "\n Para activar las notificaciones, debes otorgarles acceso en la configuración";
+
+"Ваша подписка автоматически продлевается на прежних условиях, если вы не отмените её минимум за 24 часа до окончания текущего периода. Вы можете в любой момент и без дополнительной оплаты отменить подписку в App Store, и она завершится в конце текущего периода." = "Su suscripción se renueva automáticamente según los términos anteriores, a menos que la cancele al menos 24 horas antes del final del período actual. Puedes cancelar tu suscripción en la App Store en cualquier momento y sin coste adicional y finalizará al final del periodo actual.";

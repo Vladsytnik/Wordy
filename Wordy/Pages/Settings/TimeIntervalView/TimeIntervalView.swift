@@ -33,6 +33,8 @@ struct TimeIntervalView: View {
     
     var sucessGenerator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
     
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -84,6 +86,7 @@ struct TimeIntervalView: View {
         }
         .onAppear {
             viewModel.isUserHasSubscription = subscriptionManager.isUserHasSubscription
+            appDelegate.sendNotificationPermissionRequest()
         }
     }
     

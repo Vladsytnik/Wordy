@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Wordy
+
+  Created by user on 22.03.2024.
+  
+*/
+
+"NSUserTrackingUsageDescription" = "Wir bemühen uns, Ihre Sprachlernerfahrung so angenehm und effektiv wie möglich zu gestalten. Gewähren Sie uns die Erlaubnis, Sie zu verfolgen, damit wir Sie bei jedem Schritt Ihres Trainings mit personalisierten Tipps und Vorschlägen unterstützen können.";

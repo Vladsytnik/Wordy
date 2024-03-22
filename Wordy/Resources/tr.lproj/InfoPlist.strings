@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Wordy
+
+  Created by user on 22.03.2024.
+  
+*/
+
+"NSUserTrackingUsageDescription" = "Dil öğrenme deneyiminizi olabildiğince konforlu ve verimli hale getirmeye çalışıyoruz. Eğitiminizin her adımında kişiselleştirilmiş ipuçları ve önerilerle sizi destekleyebilmemiz için bize izleme izni verin.";

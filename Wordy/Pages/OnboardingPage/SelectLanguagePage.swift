@@ -26,6 +26,8 @@ struct SelectLanguagePage: View {
 	
 	private let languages = Language.getAll().sorted(by: { $0.getTitle() < $1.getTitle() })
     
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     @Environment(\.colorScheme) var colorScheme
 	
 	var body: some View {
@@ -130,7 +132,10 @@ struct SelectLanguagePage: View {
                            repeatAction: {}
                 )
 			}
-		} else {
+            .onAppear {
+                appDelegate.askUserForTrackingData()
+            }
+        } else {
 			ZStack {
 				if themeManager.currentTheme.isDark {
 					themeManager.currentTheme.darkMain
@@ -293,9 +298,9 @@ struct LanguageSelectorView: View {
 		.background{
 			RoundedRectangle(cornerRadius: 12)
 				.foregroundColor(themeManager.currentTheme.main)
-		}
-		.frame(height: isClosed ? 0 : .none)
-	}
+        }
+        .frame(height: isClosed ? 0 : .none)
+    }
 }
 
 struct SelectLanguagePage_Previews: PreviewProvider {
