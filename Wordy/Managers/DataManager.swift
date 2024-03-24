@@ -112,6 +112,23 @@ final class DataManager: ObservableObject {
         }
     }
     
+    func deselectAllModules() {
+        allModules.indices.forEach { allModules[$0].isSelected = false }
+    }
+    
+    func selectModule(withId moduleId: String) {
+        let findedModuleIndex = allModules.firstIndex(where: { $0.id == moduleId }).map{ Int($0) }
+
+        if let findedModuleIndex {
+            allModules[findedModuleIndex].isSelected.toggle()
+        }
+    }
+    
+    func delete(modules modulesForDeletion: [Module]) {
+        let modulesIds = modulesForDeletion.map { $0.id }
+        allModules.removeAll(where: { modulesIds.contains($0.id) })
+    }
+    
     func resetNotificationState(for moduleId: String) {
         let findedModuleIndex = allModules.firstIndex(where: { $0.id == moduleId }).map{ Int($0) }
         let findedModuleIndex2 = modules.firstIndex(where: { $0.id == moduleId }).map{ Int($0) }

@@ -142,11 +142,13 @@
 		01F708BB29B6573F00585B2E /* NewCategoryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F708BA29B6573F00585B2E /* NewCategoryCard.swift */; };
 		01FB3A8029505E5100330DDE /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FB3A7F29505E5100330DDE /* SearchTextField.swift */; };
 		54C1456C2198133057B81C76 /* Pods_Wordy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E0DCB96190B4968409C2E7 /* Pods_Wordy.framework */; };
+		CE10D4132BB01BEA00AE6FE6 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE10D4122BB01BEA00AE6FE6 /* Animations.swift */; };
 		CE1A63712B1E150F0090850B /* ChangeModulePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1A63702B1E150F0090850B /* ChangeModulePage.swift */; };
 		CE1AF6322B5C466E00CF5F08 /* HighlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AF6312B5C466E00CF5F08 /* HighlightView.swift */; };
 		CE1AF6342B5C570B00CF5F08 /* PopupExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AF6332B5C570B00CF5F08 /* PopupExtension.swift */; };
 		CE1AF6362B5C572000CF5F08 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AF6352B5C572000CF5F08 /* UIDeviceExtension.swift */; };
 		CE1AF6382B5D028000CF5F08 /* View + Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1AF6372B5D028000CF5F08 /* View + Placeholder.swift */; };
+		CE255B272BAF0B1E00B635CA /* LongTapAnimatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE255B262BAF0B1E00B635CA /* LongTapAnimatable.swift */; };
 		CE272E1E2B067A6400B2B1E8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE272E1D2B067A6400B2B1E8 /* Notification.swift */; };
 		CE2A8EDA2BA0AC8C00D2706C /* Array + Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2A8ED92BA0AC8C00D2706C /* Array + Extensions.swift */; };
 		CE2A8EEC2BA482DA00D2706C /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2A8EEB2BA482DA00D2706C /* AnalyticsManager.swift */; };
@@ -318,11 +320,13 @@
 		01F57695294A4F2E00F52EB1 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		01F708BA29B6573F00585B2E /* NewCategoryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryCard.swift; sourceTree = "<group>"; };
 		01FB3A7F29505E5100330DDE /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
+		CE10D4122BB01BEA00AE6FE6 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		CE1A63702B1E150F0090850B /* ChangeModulePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeModulePage.swift; sourceTree = "<group>"; };
 		CE1AF6312B5C466E00CF5F08 /* HighlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightView.swift; sourceTree = "<group>"; };
 		CE1AF6332B5C570B00CF5F08 /* PopupExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupExtension.swift; sourceTree = "<group>"; };
 		CE1AF6352B5C572000CF5F08 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		CE1AF6372B5D028000CF5F08 /* View + Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View + Placeholder.swift"; sourceTree = "<group>"; };
+		CE255B262BAF0B1E00B635CA /* LongTapAnimatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongTapAnimatable.swift; sourceTree = "<group>"; };
 		CE272E1D2B067A6400B2B1E8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		CE2A8ED92BA0AC8C00D2706C /* Array + Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array + Extensions.swift"; sourceTree = "<group>"; };
 		CE2A8EEB2BA482DA00D2706C /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
@@ -644,6 +648,7 @@
 		0185B55C2949F24600934373 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				CE255B252BAF0B1400B635CA /* LongTapAnimatable */,
 				0101B8AC2AA0D40C0055DEFB /* MyTooltip */,
 				011B138F2A001DA600D4CCBF /* SignInWithApple */,
 				0185B55E2949F26D00934373 /* ObservableScrollView.swift */,
@@ -931,6 +936,14 @@
 			path = ChangeModulePage;
 			sourceTree = "<group>";
 		};
+		CE255B252BAF0B1400B635CA /* LongTapAnimatable */ = {
+			isa = PBXGroup;
+			children = (
+				CE255B262BAF0B1E00B635CA /* LongTapAnimatable.swift */,
+			);
+			path = LongTapAnimatable;
+			sourceTree = "<group>";
+		};
 		CE41A7FB2AE3D025002E9E4A /* TimeIntervalView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1004,6 +1017,7 @@
 			children = (
 				CEC836C22B88C0620081BFF8 /* AppValues.swift */,
 				CE5786EA2BA9C74200E4F40D /* ApiKeys.swift */,
+				CE10D4122BB01BEA00AE6FE6 /* Animations.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1276,6 +1290,7 @@
 				CE6C52962B5AC7D900FA7890 /* SupportView.swift in Sources */,
 				013D97772A434A1B00F03AF7 /* Paywall.swift in Sources */,
 				0110F711297EECD2007F26BC /* NavigationView.swift in Sources */,
+				CE10D4132BB01BEA00AE6FE6 /* Animations.swift in Sources */,
 				0101B8AE2AA0D4260055DEFB /* MyTooltipConfig.swift in Sources */,
 				CE1AF6322B5C466E00CF5F08 /* HighlightView.swift in Sources */,
 				CEBE1E742B482E820079A348 /* ReviewView.swift in Sources */,
@@ -1297,6 +1312,7 @@
 				013251E0296B034900B071F1 /* UIApplication + hideKeyboard.swift in Sources */,
 				CE9425172B4C427400EF7C7C /* Rewards.swift in Sources */,
 				0101B8B02AA0D45B0055DEFB /* MyTooltipSide.swift in Sources */,
+				CE255B272BAF0B1E00B635CA /* LongTapAnimatable.swift in Sources */,
 				CE5981CA2B6E700500950FB6 /* String + GlobalValues.swift in Sources */,
 				0101B8B62AA0D5A00055DEFB /* MyDefaultTooltipConfig.swift in Sources */,
 				019056492944A85E0058B566 /* Modules.swift in Sources */,

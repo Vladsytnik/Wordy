@@ -297,6 +297,26 @@ class NetworkManager {
     
     // MARK: - Modules
     
+    static func deleteModules(_ modules: [Module]) async throws {
+        
+        enum Err: Error {
+            case CurrentUserId
+        }
+        
+        guard let currentUserID = currentUserID else {
+            print("error in updateNotificationsInfo -> currentUserID")
+            throw Err.CurrentUserId
+        }
+        
+        let modulesIds = modules.map { $0.id }
+        
+        for moduleId in modulesIds {
+            print("async await debug: перед удалением")
+            try await ref.child("users").child(currentUserID).child("modules").child(moduleId).removeValue()
+            print("async await debug: дождались удаления")
+        }
+    }
+    
     static func updateModuleWith(id: String, emoji: String, name: String) async throws -> Bool {
         guard let currentUserID = currentUserID else {
             print("error in updateNotificationsInfo -> currentUserID")

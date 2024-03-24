@@ -211,3 +211,5 @@
 "\n Чтобы включить уведомления, необходимо дать к ним доступ в настройках" = "\n To enable notifications, you need to grant access to them in settings";
 
 "Ваша подписка автоматически продлевается на прежних условиях, если вы не отмените её минимум за 24 часа до окончания текущего периода. Вы можете в любой момент и без дополнительной оплаты отменить подписку в App Store, и она завершится в конце текущего периода." = "Your subscription is automatically renewed on the same terms unless you cancel it at least 24 hours before the end of the current period. You can cancel your subscription in the App Store at any time and at no additional cost, and it will end at the end of the current period.";
+
+"Вы уверены, что хотите удалить выбранные модули?" = "You sure you want to delete the selected modules?";
