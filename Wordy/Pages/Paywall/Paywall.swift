@@ -22,7 +22,7 @@ struct Paywall: View {
     @State var alertMessage = ""
     @State var isCongratsAlertShown = false
     
-    @State var isFirstOpen = false
+    @State var isFirstOpen = true
 	
 	var isNothingSelected: Bool {
 		viewModel.selectedIndex == nil
