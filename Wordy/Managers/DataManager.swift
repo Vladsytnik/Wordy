@@ -44,6 +44,11 @@ final class DataManager: ObservableObject {
         applyFilterText()
     }
     
+    func addToSelectedGroupModuleId(_ id: String) {
+        self.objectWillChange.send()
+        groups[selectedCategoryIndex].modulesID.append(id)
+    }
+    
     func applyFilterText() {
         let isSelectedSomeGroup = selectedCategoryIndex >= 0
         let isFiltering = filterText.count > 0
