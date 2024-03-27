@@ -185,7 +185,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         options: UIScene.ConnectionOptions
       ) -> UISceneConfiguration {
         let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
-        sceneConfig.delegateClass = WordySceneDelegate.self // 👈🏻
+        sceneConfig.delegateClass = WordySceneDelegate.self 
         return sceneConfig
       }
 }
