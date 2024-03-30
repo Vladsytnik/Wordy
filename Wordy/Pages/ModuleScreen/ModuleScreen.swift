@@ -371,7 +371,7 @@ struct ModuleScreen: View {
 			.background {
                 UIKitActivityView(isPresented: $showActivity,
                                   userIsReallyShared: $userIsReallyShared,
-								  data: [viewModel.getShareUrl(module: module)],
+                                  data: [viewModel.getShareUrl(module: module)],
 //								  data: [URL(string: "https://wordy.onelink.me/HpCP/s3t4ujfk")!],
 								  subject: nil,
 								  message: nil)
@@ -380,6 +380,7 @@ struct ModuleScreen: View {
                 self.emoji = module.emoji
                 self.moduleName = module.name
                 AnalyticsManager.shared.trackEvent(.openedModule)
+//                viewModel.setSharingUrl(module: module)
             }
             .navigationBarItems(
                 trailing:
@@ -768,7 +769,7 @@ struct UIKitActivityView: UIViewControllerRepresentable {
 	@Binding var isPresented: Bool
     @Binding var userIsReallyShared: Bool
 	
-	let data: [Any]
+    let data: [Any]
 	let subject: String?
 	let message: String?
 	

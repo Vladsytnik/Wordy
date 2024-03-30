@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseAnalytics
+import FirebaseAuth
 
 enum AnalyticsKeys: String { case method, type, id, subscription, referer, own, ai, email, apple, availability, sourcePage }
 
@@ -39,6 +40,10 @@ final class AnalyticsManager {
         }
         
 //        guard TrackingManager.shared.isUserAllowed else { return }
+        
+        if let userId = Auth.auth().currentUser?.uid {
+            Analytics.setUserID(userId)
+        }
         
         DispatchQueue.global(qos: .default).async {
             Analytics.logEvent(event.eventName, parameters: parameters)

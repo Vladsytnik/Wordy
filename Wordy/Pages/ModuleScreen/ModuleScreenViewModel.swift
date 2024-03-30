@@ -27,6 +27,8 @@ class ModuleScreenViewModel: ObservableObject {
 	
 	@Published var showEditPhrasePage = false
 	@Published var phraseIndexForEdit = 0
+    
+    @Published var sharingData: [Any]?
 	
 	let synthesizer = AVSpeechSynthesizer()
 	
@@ -35,12 +37,37 @@ class ModuleScreenViewModel: ObservableObject {
 	
 //    @Published var module: Module = .init()
 	
-    func getShareUrl(module: Module) -> URL {
+    func getShareUrl(module: Module) -> String {
 		guard let userID = Auth.auth().currentUser?.uid else {
-			return URL(string: "https://4475302.redirect.appmetrica.yandex.com/")!
+//			return URL(string: "https://4475302.redirect.appmetrica.yandex.com/")!
+            return "apple.com"
 		}
-		return URL(string: "https://4475302.redirect.appmetrica.yandex.com/\(userID)/\(module.id)")!
+        
+        let sharingText = "Делюсь с тобой своим модулем".localize() + " \(module.emoji) \(module.name)"
+        let sharingTextDescr = "Чтобы добавить его к себе, перейди по этой ссылке:".localize()
+        let urlText = "https://4475302.redirect.appmetrica.yandex.com/\(userID)/\(module.id)"
+        
+        let resultText = sharingText + "\n\n" + sharingTextDescr + "\n" + urlText
+        
+//        return URL(string: resultText) ?? URL(string: "apple.com")!
+        return resultText
 	}
+    
+//    func setSharingUrl(module: Module) {
+//        guard let userID = Auth.auth().currentUser?.uid else {
+//            return
+//        }
+//        
+//        let sharingText = "Делюсь с тобой своим модулем \(module.emoji) \(module.name)".localize()
+//        let sharingTextDescr = "Чтобы добавить его к себе, перейди по этой ссылке:".localize()
+//        let urlText = "https://4475302.redirect.appmetrica.yandex.com/\(userID)/\(module.id)"
+//        
+//        let resultText = sharingText + "\n\n" + sharingTextDescr + "\n" + urlText
+//        
+//        if let url = URL(string: resultText) {
+//            self.sharingData = [url]
+//        }
+//    }
 	
 	func didTapDeleteModule() {
 		withAnimation {
