@@ -155,7 +155,7 @@ struct ModuleSelectPage: View {
                         VStack(spacing: 0) {
 							Spacer()
                             
-                            if currentGroup.id.count > 0 {
+                            if currentGroup.id.count > 0 && !isOnboardingMode {
                                 DeleteModuleButton(title: "Удалить".localize()) { didTapDeleteGroup() }
                                     .opacity(createModuleButtonOpacity)
                                     .padding(EdgeInsets(top: 0, leading: 0, bottom: -8, trailing: 0))
@@ -211,6 +211,7 @@ struct ModuleSelectPage: View {
 	}
     
     func didTapDeleteGroup() {
+        guard !isOnboardingMode else { return }
         withAnimation {
             showDeleteAlert.toggle()
         }
