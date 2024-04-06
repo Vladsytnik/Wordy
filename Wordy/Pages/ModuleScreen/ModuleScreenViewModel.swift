@@ -45,13 +45,19 @@ class ModuleScreenViewModel: ObservableObject {
         
         let sharingText = "Делюсь с тобой своим модулем".localize() + " \(module.emoji) \(module.name)"
         let sharingTextDescr = "Чтобы добавить его к себе, перейди по этой ссылке:".localize()
-        let urlText = "https://4475302.redirect.appmetrica.yandex.com/\(userID)/\(module.id)"
+        
+        var urlText = "https://wordy.onelink.me/xC7i?af_xp=custom&pid=wordy.app"
+        
+        urlText.append("&deep_link_value=\(userID)")
+        urlText.append("&deep_link_sub1=\(module.id)")
         
         let resultText = sharingText + "\n\n" + sharingTextDescr + "\n" + urlText
-        
-//        return URL(string: resultText) ?? URL(string: "apple.com")!
         return resultText
 	}
+    
+    func addParameter(_ param: String, to urlStr: inout String) {
+        urlStr.append("")
+    }
     
 //    func setSharingUrl(module: Module) {
 //        guard let userID = Auth.auth().currentUser?.uid else {

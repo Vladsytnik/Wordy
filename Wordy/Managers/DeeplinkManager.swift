@@ -36,7 +36,18 @@ class DeeplinkManager: ObservableObject {
 			currentType = .openModule(moduleID: moduleID,
 									  userID: userID)
 		}
-		
+        
+        if url.queryParameters?.count == 4,
+            let parameters = url.queryParameters 
+        {
+            if let userID = parameters["deep_link_value"],
+               let moduleID = parameters["deep_link_sub1"] 
+            {
+                currentType = .openModule(moduleID: moduleID,
+                                          userID: userID)
+            }
+        }
+        
 		updateState()
 	}
 	
@@ -52,4 +63,17 @@ class DeeplinkManager: ObservableObject {
 			.store(in: &cancelables)
 	}
 	
+}
+
+// MARK: Extensions
+
+extension URL {
+    public var queryParameters: [String: String]? {
+        guard
+            let components = URLComponents(url: self, resolvingAgainstBaseURL: true),
+            let queryItems = components.queryItems else { return nil }
+        return queryItems.reduce(into: [String: String]()) { (result, item) in
+            result[item.name] = item.value
+        }
+    }
 }

@@ -62,7 +62,7 @@ struct ModuleScreen: View {
         UserDefaultsManager.themeName
     }()
     
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @UIApplicationDelegateAdaptor(WordyAppDelegate.self) var appDelegate
 	
 	var body: some View {
 //		Color.clear

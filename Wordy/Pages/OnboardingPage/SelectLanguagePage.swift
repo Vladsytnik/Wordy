@@ -26,7 +26,7 @@ struct SelectLanguagePage: View {
 	
 	private let languages = Language.getAll().sorted(by: { $0.getTitle() < $1.getTitle() })
     
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @UIApplicationDelegateAdaptor(WordyAppDelegate.self) var appDelegate
     
     @Environment(\.colorScheme) var colorScheme
 	

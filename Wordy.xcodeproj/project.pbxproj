@@ -1694,7 +1694,7 @@
 			repositoryURL = "https://github.com/AppsFlyerSDK/AppsFlyerFramework";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
+				minimumVersion = 6.11.0;
 			};
 		};
 		01978FA9294CBCB600B8EFC3 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
