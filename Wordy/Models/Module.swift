@@ -21,6 +21,8 @@ struct Module: Hashable, Codable {
     
     var isNotificationTurnedOn = false
     
+    var isSelected = false
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }

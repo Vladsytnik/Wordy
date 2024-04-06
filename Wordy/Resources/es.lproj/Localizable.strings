@@ -19,7 +19,7 @@
 "Новая группа" = "Nuevo grupo";
 "Новый модуль" = "Nuevo módulo";
 "Отменить" = "Cancelar";
-"Поздравляем!" = "Felicidades!";
+"Поздравляем!" = "¡Felicidades!";
 "ПРОДОЛЖИТЬ" = "CONTINUAR";
 "Редактировать группы" = "Editar grupos";
 "Родной" = "Nativo";
@@ -38,9 +38,9 @@
 "Пример" = "Ejemplo";
 "Создать модуль" = "Crear nuevo módulo";
 "Буду знать!" = "OK";
-"Удалить этот модуль?" = "Eliminar este módulo?";
+"Удалить этот модуль?" = "¿Eliminar este módulo?";
 "Это действие нельзя будет отменить" = "Esta acción no se puede deshacer";
-"Вы действительно хотите удалить эту группу?" = "Seguro que quieres eliminar este grupo?";
+"Вы действительно хотите удалить эту группу?" = "¿Seguro que quieres eliminar este grupo?";
 "Упс, произошла ошибка..." = "Oops, ocurrió un error...";
 "Для изучения слов необходимо минимум \n4 фразы" = "Se requieren al menos \n4 frases para aprender palabras";
 "\nОсталось добавить еще" = "\nAún necesitas agregar más";
@@ -77,7 +77,7 @@
 "Сменить язык" = "Cambiar idioma";
 "Уведомления" = "Notificaciones";
 "Введите ваш ответ" = "Ingresa tu respuesta";
-"Добавьте свою первую фразу!" = "Añade tu primera frase";
+"Добавьте свою первую фразу!" = "¡Añade tu primera frase!";
 "ИИ автоматически переведет ее, \nа также покажет примеры \nиспользования в тексте." = "La IA la traducirá automáticamente \ny también mostrará ejemplos \nde su uso en el texto.";
 "Понятно" = "Entendido";
 "Нажмите для выбора эмодзи" = "Presiona para seleccionar un emoji";
@@ -166,11 +166,11 @@
 "\n Возникла проблема \nпри удалении аккаунта." = "\n Hubo un problema \n al eliminar la cuenta.";
 
 "К сожалению, нам не удалось возобновить покупку" = "Lamentablemente, no pudimos renovar la compra";
-"Все прошло успешно!" = "Todo salió bien!";
-"Теперь вам доступны все возможности приложения без ограничений!" = "Ahora tienes acceso a todas las funciones de la aplicación sin restricciones";
-"Поздравляем, оплата прошла успешно!" = "Felicidades, el pago se realizó con éxito!";
-"Спасибо, что поддерживаете нас! <3" = "Gracias por apoyarnos! <3";
-"Теперь вам доступны все возможности приложения без ограничений!" = "Ahora tienes acceso a todas las funciones de la aplicación sin restricciones";
+"Все прошло успешно!" = "¡Todo salió bien!";
+"Теперь вам доступны все возможности приложения без ограничений!" = "¡Ahora tienes acceso a todas las funciones de la aplicación sin restricciones¡";
+"Поздравляем, оплата прошла успешно!" = "¡Felicidades, el pago se realizó con éxito!";
+"Спасибо, что поддерживаете нас! <3" = "¡Gracias por apoyarnos! <3";
+"Теперь вам доступны все возможности приложения без ограничений!" = "¡Ahora tienes acceso a todas las funciones de la aplicación sin restricciones!";
 
 "Удалить эту фразу?" = "¿Eliminar esta frase?";
 
@@ -178,3 +178,10 @@
 
 "Вы достигли лимита по количеству \nслов в одном модуле. \n\nМы не рекомендуем добавлять больше 15 фраз в один модуль. \n\nНо если вы все равно хотите снять все ограничения, то попробуйте \nподписку Wordy PRO" = "Has alcanzado el límite de palabras \nen un módulo. \n\nNo recomendamos agregar más de 15 frases en un módulo. \n\nPero si aún deseas quitar todas las restricciones, prueba \nla suscripción Wordy PRO";
 "\n Чтобы включить уведомления, необходимо дать к ним доступ в настройках" = "\n Para activar las notificaciones, debes otorgarles acceso en la configuración";
+
+"Ваша подписка автоматически продлевается на прежних условиях, если вы не отмените её минимум за 24 часа до окончания текущего периода. Вы можете в любой момент и без дополнительной оплаты отменить подписку в App Store, и она завершится в конце текущего периода." = "Su suscripción se renueva automáticamente según los términos anteriores, a menos que la cancele al menos 24 horas antes del final del período actual. Puedes cancelar tu suscripción en la App Store en cualquier momento y sin coste adicional y finalizará al final del periodo actual.";
+
+"Вы уверены, что хотите удалить выбранные модули?" = "¿Está seguro de que desea eliminar los módulos seleccionados?";
+
+"Делюсь с тобой своим модулем" = "Comparto mi módulo contigo";
+"Чтобы добавить его к себе, перейди по этой ссылке:" = "Para añadirlo al tuyo, sigue este enlace:";

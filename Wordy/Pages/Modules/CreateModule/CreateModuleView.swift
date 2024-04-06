@@ -28,6 +28,7 @@ struct CreateModuleView: View {
 	@Environment(\.presentationMode) var presentation
 	@EnvironmentObject var themeManager: ThemeManager
     @EnvironmentObject var rewardManager: RewardManager
+    @EnvironmentObject var dataManager: DataManager
     
     @State private var isNeedOpenKeyboard = false
     
@@ -203,18 +204,47 @@ struct CreateModuleView: View {
 		if isOnboardingMode {
 			self.presentation.wrappedValue.dismiss()
 		} else {
-			showActivity = true
-			NetworkManager.createModule(name: moduleName, emoji: emoji) { addedModule in
-//				needUpdateData.toggle()
-				self.presentation.wrappedValue.dismiss()
+            
+            let continueCreatingModule = { (addedModule: Module, needAddingToDataManager: Bool) in
+                self.presentation.wrappedValue.dismiss()
                 showActivity = false
-                DataManager.shared.addModule(addedModule)
+                
+                if needAddingToDataManager {
+                    DataManager.shared.addModule(addedModule)
+                }
                 
                 if !isFirstModuleRewardShown {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         rewardManager.showReward.toggle()
                         isFirstModuleRewardShown = true
                     }
+                }
+            }
+            
+			showActivity = true
+			NetworkManager.createModule(name: moduleName, emoji: emoji) { addedModule in
+//				needUpdateData.toggle()
+                
+                let isSelectedSomeGroup = dataManager.selectedCategoryIndex >= 0
+                if isSelectedSomeGroup {
+                    let selectedGroup = dataManager.groups[dataManager.selectedCategoryIndex]
+                    var selectedModules = selectedGroup.modulesID
+//                    newModules.append(addedModule.id)
+//                    DataManager.shared.addModule(addedModule)
+                    var modules = dataManager.allModules.filter { selectedModules.contains($0.id) }
+                    modules.append(addedModule)
+                    
+                    NetworkManager.changeGroup(selectedGroup, modules: modules) { _ in
+                        dataManager.groups[dataManager.selectedCategoryIndex].modulesID.append(addedModule.id)
+                        dataManager.addModule(addedModule)
+//                        dataManager.addToSelectedGroupModuleId(addedModule.id)
+                        continueCreatingModule(addedModule, false)
+                    } errorBlock: { errorText in
+                        
+                    }
+
+                } else {
+                    continueCreatingModule(addedModule, true)
                 }
 			} errorBlock: { error in
 				
@@ -229,6 +259,7 @@ struct CreateModuleView_Previews: PreviewProvider {
 			.environmentObject(Router())
 			.environmentObject(ThemeManager())
             .environmentObject(RewardManager())
+            .environmentObject(DataManager.shared)
     }
 }
 

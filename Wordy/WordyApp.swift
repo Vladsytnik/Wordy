@@ -12,6 +12,7 @@ import ApphudSDK
 import UserNotifications
 import AVFAudio
 import FirebaseRemoteConfig
+import AppTrackingTransparency
 
 struct AppConstants {
     static let phrasesSortingValue: ((Phrase, Phrase) -> Bool) = { ($0.date ?? Date()) > ($1.date ?? Date())  }
@@ -76,25 +77,23 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	
 	let gcmMessageIDKey = "gcm.message_id"
     var remoteConfig: RemoteConfig!
+    
+    var onNotificationStatusChanged: ((Bool) -> Void)?
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
 		FirebaseApp.configure()
         
         _ = AppValues.shared
         
-//        Task {
-//            do {
-//                try await NetworkManager.resetAllNotifications(forNotification: Notification(isOn: false, isNight: false, dates: [], notificationCount: 0, selectedModulesIds: [], phrases: []) )
-//            } catch(let error) {
-//                print("error in resetAllNotifications: \(error.localizedDescription)")
-//            }
-//        }
-        
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .voicePrompt, options: [.mixWithOthers])
         }
         catch let error as NSError {
             print("Error: Could not set audio category: \(error), \(error.userInfo)")
+        }
+        
+        if Auth.auth().currentUser != nil {
+            askUserForTrackingData()
         }
 
         do {
@@ -114,7 +113,33 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		return true
 	}
     
-    func sendNotificationPermissionRequest() {
+    func askUserForTrackingData() {
+        ATTrackingManager.requestTrackingAuthorization { status in
+                    switch status {
+                    case .authorized:
+                        // Разрешение получено
+                        print("Разрешение на отслеживание получено.")
+                        TrackingManager.shared.isUserAllowed = true
+//                        let idfa = ASIdentifierManager.shared().advertisingIdentifier
+//                        print("IDFA: \(idfa)")
+                    case .denied:
+                        // Пользователь отказал
+                        print("Пользователь отказал в разрешении на отслеживание.")
+                    case .notDetermined:
+                        // Статус не определён
+                        print("Статус разрешения не определён.")
+                    case .restricted:
+                        // Отслеживание ограничено
+                        print("Отслеживание ограничено.")
+                    @unknown default:
+                        // Неизвестный статус
+                        print("Неизвестный статус разрешения на отслеживание.")
+                    }
+                }
+    }
+    
+    func sendNotificationPermissionRequest(callback: ((Bool) -> Void)? = nil) {
+//        onNotificationStatusChanged = callback
         
         if let fcmToken = KeychainHelper.standard.read(service: .KeychainServiceNotificationKey, account: .KeychainAccountKey, type: String.self) {
             Task {
@@ -137,7 +162,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             application.registerUserNotificationSettings(settings)
         }
         
-        application.registerForRemoteNotifications()
+        DispatchQueue.main.async {        
+            application.registerForRemoteNotifications()
+        }
     }
 	
 	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
@@ -158,7 +185,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         options: UIScene.ConnectionOptions
       ) -> UISceneConfiguration {
         let sceneConfig = UISceneConfiguration(name: nil, sessionRole: connectingSceneSession.role)
-        sceneConfig.delegateClass = WordySceneDelegate.self // 👈🏻
+        sceneConfig.delegateClass = WordySceneDelegate.self 
         return sceneConfig
       }
 }
@@ -168,6 +195,7 @@ extension AppDelegate: MessagingDelegate {
 		
 		let deviceToken:[String: String] = ["token": fcmToken ?? ""]
 		print("Device token: ", deviceToken) // This token can be used for testing notifications on FCM
+//        onNotificationStatusChanged?(true)
 		if let fcmToken {
 			Task {
 				await NetworkManager.sendToken(fcmToken)

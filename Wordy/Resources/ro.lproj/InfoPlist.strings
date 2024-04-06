@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Wordy
+
+  Created by user on 22.03.2024.
+  
+*/
+
+"NSUserTrackingUsageDescription" = "Ne străduim să vă facem experiența de învățare a limbilor străine cât mai confortabilă și eficientă posibil. Acordați - ne permisiunea de urmărire, astfel încât să vă putem sprijini cu sfaturi și sugestii personalizate la fiecare pas al antrenamentului dvs.";

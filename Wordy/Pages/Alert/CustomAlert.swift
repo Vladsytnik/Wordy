@@ -107,11 +107,11 @@ struct CustomAlert: View {
 				DragGesture()
 					.onEnded{ value in
 						if value.translation.height > 0 {
-							withAnimation {
+                            withAnimation {
 								isShow = false
 							}
                         } else {
-                            withAnimation(.easeInOut(duration: 0.1)) {
+                            withAnimation(.spring(duration: 0.2, bounce: 0.5, blendDuration: 0.7)) {
                                 scrollOffsetValue = 0
                             }
                         }

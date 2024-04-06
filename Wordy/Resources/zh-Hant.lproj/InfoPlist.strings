@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Wordy
+
+  Created by user on 22.03.2024.
+  
+*/
+
+"NSUserTrackingUsageDescription" = "我们努力使您的语言学习体验尽可能舒适和有效。 授予我们跟踪权限，以便我们可以在培训的每一步为您提供个性化的提示和建议。";

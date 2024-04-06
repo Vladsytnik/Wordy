@@ -23,6 +23,7 @@ struct ModuleCard: View {
 	
 	@Binding var module: Module
 	@Binding var isSelected: Bool
+    @State var isMultiSelected = false
 	
 	private var height: CGFloat {
 		width / 0.9268
@@ -86,6 +87,9 @@ struct ModuleCard: View {
 			.frame(width: width, height: height)
 			.offset(y: -7)
 		}
+        .onChange(of: module.isSelected) { newValue in
+            isMultiSelected = newValue
+        }
 	}
 }
 

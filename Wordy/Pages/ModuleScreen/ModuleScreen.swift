@@ -54,11 +54,15 @@ struct ModuleScreen: View {
     @State var showPrePaywallAlert = false
     
     @State var isNotificationLoading = false
+    
+    @State var showNotificationSettingsAlert = false
+    @State var notificationSettingsAlertDescription = ""
 
     lazy var currentThemeName: String?  = {
         UserDefaultsManager.themeName
     }()
-	
+    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	
 	var body: some View {
 //		Color.clear
@@ -367,7 +371,7 @@ struct ModuleScreen: View {
 			.background {
                 UIKitActivityView(isPresented: $showActivity,
                                   userIsReallyShared: $userIsReallyShared,
-								  data: [viewModel.getShareUrl(module: module)],
+                                  data: [viewModel.getShareUrl(module: module)],
 //								  data: [URL(string: "https://wordy.onelink.me/HpCP/s3t4ujfk")!],
 								  subject: nil,
 								  message: nil)
@@ -376,13 +380,25 @@ struct ModuleScreen: View {
                 self.emoji = module.emoji
                 self.moduleName = module.name
                 AnalyticsManager.shared.trackEvent(.openedModule)
+//                viewModel.setSharingUrl(module: module)
             }
             .navigationBarItems(
                 trailing:
                     HStack {
                         Button(action: {
-                            AnalyticsManager.shared.trackEvent(.toggleNotificationButtonInsideModule)
-                            toggleNotificationsState()
+                            
+                            checkNotificationAuthorization { isAllow in
+                                if isAllow {
+                                    AnalyticsManager.shared.trackEvent(.toggleNotificationButtonInsideModule)
+                                    toggleNotificationsState()
+                                } else {
+                                    notificationSettingsAlertDescription = "\n Чтобы включить уведомления, необходимо дать к ним доступ в настройках".localize()
+                                    withAnimation(.bouncy) {
+                                        showNotificationSettingsAlert = true
+                                    }
+                                }
+                            }
+                            
                         }) {
                             Image(systemName: module.isNotificationTurnedOn ? "bell.fill" : "bell")
                                 .foregroundColor(themeManager.currentTheme.mainText)
@@ -416,7 +432,21 @@ struct ModuleScreen: View {
             .onChange(of: module) { val in
 //                module = val
             }
-            
+            .showAlert(title: "Wordy.app", description: notificationSettingsAlertDescription, isPresented: $showNotificationSettingsAlert, titleWithoutAction: "Перейти в настройки".localize(), titleForAction: "Отмена".localize(), withoutButtons: false, okAction: {
+                showNotificationSettingsAlert.toggle()
+                if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(appSettings)
+                }
+            }, repeatAction: {
+                
+            })
+            .onAppear {
+                appDelegate.onNotificationStatusChanged = { isAllow in
+                    if isAllow {
+                        toggleNotificationsState()
+                    }
+                }
+            }
 	}
 	
     init(module: Binding<Module>, modules: Binding<[Module]>, searchedText: Binding<String>, index: Int) {
@@ -464,6 +494,27 @@ struct ModuleScreen: View {
             } catch (let error) {
                 isNotificationLoading = false
                 print("Error in ModuleScreen -> turnOnNotifications: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func checkNotificationAuthorization(isAllow: @escaping ((Bool) -> Void)) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .authorized:
+                print("Доступ к уведомлениям разрешен")
+                isAllow(true)
+            case .denied:
+                print("Доступ к уведомлениям запрещен")
+                isAllow(false)
+            case .notDetermined:
+                print("Доступ к уведомлениям не определен")
+                appDelegate.sendNotificationPermissionRequest { isTrue in
+                   
+                }
+//                isAllow?(false)
+            default:
+                break
             }
         }
     }
@@ -718,7 +769,7 @@ struct UIKitActivityView: UIViewControllerRepresentable {
 	@Binding var isPresented: Bool
     @Binding var userIsReallyShared: Bool
 	
-	let data: [Any]
+    let data: [Any]
 	let subject: String?
 	let message: String?
 	

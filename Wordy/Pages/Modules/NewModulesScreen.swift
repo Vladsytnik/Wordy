@@ -50,8 +50,6 @@ struct NewModulesScreen: View {
     @State private var longPressIndex = 0
     
     @State private var groupId = ""
-    
-    
     @State var isOnAppear = false
     
     @State var selectedIndexes: [Int] = []
@@ -70,6 +68,9 @@ struct NewModulesScreen: View {
     @State var isFirstLaunch = true
     
     @State var navBarColor: UIColor?
+    
+    @State var openModule = false
+    @State var openModuleIndex = 0
     
     lazy var currentTheme: String?  = {
         UserDefaultsManager.themeName
@@ -90,11 +91,28 @@ struct NewModulesScreen: View {
     @State var cancelable = Set<AnyCancellable>()
     @State var indexOfPopup = 0
     
+    @State var isMultiSelectMode = false
+    let multiSelectionModeAnimation = Animation.interpolatingSpring(duration: 0.2, bounce: 0.4, initialVelocity: 0.7)
+    @State var longTappedIndex = 0
+    @State var showDeleteMultiSelectedModulesButton = false
+    @State var showDeleteModulesAlert = false
+    @State var isDeletionShaking = false
+    
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
                 GeometryReader { geometry in
                     ZStack {
+                        
+                        NavigationLink("", isActive: $openModule, destination: {
+                            ModuleScreen(
+                                module: openModuleIndex < dataManager.modules.count ? $dataManager.modules[openModuleIndex] : .constant(.init()),
+                                modules: $dataManager.modules,
+                                searchedText: $searchText,
+                                index: openModuleIndex
+                            )
+                        })
+                        
                         ScrollView {
                             VStack {
 //                                RefreshControl(coordinateSpace: .named("RefreshControl")) { pullDownToRefresh() }
@@ -244,27 +262,64 @@ struct NewModulesScreen: View {
                                 
                                 LazyVGrid(columns: columns, spacing: 14) {
                                     ForEach(0..<dataManager.modules.count, id: \.self) { i in
-                                        NavigationLink(
-                                            destination: ModuleScreen(
-                                                module: $dataManager.modules[i],
-                                                modules: $dataManager.modules,
-                                                searchedText: $searchText,
-                                                index: i
-                                            ), label: {
-                                                ModuleCard(
-                                                    width: moduleCardWidth,
-                                                    cardName: dataManager.modules[i].name,
-                                                    emoji: dataManager.modules[i].emoji,
-                                                    module: $dataManager.modules[i],
-                                                    isSelected: .constant(false)
-                                                )
+                                        ModuleCard(
+                                            width: moduleCardWidth,
+                                            cardName: dataManager.modules[i].name,
+                                            emoji: dataManager.modules[i].emoji,
+                                            module: $dataManager.modules[i],
+                                            isSelected: .constant(false)
+                                        )
+                                        .longTapAnimatableModifier(
+                                            onTap: {
+                                                guard !isMultiSelectMode else {
+                                                    withAnimation(multiSelectionModeAnimation) {
+                                                        showDeleteMultiSelectedModulesButton = true
+                                                    }
+                                                    
+                                                    dataManager.selectModule(withId: dataManager.modules[i].id)
+//                                                    dataManager.allModules[i].isSelected.toggle()
+                                                    return
+                                                }
+                                                
+                                                openModuleIndex = i
+                                                openModule.toggle()
+                                            }, onLongTap: {
+                                                generator2?.impactOccurred()
+                                                longTappedIndex = i
+                                                withAnimation(multiSelectionModeAnimation) {
+                                                    isMultiSelectMode.toggle()
+                                                }
                                             })
-                                        .disabled(onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
-//                                        .onLongPressGesture(minimumDuration: 2) {
-//                                            generator2?.impactOccurred()
-//                                        }
-//                                        .onTapGesture { navigationIsActive.toggle() }
-//                                        .modifier(CategoryLongTapModifier())
+                                        .disabled(onboardingManager.isOnboardingMode 
+                                                  && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
+//                                        .shake(isAnimatable: $isDeletionShaking)
+//                                        .animation(.default.speed(1.4).repeatForever().delay(Double(i) * 0.1), value: isDeletionShaking)
+                                        .overlay {
+                                            if isMultiSelectMode {
+                                                HStack {
+                                                    Spacer()
+                                                    VStack {
+                                                        if dataManager.modules[i].isSelected {
+                                                            Image(systemName: "checkmark.circle.fill")
+                                                                .resizable()
+                                                                .foregroundColor(themeManager.currentTheme.mainText)
+                                                                .frame(width: 20, height: 20)
+                                                                .opacity(0.9)
+                                                        } else {
+                                                            Circle()
+                                                                .stroke(lineWidth: 1)
+                                                                .frame(width: 20, height: 20)
+                                                                .foregroundColor(themeManager.currentTheme.mainText)
+                                                                .opacity(0.9)
+                                                        }
+                                                        Spacer()
+                                                    }
+                                                }
+                                                .padding()
+                                            }
+                                        }
+                                        .opacity(isMultiSelectMode && !dataManager.modules[i].isSelected ? 0.7 : 1)
+                                        .animation(multiSelectionModeAnimation.delay(Double(abs(longTappedIndex - i)) * 0.02), value: isMultiSelectMode)
                                     }
                                     .listRowBackground(Color.green)
                                     .listStyle(.plain)
@@ -316,19 +371,72 @@ struct NewModulesScreen: View {
                         
                         VStack {
                             Spacer()
-                            CreateModuleButton() {
-                                generator?.impactOccurred()
-//                                if UserDefaultsManager.userHasSubscription || !UserDefaultsManager.isNotFirstLaunchOfModulesPage {
+                            
+                            if isMultiSelectMode {
+                                HStack {
+                                    if showDeleteMultiSelectedModulesButton {
+                                        let btnWidth: CGFloat = 45
+                                        
+                                        Button(action: {
+                                            withAnimation(Animations.customSheet) {
+                                                showDeleteModulesAlert.toggle()
+                                            }
+                                        }, label: {
+                                            Image(systemName: "trash")
+                                                .resizable()
+                                                .frame(width: btnWidth - 24, height: btnWidth - 24)
+                                                .foregroundColor(themeManager.currentTheme.mainText)
+                                                .padding()
+                                                .background {
+                                                    RoundedRectangle(cornerRadius: 20)
+                                                        .foregroundColor(themeManager.currentTheme.moduleCreatingBtn)
+//                                                        .foregroundColor(.red)
+                                                }
+                                        })
+                                        .offset(y: geometry.size.height < 812 ? -16 : 0 )
+                                        .shadow(color: .white.opacity(0.15), radius: 20)
+                                        .if(!isDark()) { v in
+                                            v
+                                                .shadow(color: themeManager.currentTheme.mainText.opacity(0.35), radius: 25)
+                                        }
+                                        .transition(.move(edge: .trailing).combined(with: .opacity))
+                                    }
+                                    
+                                    Button(action: {
+                                        withAnimation(multiSelectionModeAnimation) {
+                                            isMultiSelectMode = false
+                                            showDeleteMultiSelectedModulesButton = false
+                                        }
+                                    }, label: {
+                                        Text("Готово".localize())
+                                            .font(.system(size: 16, weight: .medium))
+                                            .foregroundColor(themeManager.currentTheme.mainText)
+                                            .padding()
+                                            .padding(.horizontal)
+                                            .padding(.horizontal)
+                                            .background {
+                                                RoundedRectangle(cornerRadius: 16)
+                                                    .foregroundColor(themeManager.currentTheme.moduleCreatingBtn)
+                                                    .shadow(color: .white.opacity(0.15), radius: 20)
+                                                    .if(!isDark()) { v in
+                                                        v
+                                                            .shadow(color: themeManager.currentTheme.mainText.opacity(0.35), radius: 25)
+                                                    }
+                                            }
+                                    })
+                                    .offset(y: geometry.size.height < 812 ? -16 : 0 )
+                                }
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
+                            } else {
+                                CreateModuleButton() {
+                                    generator?.impactOccurred()
                                     showCreateModuleSheet = true
-//                                } else {
-//                                    paywallIsOpened.toggle()
-//                                }
-                                onboardingManager.goToNextStep()
-                            }
-                            .showPopup(order: 0, title: "Создавайте модули".localize())
+                                    onboardingManager.goToNextStep()
+                                }
+                                .showPopup(order: 0, title: "Создавайте модули".localize())
                                 .frame(width: geometry.size.width - 60)
                                 .opacity(createModuleButtonOpacity)
-                                .transition(AnyTransition.offset() )
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
                                 .offset(y: geometry.size.height < 812 ? -16 : 0 )
                                 .disabled(!isOnboardingStepNumber(1) && onboardingManager.isOnboardingMode && !UserDefaultsManager.isNotFirstLaunchOfModulesPage)
                                 .mytooltip(isOnboardingStepNumber(1),
@@ -348,6 +456,7 @@ struct NewModulesScreen: View {
                                         }
                                     )
                                 }
+                            }
                         }
                         .ignoresSafeArea(.keyboard)
                         
@@ -457,9 +566,9 @@ struct NewModulesScreen: View {
 //                }
                 router.userIsAlreadyLaunched = true
                 
-                if UserDefaultsManager.isNotFirstLaunchOfModulesPage {
-                    appDelegate.sendNotificationPermissionRequest()
-                }
+//                if UserDefaultsManager.isNotFirstLaunchOfModulesPage {
+//                    appDelegate.sendNotificationPermissionRequest()
+//                }
                 
                 if !(reviewCounter >= reviewCounterLimit && !isReviewDidTap && dataManager.modules.count > 2) {
                     reviewCounter += 1
@@ -561,9 +670,9 @@ struct NewModulesScreen: View {
             }
             .onChange(of: showPopups) { val in
                 if !val {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        appDelegate.sendNotificationPermissionRequest()
-                    }
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                        appDelegate.sendNotificationPermissionRequest()
+//                    }
                 }
             }
             .onChange(of: dataManager.isLoading) { val in
@@ -575,11 +684,44 @@ struct NewModulesScreen: View {
                     }
                 }
             }
+            .onChange(of: isMultiSelectMode) { isMultiSelect in
+                if !isMultiSelect {
+                    dataManager.deselectAllModules()
+                    withAnimation(multiSelectionModeAnimation) {                    
+                        showDeleteMultiSelectedModulesButton = false
+                    }
+                    isDeletionShaking = false
+                } else {
+                        isDeletionShaking = isMultiSelectMode
+                }
+            }
+            .showAlert(title: "Вы уверены, что хотите удалить выбранные модули?", description: "Это действие нельзя будет отменить", isPresented: $showDeleteModulesAlert, titleWithoutAction: "Удалить", titleForAction: "Отменить", withoutButtons: false, okAction: { deleteSelectedModules() }, repeatAction: {})
     }
     
     init() {
         configNavBarStyle()
         configTooltip()
+    }
+    
+    private func deleteSelectedModules() {
+        let selectedModules = dataManager.modules.filter { $0.isSelected }
+        
+        withAnimation(multiSelectionModeAnimation) { isMultiSelectMode = false }
+        withAnimation(Animations.customSheet) { showDeleteModulesAlert = false }
+        
+        dataManager.isLoading = true
+        
+        Task {
+            do {
+                try await NetworkManager.deleteModules(selectedModules)
+                print("async await debug: метод завершился и мы можем обновить UI")
+                dataManager.delete(modules: selectedModules)
+                dataManager.isLoading = false
+            } catch (let error) {
+                print("Error in NewModulesScreen -> deleteSelectedModules: \(error)")
+                dataManager.isLoading = false
+            }
+        }
     }
     
     private func showReviewIfNeeded() {
@@ -726,8 +868,10 @@ struct NewModulesScreen: View {
                     Apphud.logout()
                 }
                 
-                dataManager.groups = []
-                dataManager.modules = []
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    dataManager.groups = []
+                    dataManager.allModules = []
+                }
                 print("USER IS signed out")
             }
             print("Current user:", auth.currentUser?.email)
