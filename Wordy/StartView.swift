@@ -25,7 +25,7 @@ struct StartView: View {
 	let transition = AnyTransition.opacity
 	let opacityTransition = AnyTransition.opacity
     
-    @State var isShownLoadingPage = true
+    @Binding var isShownLoadingPage: Bool
     
     @State private var cancelable = Set<AnyCancellable>()
     
@@ -75,6 +75,7 @@ struct StartView: View {
 					AuthPage()
 						.transition(authTransition)
 				}
+                
 				if router.showActivityView {
 					VStack {
 						Spacer()
@@ -115,7 +116,7 @@ struct StartView: View {
 
 struct StartView_Previews: PreviewProvider {
     static var previews: some View {
-        StartView()
+        StartView(isShownLoadingPage: .constant(true))
 			.environmentObject(Router())
             .environmentObject(DataManager.shared)
             .environmentObject(DeeplinkManager())

@@ -30,10 +30,14 @@ struct WordyApp: App {
 	@StateObject var deeplinkManager = DeeplinkManager()
     @StateObject var rewardManager = RewardManager()
     @StateObject var dataManager = DataManager.shared
+    
+    @State var isShownLoadingPage = true
+    
+    let deeplinkQueue = DispatchQueue(label: "deeplinkQueue")
 	
 	var body: some Scene {
 		WindowGroup {
-			StartView()
+			StartView(isShownLoadingPage: $isShownLoadingPage)
 				.environmentObject(router)
 				.environmentObject(themeManager)
 				.environmentObject(subsriptionManager)
@@ -41,11 +45,19 @@ struct WordyApp: App {
                 .environmentObject(rewardManager)
                 .environmentObject(dataManager)
 				.onOpenURL { url in
-					print("DEEPLINK url: ", url)
+					print("DEEPLINK url: пришел в очередь ", url)
 					
-					deeplinkManager.wasOpened(url: url)
+                    deeplinkQueue.async {
+                        while isShownLoadingPage {
+                            print("DEEPLINK url: ждем")
+                        }
+                        
+                        print("DEEPLINK url: открывается ", url)
+                        
+                        deeplinkManager.wasOpened(url: url)
+                    }
 					
-					let test = false
+					
                     AppsFlyerLib.shared().handleOpen(url, options: [:])
 				}
 		}
