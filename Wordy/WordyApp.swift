@@ -46,6 +46,7 @@ struct WordyApp: App {
 					deeplinkManager.wasOpened(url: url)
 					
 					let test = false
+                    AppsFlyerLib.shared().handleOpen(url, options: [:])
 				}
 		}
 	}
