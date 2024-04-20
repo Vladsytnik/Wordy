@@ -31,10 +31,12 @@ extension View {
     func popup(
         allowToShow: Binding<Bool>,
         currentIndex: Binding<Int>? = nil,
+        isSkipBtnHidden: Bool = false,
         onFinish: (() -> Void)? = nil
     ) -> some View {
         self.modifier(PopupModifier(allowToShow: allowToShow,
                                     currentInd: currentIndex ?? .constant(0),
+                                    isSkipBtnHidden: isSkipBtnHidden,
                                     onFinish: onFinish))
     }
 }
@@ -43,6 +45,7 @@ struct PopupModifier: ViewModifier {
     
     @Binding var allowToShow: Bool
     @Binding var currentInd: Int
+    var isSkipBtnHidden = false
     var onFinish: (() -> Void)?
     
     let horizontalOffset: CGFloat = 30
@@ -143,33 +146,35 @@ struct PopupModifier: ViewModifier {
                     HStack {
                         Spacer()
                         
-                        Button(action: {
-                            withAnimation(.spring()) {
-                                currentIndex = order.count
-                                finish()
-                            }
-                        }, label: {
-                            HStack {
-                                Text("Пропустить")
-                                    .foregroundColor(themeManager.currentTheme.mainText)
-                                    .underline()
-                                    .background {
-                                        RoundedRectangle(cornerRadius: 12)
-                                            .foregroundColor(isDark() ? .black : .white)
-                                            .blur(radius: 5)
-                                            .padding(EdgeInsets(top: -titleVBgShadow,
-                                                                leading: -titleHBgShadow,
-                                                                bottom: -titleVBgShadow,
-                                                                trailing: -titleHBgShadow) )
-                                            .opacity(0.6)
+                        if !isSkipBtnHidden {
+                            Button(action: {
+                                withAnimation(.spring()) {
+                                    currentIndex = order.count
+                                    finish()
                                 }
-                                
-                                Image(systemName: "arrow.right")
-                                    .foregroundColor(themeManager.currentTheme.mainText)
-                            }
-                        })
-                        .padding()
-                        .offset(y: highlightRect.minY < 16 ? highlightRect.maxY + 8 : 0)
+                            }, label: {
+                                HStack {
+                                    Text("Пропустить")
+                                        .foregroundColor(themeManager.currentTheme.mainText)
+                                        .underline()
+                                        .background {
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .foregroundColor(isDark() ? .black : .white)
+                                                .blur(radius: 5)
+                                                .padding(EdgeInsets(top: -titleVBgShadow,
+                                                                    leading: -titleHBgShadow,
+                                                                    bottom: -titleVBgShadow,
+                                                                    trailing: -titleHBgShadow) )
+                                                .opacity(0.6)
+                                        }
+                                    
+                                    Image(systemName: "arrow.right")
+                                        .foregroundColor(themeManager.currentTheme.mainText)
+                                }
+                            })
+                            .padding()
+                            .offset(y: highlightRect.minY < 16 ? highlightRect.maxY + 8 : 0)
+                        }
                     }
                     
                     Spacer()
@@ -178,19 +183,31 @@ struct PopupModifier: ViewModifier {
         }
         .compositingGroup()
         .onTapGesture {
-            if currentIndex > order.count - 1 {
-                finish()
-            } else {
-                withAnimation(.spring()) {
-                    currentIndex += 1
-                    if currentIndex == order.count {
-                        finish()
-                    }
-                }
-            }
+            goNextOrFinish()
         }
         .onChange(of: currentIndex) { val in
             currentInd = val
+        }
+        .onChange(of: currentInd) { val in
+            if val > currentIndex {
+                withAnimation(.spring()) {
+                    currentIndex = val
+                    goNextOrFinish()
+                }
+            }
+        }
+    }
+    
+    func goNextOrFinish() {
+        if currentIndex > order.count - 1 {
+            finish()
+        } else {
+            withAnimation(.spring()) {
+                currentIndex += 1
+                if currentIndex == order.count {
+                    finish()
+                }
+            }
         }
     }
     

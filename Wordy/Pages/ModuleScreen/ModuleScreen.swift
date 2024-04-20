@@ -63,6 +63,9 @@ struct ModuleScreen: View {
     }()
     
     @UIApplicationDelegateAdaptor(WordyAppDelegate.self) var appDelegate
+    
+    @State var showPopups = false
+    @State var indexOfPopup = 0
 	
 	var body: some View {
 //		Color.clear
@@ -81,7 +84,9 @@ struct ModuleScreen: View {
 							}
 							.hidden()
 						}
+                        
 //						ObservableScrollView(scrollOffset: $scrollOffset) { proxy in
+                        
 						ScrollView {
                             VStack {
                                 if isShared || module.isSharedByTeacher {
@@ -296,6 +301,21 @@ struct ModuleScreen: View {
 //                                .offset(y: -64)
 //                            }
 //                        }
+                        
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Color.clear
+                                    .frame(width: 30, height: 30)
+                                    .padding()
+                                    .showPopup(order: 0, title: "Включите уведомления для этого модуля, чтобы быстрее и эффективнее запоминать фразы".localize())
+                                Color.clear
+                                    .frame(width: 40, height: 40)
+                            }
+                            .offset(y: 30)
+                            Spacer()
+                        }
+                        .ignoresSafeArea()
 					}
                     .showAlert(title: "Удалить этот модуль?", description: "Это действие нельзя будет отменить", isPresented: $viewModel.showAlert, titleWithoutAction: "Удалить", titleForAction: "Отменить", withoutButtons: false, okAction: { viewModel.nowReallyNeedToDeleteModule(module: module) }, repeatAction: {})
                     .showAlert(title: viewModel.alert.title, description: viewModel.alert.description, isPresented: $viewModel.showDeletingErrorAlert) {
@@ -381,11 +401,21 @@ struct ModuleScreen: View {
                 self.moduleName = module.name
                 AnalyticsManager.shared.trackEvent(.openedModule)
 //                viewModel.setSharingUrl(module: module)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    if isAllowToShowPopup() {
+                        self.showPopups = true
+                    }
+                }
             }
             .navigationBarItems(
                 trailing:
                     HStack {
                         Button(action: {
+                            guard !showPopups else {
+                                indexOfPopup += 1
+                                return
+                            }
                             
                             checkNotificationAuthorization { isAllow in
                                 if isAllow {
@@ -410,6 +440,11 @@ struct ModuleScreen: View {
                         .animation(.spring, value: isNotificationLoading)
                         
                         Button(action: {
+                            guard !showPopups else {
+                                indexOfPopup += 1
+                                return
+                            }
+                            
                             showChangeModuleDataScreen.toggle()
                         }) {
                             Image(systemName: "slider.horizontal.3")
@@ -432,6 +467,9 @@ struct ModuleScreen: View {
             .onChange(of: module) { val in
 //                module = val
             }
+            .onChange(of: module.phrases) { val in
+                showPopups = isAllowToShowPopup()
+            }
             .showAlert(title: "Wordy.app", description: notificationSettingsAlertDescription, isPresented: $showNotificationSettingsAlert, titleWithoutAction: "Перейти в настройки".localize(), titleForAction: "Отмена".localize(), withoutButtons: false, okAction: {
                 showNotificationSettingsAlert.toggle()
                 if let appSettings = URL(string: UIApplication.openSettingsURLString) {
@@ -447,12 +485,21 @@ struct ModuleScreen: View {
                     }
                 }
             }
+            .popup(allowToShow: $showPopups, currentIndex: $indexOfPopup, isSkipBtnHidden: true) {
+                UserDefaultsManager.isModulePopupsShown = true
+            }
 	}
 	
     init(module: Binding<Module>, modules: Binding<[Module]>, searchedText: Binding<String>, index: Int) {
         self._module = module
 		self._modules = modules
 		self._searchText = searchedText
+    }
+    
+    func isAllowToShowPopup() -> Bool {
+        module.phrases.count > 0
+        && !UserDefaultsManager.isModulePopupsShown
+        && UserDefaultsManager.isUserSawCreateNewPhrase
     }
     
     func setToModuleTeacherMode(module: Module, successCallback: (() -> Void)?) {
@@ -600,7 +647,9 @@ struct ModuleScreen: View {
 struct ModuleScreen_Previews: PreviewProvider {
 	static var previews: some View {
 		ModuleScreen(
-            module: .constant(.init()),
+            module: .constant(Module(name: "Test", emoji: "❤️‍🔥", phrases: [
+                .init(nativeText: "Test", translatedText: "Test", id: "1")
+            ])),
 			modules: .constant( [Module(name: "Test", emoji: "❤️‍🔥", phrases: [
 				.init(nativeText: "Test", translatedText: "Test", id: "1")
 			])]),
