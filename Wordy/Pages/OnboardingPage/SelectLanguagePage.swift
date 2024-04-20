@@ -97,7 +97,9 @@ struct SelectLanguagePage: View {
 							} label: {
 								RoundedRectangle(cornerRadius: 20)
 									.frame(width: 250, height: 64)
-									.foregroundColor(viewModel.userCanContinue ? Color(asset: Asset.Colors.answer4) : Color(asset: Asset.Colors.answer1))
+									.foregroundColor(viewModel.userCanContinue 
+                                                     ? Color(asset: Asset.Colors.accent)
+                                                     : Color(asset: Asset.Colors.moduleCardRoundedAreaColor))
 									.shadow(color: .white.opacity(0.1), radius: 8, x: 0, y: 2)
 									.overlay{
 										Text("ПРОДОЛЖИТЬ".localize())
@@ -105,10 +107,12 @@ struct SelectLanguagePage: View {
                                             .foregroundColor( themeManager.currentTheme.mainText)
 									}
 									.offset(x: viewModel.shakeContinueBtn ? 10 : 0)
-									.animation(.spring(), value: viewModel.userCanContinue)
+									
 							}
 							.padding()
-							.disabled(!viewModel.userCanContinue)
+//							.disabled(!viewModel.userCanContinue)
+                            .opacity(viewModel.userCanContinue ? 1 : 0)
+                            .animation(.spring(), value: viewModel.userCanContinue)
 						}
 						
 						Spacer()
@@ -306,6 +310,8 @@ struct LanguageSelectorView: View {
 struct SelectLanguagePage_Previews: PreviewProvider {
 	static var previews: some View {
 		SelectLanguagePage()
+            .environmentObject(Router())
+            .environmentObject(ThemeManager())
 	}
 }
 

@@ -57,11 +57,12 @@ class SelectLanguageViewModel: ObservableObject {
 				break
 			}
 		} else {
-            alert.title = "Вам нужно выбрать два языка".localize()
-            alert.description = "Для продолжения, вам необходимо выбрать ваш родной язык и тот, который вы хотите изучать".localize()
-			withAnimation {
-				showAlert.toggle()
-			}
+            shakeBtn()
+//            alert.title = "Вам нужно выбрать два языка".localize()
+//            alert.description = "Для продолжения, вам необходимо выбрать ваш родной язык и тот, который вы хотите изучать".localize()
+//			withAnimation {
+//				showAlert.toggle()
+//			}
 		}
 	}
 	
@@ -109,7 +110,7 @@ class SelectLanguageViewModel: ObservableObject {
 			.zip($learnSelectedLanguage)
 			.sink { (val1, val2) in
 				if val1 != nil && val2 != nil && val1 != val2 {
-					self.shakeBtn()
+//					self.shakeBtn()
 				}
 			}
 			.store(in: &cancellable)
