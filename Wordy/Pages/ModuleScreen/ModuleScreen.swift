@@ -17,14 +17,13 @@ struct ModuleScreen: View {
 	@Binding var modules: [Module]
 	@Binding var searchText: String
     
-	@ObservedObject var viewModel = ModuleScreenViewModel()
+	@StateObject var viewModel = ModuleScreenViewModel()
 	@StateObject var learnPageViewModel = LearnSelectionPageViewModel()
     
 	@State var showLearnPage = false
 	@State var showEditAlert = false
     
-    @StateObject private var onboardingManager = OnboardingManager(screen: .moduleScreen, 
-                                                                   countOfSteps: 2)
+    @StateObject private var onboardingManager = OnboardingManager(screen: .moduleScreen, countOfSteps: 2)
     
     var addNewPhraseViewModel = AddNewPhraseViewModel()
 	
