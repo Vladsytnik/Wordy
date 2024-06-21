@@ -19,6 +19,7 @@ struct StartView: View {
 	@EnvironmentObject var router: Router
     @EnvironmentObject var rewardManager: RewardManager
     @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var appVersionManager: AppVersionsManager
     
 //	let authTransition = AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)).combined(with: .opacity)
 	let authTransition = AnyTransition.opacity
@@ -28,6 +29,8 @@ struct StartView: View {
     @Binding var isShownLoadingPage: Bool
     
     @State private var cancelable = Set<AnyCancellable>()
+    
+    @State var testOPen = false
     
     func test() {
         
@@ -62,6 +65,10 @@ struct StartView: View {
                                 Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr", userID: userId)
                             }
 //                            NetworkManager.updateSubscriptionInfo()
+                            
+//                            if !isShownLoadingPage {
+//                                appVersionManager.startChecking()
+//                            }
                         }
                         .navigationViewStyle(.stack)
                         
@@ -86,7 +93,20 @@ struct StartView: View {
 					.ignoresSafeArea()
 				}
                 
+                if testOPen {
+                    LiquidOnboardingView(
+                        intros: $appVersionManager.intros,
+                        firstIntro: $appVersionManager.firstIntroForTransition,
+                        isOpened: $testOPen
+                    )
+                    .transition(
+                        .asymmetric(insertion: .move(edge: .bottom),
+                                    removal: .move(edge: .bottom).combined(with: .opacity))
+                    )
+                    .zIndex(100)
+                }
             }
+            .animation(.bouncy, value: testOPen)
             .overlay(content: {
                 if isShownLoadingPage {
                     LoadingPage(duration: launchScreenAnimationDuration,
@@ -105,6 +125,12 @@ struct StartView: View {
                     dataManager.startLoadingAnimation = true
                 }
             }
+            .onChange(of: isShownLoadingPage, perform: { value in
+                if !value {
+                    appVersionManager.onOpenPage = { self.testOPen = true }
+                    appVersionManager.startChecking()
+                }
+            })
     }
     
     private func initNotifications() {
@@ -122,5 +148,6 @@ struct StartView_Previews: PreviewProvider {
             .environmentObject(DeeplinkManager())
             .environmentObject(RewardManager())
             .environmentObject(ThemeManager())
+            .environmentObject(AppVersionsManager.shared)
     }
 }

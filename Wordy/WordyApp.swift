@@ -30,6 +30,7 @@ struct WordyApp: App {
 	@StateObject var deeplinkManager = DeeplinkManager()
     @StateObject var rewardManager = RewardManager()
     @StateObject var dataManager = DataManager.shared
+    @StateObject var appVersionManager = AppVersionsManager.shared
     
     @State var isShownLoadingPage = true
     
@@ -44,6 +45,7 @@ struct WordyApp: App {
 				.environmentObject(deeplinkManager)
                 .environmentObject(rewardManager)
                 .environmentObject(dataManager)
+                .environmentObject(appVersionManager)
 				.onOpenURL { url in
 					print("DEEPLINK url: пришел в очередь ", url)
 					
@@ -122,8 +124,64 @@ class WordyAppDelegate: NSObject, UIApplicationDelegate {
         
         _ = DataManager.shared
         
+        isUpdateAvailable { isAvailable, error in
+            
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            AppVersionsManager.shared.isNeedToShowNewVersionUpdatesScreen = true
+        }
+       
+//        AppVersionsManager.shared.startChecking()
+        
 		return true
 	}
+    
+//    func checkIfUserHasUpdated() -> Bool {
+//        if let lastAppVersion = UserDefaults.standard.string(forKey: "AppVersion") {
+//            if let info = Bundle.main.infoDictionary,
+//               let currentVersion = info["CFBundleShortVersionString"] as? String {
+//                return currentVersion != lastAppVersion
+//            }
+//        }
+//        
+//        if let info = Bundle.main.infoDictionary,
+//           let currentVersion = info["CFBundleShortVersionString"] as? String {
+//            UserDefaults.standard.set(currentVersion, forKey: "AppVersion")
+//        }
+//        
+//        return false
+//    }
+    
+    func isUpdateAvailable(completion: @escaping (Bool?, Error?) -> Void) {
+        guard let info = Bundle.main.infoDictionary,
+              let currentVersion = info["CFBundleShortVersionString"] as? String,
+              let identifier = info["CFBundleIdentifier"] as? String,
+              let url = URL(string: "http://itunes.apple.com/lookup?bundleId=\(identifier)") 
+        else {
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            do {
+                if let error = error { return }
+                guard let data = data else { return }
+                let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? [String: Any]
+                
+                guard let result = (json?["results"] as? [Any])?.first as? [String: Any],
+                        let version = result["version"] as? String
+                else {
+                    return
+                }
+                print("Version = \(json)")
+                completion(version != currentVersion, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+        
+        task.resume()
+    }
     
     func askUserForTrackingData() {
         ATTrackingManager.requestTrackingAuthorization { status in
