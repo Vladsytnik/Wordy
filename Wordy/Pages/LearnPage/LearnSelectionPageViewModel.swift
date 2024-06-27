@@ -503,6 +503,8 @@ class LearnSelectionPageViewModel: ObservableObject {
 			self.answeredAttributedPhrase = AttributedString(answeredAttributedResult)
 			
 			// аттрибутируем ориг фразу
+            
+            return AttributedString(answeredAttributedResult)
 			
 			for index in 0..<originalWords.count {
 				var originalWord = ""
@@ -515,6 +517,9 @@ class LearnSelectionPageViewModel: ObservableObject {
 					let attributedChar = NSAttributedString(string: String(originalChar))
 					result.append(attributedChar)
 				}
+                
+                let space = NSAttributedString(string: String(" "))
+                result.append(space)
 			}
 		}
 		
