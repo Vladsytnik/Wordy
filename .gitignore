@@ -67,5 +67,5 @@ iOSInjectionProject/
 
 
 # Custom Files
-/Wordy/Utilities/ApiKeys.swift
-Wordy/Utilities/ApiKeys.swift
+#/Wordy/Utilities/ApiKeys.swift
+#Wordy/Utilities/ApiKeys.swift
