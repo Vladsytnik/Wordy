@@ -41,12 +41,12 @@ struct LearnSelectionPage: View {
 				VStack {
 					Spacer()
 					VStack {
-						Text("Поздравляем!".localize())
+						Text("Ты молодец!".localize())
 							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 36, weight: .bold))
 							.multilineTextAlignment(.center)
 							.padding()
-						Text("Ты прошел еще одну тренировку 🥳".localize())
+						Text("Еще один урок уже позади 🥳".localize())
 							.foregroundColor(themeManager.currentTheme.mainText)
 							.font(.system(size: 28, weight: .medium))
 							.multilineTextAlignment(.center)
@@ -59,8 +59,9 @@ struct LearnSelectionPage: View {
                     Spacer()
 					CreateModuleButton(action: {
 						dismiss()
-					}, text: "Супер!")
+                    }, text: "Супер!".localize())
 					.frame(width: 200)
+                    
 					Spacer()
 				}
 			} else {
@@ -125,6 +126,7 @@ struct LearnSelectionPage: View {
 								needOpen: $viewModel.needOpenTextField,
 								isFirstResponder: $viewModel.textFieldIsFirstResponder,
 								closeKeyboard: .constant(false),
+                                dontKnowText: $viewModel.dontKnowBtnText,
 								onReturn: {
 									viewModel.userDidSelectAnswer(answer: viewModel.inputText)
 								}, onUserDoesntKnow : {
@@ -139,6 +141,7 @@ struct LearnSelectionPage: View {
 								needOpen: $viewModel.needOpenTextField,
 								isFirstResponder: $viewModel.textFieldIsFirstResponder,
 								closeKeyboard: .constant(true),
+                                dontKnowText: $viewModel.dontKnowBtnText,
 								onReturn: {
 									viewModel.userDidSelectAnswer(answer: viewModel.inputText)
 								}, onUserDoesntKnow : {
@@ -353,6 +356,7 @@ struct LearnTextField: View {
 	@Binding var needOpen: Bool
 	@Binding var isFirstResponder: Bool
 	@Binding var closeKeyboard: Bool
+    @Binding var dontKnowText: String
 	
 	let fontSize: CGFloat = 20
 	
@@ -360,6 +364,7 @@ struct LearnTextField: View {
 	@EnvironmentObject var themeManager: ThemeManager
 	
 	@FocusState var isFocused: Bool
+    
 	
 	var onReturn: (() -> Void)?
 	var onUserDoesntKnow: (() -> Void)?
@@ -386,7 +391,7 @@ struct LearnTextField: View {
 					Spacer()
 					
 					if text.count == 0 {
-						Text("Не знаю".localize())
+						Text(dontKnowText)
 							.foregroundColor(.clear)
 							.font(.system(size: fontSize, weight: .medium))
 					}
@@ -423,7 +428,7 @@ struct LearnTextField: View {
 						Button {
 							onUserDoesntKnow?()
 						} label: {
-							Text("Не знаю".localize())
+                            Text(dontKnowText)
                                 .foregroundColor(themeManager.currentTheme.mainText.opacity(0.6))
 								.font(.system(size: fontSize, weight: .medium))
 						}

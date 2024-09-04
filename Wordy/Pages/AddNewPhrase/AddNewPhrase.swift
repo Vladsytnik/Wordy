@@ -314,8 +314,9 @@ struct AddNewPhrase: View {
                                                         withoutSteps: true,
                                                         description: nil,
                                                         onDisappear: {
-                                                UserDefaultsManager.isUserSawCreateNewPhrase = true
+                                                UserDefaultsManager.userAlreaySawAddExampleBtn = true
                                             }) {
+                                                UserDefaultsManager.userAlreaySawAddExampleBtn = true
                                                 viewModel.onboardingManager.goToNextStep()
                                             }
                                         }

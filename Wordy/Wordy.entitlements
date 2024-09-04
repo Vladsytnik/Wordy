@@ -10,8 +10,8 @@
 	</array>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:wordy.onelink.me</string>
 		<string>applinks:4475302.redirect.appmetrica.yandex.com</string>
+		<string>applinks:wordy.onelink.me</string>
 	</array>
 </dict>
 </plist>

@@ -84,7 +84,7 @@ struct NewModulesScreen: View {
     @State private var isReviewOpened = false
     
     @EnvironmentObject var rewardManager: RewardManager
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @UIApplicationDelegateAdaptor(WordyAppDelegate.self) var appDelegate
     
     @State var showPopups = false
     

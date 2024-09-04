@@ -68,6 +68,9 @@ class LearnSelectionPageViewModel: ObservableObject {
 	@Published var answeredAttributedPhrase: AttributedString = .init(stringLiteral: "Test")
 	
 	@Published var currentUserAnswer = ""
+    @Published var dontKnowBtnText = "Не знаю".localize()
+    
+    var countOfTappedDontKnow = 0
 	
 	var flowCanContinue: (() -> Void)?
 	
@@ -126,7 +129,46 @@ class LearnSelectionPageViewModel: ObservableObject {
 	}
 	
 	func userDoesntKnow() {
-		textFieldPLaceholder = currentCorrectAnswer.getAnswer(answerType: answersLanguageType)
+        let answer = currentCorrectAnswer.getAnswer(answerType: answersLanguageType)
+        var result = ""
+        
+        if countOfTappedDontKnow == 0 {
+            if answer.count < 5 {
+                for (i, ch) in answer.enumerated() {
+                    if answer.count >= 3 {
+                        // то только первые две буквы показываем
+                        if i < 2 {
+                            result.append(ch)
+                        } else {
+                            result.append(".")
+                        }
+                    } else if i == 0 {
+                        // то только первую букву показывем
+                        result.append(ch)
+                    } else {
+                        result.append(".")
+                    }
+                }
+            } else {
+                // то показываем первые две и последние две буквы
+                for (i, ch) in answer.enumerated() {
+                    if i < 2 {
+                        result.append(ch)
+                    } else if i < answer.count - 3 {
+                        result.append(".")
+                    } else {
+                        result.append(ch)
+                    }
+                }
+            }
+            
+            dontKnowBtnText = "Показать".localize()
+        } else {
+            result = answer
+        }
+        
+		textFieldPLaceholder = result
+        countOfTappedDontKnow += 1
 	}
 	
 	private func getRandomQuestion() {
@@ -197,11 +239,14 @@ class LearnSelectionPageViewModel: ObservableObject {
 		if !isCorrect {
 			self.phrases.append(self.currentCorrectAnswer)
 		}
+        
 		self.inputText = ""
 		self.indexOfCorrectButton = -1
         self.textFieldPLaceholder = "Введите ваш ответ".localize()
 		self.currentCorrectAnswer = .init(nativeText: "", translatedText: "", id: "")
 		self.buttonSelected = Array(repeating: false, count: 4)
+        countOfTappedDontKnow = 0
+        dontKnowBtnText = "Не знаю".localize()
 		
 		if self.phrases.count > 0 {
 			self.needRedraw = true
@@ -458,6 +503,8 @@ class LearnSelectionPageViewModel: ObservableObject {
 			self.answeredAttributedPhrase = AttributedString(answeredAttributedResult)
 			
 			// аттрибутируем ориг фразу
+            
+            return AttributedString(answeredAttributedResult)
 			
 			for index in 0..<originalWords.count {
 				var originalWord = ""
@@ -470,6 +517,9 @@ class LearnSelectionPageViewModel: ObservableObject {
 					let attributedChar = NSAttributedString(string: String(originalChar))
 					result.append(attributedChar)
 				}
+                
+                let space = NSAttributedString(string: String(" "))
+                result.append(space)
 			}
 		}
 		

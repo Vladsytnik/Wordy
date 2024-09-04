@@ -23,7 +23,7 @@ struct AuthPage: View {
     
     @Environment(\.colorScheme) var colorScheme
 	
-	var body: some View {
+    var body: some View {
 		GeometryReader { geometry in
 			ZStack {
 				themeManager.currentTheme.authBackgroundImage
@@ -61,57 +61,62 @@ struct AuthPage: View {
 						.animation(.spring().delay(0.5), value: animate)
 					
 					if loginWithEmail {
-						Spacer()
-						
-						VStack {
-                            AuthTextField(placeholder: "Логин",
-										  text: $viewModel.email,
-										  isFocused: $isFocused,
-                                          isEmail: true)
-                            SecureAuthTextField(placeholder: "Пароль",
-										  text: $viewModel.password,
-										  isFocused: $isFocused,
-                                          isEmail: false)
-						}
-						.textFieldStyle(.roundedBorder)
-						.padding()
-						
-						Spacer()
-						
-						ButtonStack(geometry: geometry)
-							.environmentObject(viewModel)
-						
-						Button {
-							loginWithEmail.toggle()
-						} label: {
-							Text("Войти через AppleID".localize())
-						}
-						.font(.system(size: 14))
-						.foregroundColor(themeManager.currentTheme.mainText)
-						.padding()
-					}
-					
-					Spacer()
-					
-					if !loginWithEmail {
-						SignInWithApple()
-							.frame(width: 280, height: 60)
-							.onTapGesture(perform: showAppleLogin)
-					}
-					
-					if !loginWithEmail {
-						Button {
-							loginWithEmail.toggle()
-						} label: {
-							Text("Войти через почту".localize())
-						}
-						.font(.system(size: 14))
-						.foregroundColor(themeManager.currentTheme.mainText)
-						.padding()
-					}
+                        VStack {
+                            Spacer()
+                            
+                            VStack {
+                                AuthTextField(placeholder: "Логин",
+                                              text: $viewModel.email,
+                                              isFocused: $isFocused,
+                                              isEmail: true)
+                                SecureAuthTextField(placeholder: "Пароль",
+                                                    text: $viewModel.password,
+                                                    isFocused: $isFocused,
+                                                    isEmail: false)
+                            }
+                            .textFieldStyle(.roundedBorder)
+                            .padding()
+                            
+                            Spacer()
+                            
+                            ButtonStack(geometry: geometry)
+                                .environmentObject(viewModel)
+                            
+                            Button {
+                                loginWithEmail.toggle()
+                            } label: {
+                                Text("Войти через AppleID".localize())
+                            }
+                            .font(.system(size: 14))
+                            .foregroundColor(themeManager.currentTheme.mainText)
+                            .padding()
+                            
+                            Spacer()
+                        }
+                        .transition(.move(edge: .leading).combined(with: .opacity))
+                    } else {
+                        Spacer()
+                        
+                        VStack {
+                            SignInWithApple()
+                                .frame(width: 280, height: 60)
+                                .onTapGesture(perform: showAppleLogin)
+                            
+                            Button {
+                                loginWithEmail.toggle()
+                            } label: {
+                                Text("Войти через почту".localize())
+                            }
+                            .font(.system(size: 14))
+                            .foregroundColor(themeManager.currentTheme.mainText)
+                            .padding()
+                        }
+                        .transition(.move(edge: .trailing).combined(with: .opacity))
+                    }
 				}
 				.activity($viewModel.showActivity)
-			}
+                .animation(.spring, value: loginWithEmail)
+            }
             .onTapGesture {
                 UIApplication.shared.endEditing()
             }
@@ -137,6 +142,8 @@ struct AuthPage: View {
 struct AuthPage_Previews: PreviewProvider {
 	static var previews: some View {
 		AuthPage()
+            .environmentObject(ThemeManager())
+            .environmentObject(Router())
 	}
 }
 

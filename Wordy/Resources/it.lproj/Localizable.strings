@@ -206,3 +206,12 @@
 
 "Делюсь с тобой своим модулем" = "Condivido il mio modulo con te";
 "Чтобы добавить его к себе, перейди по этой ссылке:" = "Per aggiungerlo al tuo, segui questo link:";
+
+"Включите уведомления для этого модуля, чтобы быстрее и эффективнее запоминать фразы" = "Attiva le notifiche per questo modulo per memorizzare frasi più velocemente e in modo più efficiente";
+
+"Показать" = "Mostra";
+"Ты молодец!" = "Ben fatto!";
+"Еще один урок уже позади 🥳" = "Un'altra lezione è già finita 🥳";
+"Супер!" = "Fantastico!";
+
+"\nДля текущего модуля вы достигли лимита по количеству автоматических генераций примеров\n\nЧтобы получить полный доступ ко всем возможностям приложения – оформите подписку" = "\nPer il modulo corrente, hai raggiunto il limite per il numero di generazioni automatiche di esempi\n\nPer ottenere l'accesso completo a tutte le funzionalità dell'app, abbonati";

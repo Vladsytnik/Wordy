@@ -578,6 +578,56 @@ struct BackgroundView: View {
 	}
 }
 
+struct BluredBackgroundView: View {
+    
+    @EnvironmentObject var themeManager: ThemeManager
+    
+    let topColor = Color(UIColor(red: 18/255, green: 0/255, blue: 220/255, alpha: 1))
+    let bottomColor = Color(UIColor(red: 115/255, green: 76/255, blue: 200/255, alpha: 1))
+    let bgColor = Color(UIColor(red: 32/255, green: 32/255, blue: 40/255, alpha: 1))
+    
+    let blurRadius: CGFloat = 100
+    
+    var body: some View {
+        
+        ZStack {
+            bgColor
+                .ignoresSafeArea()
+            
+            VStack {
+                Circle()
+                    .foregroundColor(topColor)
+                    .opacity(0.25)
+                    .padding()
+                    .padding()
+                    .padding()
+                    .offset(x: -150)
+                    .blur(radius: 50)
+                
+                Spacer()
+                
+                Circle()
+                    .foregroundColor(bottomColor)
+                    .opacity(0.25)
+                    .padding()
+                    .padding()
+                    .padding()
+                    .offset(x: 150, y: 20)
+                    .blur(radius: 50)
+                    
+            }
+            
+            Color.black
+                .ignoresSafeArea()
+                .opacity(0.08)
+            
+            VisualEffectView(effect: UIBlurEffect(style: .systemMaterialDark))
+                .ignoresSafeArea()
+                .opacity(0.5)
+        }
+    }
+}
+
 //struct Modules_Previews: PreviewProvider {
 //	static var previews: some View {
 //		NavigationView {

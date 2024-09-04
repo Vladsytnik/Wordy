@@ -181,6 +181,7 @@
 		CE9425192B4D990200EF7C7C /* RewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9425182B4D990200EF7C7C /* RewardManager.swift */; };
 		CE94251D2B4DA02600EF7C7C /* reward_firstModule.json in Resources */ = {isa = PBXBuildFile; fileRef = CE94251C2B4DA02600EF7C7C /* reward_firstModule.json */; };
 		CEA5EA8D2B8A18C300AB7EC3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA5EA8C2B8A18C300AB7EC3 /* DataManager.swift */; };
+		CEB7B60B2C1B6B6D00060792 /* AppVersionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7B60A2C1B6B6D00060792 /* AppVersionsManager.swift */; };
 		CEBE1E742B482E820079A348 /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBE1E732B482E820079A348 /* ReviewView.swift */; };
 		CEC18A262AD163BB00825749 /* NewModulesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC18A252AD163BB00825749 /* NewModulesScreen.swift */; };
 		CEC836BE2B88BABB0081BFF8 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = CEC836BD2B88BABB0081BFF8 /* FirebaseRemoteConfig */; };
@@ -194,6 +195,8 @@
 		CECE48C52B00FB5F002E5507 /* correctChose.m4r in Resources */ = {isa = PBXBuildFile; fileRef = CECE48C42B00FB5E002E5507 /* correctChose.m4r */; };
 		CECE48C92B010C1B002E5507 /* Colors4.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CECE48C82B010C1B002E5507 /* Colors4.xcassets */; };
 		CECE48CB2B010C3D002E5507 /* Images5.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CECE48CA2B010C3D002E5507 /* Images5.xcassets */; };
+		CEE7065D2C2304B700B4AA05 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7065C2C2304B700B4AA05 /* Color.swift */; };
+		CEFA23442C1B6CAA00B6A645 /* LiquidOnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFA23432C1B6CAA00B6A645 /* LiquidOnboardingPage.swift */; };
 		CEFE41272B7F9D1E00C8ADF1 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFE41262B7F9D1E00C8ADF1 /* KeychainManager.swift */; };
 		CEFE41292B7FA40600C8ADF1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFE41282B7FA40600C8ADF1 /* User.swift */; };
 		CEFE412B2B82026900C8ADF1 /* LoadingPage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEFE412A2B82026900C8ADF1 /* LoadingPage.storyboard */; };
@@ -369,6 +372,7 @@
 		CE9425182B4D990200EF7C7C /* RewardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardManager.swift; sourceTree = "<group>"; };
 		CE94251C2B4DA02600EF7C7C /* reward_firstModule.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = reward_firstModule.json; sourceTree = "<group>"; };
 		CEA5EA8C2B8A18C300AB7EC3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		CEB7B60A2C1B6B6D00060792 /* AppVersionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionsManager.swift; sourceTree = "<group>"; };
 		CEB8A99F2B71327E00A15257 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEB8A9A02B71328500A15257 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CEBE1E732B482E820079A348 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
@@ -388,6 +392,8 @@
 		CECE48C42B00FB5E002E5507 /* correctChose.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = correctChose.m4r; sourceTree = "<group>"; };
 		CECE48C82B010C1B002E5507 /* Colors4.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors4.xcassets; sourceTree = "<group>"; };
 		CECE48CA2B010C3D002E5507 /* Images5.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images5.xcassets; sourceTree = "<group>"; };
+		CEE7065C2C2304B700B4AA05 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		CEFA23432C1B6CAA00B6A645 /* LiquidOnboardingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidOnboardingPage.swift; sourceTree = "<group>"; };
 		CEFE41262B7F9D1E00C8ADF1 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		CEFE41282B7FA40600C8ADF1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CEFE412A2B82026900C8ADF1 /* LoadingPage.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LoadingPage.storyboard; sourceTree = "<group>"; };
@@ -631,6 +637,7 @@
 				CE1AF6332B5C570B00CF5F08 /* PopupExtension.swift */,
 				CE1AF6352B5C572000CF5F08 /* UIDeviceExtension.swift */,
 				CE1AF6372B5D028000CF5F08 /* View + Placeholder.swift */,
+				CEE7065C2C2304B700B4AA05 /* Color.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -726,6 +733,7 @@
 		019056462944A8450058B566 /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				CEFA23422C1B6C7100B6A645 /* LiquidOnboardingPage */,
 				CE9425152B4C426400EF7C7C /* Rewards */,
 				01E033182AD016D800A3DA14 /* SharedModulePage */,
 				013D97752A434A0200F03AF7 /* Paywall */,
@@ -890,6 +898,7 @@
 				0109D19F2AB8948100714E55 /* ThemeManager.swift */,
 				01E033162AD0104B00A3DA14 /* DeeplinkManager.swift */,
 				CE57871B2BADA5D000E4F40D /* TrackingManager.swift */,
+				CEB7B60A2C1B6B6D00060792 /* AppVersionsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -1034,6 +1043,14 @@
 			children = (
 			);
 			path = Sounds;
+			sourceTree = "<group>";
+		};
+		CEFA23422C1B6C7100B6A645 /* LiquidOnboardingPage */ = {
+			isa = PBXGroup;
+			children = (
+				CEFA23432C1B6CAA00B6A645 /* LiquidOnboardingPage.swift */,
+			);
+			path = LiquidOnboardingPage;
 			sourceTree = "<group>";
 		};
 		CEFE412E2B8203D000C8ADF1 /* Gifs */ = {
@@ -1310,6 +1327,7 @@
 				0101B8A92AA0CB060055DEFB /* MockDataManager.swift in Sources */,
 				011B138E2A00176B00D4CCBF /* SignInWithApple.swift in Sources */,
 				013251E0296B034900B071F1 /* UIApplication + hideKeyboard.swift in Sources */,
+				CEB7B60B2C1B6B6D00060792 /* AppVersionsManager.swift in Sources */,
 				CE9425172B4C427400EF7C7C /* Rewards.swift in Sources */,
 				0101B8B02AA0D45B0055DEFB /* MyTooltipSide.swift in Sources */,
 				CE255B272BAF0B1E00B635CA /* LongTapAnimatable.swift in Sources */,
@@ -1318,6 +1336,7 @@
 				019056492944A85E0058B566 /* Modules.swift in Sources */,
 				0103FF52294C86F5004C2EA6 /* ErrorCodeManager.swift in Sources */,
 				0103FF56294C9E75004C2EA6 /* Router.swift in Sources */,
+				CEE7065D2C2304B700B4AA05 /* Color.swift in Sources */,
 				0109D19E2AB88F0C00714E55 /* Themes.swift in Sources */,
 				01780D2C294A110A004F11AC /* ReverseMask.swift in Sources */,
 				0185B55F2949F26D00934373 /* ObservableScrollView.swift in Sources */,
@@ -1331,6 +1350,7 @@
 				0101B8B82AA0DD890055DEFB /* OnboardingManager.swift in Sources */,
 				01FB3A8029505E5100330DDE /* SearchTextField.swift in Sources */,
 				019160BE29D2D0360094F36D /* Group.swift in Sources */,
+				CEFA23442C1B6CAA00B6A645 /* LiquidOnboardingPage.swift in Sources */,
 				0103FF4E294C76CB004C2EA6 /* StartView.swift in Sources */,
 				016AA3AD29477E40002C00CC /* RoundedTextArea.swift in Sources */,
 				0192298C2AC48E5A002648C4 /* SettingsDelegate.swift in Sources */,
@@ -1580,7 +1600,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.3;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = app.wordy.wordy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1620,7 +1640,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.3;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = app.wordy.wordy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1694,7 +1714,7 @@
 			repositoryURL = "https://github.com/AppsFlyerSDK/AppsFlyerFramework";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
+				minimumVersion = 6.11.0;
 			};
 		};
 		01978FA9294CBCB600B8EFC3 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {

@@ -19,15 +19,18 @@ struct StartView: View {
 	@EnvironmentObject var router: Router
     @EnvironmentObject var rewardManager: RewardManager
     @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var appVersionManager: AppVersionsManager
     
 //	let authTransition = AnyTransition.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)).combined(with: .opacity)
 	let authTransition = AnyTransition.opacity
 	let transition = AnyTransition.opacity
 	let opacityTransition = AnyTransition.opacity
     
-    @State var isShownLoadingPage = true
+    @Binding var isShownLoadingPage: Bool
     
     @State private var cancelable = Set<AnyCancellable>()
+    
+    @State var testOPen = false
     
     func test() {
         
@@ -62,6 +65,10 @@ struct StartView: View {
                                 Apphud.start(apiKey: "app_6t9G2dfKPDzUt3jifCJdTPMLbaKCPr", userID: userId)
                             }
 //                            NetworkManager.updateSubscriptionInfo()
+                            
+//                            if !isShownLoadingPage {
+//                                appVersionManager.startChecking()
+//                            }
                         }
                         .navigationViewStyle(.stack)
                         
@@ -75,6 +82,7 @@ struct StartView: View {
 					AuthPage()
 						.transition(authTransition)
 				}
+                
 				if router.showActivityView {
 					VStack {
 						Spacer()
@@ -85,7 +93,20 @@ struct StartView: View {
 					.ignoresSafeArea()
 				}
                 
+                if testOPen {
+                    LiquidOnboardingView(
+                        intros: $appVersionManager.intros,
+                        firstIntro: $appVersionManager.firstIntroForTransition,
+                        isOpened: $testOPen
+                    )
+                    .transition(
+                        .asymmetric(insertion: .move(edge: .bottom),
+                                    removal: .move(edge: .bottom).combined(with: .opacity))
+                    )
+                    .zIndex(100)
+                }
             }
+            .animation(.bouncy, value: testOPen)
             .overlay(content: {
                 if isShownLoadingPage {
                     LoadingPage(duration: launchScreenAnimationDuration,
@@ -104,6 +125,12 @@ struct StartView: View {
                     dataManager.startLoadingAnimation = true
                 }
             }
+            .onChange(of: isShownLoadingPage, perform: { value in
+                if !value {
+                    appVersionManager.onOpenPage = { self.testOPen = true }
+                    appVersionManager.startChecking()
+                }
+            })
     }
     
     private func initNotifications() {
@@ -115,11 +142,12 @@ struct StartView: View {
 
 struct StartView_Previews: PreviewProvider {
     static var previews: some View {
-        StartView()
+        StartView(isShownLoadingPage: .constant(true))
 			.environmentObject(Router())
             .environmentObject(DataManager.shared)
             .environmentObject(DeeplinkManager())
             .environmentObject(RewardManager())
             .environmentObject(ThemeManager())
+            .environmentObject(AppVersionsManager.shared)
     }
 }

@@ -22,7 +22,7 @@ struct AppConstants {
 @main
 struct WordyApp: App {
 	
-	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+	@UIApplicationDelegateAdaptor(WordyAppDelegate.self) var appDelegate
     
 	@StateObject var router = Router()
 	@StateObject var themeManager = ThemeManager()
@@ -30,42 +30,37 @@ struct WordyApp: App {
 	@StateObject var deeplinkManager = DeeplinkManager()
     @StateObject var rewardManager = RewardManager()
     @StateObject var dataManager = DataManager.shared
-	
-	private let deepLinkDelegate = AppFliyerDelegate()
-	
-	init() {
-		AppsFlyerLib.shared().appsFlyerDevKey = "axfubYMdYCtRH3aW6FZYUc"
-		AppsFlyerLib.shared().appleAppID = "6466481056"
-	}
+    @StateObject var appVersionManager = AppVersionsManager.shared
+    
+    @State var isShownLoadingPage = true
+    
+    let deeplinkQueue = DispatchQueue(label: "deeplinkQueue")
 	
 	var body: some Scene {
 		WindowGroup {
-			StartView()
+			StartView(isShownLoadingPage: $isShownLoadingPage)
 				.environmentObject(router)
 				.environmentObject(themeManager)
 				.environmentObject(subsriptionManager)
 				.environmentObject(deeplinkManager)
                 .environmentObject(rewardManager)
                 .environmentObject(dataManager)
-				.onAppear {
-					AppsFlyerLib.shared().start(completionHandler: { (dictionary, error) in
-						if (error != nil){
-							print("AppsFlyerLib error:", error ?? "")
-							return
-						} else {
-							print("AppsFlyerLib:", dictionary ?? "")
-							AppsFlyerLib.shared().delegate = deepLinkDelegate as? any AppsFlyerLibDelegate
-							return
-						}
-					})
-					AppsFlyerLib.shared().isDebug = true
-				}
+                .environmentObject(appVersionManager)
 				.onOpenURL { url in
-					print("DEEPLINK url: ", url)
+					print("DEEPLINK url: пришел в очередь ", url)
 					
-					deeplinkManager.wasOpened(url: url)
+                    deeplinkQueue.async {
+                        while isShownLoadingPage {
+                            print("DEEPLINK url: ждем")
+                        }
+                        
+                        print("DEEPLINK url: открывается ", url)
+                        
+                        deeplinkManager.wasOpened(url: url)
+                    }
 					
-					let test = false
+					
+                    AppsFlyerLib.shared().handleOpen(url, options: [:])
 				}
 		}
 	}
@@ -73,7 +68,7 @@ struct WordyApp: App {
 
 // MARK: - AppDelegate
 
-class AppDelegate: NSObject, UIApplicationDelegate {
+class WordyAppDelegate: NSObject, UIApplicationDelegate {
 	
 	let gcmMessageIDKey = "gcm.message_id"
     var remoteConfig: RemoteConfig!
@@ -84,6 +79,25 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 		FirebaseApp.configure()
         
         _ = AppValues.shared
+        
+        AppsFlyerLib.shared().appsFlyerDevKey = ApiKeys.AppsFlyer.value()
+        AppsFlyerLib.shared().appleAppID = "6466481056"
+        
+//        AppsFlyerLib.shared().start(completionHandler: { (dictionary, error) in
+//            if (error != nil){
+//                print("AppsFlyerLib error:", error ?? "")
+//                return
+//            } else {
+//                print("AppsFlyerLib:", dictionary ?? "")
+//                return
+//            }
+//        })
+        
+        AppsFlyerLib.shared().deepLinkDelegate = self
+        
+        #if DEBUG
+            AppsFlyerLib.shared().isDebug = true
+        #endif
         
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .voicePrompt, options: [.mixWithOthers])
@@ -110,32 +124,88 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         _ = DataManager.shared
         
+        isUpdateAvailable { isAvailable, error in
+            
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            AppVersionsManager.shared.isNeedToShowNewVersionUpdatesScreen = true
+        }
+       
+//        AppVersionsManager.shared.startChecking()
+        
 		return true
 	}
     
+//    func checkIfUserHasUpdated() -> Bool {
+//        if let lastAppVersion = UserDefaults.standard.string(forKey: "AppVersion") {
+//            if let info = Bundle.main.infoDictionary,
+//               let currentVersion = info["CFBundleShortVersionString"] as? String {
+//                return currentVersion != lastAppVersion
+//            }
+//        }
+//        
+//        if let info = Bundle.main.infoDictionary,
+//           let currentVersion = info["CFBundleShortVersionString"] as? String {
+//            UserDefaults.standard.set(currentVersion, forKey: "AppVersion")
+//        }
+//        
+//        return false
+//    }
+    
+    func isUpdateAvailable(completion: @escaping (Bool?, Error?) -> Void) {
+        guard let info = Bundle.main.infoDictionary,
+              let currentVersion = info["CFBundleShortVersionString"] as? String,
+              let identifier = info["CFBundleIdentifier"] as? String,
+              let url = URL(string: "http://itunes.apple.com/lookup?bundleId=\(identifier)") 
+        else {
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            do {
+                if let error = error { return }
+                guard let data = data else { return }
+                let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? [String: Any]
+                
+                guard let result = (json?["results"] as? [Any])?.first as? [String: Any],
+                        let version = result["version"] as? String
+                else {
+                    return
+                }
+                print("Version = \(json)")
+                completion(version != currentVersion, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+        
+        task.resume()
+    }
+    
     func askUserForTrackingData() {
         ATTrackingManager.requestTrackingAuthorization { status in
-                    switch status {
-                    case .authorized:
-                        // Разрешение получено
-                        print("Разрешение на отслеживание получено.")
-                        TrackingManager.shared.isUserAllowed = true
-//                        let idfa = ASIdentifierManager.shared().advertisingIdentifier
-//                        print("IDFA: \(idfa)")
-                    case .denied:
-                        // Пользователь отказал
-                        print("Пользователь отказал в разрешении на отслеживание.")
-                    case .notDetermined:
-                        // Статус не определён
-                        print("Статус разрешения не определён.")
-                    case .restricted:
-                        // Отслеживание ограничено
-                        print("Отслеживание ограничено.")
-                    @unknown default:
-                        // Неизвестный статус
-                        print("Неизвестный статус разрешения на отслеживание.")
-                    }
-                }
+            switch status {
+            case .authorized:
+                // Разрешение получено
+                print("Разрешение на отслеживание получено.")
+                TrackingManager.shared.isUserAllowed = true
+                //                        let idfa = ASIdentifierManager.shared().advertisingIdentifier
+                //                        print("IDFA: \(idfa)")
+            case .denied:
+                // Пользователь отказал
+                print("Пользователь отказал в разрешении на отслеживание.")
+            case .notDetermined:
+                // Статус не определён
+                print("Статус разрешения не определён.")
+            case .restricted:
+                // Отслеживание ограничено
+                print("Отслеживание ограничено.")
+            @unknown default:
+                // Неизвестный статус
+                print("Неизвестный статус разрешения на отслеживание.")
+            }
+        }
     }
     
     func sendNotificationPermissionRequest(callback: ((Bool) -> Void)? = nil) {
@@ -170,6 +240,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
 					 fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 		
+        AppsFlyerLib.shared().handlePushNotification(userInfo)
+        
 		if let messageID = userInfo[gcmMessageIDKey] {
 			print("Message ID: \(messageID)")
 		}
@@ -190,7 +262,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
       }
 }
 
-extension AppDelegate: MessagingDelegate {
+extension WordyAppDelegate: MessagingDelegate {
 	func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
 		
 		let deviceToken:[String: String] = ["token": fcmToken ?? ""]
@@ -205,8 +277,76 @@ extension AppDelegate: MessagingDelegate {
 	}
 }
 
+// MARK:  Apps Flyer Deeplinking Delegate
+
+extension WordyAppDelegate: DeepLinkDelegate {
+    func application(_ application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
+        AppsFlyerLib.shared().continue(.init(activityType: userActivityType), restorationHandler: nil)
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        AppsFlyerLib.shared().handleOpen(url, options: options)
+        return true
+    }
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        AppsFlyerLib.shared().continue(userActivity, restorationHandler: nil)
+        return true
+    }
+    
+    func didResolveDeepLink(_ result: DeepLinkResult) {
+        var fruitNameStr: String?
+        
+        switch result.status {
+        case .notFound:
+            NSLog("[AFSDK] Deep link not found")
+            return
+        case .failure:
+            print("Error %@", result.error!)
+            return
+        case .found:
+            NSLog("[AFSDK] Deep link found")
+        }
+        
+        guard let deepLinkObj: DeepLink = result.deepLink else {
+            NSLog("[AFSDK] Could not extract deep link object")
+            return
+        }
+        
+        if deepLinkObj.clickEvent.keys.contains("deep_link_sub2") {
+            let ReferrerId:String = deepLinkObj.clickEvent["deep_link_sub2"] as! String
+            NSLog("[AFSDK] AppsFlyer: Referrer ID: \(ReferrerId)")
+        } else {
+            NSLog("[AFSDK] Could not extract referrerId")
+        }
+        
+        let deepLinkStr:String = deepLinkObj.toString()
+        NSLog("[AFSDK] DeepLink data is: \(deepLinkStr)")
+        
+        if( deepLinkObj.isDeferred == true) {
+            NSLog("[AFSDK] This is a deferred deep link")
+        }
+        else {
+            NSLog("[AFSDK] This is a direct deep link")
+        }
+        
+        let test = deepLinkObj.clickEvent
+        fruitNameStr = deepLinkObj.deeplinkValue
+    }
+    
+    // Тут надо еще реализовать переход к модулю
+    
+//    func didResolveDeepLink(_ result: DeepLinkResult) {
+//        if result.status == .found {
+//            if let userId = result.deepLink?.afSub1 {
+//                
+//            }
+//        }
+//    }
+}
+
 @available(iOS 10, *)
-extension AppDelegate : UNUserNotificationCenterDelegate {
+extension WordyAppDelegate : UNUserNotificationCenterDelegate {
 	
 	// Receive displayed notifications for iOS 10 devices.
 	func userNotificationCenter(_ center: UNUserNotificationCenter,
@@ -250,40 +390,40 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 
 // MARK: - AppFliyerDelegate
 
-class AppFliyerDelegate: NSObject, DeepLinkDelegate {
-	func didResolveDeepLink(_ result: DeepLinkResult) {
-		switch result.status {
-		case .notFound:
-			NSLog("[AFSDK] Deep link not found")
-			return
-		case .failure:
-			print("Error %@", result.error!)
-			return
-		case .found:
-			NSLog("[AFSDK] Deep link found")
-		}
-		
-		guard let deepLinkObj:DeepLink = result.deepLink else {
-			NSLog("[AFSDK] Could not extract deep link object")
-			return
-		}
-		
-		if deepLinkObj.clickEvent.keys.contains("deep_link_sub2") {
-			let ReferrerId:String = deepLinkObj.clickEvent["deep_link_sub2"] as! String
-			NSLog("[AFSDK] AppsFlyer: Referrer ID: \(ReferrerId)")
-		} else {
-			NSLog("[AFSDK] Could not extract referrerId")
-		}
-		
-		let deepLinkStr:String = deepLinkObj.toString()
-		NSLog("[AFSDK] DeepLink data is: \(deepLinkStr)")
-		
-		if( deepLinkObj.isDeferred == true) {
-			NSLog("[AFSDK] This is a deferred deep link")
-		}
-		else {
-			NSLog("[AFSDK] This is a direct deep link")
-		}
-		
-	}
-}
+//class AppFliyerDelegate: NSObject, DeepLinkDelegate {
+//	func didResolveDeepLink(_ result: DeepLinkResult) {
+//		switch result.status {
+//		case .notFound:
+//			NSLog("[AFSDK] Deep link not found")
+//			return
+//		case .failure:
+//			print("Error %@", result.error!)
+//			return
+//		case .found:
+//			NSLog("[AFSDK] Deep link found")
+//		}
+//		
+//		guard let deepLinkObj:DeepLink = result.deepLink else {
+//			NSLog("[AFSDK] Could not extract deep link object")
+//			return
+//		}
+//		
+//		if deepLinkObj.clickEvent.keys.contains("deep_link_sub2") {
+//			let ReferrerId:String = deepLinkObj.clickEvent["deep_link_sub2"] as! String
+//			NSLog("[AFSDK] AppsFlyer: Referrer ID: \(ReferrerId)")
+//		} else {
+//			NSLog("[AFSDK] Could not extract referrerId")
+//		}
+//		
+//		let deepLinkStr:String = deepLinkObj.toString()
+//		NSLog("[AFSDK] DeepLink data is: \(deepLinkStr)")
+//		
+//		if( deepLinkObj.isDeferred == true) {
+//			NSLog("[AFSDK] This is a deferred deep link")
+//		}
+//		else {
+//			NSLog("[AFSDK] This is a direct deep link")
+//		}
+//		
+//	}
+//}

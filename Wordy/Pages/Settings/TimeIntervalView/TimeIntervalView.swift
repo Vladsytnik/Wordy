@@ -33,7 +33,7 @@ struct TimeIntervalView: View {
     
     var sucessGenerator: UIImpactFeedbackGenerator? = UIImpactFeedbackGenerator(style: .soft)
     
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @UIApplicationDelegateAdaptor(WordyAppDelegate.self) var appDelegate
     
     @Environment(\.dismiss) var dismiss
     

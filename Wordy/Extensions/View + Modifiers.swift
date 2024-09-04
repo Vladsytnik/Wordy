@@ -444,3 +444,9 @@ extension View {
         }
     }
 }
+
+extension View {
+    func sleep() {
+        
+    }
+}

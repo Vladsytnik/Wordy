@@ -99,6 +99,15 @@ class UserDefaultsManager {
             UserDefaults().setValue(newValue, forKey: "userAlreaySawTranslate")
         }
     }
+    
+    static var isModulePopupsShown: Bool {
+        get {
+            UserDefaults().bool(forKey: "isModulePopupsShown")
+        }
+        set {
+            UserDefaults().setValue(newValue, forKey: "isModulePopupsShown")
+        }
+    }
 	
 	static var langCodeForLearn: String? {
 		get {
