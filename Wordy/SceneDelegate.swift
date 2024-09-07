@@ -15,7 +15,7 @@ class WordySceneDelegate: NSObject, UIWindowSceneDelegate {
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
-        
+        // t
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
